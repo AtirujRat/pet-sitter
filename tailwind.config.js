@@ -110,4 +110,19 @@ module.exports = {
     },
   },
   plugins: [require("daisyui"), require("@tailwindcss/forms")],
+  daisyui: {
+    themes: [
+      {
+        mytheme: {
+          // Customizing the default theme
+          primary: "#FF7037", // orange-500
+          secondary: "#000000", // black
+          accent: "#FFCA62", // yellow
+          neutral: "#3A3B46", //gray-600
+          "base-100": "#ffffff", // Change this to the background color you want
+          // Add other custom colors as needed
+        },
+      },
+    ],
+  },
 };
