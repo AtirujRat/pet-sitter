@@ -108,7 +108,6 @@ module.exports = {
         red: "#EA1010",
       },
     },
-
-    plugins: [require("daisyui"), require("@tailwindcss/forms")],
   },
+  plugins: [require("daisyui"), require("@tailwindcss/forms")],
 };
