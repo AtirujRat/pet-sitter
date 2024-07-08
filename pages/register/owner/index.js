@@ -17,7 +17,7 @@ export default function RegisterOwner() {
 
         <div id="main-form" className="flex flex-col gap-8">
           <RegisterForm api={api} />
-          <SocialLogin />
+          <SocialLogin title="Login" path="/login/owner" />
         </div>
       </div>
     </section>

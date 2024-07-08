@@ -1,6 +1,6 @@
-import LoginForm from "@/pages/components/authentication/LoginForm";
-import BackgroudAuth from "../../components/authentication/BackgroudAuth";
-import SocialLogin from "../../components/authentication/SocialLogin";
+import LoginForm from "@/components/authentication/LoginForm";
+import BackgroudAuth from "@/components/authentication/BackgroudAuth";
+import SocialLogin from "@/components/authentication/SocialLogin";
 
 export default function LoginOwner() {
   return (
@@ -15,7 +15,7 @@ export default function LoginOwner() {
         </div>
         <div id="main-form" className="flex flex-col gap-8">
           <LoginForm />
-          <SocialLogin title={"Register"} path="/register/owner" />
+          <SocialLogin title="Register" path="/register/owner" />
         </div>
       </div>
     </section>
