@@ -40,7 +40,7 @@ export default function LoginForm() {
 
   return (
     <Formik
-      initialValues={{ email: "", password: "", phone: "" }}
+      initialValues={{ email: "", password: "" }}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
           alert(JSON.stringify(values, null, 2));
