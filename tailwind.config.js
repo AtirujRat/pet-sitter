@@ -12,6 +12,9 @@ module.exports = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      dropShadow: {
+        costom: "2px 7px 5px rgba(0, 0, 0, 0.03)",
+      },
     },
 
     fontSize: {
@@ -105,6 +108,7 @@ module.exports = {
         red: "#EA1010",
       },
     },
-    plugins: [require("daisyui")],
+
+    plugins: [require("daisyui"), require("@tailwindcss/forms")],
   },
 };
