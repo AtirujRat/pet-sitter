@@ -1,7 +1,14 @@
 import RatingStars from "../rating/rating";
 import Checkbox from "../checkbox/checkbox";
+import { useState } from "react";
 
 const SearchBar = () => {
+  const [selectedValue, setSelectedValue] = useState("0-2 Years");
+
+  const handleChange = (event) => {
+    setSelectedValue(event.target.value);
+  };
+
   return (
     <div className="w-full max-w-[1064px]">
       {/* Checkbox */}
@@ -16,12 +23,14 @@ const SearchBar = () => {
 
         <div className="flex items-center gap-3">
           <p>Experience:</p>
-          <select className="select select-bordered w-full max-w-xs outline-none ring-0 border-[#DCDFED] text-[#7B7E8F] font-normal text-[16px]">
-            <option selected className="">
-              0-2 Years
-            </option>
-            <option>3-5 Years</option>
-            <option>5+ Years</option>
+          <select
+            value={selectedValue}
+            onChange={handleChange}
+            className="select select-bordered w-full max-w-xs outline-none ring-0 border-[#DCDFED] text-[#7B7E8F] font-normal text-[16px]"
+          >
+            <option value="0-2 Years">0-2 Years</option>
+            <option value="3-5 Years">3-5 Years</option>
+            <option value="5+ Years">5+ Years</option>
           </select>
         </div>
 

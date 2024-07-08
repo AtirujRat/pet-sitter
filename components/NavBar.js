@@ -35,18 +35,18 @@ const NavBar = () => {
             <>
               <Image src={bell} alt="bell" className=" cursor-pointer" />
               <Image src={message} alt="bell" className=" cursor-pointer" />
-              <div className="bg-ps-orange-400 rounded-full w-[48px] h-[48px] dropdown dropdown-bottom">
+              <div className="rounded-full w-[48px] h-[48px] dropdown dropdown-bottom">
                 <Image
                   src={usermock}
                   alt="bell"
                   className=" cursor-pointer"
-                  tabindex="0"
+                  tabIndex="0"
                   role="button"
                 />
                 <div>
                   <ul
-                    tabindex="0"
-                    class="dropdown-content menu bg-base-100 rounded-lg z-[1] w-52 p-2 text-b2 drop-shadow-costom px-0"
+                    tabIndex="0"
+                    className="dropdown-content menu bg-base-100 rounded-lg z-[1] w-52 p-2 text-b2 drop-shadow-costom px-0"
                   >
                     <li className="py-2">
                       <Link href={"#"}>
@@ -68,7 +68,7 @@ const NavBar = () => {
                     </li>
                     <div className="border-b border-[#DCDFED]"></div>
                     <li className="divide-y-2 py-2">
-                      <Link href={"#"}>
+                      <Link href={"/"}>
                         <Image src={logout} alt="logout" />
                         Log out
                       </Link>
