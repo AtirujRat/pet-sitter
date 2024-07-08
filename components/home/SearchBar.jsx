@@ -2,7 +2,38 @@ const SearchBar = () => {
   return (
     <div className="w-full max-w-[1064px]">
       <div className="bg-ps-gray-200 px-6 gap-[26px] w-full h-[72px] flex items-center space-x-4 text-ps-gray-600 rounded-t-3xl">
-        <label className="flex items-center">
+        <div class="form-control">
+          <label class="cursor-pointer label">
+            <span className="font-bold pr-3">Pet Type:</span>
+            <input
+              type="checkbox"
+              class="checkbox checkbox-warning border border-ps-gray-300"
+            />
+            <span class="label-text pl-2  text-[16px] font-medium">Dog</span>
+          </label>
+          <label class="cursor-pointer label">
+            <input
+              type="checkbox"
+              class="checkbox checkbox-warning border border-ps-gray-300"
+            />
+            <span class="label-text pl-2  text-[16px] font-medium">Dog</span>
+          </label>
+          <label class="cursor-pointer label">
+            <input
+              type="checkbox"
+              class="checkbox checkbox-warning border border-ps-gray-300"
+            />
+            <span class="label-text pl-2  text-[16px] font-medium">Dog</span>
+          </label>
+          <label class="cursor-pointer label">
+            <input
+              type="checkbox"
+              class="checkbox checkbox-warning border border-ps-gray-300"
+            />
+            <span class="label-text pl-2  text-[16px] font-medium">Dog</span>
+          </label>
+        </div>
+        {/* <label className="flex items-center">
           <span className="mr-3 font-bold">Pet Type:</span>
           <input
             type="checkbox"
@@ -30,7 +61,7 @@ const SearchBar = () => {
             className="form-checkbox h-5 w-5 text-orange-600"
           />
           <span className="ml-2 text-b2">Rabbit</span>
-        </label>
+        </label> */}
       </div>
       <div className="bg-ps-white w-full h-[72px] flex p-6 items-center text-ps-gray-600 font-bold rounded-b-3xl drop-shadow-costom">
         Rating:
