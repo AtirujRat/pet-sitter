@@ -1,3 +1,7 @@
+import RegisterSitter from "./registersitter";
+// import RegisterOwner from "./registerowner";
+
 export default function Home() {
-  return <div>Pet sitter</div>;
+  return <RegisterSitter />;
+  // <RegisterOwner />;
 }

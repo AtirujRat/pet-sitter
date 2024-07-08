@@ -105,6 +105,6 @@ module.exports = {
         red: "#EA1010",
       },
     },
-    plugins: [require("daisyui")],
   },
+  plugins: [require("daisyui")],
 };
