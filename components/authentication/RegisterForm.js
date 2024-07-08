@@ -1,4 +1,6 @@
 import { Formik, Form, Field } from "formik";
+import axios from "axios";
+import PhoneInput from "./PhoneInput";
 
 function validateEmail(value) {
   let error;
@@ -25,29 +27,35 @@ function validatePhone(value) {
   if (!value) {
     error = "Required";
   } else if (value[0] != 0) {
-    console.log(value);
     error = "The first digit must be 0.";
-  } else if (value.length != 10) {
+  } else if (value.length != 12) {
     error = "Phone number must contain 10 digits.";
   }
   return error;
 }
 
-export default function RegisterForm() {
+export default function RegisterForm(props) {
+  const getData = async (data) => {
+    try {
+      await axios.post(props.api, data);
+      alert("register successful");
+    } catch (e) {
+      alert("connection error");
+    }
+  };
+
   return (
     <Formik
       initialValues={{ email: "", password: "", phone: "" }}
       onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
-          setSubmitting(false);
-        }, 400);
+        setSubmitting(false);
+        getData(values);
       }}
     >
-      {({ errors, touched, isValidating, isSubmitting }) => (
+      {({ errors, touched, isSubmitting, values }) => (
         <Form className="w-full flex flex-col gap-8">
           <div className="flex flex-col gap-2">
-            <label htmlFor="email" className="text-b2 text-ps-black">
+            <label htmlFor="email" className="text-b2">
               Email
             </label>
             <Field
@@ -61,21 +69,22 @@ export default function RegisterForm() {
           </div>
 
           <div className="flex flex-col gap-2">
-            <label htmlFor="phone" className="text-b2 text-ps-black">
+            <label htmlFor="phone" className="text-b2">
               Phone
             </label>
             <Field
-              type="text"
+              type="tel"
               name="phone"
               validate={validatePhone}
               placeholder="Your phone number"
+              component={PhoneInput}
               className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400"
             />
             {errors.phone && touched.phone && <div>{errors.phone}</div>}
           </div>
 
           <div className="flex flex-col gap-2">
-            <label htmlFor="password" className="text-b2 text-ps-black">
+            <label htmlFor="password" className="text-b2">
               Password
             </label>
             <Field
@@ -93,7 +102,7 @@ export default function RegisterForm() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="btn text-b2 text-ps-white bg-ps-orange-500 border-none rounded-full"
+            className="btn text-b2 text-ps-white bg-ps-orange-500 border-none rounded-full hover:bg-ps-orange-400 "
           >
             Register
           </button>
