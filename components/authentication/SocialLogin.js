@@ -1,7 +1,7 @@
 import Image from "next/image";
-import divide from "../../assets/authentication/Divider.svg";
-import facebook from "../../assets/authentication/logo-facebook.svg";
-import gmail from "../../assets/authentication/logo-gmail.svg";
+import divide from "../../public/assets/authentication/Divider.svg";
+import facebook from "../../public/assets/authentication/logo-facebook.svg";
+import gmail from "../../public/assets/authentication/logo-gmail.svg";
 
 export default function SocialLogin() {
   return (

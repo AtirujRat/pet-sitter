@@ -1,6 +1,6 @@
 import Image from "next/image";
-import star from "../../assets/authentication/star.svg";
-import paw from "../../assets/authentication/paw.svg";
+import star from "../../public/assets/authentication/star.svg";
+import paw from "../../public/assets/authentication/paw.svg";
 
 function BackgroudAuth() {
   return (
