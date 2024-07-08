@@ -1,9 +1,10 @@
 import Image from "next/image";
+
 import divide from "../../public/assets/authentication/Divider.svg";
 import facebook from "../../public/assets/authentication/logo-facebook.svg";
 import gmail from "../../public/assets/authentication/logo-gmail.svg";
 
-export default function SocialLogin() {
+export default function SocialLogin(props) {
   return (
     <>
       <div id="social-login" className="w-full flex justify-between">
@@ -25,7 +26,9 @@ export default function SocialLogin() {
 
       <div className="flex justify-center gap-2">
         <p className="text-b1 text-ps-black">Already have an account?</p>
-        <p className="text-b1 text-ps-orange-500">Login</p>
+        <Link href={props.path}>
+          <p className="text-b1 text-ps-orange-500">{props.title}</p>
+        </Link>
       </div>
     </>
   );
