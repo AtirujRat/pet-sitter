@@ -4,7 +4,7 @@ export default function RegisterSitter() {
   const api = "/api/authentication/register/sitter";
   return (
     <section className="w-full h-screen flex justify-center items-center">
-      <div className="w-[22%] flex flex-col items-center justify-center gap-14">
+      <div className="min-sm:w-[22%] max-sm:w-[90%] flex flex-col items-center justify-center gap-14">
         <div className="flex flex-col text-center gap-2">
           <h1 className="text-h1">Join Us</h1>
           <h3 className="text-h3 text-ps-gray-400">
