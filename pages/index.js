@@ -1,4 +1,4 @@
-import SearchBar from "./components/home/SearchBar";
+import SearchBar from "../components/home/SearchBar";
 
 export default function Home() {
   return (
@@ -163,19 +163,29 @@ export default function Home() {
       {/* Find A Pet Sitter */}
       <div className="w-full max-w-[1440px] mx-auto p-20">
         <div className="w-full h-[448px] bg-ps-yellow-100 rounded-2xl relative flex justify-center items-center">
-          <div className="absolute bottom-0 left-0">
-            <img src="/assets/home/element-home-4.svg" alt="element-home" />
+          <div className="absolute bottom-0 left-0 ">
+            <img
+              src="/assets/home/element-home-4.svg"
+              alt="element-home"
+              className="bg-ps-yellow-100"
+            />
           </div>
           <div className="absolute top-0 right-0">
-            <img src="/assets/home/element-home-5.svg" alt="element-home" />
+            <img
+              src="/assets/home/element-home-5.svg"
+              alt="element-home"
+              className="bg-ps-yellow-100"
+            />
           </div>
           <div className="w-[457px] text-center">
-            <p className="text-h1 pb-10">Perfect Pet Sitter For Your Pet</p>
-            <span className="flex px-9 justify-between items-center">
-              <p className="text-[16px] font-bold text-ps-orange-500 px-3 py-6">
+            <p className="text-h1 pb-10 bg-ps-yellow-100">
+              Perfect Pet Sitter For Your Pet
+            </p>
+            <span className="flex px-9 justify-between items-center bg-ps-yellow-100">
+              <p className="text-[16px] font-bold text-ps-orange-500 px-3 py-6 bg-ps-yellow-100">
                 Become A Pet Sitter
               </p>
-              <button className="w-[168px] h-[48px] bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide">
+              <button className="w-[168px] h-[48px] bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide ">
                 Find A Pet Sitter
               </button>
             </span>

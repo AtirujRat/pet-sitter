@@ -1,6 +1,6 @@
-import BackgroudAuth from "../../components/authentication/BackgroudAuth";
-import RegisterForm from "../../components/authentication/RegisterForm";
-import SocialLogin from "../../components/authentication/SocialLogin";
+import BackgroudAuth from "../../../components/authentication/BackgroudAuth";
+import RegisterForm from "../../../components/authentication/RegisterForm";
+import SocialLogin from "../../../components/authentication/SocialLogin";
 
 export default function RegisterOwner() {
   return (
