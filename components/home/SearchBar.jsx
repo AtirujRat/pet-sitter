@@ -1,5 +1,5 @@
 import RatingStars from "../rating/rating";
-import Checkbox from "../checkbox/CheckBox";
+import Checkbox from "../checkbox/checkbox";
 
 const SearchBar = () => {
   return (
