@@ -12,23 +12,23 @@ const SearchBar = () => {
   return (
     <div className="w-full max-w-[1064px] px-4 py-4 lg:px-0">
       {/* Checkbox */}
-      <div className="bg-ps-gray-200 px-6 w-full flex-col text-ps-gray-600 rounded-t-3xl">
+      <div className="bg-ps-gray-200 md:px-6 px-4 w-full flex-col text-ps-gray-600 rounded-t-3xl">
         <Checkbox />
       </div>
 
       {/* Rating/Experience/Search */}
-      <div className="flex-wrap bg-ps-white w-full h-[72px] flex px-6 items-center text-ps-gray-600 font-bold rounded-b-3xl drop-shadow-costom justify-between">
-        <div className="flex items-center">
-          <p className="pr-6">Rating:</p>
+      <div className="flex-col lg:flex-row gap-6 bg-ps-white w-full lg:h-[72px] flex lg:px-6 px-4 py-4 text-ps-gray-600 font-bold rounded-b-3xl drop-shadow-costom justify-between">
+        <div className="flex flex-col lg:flex-row lg:items-center">
+          <p className="lg:pr-6 pb-3">Rating:</p>
           <RatingStars />
         </div>
 
-        <div className="flex items-center gap-3">
-          <p>Experience:</p>
+        <div className="w-full lg:w-auto flex flex-col lg:flex-row lg:items-center lg:gap-3">
+          <p className="pb-3 lg:pb-0">Experience:</p>
           <select
             value={selectedValue}
             onChange={handleChange}
-            className="select select-bordered w-full max-w-xs outline-none ring-0 border-[#DCDFED] text-[#7B7E8F] font-normal text-[16px]"
+            className="select select-bordered w-full outline-none ring-0 border-[#DCDFED] text-[#7B7E8F] font-normal text-[16px]"
           >
             <option value="0-2 Years">0-2 Years</option>
             <option value="3-5 Years">3-5 Years</option>
@@ -36,7 +36,7 @@ const SearchBar = () => {
           </select>
         </div>
 
-        <button className="bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide w-[120px] h-[48px]">
+        <button className="w-full md:w-[80%] lg:w-[120px] bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide h-[48px] self-center">
           Search
         </button>
       </div>
