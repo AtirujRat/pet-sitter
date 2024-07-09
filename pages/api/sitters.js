@@ -1,14 +1,14 @@
-import { supabase } from "../utils/supabase"; 
+import { supabase } from "../utils/supabase";
 
 export default async function handler(req, res) {
   if (req.method === "GET") {
     try {
-      let { data: sitters, error } = await supabase.from("sitters").select(`
-    *,
-    sitters_images (
-      image_url
-    )
-  `);
+      let { data: sitters, error } = await supabase
+        .from("sitters")
+        .select(
+          "id, full_name, trade_name, sitters_images(image_url), pet_types(pet_type)"
+        )
+        .eq("sitter_status", "approved");
 
       if (error) {
         throw error;
