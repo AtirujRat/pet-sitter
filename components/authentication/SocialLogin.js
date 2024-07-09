@@ -6,10 +6,10 @@ import gmail from "../../public/assets/authentication/logo-gmail.svg";
 export default function SocialLogin() {
   return (
     <>
-      <div id="social-login" className="w-full flex justify-between">
-        <Image src={divide} alt="divide" className="w-[30%]" />
-        <p className="text-b1 text-ps-gray-400">Or Continue With</p>
-        <Image src={divide} alt="divide" className="w-[30%]" />
+      <div className="w-full flex justify-between gap-2">
+        <Image src={divide} alt="divide" className="w-[30%] max-sm:w-[25%]" />
+        <p className="text-b1 text-ps-gray-400 ">Or Continue With</p>
+        <Image src={divide} alt="divide" className="w-[30%] max-sm:w-[25%]" />
       </div>
 
       <div className="w-full flex justify-between gap-2">
@@ -23,9 +23,9 @@ export default function SocialLogin() {
         </button>
       </div>
 
-      <div className="flex justify-center gap-2">
-        <p className="text-b1 text-ps-black">Already have an account?</p>
-        <p className="text-b1 text-ps-orange-500">Login</p>
+      <div className="text-b1 flex justify-center gap-2">
+        <p className="text-ps-black">Already have an account?</p>
+        <p className="text-ps-orange-500">Login</p>
       </div>
     </>
   );

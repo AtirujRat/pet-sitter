@@ -53,8 +53,8 @@ export default function RegisterForm(props) {
       }}
     >
       {({ errors, touched, isSubmitting, values }) => (
-        <Form className="w-full flex flex-col gap-8">
-          <div className="flex flex-col gap-2">
+        <Form className="w-full flex flex-col gap-8 max-sm:gap-6">
+          <div className="flex flex-col gap-2 relative">
             <label htmlFor="email" className="text-b2">
               Email
             </label>
@@ -65,10 +65,14 @@ export default function RegisterForm(props) {
               placeholder="email@company.com"
               className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400"
             />
-            {errors.email && touched.email && <div>{errors.email}</div>}
+            {errors.email && touched.email && (
+              <div className="absolute bottom-[-22px] text-ps-red bg-transparent">
+                {errors.email}
+              </div>
+            )}
           </div>
 
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 relative">
             <label htmlFor="phone" className="text-b2">
               Phone
             </label>
@@ -80,10 +84,14 @@ export default function RegisterForm(props) {
               component={PhoneInput}
               className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400"
             />
-            {errors.phone && touched.phone && <div>{errors.phone}</div>}
+            {errors.phone && touched.phone && (
+              <div className="absolute bottom-[-22px] text-ps-red bg-transparent">
+                {errors.phone}
+              </div>
+            )}
           </div>
 
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 relative">
             <label htmlFor="password" className="text-b2">
               Password
             </label>
@@ -95,7 +103,9 @@ export default function RegisterForm(props) {
               className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400"
             />
             {errors.password && touched.password && (
-              <div>{errors.password}</div>
+              <div className="absolute bottom-[-22px] text-ps-red bg-transparent">
+                {errors.password}
+              </div>
             )}
           </div>
 
