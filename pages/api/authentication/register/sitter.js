@@ -10,7 +10,6 @@ export default async function handler(req, res) {
   const salt = await bcrypt.genSalt(10);
   newSitter.password = await bcrypt.hash(newSitter.password, salt);
 
-  console.log(newSitter);
   const { data, error } = await supabase
     .from("sitters")
     .insert([
@@ -22,8 +21,7 @@ export default async function handler(req, res) {
     ])
     .select();
   if (error) {
-    console.log(error);
-    return res.status(404).json({ name: "error connection from database" });
+    return res.status(400).json({ name: "error connection from database" });
   }
   return res.status(200).json({ name: "register success" });
 }

@@ -21,7 +21,7 @@ export default async function handler(req, res) {
     ])
     .select();
   if (error) {
-    return res.status(404).json({ name: "error connection from database" });
+    return res.status(400).json({ name: "error connection from database" });
   }
   return res.status(200).json({ name: "register success" });
 }

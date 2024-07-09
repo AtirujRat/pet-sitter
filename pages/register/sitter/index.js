@@ -4,10 +4,10 @@ export default function RegisterSitter() {
   const api = "/api/authentication/register/sitter";
   return (
     <section className="w-full h-screen flex justify-center items-center">
-      <div className="min-sm:w-[22%] max-sm:w-[90%] flex flex-col items-center justify-center gap-14">
+      <div className="max-sm:w-[90%] flex flex-col items-center justify-center max-sm:gap-8 gap-14">
         <div className="flex flex-col text-center gap-2">
-          <h1 className="text-h1">Join Us</h1>
-          <h3 className="text-h3 text-ps-gray-400">
+          <h1 className="text-h1 max-sm:text-h2">Join Us</h1>
+          <h3 className="min-sm:text-h3 text-[1.125rem] font-medium text-ps-gray-500 max-sm:text-ps-gray-400">
             Become the best Pet Sitter with us
           </h3>
         </div>
