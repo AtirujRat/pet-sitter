@@ -90,13 +90,17 @@ const NavBar = () => {
             </>
           ) : (
             <>
-              <button className="py-4 px-6 text-b1">Become a Pet Sitter</button>
-              <Link href={"#"}>
+              <Link href={"/register/sitter"}>
+                <button className="py-4 px-6 text-b1">
+                  Become a Pet Sitter
+                </button>
+              </Link>
+              <Link href={"/register/owner"}>
                 <button className="py-4 px-6 text-b1 ">Login</button>
               </Link>
             </>
           )}
-          <Link href={"#"}>
+          <Link href={"/sitters"}>
             <button className="items-center justify-center w-[168px] h-[48px] bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide ">
               Find A Pet Sitter
             </button>
