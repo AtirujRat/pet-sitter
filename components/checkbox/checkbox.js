@@ -1,9 +1,11 @@
 export default function Checkbox() {
   return (
-    <div className="bg-ps-gray-200 px-6 gap-[26px] w-full h-[72px] flex items-center space-x-4 text-ps-gray-600 rounded-t-3xl">
-      <div className="text-ps-gray-600 font-bold bg-[#F6F6F9]">Pet Type:</div>
-      <span className="form-control ">
-        <label className="cursor-pointer label flex items-center space-x-4 bg-ps-gray-200">
+    <div className="w-full sm:flex sm:items-center sm:h-[72px]">
+      <div className="text-ps-gray-600 font-bold pt-4 pb-2 pr-3 sm:pt-0 sm:pb-0">
+        Pet Type:
+      </div>
+      <span className="form-control w-full max-w-[328px]">
+        <label className="cursor-pointer label sm:space-x-3 bg-ps-gray-200">
           <input
             type="checkbox"
             className="checkbox checkbox-warning border border-ps-gray-300 "

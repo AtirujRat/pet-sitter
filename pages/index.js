@@ -1,29 +1,52 @@
 import SearchBar from "@/components/home/SearchBar";
+import Image from "next/image";
+import elementhome1 from "../public/assets/home/element-home-1.svg";
+import elementhome2 from "../public/assets/home/element-home-2.svg";
+import elementhome3 from "../public/assets/home/element-home-3.svg";
+import elementhome4 from "../public/assets/home/element-home-4.svg";
+import elementhome5 from "../public/assets/home/element-home-5.svg";
+import starbulletblue from "../public/assets/home/star-bullet-blue.svg";
+import starbulletpink from "../public/assets/home/star-bullet-pink.svg";
+import starbulletgreen from "../public/assets/home/star-bullet-green.svg";
+import starbulletyellow from "../public/assets/home/star-bullet-yellow.svg";
+import connect from "../public/assets/home/connect.svg";
+import calling from "../public/assets/home/calling.svg";
+import better from "../public/assets/home/better.svg";
 
 export default function Home() {
   return (
-    <section className="w-full flex-col items-center pt-20">
-      <header className=" mx-auto w-full flex items-center justify-center h-fit gap-5">
-        <img
-          src="/assets/home/element-home-1.svg"
-          alt="element-home-1"
-          className="w-[428px]"
-        />
+    <section className="w-full flex-col items-center lg:pt-20 pt-10 overflow-hidden ">
+      <header className="max-w-[1440px] mx-auto w-full md:flex flex-col items-center justify-center md:h-[441px] h-[565] gap-5 relative">
         <div>
-          <p className="text-[5.5rem] leading-[96px] font-[900] text-center text-shadow">
+          <p className="lg:text-[5.5rem] sm:text-[68px] text-[56px] lg:leading-[96px] md:leading-[62px] leading-[66px] font-[900] text-center text-shadow">
             Pet Sitter<span className="text-ps-orange-500">,</span>
             <br /> Perfect<span className="text-ps-blue-500">,</span>
             <br /> For Your Pet<span className="text-ps-yellow-200">.</span>
           </p>
-          <p className="text-ps-gray-400 text-h3 text-center pt-8">
+          <p className="text-ps-gray-400 md:text-h3 text-h4 text-center pt-8 ">
             Find your perfect pet sitter with us.
           </p>
         </div>
-        <img
-          src="/assets/home/element-home-2.svg"
-          alt="element-home-2"
-          className="w-[428px]"
-        />
+        <div className="flex gap-4 mt-[50px] md:mt-0 relative h-[255px] md:h-auto overflow-hidden md:w-full md:justify-between md:absolute md:left-0 md:pt-0 pt-[50px]">
+          <div className=" w-[255px] lg:w-[428px] aspect-square absolute right-[calc(50%+8px)] top-0 md:static">
+            <Image
+              src={elementhome1}
+              alt="element-home-1"
+              sizes="100%"
+              width={428}
+              className="object-cover "
+            />
+          </div>
+          <div className="w-[255px] lg:w-[428px] aspect-square absolute left-[calc(50%+8px)] top-0 md:static">
+            <Image
+              src={elementhome2}
+              alt="element-home-2"
+              sizes="100%"
+              width={428}
+              className="object-cover"
+            />
+          </div>
+        </div>
       </header>
 
       {/* SearchBar */}
@@ -39,9 +62,10 @@ export default function Home() {
         <div className="max-w-[1064px] w-full mx-auto flex justify-between mb-[120px]">
           <div className="flex-col w-[504px]">
             <div className="flex pb-[55px]">
-              <img
-                src="/assets/home/star-bullet-blue.svg"
+              <Image
+                src={starbulletblue}
                 alt="star"
+                width={24}
                 className="self-start"
               />
               <div className="pl-3">
@@ -53,8 +77,9 @@ export default function Home() {
               </div>
             </div>
             <div className="flex pb-[55px]">
-              <img
-                src="/assets/home/star-bullet-pink.svg"
+              <Image
+                src={starbulletpink}
+                width={24}
                 alt="star"
                 className="self-start"
               />
@@ -67,9 +92,10 @@ export default function Home() {
               </div>
             </div>
             <div className="flex pb-[55px]">
-              <img
-                src="/assets/home/star-bullet-green.svg"
+              <Image
+                src={starbulletgreen}
                 alt="star"
+                width={24}
                 className="self-start"
               />
               <div className="pl-3">
@@ -81,9 +107,10 @@ export default function Home() {
               </div>
             </div>
             <div className="flex">
-              <img
-                src="/assets/home/star-bullet-yellow.svg"
+              <Image
+                src={starbulletyellow}
                 alt="star"
+                width={24}
                 className="self-start"
               />
               <div className="pl-3">
@@ -96,14 +123,14 @@ export default function Home() {
             </div>
           </div>
           <div>
-            <img src="/assets/home/element-home-3.svg" alt="element-home" />
+            <Image src={elementhome3} alt="element-home" width={455} />
           </div>
         </div>
         <div className="w-full flex justify-between">
           <div className="w-[416px] flex-col">
             <div className="w-full flex justify-center pb-[46px]">
-              <img
-                src="/assets/home/connect.svg"
+              <Image
+                src={connect}
                 alt="Connect With Sitters"
                 width={268}
                 height={268}
@@ -121,8 +148,8 @@ export default function Home() {
           </div>
           <div className="w-[416px] flex-col">
             <div className="flex justify-center pb-[46px]">
-              <img
-                src="/assets/home/better.svg"
+              <Image
+                src={calling}
                 alt="Connect With Sitters"
                 width={268}
                 height={268}
@@ -140,8 +167,8 @@ export default function Home() {
           </div>
           <div className="w-[416px] flex-col">
             <div className="flex justify-center pb-[46px]">
-              <img
-                src="/assets/home/calling.svg"
+              <Image
+                src={better}
                 alt="Connect With Sitters"
                 width={268}
                 height={268}
@@ -164,16 +191,18 @@ export default function Home() {
       <div className="w-full max-w-[1440px] mx-auto p-20">
         <div className="w-full h-[448px] bg-ps-yellow-100 rounded-2xl relative flex justify-center items-center">
           <div className="absolute bottom-0 left-0 ">
-            <img
-              src="/assets/home/element-home-4.svg"
+            <Image
+              src={elementhome4}
               alt="element-home"
+              width={337}
               className="bg-ps-yellow-100"
             />
           </div>
           <div className="absolute top-0 right-0">
-            <img
-              src="/assets/home/element-home-5.svg"
+            <Image
+              src={elementhome5}
               alt="element-home"
+              width={327}
               className="bg-ps-yellow-100"
             />
           </div>

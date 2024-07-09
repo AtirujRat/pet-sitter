@@ -10,12 +10,14 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="w-full max-w-[1064px]">
+    <div className="w-full max-w-[1064px] px-4 py-4 lg:px-0">
       {/* Checkbox */}
-      <Checkbox />
+      <div className="bg-ps-gray-200 px-6 w-full flex-col text-ps-gray-600 rounded-t-3xl">
+        <Checkbox />
+      </div>
 
       {/* Rating/Experience/Search */}
-      <div className="bg-ps-white w-full h-[72px] flex p-6 items-center text-ps-gray-600 font-bold rounded-b-3xl drop-shadow-costom justify-between">
+      <div className="flex-wrap bg-ps-white w-full h-[72px] flex px-6 items-center text-ps-gray-600 font-bold rounded-b-3xl drop-shadow-costom justify-between">
         <div className="flex items-center">
           <p className="pr-6">Rating:</p>
           <RatingStars />
