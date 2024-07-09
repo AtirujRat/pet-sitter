@@ -1,4 +1,6 @@
 import PetTypeBadge from "@/components/sitters/PetTypeBadge";
+import petTypeColors from "@/pages/utils/petTypeColors";
+import RatingStar from "./RatingStar";
 
 export default function SittersList(props) {
   return (
@@ -6,14 +8,12 @@ export default function SittersList(props) {
       {props.sitters.map((sitter) => {
         let galleryImage = "https://placehold.co/400x300";
         const profilePlaceholder = "https://placehold.co/200x200";
-
         if (sitter.sitters_images.length > 0) {
           galleryImage = sitter.sitters_images[0].image_url;
         }
-
         return (
           <div
-            className="sitter-item  bg-ps-white p-4 flex gap-10 rounded-2xl"
+            className="sitter-item bg-ps-white p-4 flex gap-10 rounded-2xl min-w-[620px]"
             key={sitter.id}
           >
             <img
@@ -40,48 +40,28 @@ export default function SittersList(props) {
                 <p className="text-b2 text-ps-gray-400">Senanikom, Bangkok</p>
               </div>
               <div className="pet-type flex gap-2">
-                <PetTypeBadge
-                  type="Dog"
-                  textcolor="text-ps-green-500"
-                  bordercolor="border-ps-green-500"
-                  bgcolor="bg-ps-green-100"
-                />
-                <PetTypeBadge
-                  type="Cat"
-                  textcolor="text-ps-pink-500"
-                  bordercolor="border-ps-pink-500"
-                  bgcolor="bg-ps-pink-100"
-                />
-                <PetTypeBadge
-                  type="Bird"
-                  textcolor="text-ps-blue-500"
-                  bordercolor="border-ps-blue-500"
-                  bgcolor="bg-ps-blue-100"
-                />
-                <PetTypeBadge
-                  type="Rabbit"
-                  textcolor="text-ps-orange-400"
-                  bordercolor="border-ps-orange-400"
-                  bgcolor="bg-ps-yellow-100"
-                />
+                {sitter.pet_types
+                  .sort((a, b) => a.id - b.id)
+                  .map((pet, index) => {
+                    const colors = petTypeColors[pet.pet_type];
+                    return (
+                      <PetTypeBadge
+                        type={pet.pet_type}
+                        key={index}
+                        textcolor={colors.textcolor}
+                        bordercolor={colors.bordercolor}
+                        bgcolor={colors.bgcolor}
+                      />
+                    );
+                  })}
               </div>
             </div>
-            <div className="rating flex items-start w-fit justify-end my-2 mr-2">
-              <img
-                src="/assets/star-rating.svg"
-                height={20}
-                alt="Star Rating"
-              />
-              <img
-                src="/assets/star-rating.svg"
-                height={20}
-                alt="Star Rating"
-              />
-              <img
-                src="/assets/star-rating.svg"
-                height={20}
-                alt="Star Rating"
-              />
+            <div className="rating flex items-start w-fit justify-end my-2 mr-2 gap-1">
+              <RatingStar />
+              <RatingStar />
+              <RatingStar />
+              <RatingStar />
+              <RatingStar />
             </div>
           </div>
         );
