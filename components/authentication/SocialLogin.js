@@ -8,10 +8,10 @@ import Link from "next/link";
 export default function SocialLogin(props) {
   return (
     <>
-      <div id="social-login" className="w-full flex justify-between">
-        <Image src={divide} alt="divide" className="w-[30%]" />
-        <p className="text-b1 text-ps-gray-400">Or Continue With</p>
-        <Image src={divide} alt="divide" className="w-[30%]" />
+      <div className="w-full flex justify-between gap-2">
+        <Image src={divide} alt="divide" className="w-[30%] max-sm:w-[25%]" />
+        <p className="text-b1 text-ps-gray-400 ">Or Continue With</p>
+        <Image src={divide} alt="divide" className="w-[30%] max-sm:w-[25%]" />
       </div>
 
       <div className="w-full flex justify-between gap-2">
@@ -24,7 +24,6 @@ export default function SocialLogin(props) {
           Gmail
         </button>
       </div>
-
       <div className="flex justify-center gap-2">
         <p className="text-b1 text-ps-black">Already have an account?</p>
         <Link href={props.path}>
