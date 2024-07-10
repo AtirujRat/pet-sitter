@@ -8,6 +8,7 @@ export default function Layout({ children }) {
     "/login",
     "/register",
     "/register/owner",
+    "/login/owner",
     "/register/sitter",
   ];
 

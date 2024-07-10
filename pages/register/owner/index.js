@@ -19,7 +19,7 @@ export default function RegisterOwner() {
 
         <div className="max-sm:text-b2 max-sm:w-[100%] min-sm:w-[20%] flex flex-col gap-8 max-sm:gap-6">
           <RegisterForm api={api} />
-          <SocialLogin />
+          <SocialLogin title="Login" path="/login/owner" />
         </div>
       </div>
     </section>
