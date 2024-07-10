@@ -1,4 +1,7 @@
 import PetTypeBadge from "@/components/sitters/PetTypeBadge";
+import petTypeColors from "@/public/data/petTypeColors";
+import RatingStar from "./RatingStar";
+import Link from "next/link";
 
 export default function SittersList(props) {
   return (
@@ -6,84 +9,62 @@ export default function SittersList(props) {
       {props.sitters.map((sitter) => {
         let galleryImage = "https://placehold.co/400x300";
         const profilePlaceholder = "https://placehold.co/200x200";
-
         if (sitter.sitters_images.length > 0) {
           galleryImage = sitter.sitters_images[0].image_url;
         }
-
         return (
-          <div
-            className="sitter-item  bg-ps-white p-4 flex gap-10 rounded-2xl"
-            key={sitter.id}
-          >
-            <img
-              src={galleryImage}
-              height={185}
-              width={245}
-              alt={`first gallery image for ${sitter.full_name}`}
-              className="rounded-lg object-cover"
-            ></img>
-            <div className="setter-info flex-col w-full">
-              <div className="profile flex gap-5 my-2">
-                <img
-                  src={sitter.profile_image_url ?? profilePlaceholder}
-                  alt={`${sitter.full_name}-profile-image`}
-                  className="rounded-full object-cover h-[64px] w-[64px]"
-                ></img>
-                <div className="sitter-title">
-                  <h3 className="text-h3">{sitter.trade_name}</h3>
-                  <p className="text-b1">by {sitter.full_name}</p>
+          <Link href={`/sitters/${sitter.id}`}>
+            <div
+              className="sitter-item bg-ps-white p-4 flex gap-9 rounded-2xl min-w-[760px] hover:shadow-lg  transition-transform active:scale-95"
+              key={sitter.id}
+            >
+              <img
+                src={galleryImage}
+                alt={`first gallery image for ${sitter.full_name}`}
+                className="h-[185px] w-[245px] rounded-lg object-cover self-center"
+              ></img>
+              <div className="setter-info flex-col w-full">
+                <div className="profile flex gap-5 my-2">
+                  <img
+                    src={sitter.profile_image_url ?? profilePlaceholder}
+                    alt={`${sitter.full_name}-profile-image`}
+                    className="rounded-full object-cover h-[64px] w-[64px]"
+                  ></img>
+                  <div className="sitter-title">
+                    <h3 className="text-h3">{sitter.trade_name}</h3>
+                    <p className="text-b1 leading-8">By {sitter.full_name}</p>
+                  </div>
+                </div>
+                <div className="location flex gap-1 my-6">
+                  <img src="/assets/sitters/icon-location.svg"></img>
+                  <p className="text-b2 text-ps-gray-400">Senanikom, Bangkok</p>
+                </div>
+                <div className="pet-type flex gap-2">
+                  {sitter.pet_types
+                    .sort((a, b) => a.id - b.id)
+                    .map((pet, index) => {
+                      const colors = petTypeColors[pet.pet_type];
+                      return (
+                        <PetTypeBadge
+                          type={pet.pet_type}
+                          key={index}
+                          textcolor={colors.textcolor}
+                          bordercolor={colors.bordercolor}
+                          bgcolor={colors.bgcolor}
+                        />
+                      );
+                    })}
                 </div>
               </div>
-              <div className="location flex gap-1 my-7">
-                <img src="/assets/sitters/icon-location.svg"></img>
-                <p className="text-b2 text-ps-gray-400">Senanikom, Bangkok</p>
-              </div>
-              <div className="pet-type flex gap-2">
-                <PetTypeBadge
-                  type="Dog"
-                  textcolor="text-ps-green-500"
-                  bordercolor="border-ps-green-500"
-                  bgcolor="bg-ps-green-100"
-                />
-                <PetTypeBadge
-                  type="Cat"
-                  textcolor="text-ps-pink-500"
-                  bordercolor="border-ps-pink-500"
-                  bgcolor="bg-ps-pink-100"
-                />
-                <PetTypeBadge
-                  type="Bird"
-                  textcolor="text-ps-blue-500"
-                  bordercolor="border-ps-blue-500"
-                  bgcolor="bg-ps-blue-100"
-                />
-                <PetTypeBadge
-                  type="Rabbit"
-                  textcolor="text-ps-orange-400"
-                  bordercolor="border-ps-orange-400"
-                  bgcolor="bg-ps-yellow-100"
-                />
+              <div className="rating flex items-start min-w-fit h-fit justify-end my-2 mr-2 gap-1">
+                <RatingStar />
+                <RatingStar />
+                <RatingStar />
+                <RatingStar />
+                <RatingStar />
               </div>
             </div>
-            <div className="rating flex items-start w-fit justify-end my-2 mr-2">
-              <img
-                src="/assets/star-rating.svg"
-                height={20}
-                alt="Star Rating"
-              />
-              <img
-                src="/assets/star-rating.svg"
-                height={20}
-                alt="Star Rating"
-              />
-              <img
-                src="/assets/star-rating.svg"
-                height={20}
-                alt="Star Rating"
-              />
-            </div>
-          </div>
+          </Link>
         );
       })}
     </div>

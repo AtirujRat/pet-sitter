@@ -16,11 +16,11 @@ export async function getStaticProps() {
 export default function Sitters({ data }) {
   const sitters = data.data;
   return (
-    <section className="w-full flex justify-center bg-[#FAFAFB] py-8 pb-32 ">
-      <div className="page-container w-full px-20 max-w-[1440px] ">
+    <section className="w-full flex justify-center bg-[#FAFAFB] py-8 pb-32">
+      <div className="page-container w-full px-20 max-w-[1440px]">
         <div className="title-container flex justify-between my-10">
           <div className="text-h3 text-ps-gray-600">Search For Pet Sitter</div>
-          <div className="view-type flex gap-1 ">
+          <div className="view-type flex gap-2.5 ">
             <ViewTypeButton
               type="List"
               src="/assets/sitters/icon-list-inactive.svg"
