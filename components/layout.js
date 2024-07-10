@@ -13,12 +13,10 @@ export default function Layout({ children }) {
   ];
 
   return (
-    <>
-      <div>
-        {!noLayoutRoutes.includes(router.pathname) && <NavBar />}
-        <div>{children}</div>
-        {!noLayoutRoutes.includes(router.pathname) && <Footer />}
-      </div>
-    </>
+    <div className="w-full">
+      {!noLayoutRoutes.includes(router.pathname) && <NavBar />}
+      <div>{children}</div>
+      {!noLayoutRoutes.includes(router.pathname) && <Footer />}
+    </div>
   );
 }
