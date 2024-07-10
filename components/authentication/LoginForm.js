@@ -80,7 +80,21 @@ export default function LoginForm() {
               </div>
             )}
           </div>
+          <div className="flex justify-between gap-2 items-center">
+            <span className="checkbox-remember">
+              <label className="cursor-pointer label flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  className="checkbox checkbox-warning border border-ps-gray-300 "
+                />
+                <span className="label-text text-b2 font-medium ">
+                  Remember?
+                </span>
+              </label>
+            </span>
 
+            <p className="text-b2 text-ps-orange-500">Forget Password?</p>
+          </div>
           <button
             type="submit"
             disabled={isSubmitting}
