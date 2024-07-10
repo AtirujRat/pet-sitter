@@ -72,7 +72,7 @@ module.exports = {
     colors: {
       ps: {
         gray: {
-          100: "#FFFFFF",
+          100: "#FAFAFB",
           200: "#F6F6F9",
           300: "#AEB1C3",
           400: "#7B7E8F",
