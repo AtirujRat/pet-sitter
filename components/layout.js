@@ -17,6 +17,7 @@ export default function Layout({ children }) {
     "/login/owner",
     "/register/sitter",
     "/login/recovery",
+    "/login/updatepassword",
   ];
 
   useEffect(() => {
