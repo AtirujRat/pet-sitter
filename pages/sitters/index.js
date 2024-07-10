@@ -1,6 +1,7 @@
 import SittersList from "@/components/sitters/SittersList";
 import PetTypeBadge from "@/components/sitters/PetTypeBadge";
 import ViewTypeButton from "@/components/sitters/ViewTypeButton";
+import SearchBarSitter from "@/components/sitters/SearchBarSitter";
 
 export async function getStaticProps() {
   const res = await fetch("http://localhost:3000/api/sitters");
@@ -34,7 +35,9 @@ export default function Sitters({ data }) {
           </div>
         </div>
         <div className="content-container flex gap-6 ">
-          <div className="search-box flex-1 bg-ps-white w-[30%] h-40 rounded-2xl"></div>
+          <div className="search-box flex-1 bg-ps-white w-[30%] h-fit rounded-2xl shadow-lg p-6">
+            <SearchBarSitter />
+          </div>
           <SittersList sitters={sitters} />
         </div>
       </div>
