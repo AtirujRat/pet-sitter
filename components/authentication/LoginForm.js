@@ -81,18 +81,20 @@ export default function LoginForm() {
             )}
           </div>
           <div className="flex justify-between gap-2 items-center">
-            <span className="checkbox-remember">
-              <label className="cursor-pointer label flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  className="checkbox checkbox-warning border border-ps-gray-300 "
-                />
-                <span className="label-text text-b2 font-medium ">
-                  Remember?
-                </span>
+            <div className="flex items-center space-x-2">
+              <Field
+                id="remember"
+                type="checkbox"
+                name="remember"
+                className="checkbox checkbox-warning border border-ps-gray-300 "
+              />
+              <label
+                htmlFor="remember"
+                className="label-text text-b2 font-medium cursor-pointer"
+              >
+                Remember?
               </label>
-            </span>
-
+            </div>
             <p className="text-b2 text-ps-orange-500">Forget Password?</p>
           </div>
           <button
