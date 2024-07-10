@@ -1,6 +1,8 @@
 import { Formik, Form, Field } from "formik";
 import { useRouter } from "next/router";
 import { supabase } from "@/utils/supabase";
+import { useState } from "react";
+import Link from "next/link";
 
 function validateEmail(value) {
   let error;
@@ -22,6 +24,7 @@ function validatePassword(value) {
 
 export default function LoginForm() {
   const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
 
   async function logIn(formData) {
     const { data, error } = await supabase.auth.signInWithPassword(formData);
@@ -35,7 +38,7 @@ export default function LoginForm() {
 
   return (
     <Formik
-      initialValues={{ email: "", password: "" }}
+      initialValues={{ email: "", password: "", remember: false }}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
           logIn(values);
@@ -68,12 +71,23 @@ export default function LoginForm() {
               Password
             </label>
             <Field
-              type="password"
+              type={showPassword ? "text" : "password"}
               name="password"
               validate={validatePassword}
               placeholder="Input your password"
               className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400"
             />
+            <button
+              type="button"
+              className="absolute right-[5%] top-[55%]"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? (
+                <div className="text-ps-gray-400">hide</div>
+              ) : (
+                <div className="text-ps-gray-400">show</div>
+              )}
+            </button>
             {errors.password && touched.password && (
               <div className="absolute bottom-[-22px] text-ps-red bg-transparent">
                 {errors.password}
@@ -95,7 +109,9 @@ export default function LoginForm() {
                 Remember?
               </label>
             </div>
-            <p className="text-b2 text-ps-orange-500">Forget Password?</p>
+            <Link href="/login/owner/recovery">
+              <p className="text-b2 text-ps-orange-500">Forget Password?</p>
+            </Link>
           </div>
           <button
             type="submit"
