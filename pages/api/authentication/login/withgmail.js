@@ -7,8 +7,6 @@ export default async function handler(req, res) {
       redirectTo: "http://localhost:3000",
     },
   });
-  console.log(data);
-
   if (error) {
     return res.status(404).json({ message: "error connection from google" });
   }
