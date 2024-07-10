@@ -1,6 +1,7 @@
 import { Formik, Form, Field } from "formik";
 import axios from "axios";
 import PhoneInput from "./PhoneInput";
+import { useState } from "react";
 
 function validateEmail(value) {
   let error;
@@ -35,6 +36,7 @@ function validatePhone(value) {
 }
 
 export default function RegisterForm(props) {
+  const [showPassword, setShowPassword] = useState(false);
   const getData = async (data) => {
     try {
       await axios.post(props.api, data);
@@ -96,12 +98,24 @@ export default function RegisterForm(props) {
               Password
             </label>
             <Field
-              type="password"
+              type={showPassword ? "text" : "password"}
               name="password"
               validate={validatePassword}
               placeholder="Create your password"
               className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400"
             />
+            <button
+              className="absolute right-[5%] top-[55%]"
+              onClick={() => {
+                setShowPassword(!showPassword);
+              }}
+            >
+              {showPassword ? (
+                <div className="text-ps-gray-400">hide</div>
+              ) : (
+                <div className="text-ps-gray-400">show</div>
+              )}
+            </button>
             {errors.password && touched.password && (
               <div className="absolute bottom-[-22px] text-ps-red bg-transparent">
                 {errors.password}
