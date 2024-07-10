@@ -1,5 +1,5 @@
 import PetTypeBadge from "@/components/sitters/PetTypeBadge";
-import petTypeColors from "@/pages/utils/petTypeColors";
+import petTypeColors from "@/public/data/petTypeColors";
 import RatingStar from "./RatingStar";
 import Link from "next/link";
 
