@@ -5,7 +5,7 @@ import gmail from "../../public/assets/authentication/logo-gmail.svg";
 import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/router";
-
+import { signInWithFacebook } from "@/pages/api/authentication/login/withFacebook";
 export default function SocialLogin(props) {
   const router = useRouter();
   const Logingoogle = async () => {
@@ -21,7 +21,10 @@ export default function SocialLogin(props) {
       </div>
 
       <div className="w-full flex justify-between gap-2">
-        <button className="flex flex-1 justify-center items-center gap-2 btn btn-ghost text-b2 border-none rounded-full  bg-ps-gray-200">
+        <button
+          onClick={signInWithFacebook}
+          className="flex flex-1 justify-center items-center gap-2 btn btn-ghost text-b2 border-none rounded-full  bg-ps-gray-200"
+        >
           <Image src={facebook} alt="facebook" className="w-6" />
           Facebook
         </button>
