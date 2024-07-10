@@ -27,14 +27,14 @@ export default function Home() {
             Find your perfect pet sitter with us.
           </p>
         </div>
-        <div className="flex gap-4 mt-[50px] md:mt-0 relative h-[255px] md:h-auto overflow-hidden md:w-full md:justify-between md:absolute md:left-0 md:pt-0 pt-[50px]">
+        <div className="flex gap-4 mt-[50px] md:mt-0 relative h-[255px] md:h-auto overflow-hidden md:w-full md:justify-between md:absolute md:left-0 md:pt-0 pt-[50px] -z-10">
           <div className=" w-[255px] lg:w-[428px] aspect-square absolute right-[calc(50%+8px)] top-0 md:static">
             <Image
               src={elementhome1}
               alt="element-home-1"
               sizes="100%"
               width={428}
-              className="object-cover "
+              className="object-cover"
             />
           </div>
           <div className="w-[255px] lg:w-[428px] aspect-square absolute left-[calc(50%+8px)] top-0 md:static">
@@ -193,18 +193,18 @@ export default function Home() {
           <div className="absolute md:bottom-0 md:left-0 -z-0 md:w-[337px] w-[248px] bottom-0 left-0 -translate-x-5">
             <Image src={elementhome4} alt="element-home" width={337} />
           </div>
-          <div className="absolute md:top-0 md:right-0 -z-0 md:w-[327px] w-[188px] top-0 right-0 translate-x-5 -translate-y-5">
+          <div className="absolute md:top-0 md:right-0 -z-0 md:w-[327px] w-[188px] top-0 right-0 translate-x-5 -translate-y-10">
             <Image src={elementhome5} alt="element-home" width={327} />
           </div>
           <div className="w-[457px] text-center z-10 md:p-0 p-4 md:pt-0 pt-16">
             <p className="md:text-h1 text-h2 pb-10">
               Perfect Pet Sitter For Your Pet
             </p>
-            <span className="md:flex px-9 justify-between items-center">
+            <span className="md:flex-row flex flex-col px-9 justify-between items-center w-full">
               <p className="w-full text-[16px] font-bold text-ps-orange-500 md:px-3 md:py-6 py-3">
                 Become A Pet Sitter
               </p>
-              <button className="w-[168px] h-[48px] bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide">
+              <button className="md:w-[168px] w-full h-[48px] bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide">
                 Find A Pet Sitter
               </button>
             </span>
