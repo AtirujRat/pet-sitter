@@ -109,7 +109,7 @@ export default function LoginForm() {
                 Remember?
               </label>
             </div>
-            <Link href="/login/owner/recovery">
+            <Link href="/login/recovery">
               <p className="text-b2 text-ps-orange-500">Forget Password?</p>
             </Link>
           </div>
