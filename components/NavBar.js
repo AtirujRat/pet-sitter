@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Image from "next/image";
+import { supabase } from "@/pages/utils/supabase";
 import bell from "../public/assets/navbar/bell.svg";
 import message from "../public/assets/navbar/message.svg";
 import usermock from "../public/assets/navbar/usermock.svg";
@@ -18,9 +19,10 @@ const NavBar = () => {
   //   setIsLoggedIn(true);
   // };
 
-  // const handleLogout = () => {
-  //   setIsLoggedIn(false);
-  // };
+  const handleLogout = async () => {
+    let { error } = await supabase.auth.signOut();
+    setIsLoggedIn(false);
+  };
 
   return (
     <nav className="w-full flex justify-center py-5 px-5 lg:px-0">
@@ -78,11 +80,9 @@ const NavBar = () => {
                       </Link>
                     </li>
                     <div className="border-b border-[#DCDFED]"></div>
-                    <li className="divide-y-2 py-2">
-                      <Link href={"/"}>
-                        <Image src={logout} alt="logout" />
-                        Log out
-                      </Link>
+                    <li className="divide-y-2 py-2" onClick={handleLogout}>
+                      <Image src={logout} alt="logout" />
+                      Log out
                     </li>
                   </ul>
                 </div>
