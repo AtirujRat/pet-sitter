@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Image from "next/image";
-import { supabase } from "@/pages/utils/supabase";
+import { supabase } from "@/utils/supabase";
 import bell from "../public/assets/navbar/bell.svg";
 import message from "../public/assets/navbar/message.svg";
 import usermock from "../public/assets/navbar/usermock.svg";

@@ -1,6 +1,6 @@
 import { Formik, Form, Field } from "formik";
 import { useRouter } from "next/router";
-import { createClient } from "@/utils/supabase/component";
+import { supabase } from "@/utils/supabase";
 
 function validateEmail(value) {
   let error;
@@ -24,7 +24,6 @@ function validatePassword(value) {
 
 export default function LoginForm() {
   const router = useRouter();
-  const supabase = createClient();
 
   async function logIn() {
     const { error } = await supabase.auth.signInWithPassword({
