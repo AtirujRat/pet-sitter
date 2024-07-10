@@ -1,11 +1,17 @@
 import Image from "next/image";
-
 import divide from "../../public/assets/authentication/Divider.svg";
 import facebook from "../../public/assets/authentication/logo-facebook.svg";
 import gmail from "../../public/assets/authentication/logo-gmail.svg";
 import Link from "next/link";
+import axios from "axios";
+import { useRouter } from "next/router";
 
 export default function SocialLogin(props) {
+  const router = useRouter();
+  const Logingoogle = async () => {
+    const data = await axios.get("/api/authentication/login/withgmail");
+    router.push(`${data.data.message.url}`);
+  };
   return (
     <>
       <div className="w-full flex justify-between gap-2">
@@ -19,7 +25,10 @@ export default function SocialLogin(props) {
           <Image src={facebook} alt="facebook" className="w-6" />
           Facebook
         </button>
-        <button className="flex flex-1 justify-center items-center gap-2 btn btn-ghost text-b2 border-none rounded-full  bg-ps-gray-200">
+        <button
+          onClick={Logingoogle}
+          className="flex flex-1 justify-center items-center gap-2 btn btn-ghost text-b2 border-none rounded-full  bg-ps-gray-200"
+        >
           <Image src={gmail} alt="gmail" className="w-6" />
           Gmail
         </button>
