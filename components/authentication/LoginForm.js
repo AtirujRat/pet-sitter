@@ -16,8 +16,6 @@ function validatePassword(value) {
   let error;
   if (!value) {
     error = "Required";
-  } else if (value.length <= 8) {
-    error = "Password must more than 8";
   }
   return error;
 }
@@ -46,8 +44,8 @@ export default function LoginForm() {
       }}
     >
       {({ errors, touched, isValidating, isSubmitting }) => (
-        <Form className="w-full flex flex-col gap-8">
-          <div className="flex flex-col gap-2">
+        <Form className="w-full flex flex-col gap-8 max-sm:gap-6">
+          <div className="flex flex-col gap-2 relative">
             <label htmlFor="email" className="text-b2 text-ps-black">
               Email
             </label>
@@ -58,10 +56,14 @@ export default function LoginForm() {
               placeholder="email@company.com"
               className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400"
             />
-            {errors.email && touched.email && <div>{errors.email}</div>}
+            {errors.email && touched.email && (
+              <div className="absolute bottom-[-22px] text-ps-red bg-transparent">
+                {errors.email}
+              </div>
+            )}
           </div>
 
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 relative">
             <label htmlFor="password" className="text-b2 text-ps-black">
               Password
             </label>
@@ -69,19 +71,20 @@ export default function LoginForm() {
               type="password"
               name="password"
               validate={validatePassword}
-              placeholder="Create your password"
+              placeholder="Input your password"
               className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400"
             />
             {errors.password && touched.password && (
-              <div>{errors.password}</div>
+              <div className="absolute bottom-[-22px] text-ps-red bg-transparent">
+                {errors.password}
+              </div>
             )}
           </div>
 
           <button
             type="submit"
             disabled={isSubmitting}
-            className="btn text-b2 text-ps-white bg-ps-orange-500 border-none rounded-full"
-            onClick={logIn}
+            className="btn text-b2 text-ps-white bg-ps-orange-500 border-none rounded-full hover:bg-ps-orange-400"
           >
             Login
           </button>
