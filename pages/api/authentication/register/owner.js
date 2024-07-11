@@ -1,4 +1,4 @@
-import { supabase } from "../../../utils/supabase.js";
+import { supabase } from "@/utils/supabase";
 import bcrypt from "bcrypt";
 
 // const getData = async (data) => {
@@ -22,16 +22,16 @@ import bcrypt from "bcrypt";
 export default async function handler(req, res) {
   if (req.method === "POST") {
     const newOwner = req.body;
-
     if (newOwner.id) {
       let { data: owners, error } = await supabase
         .from("owners")
-        .select("id_provider");
+        .select("id_provider")
+        .eq("id_provider", newOwner.id);
       if (error) {
         return res.status(400).json({ name: "error connection from database" });
       }
 
-      if (!owners) {
+      if (owners[0].id_provider) {
         const { data, error } = await supabase
           .from("owners")
           .insert([
@@ -48,7 +48,8 @@ export default async function handler(req, res) {
         }
         return res.status(200).json({ name: "register success" });
       }
-      return res.status(200).json({ name: "User have already register" });
+
+      return res.status(201).json({ name: "User have already register" });
     }
 
     const salt = await bcrypt.genSalt(10);

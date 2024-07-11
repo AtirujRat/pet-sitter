@@ -10,11 +10,8 @@ export default function SocialLogin(props) {
   const router = useRouter();
 
   const Logingoogle = async () => {
-    try {
-      await axios.get("/api/authentication/login/withgmail");
-    } catch (e) {
-      alert("connection error");
-    }
+    const data = await axios.get("/api/authentication/login/withgmail");
+    router.push(`${data.data.message.url}`);
   };
   return (
     <>
