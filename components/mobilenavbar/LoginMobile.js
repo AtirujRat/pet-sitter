@@ -2,14 +2,16 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { supabase } from "@/utils/supabase";
+import { useRouter } from "next/router";
 
 import profile from "../../public/assets/navbar/profile.svg";
 import pet from "../../public/assets/navbar/pet.svg";
 import history from "../../public/assets/navbar/history.svg";
 import logout from "../../public/assets/navbar/logout.svg";
 
-const LoginMobile = () => {
+const LoginMobile = ({ setOpenModal }) => {
   const [userData, setUserData] = useState();
+  const router = useRouter();
 
   async function getUser() {
     const {
@@ -48,6 +50,8 @@ const LoginMobile = () => {
     if (error) return;
     else getUser();
     setUserData(undefined);
+    setOpenModal();
+    router.push("/");
   };
 
   return (
@@ -68,7 +72,12 @@ const LoginMobile = () => {
           </Link>
           <div className="border-b border-[#DCDFED]"></div>
           <div className="w-full p-4 text-b1">
-            <button className="flex items-center gap-3" onClick={handleLogout}>
+            <button
+              className="flex items-center gap-3"
+              onClick={() => {
+                handleLogout();
+              }}
+            >
               <Image src={logout} alt="logout" width={16} />
               Log out
             </button>
