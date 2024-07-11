@@ -1,4 +1,4 @@
-import YourPet from "@/components/owners/YourPet";
+import CreatePetForm from "@/components/owners/CreatePetForm";
 
 export default function PetList() {
   return (
@@ -7,7 +7,7 @@ export default function PetList() {
         <div className="flex gap-8 max-lg:flex-col">
           {/* mock up menu account */}
           <div className="w-[284px] h-[356px] bg-ps-white sm:rounded-2xl lg:shadow-lg sm:p-6 lg:sticky top-5"></div>
-          <YourPet />
+          <CreatePetForm />
         </div>
       </div>
     </section>
