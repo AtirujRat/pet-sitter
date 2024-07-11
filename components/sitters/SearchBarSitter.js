@@ -25,7 +25,7 @@ const SearchBar = () => {
       </div>
       <div className="sm:pb-10 pb-5 max-sm:px-5">
         <p className="sm:pb-4 max-sm:py-3 text-[16px] font-bold">Rating:</p>
-        <RatingStars />
+        <Rating />
       </div>
       <div className="w-full flex flex-col gap-3 sm:pb-10 pb-6 max-sm:px-5">
         <p className="text-[16px] font-bold">Experience:</p>
