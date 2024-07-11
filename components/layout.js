@@ -16,6 +16,7 @@ export default function Layout({ children }) {
     "/register/owner",
     "/login/owner",
     "/register/sitter",
+    "/login/sitter",
     "/login/recovery",
     "/login/updatepassword",
   ];

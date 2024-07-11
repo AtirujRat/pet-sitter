@@ -6,7 +6,7 @@ export default function LoginOwner() {
   const api = "/api/authentication/login/owner";
   return (
     <section className="w-full h-screen flex max-sm:text-scale-75 justify-center items-center relative z-10">
-      <BackgroudAuth />
+      <BackgroundAuth />
       <div className="max-sm:w-[90%] bg-transparent flex flex-col items-center justify-center max-sm:gap-8 gap-14 absolute">
         <div className="bg-transparent flex flex-col text-center gap-2">
           <h1 className="text-h1 max-sm:text-h2 text-shadow bg-transparent">
