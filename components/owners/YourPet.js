@@ -9,10 +9,10 @@ export default function YourPet() {
   ];
 
   return (
-    <section className="w-[75%] h-[824px] shadow-lg rounded-xl">
+    <section className="w-[75%] h-[824px] shadow-lg rounded-xl bg-ps-white">
       <div className="flex flex-col justify-center p-10 gap-10">
         <div className="flex justify-between items-center">
-          <p className="text-h4">Your Pet</p>
+          <p className="text-h3">Your Pet</p>
           <button className="w-[127px] bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide h-[48px]">
             Create Pet
           </button>
