@@ -14,9 +14,6 @@ import Link from "next/link";
 
 const NavBar = ({ setOpenModal }) => {
   const [userData, setUserData] = useState();
-  const NavBar = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState(true);
-  };
 
   async function getUser() {
     const {
