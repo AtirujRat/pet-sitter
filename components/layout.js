@@ -15,9 +15,12 @@ export default function Layout({ children }) {
     "/register/owner",
     "/login/owner",
     "/register/sitter",
+<<<<<<< HEAD
     "/login/sitter",
     "/login/recovery",
     "/login/updatepassword",
+=======
+>>>>>>> 28fb7cf (feat:create api get sitters by id)
     "/sitters/[id]/profile",
   ];
 
