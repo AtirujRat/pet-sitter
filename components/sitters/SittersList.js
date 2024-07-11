@@ -1,11 +1,17 @@
-import PetTypeBadge from "@/components/sitters/PetTypeBadge";
-import petTypeColors from "@/public/data/petTypeColors";
 import ReviewRating from "./ReviewRating";
 import Link from "next/link";
 import Image from "next/image";
 import pin from "/public/assets/sitters/icon-location.svg";
+import { DogBadge, CatBadge, BirdBadge, RabbitBadge } from "./PetBadges";
 
 export default function SittersList(props) {
+  const petTypeComponents = {
+    Dog: DogBadge,
+    Cat: CatBadge,
+    Bird: BirdBadge,
+    Rabbit: RabbitBadge,
+  };
+
   return (
     <div className="sitters-list flex-2 w-[70%] flex flex-col gap-4 max-lg:w-full min-w-[325px] max-sm:px-5">
       {props.sitters.map((sitter) => {
@@ -53,17 +59,9 @@ export default function SittersList(props) {
                   <div className="pet-type flex gap-2">
                     {sitter.pet_types
                       .sort((a, b) => a.id - b.id)
-                      .map((pet, index) => {
-                        const colors = petTypeColors[pet.pet_type];
-                        return (
-                          <PetTypeBadge
-                            type={pet.pet_type}
-                            key={index}
-                            textcolor={colors.textcolor}
-                            bordercolor={colors.bordercolor}
-                            bgcolor={colors.bgcolor}
-                          />
-                        );
+                      .map((pet) => {
+                        const BadgeComponent = petTypeComponents[pet.pet_type];
+                        return <BadgeComponent key={pet.id} />;
                       })}
                   </div>
                 </div>
