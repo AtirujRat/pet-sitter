@@ -30,8 +30,7 @@ export default async function handler(req, res) {
       if (error) {
         return res.status(400).json({ name: "error connection from database" });
       }
-
-      if (owners[0].id_provider) {
+      if (!owners[0]) {
         const { data, error } = await supabase
           .from("owners")
           .insert([
