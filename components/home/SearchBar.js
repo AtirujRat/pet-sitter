@@ -1,4 +1,4 @@
-import RatingStars from "../rating/rating";
+import Rating from "../rating/rating";
 import Checkbox from "../checkbox/checkbox";
 import { useState } from "react";
 
@@ -23,7 +23,7 @@ const SearchBar = () => {
       <div className="flex-col lg:flex-row gap-6 bg-ps-white w-full lg:h-[72px] flex lg:px-6 px-4 py-4 text-ps-gray-600 font-bold rounded-b-3xl drop-shadow-costom justify-between">
         <div className="flex flex-col lg:flex-row lg:items-center">
           <p className="lg:pr-6 pb-3">Rating:</p>
-          <RatingStars />
+          <Rating />
         </div>
 
         <div className="w-full lg:w-auto flex flex-col lg:flex-row lg:items-center lg:gap-3">
