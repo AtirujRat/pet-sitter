@@ -12,7 +12,6 @@ export default async function handler(req, res) {
     password: newSitter.password,
     phone_number: newSitter.phone,
   });
-  console.log(error);
   if (error) {
     return res.status(400).json({ name: "error connection from database" });
   }
