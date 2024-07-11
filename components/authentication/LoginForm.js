@@ -25,16 +25,14 @@ function validatePassword(value) {
 export default function LoginForm() {
   const router = useRouter();
 
-  async function logIn() {
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+  async function logIn(formData) {
+    const { data, error } = await supabase.auth.signInWithPassword(formData);
     if (error) {
-      console.error(error);
+      console.error("error");
+      return;
     }
     router.push("/");
-    console.log("success");
+    console.log(data);
   }
 
   return (
@@ -42,7 +40,7 @@ export default function LoginForm() {
       initialValues={{ email: "", password: "" }}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
+          logIn(values);
           setSubmitting(false);
         }, 400);
       }}

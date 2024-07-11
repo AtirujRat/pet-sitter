@@ -1,5 +1,5 @@
 import Checkbox from "../checkbox/checkbox";
-import RatingStars from "../rating/rating";
+import Rating from "../rating/rating";
 import { useState } from "react";
 
 const SearchBar = () => {
@@ -25,7 +25,7 @@ const SearchBar = () => {
       </div>
       <div className="pb-10">
         <p className="pb-4 text-[16px] font-bold">Rating:</p>
-        <RatingStars />
+        <Rating />
       </div>
       <div className="w-full flex flex-col gap-3 pb-10">
         <p className="text-[16px] font-bold">Experience:</p>
