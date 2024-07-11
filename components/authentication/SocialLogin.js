@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { signInWithFacebook } from "@/pages/api/authentication/login/withFacebook";
 export default function SocialLogin(props) {
   const router = useRouter();
+
   const Logingoogle = async () => {
     const data = await axios.get("/api/authentication/login/withgmail");
     router.push(`${data.data.message.url}`);

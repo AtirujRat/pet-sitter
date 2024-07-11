@@ -1,15 +1,15 @@
 import { supabase } from "@/utils/supabase";
-import { redirect } from "next/dist/server/api-utils";
 
 export async function signInWithFacebook() {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "facebook",
+    options: {
+      redirectTo: "http://localhost:3000",
+    },
   });
-  if (error) {
-    console.log("Error :" + error);
-  }
 
-  if (data.url) {
-    redirect(data.url); // use the redirect API for your server framework
+  if (error) {
+    return res.status(404).json({ message: "error connection from facebook" });
   }
+  return res.status(200).json({ message: data });
 }
