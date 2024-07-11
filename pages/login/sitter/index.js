@@ -3,7 +3,7 @@ import BackgroundAuth from "@/components/authentication/BackgroundAuth";
 import SocialLogin from "@/components/authentication/SocialLogin";
 
 export default function LoginOwner() {
-  const api = "/api/authentication/login/owner";
+  const api = "/api/authentication/login/sitter";
   return (
     <section className="w-full h-screen flex max-sm:text-scale-75 justify-center items-center relative z-10">
       <BackgroundAuth />
