@@ -1,3 +1,5 @@
+//---ไม่ใช้แล้ว แต่เก็บไว้ก่อย ถ้าทุกอย่างโอเคจะกลับมาลบ---
+
 export default function PetTypeBadge(props) {
   return (
     <div
