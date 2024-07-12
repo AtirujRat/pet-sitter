@@ -1,9 +1,6 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import Image from "next/image";
-<<<<<<< HEAD
 import Link from "next/link";
-=======
->>>>>>> d3a647f (feat: edit update pet form)
 
 const onSubmit = (values, actions) => {
   console.log(values);
@@ -231,7 +228,6 @@ export default function CreatePetForm() {
 
             {/* Buttons */}
             <div className="flex flex-wrap gap-4 justify-between">
-<<<<<<< HEAD
               <Link href="/owners/yourpet">
                 <button
                   type="button"
@@ -240,14 +236,6 @@ export default function CreatePetForm() {
                   Cancel
                 </button>
               </Link>
-=======
-              <button
-                type="button"
-                className="w-[127px] bg-ps-orange-100 text-ps-orange-500 text-[16px] font-bold rounded-full tracking-wide h-[48px]"
-              >
-                Cancel
-              </button>
->>>>>>> d3a647f (feat: edit update pet form)
               <button
                 type="submit"
                 className="w-[127px] bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide h-[48px]"
