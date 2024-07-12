@@ -9,7 +9,7 @@ export default function YourPet() {
   ];
 
   return (
-    <section className="w-[75%] h-[824px] shadow-lg rounded-xl bg-ps-white">
+    <section className="w-[75%] min-h-[824px] h-fit shadow-lg rounded-xl bg-ps-white">
       <div className="flex flex-col justify-center p-10 gap-10">
         <div className="flex justify-between items-center">
           <p className="text-h3">Your Pet</p>
@@ -17,7 +17,7 @@ export default function YourPet() {
             Create Pet
           </button>
         </div>
-        <div className="flex flex-wrap gap-4 justify-start">
+        <div className="flex flex-wrap gap-4 justify-stretch">
           {pets.map((pet, index) => (
             <PetCard key={index} name={pet.name} type={pet.type} />
           ))}
