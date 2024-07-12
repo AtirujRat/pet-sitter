@@ -13,6 +13,7 @@ export default function CreatePetForm() {
 
 =======
 import Image from "next/image";
+import Link from "next/link";
 
 const onSubmit = (values, actions) => {
   console.log(values);
@@ -269,7 +270,11 @@ export default function CreatePetForm() {
             {/* Buttons */}
             <div className="flex flex-wrap gap-4 justify-between">
 <<<<<<< HEAD
+<<<<<<< HEAD
               <Link href={`/owners/${id}/yourpet`}>
+=======
+              <Link href="/owners/yourpet">
+>>>>>>> bf2cbb2 (feat: update create pet form)
                 <button
                   type="button"
                   className="w-[127px] bg-ps-orange-100 text-ps-orange-500 text-[16px] font-bold rounded-full tracking-wide h-[48px]"
@@ -277,6 +282,7 @@ export default function CreatePetForm() {
                   Cancel
                 </button>
               </Link>
+<<<<<<< HEAD
 =======
               <button
                 type="button"
@@ -285,6 +291,8 @@ export default function CreatePetForm() {
                 Cancel
               </button>
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
+=======
+>>>>>>> bf2cbb2 (feat: update create pet form)
               <button
                 type="submit"
                 className="w-[127px] bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide h-[48px]"
