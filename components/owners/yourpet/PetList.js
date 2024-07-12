@@ -9,6 +9,7 @@ import PetCard from "./PetCard";
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import Link from "next/link";
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -152,6 +153,11 @@ import Link from "next/link";
 =======
 import Link from "next/link";
 >>>>>>> bf2cbb2 (feat: update create pet form)
+=======
+import Link from "next/link";
+=======
+>>>>>>> d3a647f (feat: edit update pet form)
+>>>>>>> 19e2e33 (feat: edit update pet form)
 
 export default function YourPet() {
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
@@ -320,6 +326,7 @@ export default function YourPet() {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
           <Link href={`/owners/${id}/yourpet/create`}>
 =======
 =======
@@ -334,6 +341,8 @@ export default function YourPet() {
 >>>>>>> 53b534c (feat: edit update pet form)
 =======
 >>>>>>> f6fd319 (feat: edit update pet form)
+=======
+>>>>>>> 19e2e33 (feat: edit update pet form)
           <Link href="/owners/yourpet/create">
 >>>>>>> af253ba (feat: update create pet form)
 =======
@@ -358,6 +367,7 @@ export default function YourPet() {
               Create Pet
             </button>
           </Link>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -404,9 +414,12 @@ export default function YourPet() {
 =======
 >>>>>>> 53b534c (feat: edit update pet form)
 =======
+>>>>>>> 19e2e33 (feat: edit update pet form)
+=======
           <button className="w-[127px] bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide h-[48px]">
             Create Pet
           </button>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
@@ -455,6 +468,9 @@ export default function YourPet() {
           </button>
 =======
 >>>>>>> bf2cbb2 (feat: update create pet form)
+=======
+>>>>>>> d3a647f (feat: edit update pet form)
+>>>>>>> 19e2e33 (feat: edit update pet form)
         </div>
         <div className="flex flex-wrap gap-4 justify-stretch">
           {pets.map((pet, index) => (

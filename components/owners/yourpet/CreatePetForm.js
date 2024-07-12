@@ -41,7 +41,10 @@ export default function CreatePetForm() {
 
 =======
 import Image from "next/image";
+<<<<<<< HEAD
 import Link from "next/link";
+=======
+>>>>>>> d3a647f (feat: edit update pet form)
 
 const onSubmit = (values, actions) => {
   console.log(values);
@@ -378,12 +381,15 @@ export default function CreatePetForm() {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
               <Link href={`/owners/${id}/yourpet`}>
 =======
 =======
 >>>>>>> 53b534c (feat: edit update pet form)
 =======
 >>>>>>> f6fd319 (feat: edit update pet form)
+=======
+>>>>>>> 19e2e33 (feat: edit update pet form)
               <Link href="/owners/yourpet">
 >>>>>>> af253ba (feat: update create pet form)
 =======
@@ -403,16 +409,21 @@ export default function CreatePetForm() {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> 53b534c (feat: edit update pet form)
 =======
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
+=======
+=======
+>>>>>>> 19e2e33 (feat: edit update pet form)
               <button
                 type="button"
                 className="w-[127px] bg-ps-orange-100 text-ps-orange-500 text-[16px] font-bold rounded-full tracking-wide h-[48px]"
               >
                 Cancel
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
               </button>           
@@ -429,6 +440,10 @@ export default function CreatePetForm() {
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
 =======
 >>>>>>> bf2cbb2 (feat: update create pet form)
+=======
+              </button>
+>>>>>>> d3a647f (feat: edit update pet form)
+>>>>>>> 19e2e33 (feat: edit update pet form)
               <button
                 type="submit"
                 className="w-[127px] bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide h-[48px]"
