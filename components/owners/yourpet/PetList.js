@@ -7,6 +7,7 @@ import PetCard from "./PetCard";
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import Link from "next/link";
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -258,12 +259,17 @@ export default function YourPage() {
 
 <<<<<<< HEAD
 >>>>>>> ce812ed (feat: set path of pet list)
+=======
+
+export default function YourPet() {
+>>>>>>> 5c2ccd2 (feat: edit update pet form)
   const pets = [
     { name: "Bubba", type: "Dog" },
     { name: "Daisy", type: "Dog" },
     { name: "I Som", type: "Cat" },
     { name: "Noodle Bird", type: "Bird" },
   ];
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> ce812ed (feat: set path of pet list)
@@ -286,12 +292,15 @@ export default function YourPage() {
     return <div>Error: {error}</div>;
   }
 >>>>>>> 3403445 (feat: create api get pet)
+=======
+>>>>>>> 5c2ccd2 (feat: edit update pet form)
 
   return (
     <section className="w-[75%] min-h-[824px] h-fit shadow-lg rounded-xl bg-ps-white">
       <div className="flex flex-col justify-center p-10 gap-10">
         <div className="flex justify-between items-center">
           <p className="text-h3">Your Pet</p>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -431,6 +440,15 @@ export default function YourPage() {
               <PetCard key={index} name={pet.name} type={pet.type} />
             </Link>
 >>>>>>> ce812ed (feat: set path of pet list)
+=======
+          <button className="w-[127px] bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide h-[48px]">
+            Create Pet
+          </button>
+        </div>
+        <div className="flex flex-wrap gap-4 justify-stretch">
+          {pets.map((pet, index) => (
+            <PetCard key={index} name={pet.name} type={pet.type} />
+>>>>>>> 5c2ccd2 (feat: edit update pet form)
           ))}
         </div>
       </div>

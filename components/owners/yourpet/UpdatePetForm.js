@@ -5,6 +5,7 @@ import Image from "next/image";
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { supabase } from "@/utils/supabase";
@@ -86,6 +87,11 @@ const onSubmit = (values, actions) => {
 >>>>>>> 0333687 (feat: edit update pet form)
 =======
 >>>>>>> 3403445 (feat: create api get pet)
+=======
+
+const onSubmit = (values, actions) => {
+  console.log(values);
+>>>>>>> 5c2ccd2 (feat: edit update pet form)
   actions.setSubmitting(false);
 };
 
@@ -95,6 +101,7 @@ function validateRequired(value) {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   if (value === undefined || value === null || value === "") {
 =======
   if (!value === undefined || value === null || value === "") {
@@ -108,11 +115,15 @@ function validateRequired(value) {
 =======
   if (value === undefined || value === null || value === "") {
 >>>>>>> 3403445 (feat: create api get pet)
+=======
+  if (!value === undefined || value === null || value === "") {
+>>>>>>> 5c2ccd2 (feat: edit update pet form)
     error = " Required";
   }
   return error;
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import axios from "axios";
 >>>>>>> 6fecf16 (feat: create api update pet)
@@ -169,11 +180,19 @@ export default function UpdatePetForm() {
     name: "",
     pet_type: "",
 >>>>>>> 3403445 (feat: create api get pet)
+=======
+
+export default function UpdatePetForm() {
+  const initialValues = {
+    petName: "",
+    petType: "",
+>>>>>>> 5c2ccd2 (feat: edit update pet form)
     breed: "",
     sex: "",
     age: "",
     color: "",
     weight: "",
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -387,11 +406,14 @@ export default function UpdatePetForm() {
 =======
 =======
 >>>>>>> 0333687 (feat: edit update pet form)
+=======
+>>>>>>> 5c2ccd2 (feat: edit update pet form)
     about: "",
   };
 
   return (
     <Formik initialValues={initialValues} onSubmit={onSubmit}>
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
 =======
@@ -421,6 +443,9 @@ export default function UpdatePetForm() {
 =======
       {({ isSubmitting, errors, touched }) => (
 >>>>>>> 0333687 (feat: edit update pet form)
+=======
+      {({ isSubmitting, errors, touched }) => (
+>>>>>>> 5c2ccd2 (feat: edit update pet form)
         <Form className="w-[75%] h-fit shadow-lg rounded-xl bg-ps-white p-10">
           <div className="flex flex-col gap-10">
             <p className="flex text-h3 gap-2">Your Pet</p>
@@ -439,6 +464,7 @@ export default function UpdatePetForm() {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
               <label htmlFor="name" className="text-[16px] font-bold pb-1 flex">
                 Pet Name*
                 <ErrorMessage
@@ -446,6 +472,8 @@ export default function UpdatePetForm() {
 =======
 =======
 >>>>>>> 0333687 (feat: edit update pet form)
+=======
+>>>>>>> 5c2ccd2 (feat: edit update pet form)
               <label
                 htmlFor="petName"
                 className="text-[16px] font-bold pb-1 flex"
@@ -453,6 +481,7 @@ export default function UpdatePetForm() {
                 Pet Name*
                 <ErrorMessage
                   name="petName"
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
 =======
@@ -469,6 +498,8 @@ export default function UpdatePetForm() {
                 <ErrorMessage
                   name="name"
 >>>>>>> 3403445 (feat: create api get pet)
+=======
+>>>>>>> 5c2ccd2 (feat: edit update pet form)
                   component="div"
                   className="text-ps-red text-b3"
                 />
@@ -479,6 +510,7 @@ export default function UpdatePetForm() {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                 id="name"
                 name="name"
 =======
@@ -497,6 +529,10 @@ export default function UpdatePetForm() {
                 id="name"
                 name="name"
 >>>>>>> 3403445 (feat: create api get pet)
+=======
+                id="petName"
+                name="petName"
+>>>>>>> 5c2ccd2 (feat: edit update pet form)
                 validate={validateRequired}
                 className="border-[#DCDFED] text-[#7B7E8F] rounded-lg"
                 placeholder="John Wick"
@@ -506,6 +542,7 @@ export default function UpdatePetForm() {
             <div className="flex justify-between">
               {/* Pet Type */}
               <div className="flex flex-col w-[48%]">
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -527,10 +564,13 @@ export default function UpdatePetForm() {
 =======
 =======
 >>>>>>> 0333687 (feat: edit update pet form)
+=======
+>>>>>>> 5c2ccd2 (feat: edit update pet form)
                 <label htmlFor="petType" className="flex text-[16px] font-bold">
                   Pet Type*
                   <ErrorMessage
                     name="petType"
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
 =======
@@ -551,6 +591,8 @@ export default function UpdatePetForm() {
                   <ErrorMessage
                     name="pet_type"
 >>>>>>> 3403445 (feat: create api get pet)
+=======
+>>>>>>> 5c2ccd2 (feat: edit update pet form)
                     component="div"
                     className="text-ps-red text-b3"
                   />
@@ -558,6 +600,7 @@ export default function UpdatePetForm() {
 
                 <Field
                   as="select"
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -585,10 +628,15 @@ export default function UpdatePetForm() {
                   id="pet_type"
                   name="pet_type"
 >>>>>>> 3403445 (feat: create api get pet)
+=======
+                  id="petType"
+                  name="petType"
+>>>>>>> 5c2ccd2 (feat: edit update pet form)
                   validate={validateRequired}
                   className="select select-bordered w-full outline-none ring-0 border-[#DCDFED] text-[#7B7E8F] font-normal text-[16px]"
                 >
                   <option value="">Select your pet type</option>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -606,10 +654,13 @@ export default function UpdatePetForm() {
 =======
 =======
 >>>>>>> 0333687 (feat: edit update pet form)
+=======
+>>>>>>> 5c2ccd2 (feat: edit update pet form)
                   <option value="Dog">Dog</option>
                   <option value="Cat">Cat</option>
                   <option value="Bird">Bird</option>
                   <option value="Rabbit">Rabbit</option>
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
 =======
@@ -618,6 +669,8 @@ export default function UpdatePetForm() {
 >>>>>>> 0333687 (feat: edit update pet form)
 =======
 >>>>>>> 3403445 (feat: create api get pet)
+=======
+>>>>>>> 5c2ccd2 (feat: edit update pet form)
                 </Field>
               </div>
               {/* Breed */}
@@ -664,12 +717,17 @@ export default function UpdatePetForm() {
                 >
                   <option value="">Select sex of your pet</option>
 <<<<<<< HEAD
+<<<<<<< HEAD
                   <option value="male">Male</option>
                   <option value="female">Female</option>
 =======
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
 >>>>>>> 0333687 (feat: edit update pet form)
+=======
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+>>>>>>> 5c2ccd2 (feat: edit update pet form)
                 </Field>
               </div>
               {/* Age */}
@@ -752,6 +810,7 @@ export default function UpdatePetForm() {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> b87b3ee (feat: create api get pet)
 =======
@@ -771,6 +830,8 @@ export default function UpdatePetForm() {
 =======
 =======
 >>>>>>> 0333687 (feat: edit update pet form)
+=======
+>>>>>>> 5c2ccd2 (feat: edit update pet form)
               <label htmlFor="about" className="text-[16px] font-bold pb-1">
                 About
               </label>
@@ -778,6 +839,7 @@ export default function UpdatePetForm() {
                 as="textarea"
                 id="about"
                 name="about"
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
 =======
@@ -796,12 +858,15 @@ export default function UpdatePetForm() {
                 id="description"
                 name="description"
 >>>>>>> 3403445 (feat: create api get pet)
+=======
+>>>>>>> 5c2ccd2 (feat: edit update pet form)
                 className="border-[#DCDFED] text-[#7B7E8F] rounded-lg h-[140px]"
                 placeholder="Describe more about your pet..."
               />
             </div>
 
             {/* delete pet */}
+<<<<<<< HEAD
 <<<<<<< HEAD
             <button className="flex gap-2 items-center" onClick={onDelete}>
               <Image
@@ -825,21 +890,32 @@ export default function UpdatePetForm() {
 =======
                 alt="Delete Pet Icon"
 >>>>>>> 3403445 (feat: create api get pet)
+=======
+            <div className="flex gap-2 items-center cursor-pointer">
+              <Image
+                src="/assets/icons/icon-bin.svg"
+                alt="Dummy Pet Image"
+>>>>>>> 5c2ccd2 (feat: edit update pet form)
                 width={18}
                 height={20}
               />
               <p className="text-ps-orange-500 text-b2">Delete Pet</p>
 <<<<<<< HEAD
+<<<<<<< HEAD
             </button>
 =======
             </div>
 >>>>>>> 0333687 (feat: edit update pet form)
+=======
+            </div>
+>>>>>>> 5c2ccd2 (feat: edit update pet form)
 
             {/* Buttons */}
             <div className="flex flex-wrap gap-4 justify-between">
               <button
                 type="button"
                 className="w-[127px] bg-ps-orange-100 text-ps-orange-500 text-[16px] font-bold rounded-full tracking-wide h-[48px]"
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -859,6 +935,8 @@ export default function UpdatePetForm() {
 =======
                 onClick={() => router.back()} // Navigate back on cancel
 >>>>>>> 3403445 (feat: create api get pet)
+=======
+>>>>>>> 5c2ccd2 (feat: edit update pet form)
               >
                 Cancel
               </button>
