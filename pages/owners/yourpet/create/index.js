@@ -1,6 +1,6 @@
-import CreatePetForm from "@/components/owners/CreatePetForm";
+import CreatePetForm from "@/components/owners/yourpet/CreatePetForm";
 
-export default function PetList() {
+export default function CreatePetPage() {
   return (
     <section className="w-full flex justify-center bg-ps-gray-100 sm:py-8 pt-4 lg:pb-32">
       <div className="page-container w-full sm:px-20 max-w-[1440px]">
