@@ -1,6 +1,4 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
-<<<<<<< HEAD
-<<<<<<< HEAD
 import axios from "axios";
 import { useRouter } from "next/router";
 import Image from "next/image";
@@ -12,56 +10,36 @@ export default function CreatePetForm() {
   const router = useRouter();
   const { id } = router.query;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
   if (!id) {
     return <div>Loading...</div>;
   }
 
->>>>>>> ce812ed (feat: set path of pet list)
-=======
->>>>>>> 01989d5 (feat: create pet)
-=======
-=======
-import axios from "axios";
-import { useRouter } from "next/router";
->>>>>>> ef81c68 (feat: create pet)
-import Image from "next/image";
-import Link from "next/link";
+const onSubmit = (values, actions) => {
+  console.log(values);
+  actions.setSubmitting(false);
+};
 
-const API_URL = "/api/owners/pets";
+function validateRequired(value) {
+  let error;
+  if (!value === undefined || value === null || value === "") {
+    error = " Required";
+  }
+  return error;
+}
 
 export default function CreatePetForm() {
-<<<<<<< HEAD
->>>>>>> 5c2ccd2 (feat: edit update pet form)
-=======
-  const router = useRouter();
-  const { id } = router.query;
-
-<<<<<<< HEAD
-  if (!id) {
-    return <div>Loading...</div>;
-  }
-
->>>>>>> 1919ac5 (feat: set path of pet list)
-=======
->>>>>>> ef81c68 (feat: create pet)
   const initialValues = {
-    name: "",
-    type: "",
+    petName: "",
+    petType: "",
     breed: "",
     sex: "",
     age: "",
     color: "",
     weight: "",
+<<<<<<< HEAD
     description: "",
   };
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> ef81c68 (feat: create pet)
   const validateRequired = (value) => {
     let error;
     if (!value || value === "") {
@@ -86,11 +64,6 @@ export default function CreatePetForm() {
     }
   };
 
-<<<<<<< HEAD
-=======
->>>>>>> 5c2ccd2 (feat: edit update pet form)
-=======
->>>>>>> ef81c68 (feat: create pet)
   return (
     <Formik initialValues={initialValues} onSubmit={onSubmit}>
       {({ isSubmitting, errors, touched }) => (
@@ -108,6 +81,7 @@ export default function CreatePetForm() {
             </div>
             {/* Pet Name */}
             <div className="max-sm:hidden flex flex-col">
+
               <label htmlFor="name" className="text-[16px] font-bold pb-1 flex">
                 Pet Name*
                 <ErrorMessage
@@ -292,36 +266,7 @@ export default function CreatePetForm() {
 
             {/* Buttons */}
             <div className="flex flex-wrap gap-4 justify-between">
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
               <Link href={`/owners/${id}/yourpet`}>
-=======
-=======
->>>>>>> 53b534c (feat: edit update pet form)
-=======
->>>>>>> f6fd319 (feat: edit update pet form)
-=======
->>>>>>> 19e2e33 (feat: edit update pet form)
-=======
->>>>>>> 1d054ed (feat: edit update pet form)
-              <Link href="/owners/yourpet">
->>>>>>> af253ba (feat: update create pet form)
-=======
-              <Link href={`/owners/${id}/yourpet`}>
->>>>>>> ce812ed (feat: set path of pet list)
-=======
-              <Link href="/owners/yourpet">
->>>>>>> bf2cbb2 (feat: update create pet form)
-=======
-              <Link href={`/owners/${id}/yourpet`}>
->>>>>>> 1919ac5 (feat: set path of pet list)
                 <button
                   type="button"
                   className="w-[127px] bg-ps-orange-100 text-ps-orange-500 text-[16px] font-bold rounded-full tracking-wide h-[48px]"
@@ -329,27 +274,12 @@ export default function CreatePetForm() {
                   Cancel
                 </button>
               </Link>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 19e2e33 (feat: edit update pet form)
-=======
               <button
                 type="button"
                 className="w-[127px] bg-ps-orange-100 text-ps-orange-500 text-[16px] font-bold rounded-full tracking-wide h-[48px]"
               >
                 Cancel
-              </button>
-<<<<<<< HEAD
->>>>>>> 5c2ccd2 (feat: edit update pet form)
-=======
->>>>>>> bf2cbb2 (feat: update create pet form)
-=======
->>>>>>> d3a647f (feat: edit update pet form)
->>>>>>> 19e2e33 (feat: edit update pet form)
-=======
->>>>>>> 1d054ed (feat: edit update pet form)
+              </button>           
               <button
                 type="submit"
                 className="w-[127px] bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide h-[48px]"
