@@ -8,7 +8,6 @@ export default async function handler(req, res) {
     },
   });
   console.log(data);
-
   if (error) {
     return res.status(404).json({ message: "error connection from google" });
   }

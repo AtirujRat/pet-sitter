@@ -44,7 +44,7 @@ export default function SittersList(props) {
                         By {sitter.full_name}
                       </p>
                     </div>
-                    <ReviewRating />
+                    <ReviewRating sitter={sitter} />
                   </div>
                   <div className="location flex gap-1 sm:my-6 my-2.5">
                     <Image

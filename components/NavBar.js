@@ -11,6 +11,7 @@ import logout from "../public/assets/navbar/logout.svg";
 import menu from "../public/assets/navbar/menu.svg";
 import sisterlogo from "../public/assets/sister-logo.svg";
 import Link from "next/link";
+import axios from "axios";
 
 const NavBar = ({ setOpenModal }) => {
   const [userData, setUserData] = useState();
@@ -20,13 +21,29 @@ const NavBar = ({ setOpenModal }) => {
       data: { user },
       error,
     } = await supabase.auth.getUser();
+    if (user) {
+      if (user.app_metadata.provider !== "email") {
+        const data = {
+          id: user.id,
+          email: user.email,
+        };
+        newUser(data);
+      }
+    }
     if (error) {
       console.error("error");
       return;
     }
-    // console.log(user);
     setUserData(user);
   }
+  const newUser = async (data) => {
+    try {
+      await axios.post("/api/authentication/register/owner", data);
+      console.log("success");
+    } catch (e) {
+      console.log("errorss");
+    }
+  };
   useEffect(() => {
     getUser();
   }, []);

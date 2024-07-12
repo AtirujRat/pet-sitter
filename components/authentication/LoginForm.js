@@ -1,6 +1,9 @@
 import { Formik, Form, Field } from "formik";
 import { useRouter } from "next/router";
 import { supabase } from "@/utils/supabase";
+import axios from "axios";
+import { useState } from "react";
+import Link from "next/link";
 
 function validateEmail(value) {
   let error;
@@ -16,28 +19,33 @@ function validatePassword(value) {
   let error;
   if (!value) {
     error = "Required";
-  } else if (value.length <= 8) {
-    error = "Password must more than 8";
   }
   return error;
 }
 
-export default function LoginForm() {
+export default function LoginForm(props) {
   const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
 
   async function logIn(formData) {
-    const { data, error } = await supabase.auth.signInWithPassword(formData);
-    if (error) {
-      console.error("error");
-      return;
+    try {
+      const checkUser = await axios.post(props.api, formData);
+      const { data, error } = await supabase.auth.signInWithPassword(
+        checkUser.data.data[0]
+      );
+      if (error) {
+        console.log(error);
+        return;
+      }
+      router.push("/");
+    } catch (e) {
+      alert("connection error");
     }
-    router.push("/");
-    console.log(data);
   }
 
   return (
     <Formik
-      initialValues={{ email: "", password: "" }}
+      initialValues={{ email: "", password: "", remember: false }}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
           logIn(values);
@@ -46,8 +54,8 @@ export default function LoginForm() {
       }}
     >
       {({ errors, touched, isValidating, isSubmitting }) => (
-        <Form className="w-full flex flex-col gap-8">
-          <div className="flex flex-col gap-2">
+        <Form className="w-full flex flex-col gap-8 max-sm:gap-6">
+          <div className="flex flex-col gap-2 relative">
             <label htmlFor="email" className="text-b2 text-ps-black">
               Email
             </label>
@@ -58,30 +66,64 @@ export default function LoginForm() {
               placeholder="email@company.com"
               className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400"
             />
-            {errors.email && touched.email && <div>{errors.email}</div>}
+            {errors.email && touched.email && (
+              <div className="absolute bottom-[-22px] text-ps-red bg-transparent">
+                {errors.email}
+              </div>
+            )}
           </div>
 
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 relative">
             <label htmlFor="password" className="text-b2 text-ps-black">
               Password
             </label>
             <Field
-              type="password"
+              type={showPassword ? "text" : "password"}
               name="password"
               validate={validatePassword}
-              placeholder="Create your password"
+              placeholder="Input your password"
               className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400"
             />
+            <button
+              type="button"
+              className="absolute right-[5%] top-[55%]"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? (
+                <div className="text-ps-gray-400">hide</div>
+              ) : (
+                <div className="text-ps-gray-400">show</div>
+              )}
+            </button>
             {errors.password && touched.password && (
-              <div>{errors.password}</div>
+              <div className="absolute bottom-[-22px] text-ps-red bg-transparent">
+                {errors.password}
+              </div>
             )}
           </div>
-
+          <div className="flex justify-between gap-2 items-center">
+            <div className="flex items-center space-x-2">
+              <Field
+                id="remember"
+                type="checkbox"
+                name="remember"
+                className="checkbox checkbox-warning border border-ps-gray-300 "
+              />
+              <label
+                htmlFor="remember"
+                className="label-text text-b2 font-medium cursor-pointer"
+              >
+                Remember?
+              </label>
+            </div>
+            <Link href="/login/recovery">
+              <p className="text-b2 text-ps-orange-500">Forget Password?</p>
+            </Link>
+          </div>
           <button
             type="submit"
             disabled={isSubmitting}
-            className="btn text-b2 text-ps-white bg-ps-orange-500 border-none rounded-full"
-            onClick={logIn}
+            className="btn text-b2 text-ps-white bg-ps-orange-500 border-none rounded-full hover:bg-ps-orange-400"
           >
             Login
           </button>

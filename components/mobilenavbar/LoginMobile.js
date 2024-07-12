@@ -16,12 +16,29 @@ const LoginMobile = () => {
       data: { user },
       error,
     } = await supabase.auth.getUser();
+    if (user) {
+      if (user.app_metadata.provider !== "email") {
+        const data = {
+          id: user.id,
+          email: user.email,
+        };
+        newUser(data);
+      }
+    }
     if (error) {
       console.error("error");
       return;
     }
     setUserData(user);
   }
+  const newUser = async (data) => {
+    try {
+      await axios.post("/api/authentication/register/owner", data);
+      console.log("success");
+    } catch (e) {
+      console.log("errorss");
+    }
+  };
   useEffect(() => {
     getUser();
   }, []);
