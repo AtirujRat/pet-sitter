@@ -246,7 +246,11 @@ export default function CreatePetForm() {
 
             {/* Buttons */}
             <div className="flex flex-wrap gap-4 justify-between">
+<<<<<<< HEAD
               <Link href={`/owners/${id}/yourpet`}>
+=======
+              <Link href="/owners/yourpet">
+>>>>>>> af253ba (feat: update create pet form)
                 <button
                   type="button"
                   className="w-[127px] bg-ps-orange-100 text-ps-orange-500 text-[16px] font-bold rounded-full tracking-wide h-[48px]"
