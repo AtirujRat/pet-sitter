@@ -2,7 +2,6 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import axios from "axios";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import Link from "next/link";
 
 const API_URL = "/api/owners";
 
