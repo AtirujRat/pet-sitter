@@ -2,8 +2,8 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import axios from "axios";
 import { useRouter } from "next/router";
 import Image from "next/image";
-<<<<<<< HEAD
 import Link from "next/link";
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 
@@ -22,6 +22,8 @@ export default function CreatePetForm() {
 =======
 >>>>>>> d3a647f (feat: edit update pet form)
 >>>>>>> 53b534c (feat: edit update pet form)
+=======
+>>>>>>> f6fd319 (feat: edit update pet form)
 
 const onSubmit = (values, actions) => {
   console.log(values);
@@ -277,10 +279,13 @@ export default function CreatePetForm() {
             <div className="flex flex-wrap gap-4 justify-between">
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
               <Link href={`/owners/${id}/yourpet`}>
 =======
 =======
 >>>>>>> 53b534c (feat: edit update pet form)
+=======
+>>>>>>> f6fd319 (feat: edit update pet form)
               <Link href="/owners/yourpet">
 >>>>>>> af253ba (feat: update create pet form)
                 <button
@@ -290,6 +295,7 @@ export default function CreatePetForm() {
                   Cancel
                 </button>
               </Link>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
@@ -308,6 +314,8 @@ export default function CreatePetForm() {
               </button>
 >>>>>>> d3a647f (feat: edit update pet form)
 >>>>>>> 53b534c (feat: edit update pet form)
+=======
+>>>>>>> f6fd319 (feat: edit update pet form)
               <button
                 type="submit"
                 className="w-[127px] bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide h-[48px]"
