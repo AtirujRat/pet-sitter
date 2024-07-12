@@ -1,5 +1,6 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import Image from "next/image";
+<<<<<<< HEAD
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { supabase } from "@/utils/supabase";
@@ -29,18 +30,28 @@ const onSubmit = async (values, actions) => {
   } catch (error) {
     console.error("An unexpected error occurred:", error);
   }
+=======
+
+const onSubmit = (values, actions) => {
+  console.log(values);
+>>>>>>> 5c2ccd2 (feat: edit update pet form)
   actions.setSubmitting(false);
 };
 
 function validateRequired(value) {
   let error;
+<<<<<<< HEAD
   if (value === undefined || value === null || value === "") {
+=======
+  if (!value === undefined || value === null || value === "") {
+>>>>>>> 5c2ccd2 (feat: edit update pet form)
     error = " Required";
   }
   return error;
 }
 
 export default function UpdatePetForm() {
+<<<<<<< HEAD
   const router = useRouter();
   const { ownerId, petId } = router.query;
 >>>>>>> 3403445 (feat: create api get pet)
@@ -55,11 +66,17 @@ export default function UpdatePetForm() {
   const [initialValues, setInitialValues] = useState({
     name: "",
     pet_type: "",
+=======
+  const initialValues = {
+    petName: "",
+    petType: "",
+>>>>>>> 5c2ccd2 (feat: edit update pet form)
     breed: "",
     sex: "",
     age: "",
     color: "",
     weight: "",
+<<<<<<< HEAD
     description: "",
   });
 
@@ -149,6 +166,13 @@ export default function UpdatePetForm() {
       onSubmit={onSubmit}
       enableReinitialize
     >
+=======
+    about: "",
+  };
+
+  return (
+    <Formik initialValues={initialValues} onSubmit={onSubmit}>
+>>>>>>> 5c2ccd2 (feat: edit update pet form)
       {({ isSubmitting, errors, touched }) => (
         <Form className="w-[75%] h-fit shadow-lg rounded-xl bg-ps-white p-10">
           <div className="flex flex-col gap-10">
@@ -164,18 +188,33 @@ export default function UpdatePetForm() {
             </div>
             {/* Pet Name */}
             <div className="max-sm:hidden flex flex-col">
+<<<<<<< HEAD
               <label htmlFor="name" className="text-[16px] font-bold pb-1 flex">
                 Pet Name*
                 <ErrorMessage
                   name="name"
+=======
+              <label
+                htmlFor="petName"
+                className="text-[16px] font-bold pb-1 flex"
+              >
+                Pet Name*
+                <ErrorMessage
+                  name="petName"
+>>>>>>> 5c2ccd2 (feat: edit update pet form)
                   component="div"
                   className="text-ps-red text-b3"
                 />
               </label>
               <Field
                 type="text"
+<<<<<<< HEAD
                 id="name"
                 name="name"
+=======
+                id="petName"
+                name="petName"
+>>>>>>> 5c2ccd2 (feat: edit update pet form)
                 validate={validateRequired}
                 className="border-[#DCDFED] text-[#7B7E8F] rounded-lg"
                 placeholder="John Wick"
@@ -185,6 +224,7 @@ export default function UpdatePetForm() {
             <div className="flex justify-between">
               {/* Pet Type */}
               <div className="flex flex-col w-[48%]">
+<<<<<<< HEAD
                 <label
                   htmlFor="pet_type"
                   className="flex text-[16px] font-bold"
@@ -192,6 +232,12 @@ export default function UpdatePetForm() {
                   Pet Type*
                   <ErrorMessage
                     name="pet_type"
+=======
+                <label htmlFor="petType" className="flex text-[16px] font-bold">
+                  Pet Type*
+                  <ErrorMessage
+                    name="petType"
+>>>>>>> 5c2ccd2 (feat: edit update pet form)
                     component="div"
                     className="text-ps-red text-b3"
                   />
@@ -199,16 +245,28 @@ export default function UpdatePetForm() {
 
                 <Field
                   as="select"
+<<<<<<< HEAD
                   id="pet_type"
                   name="pet_type"
+=======
+                  id="petType"
+                  name="petType"
+>>>>>>> 5c2ccd2 (feat: edit update pet form)
                   validate={validateRequired}
                   className="select select-bordered w-full outline-none ring-0 border-[#DCDFED] text-[#7B7E8F] font-normal text-[16px]"
                 >
                   <option value="">Select your pet type</option>
+<<<<<<< HEAD
                   <option value="dog">Dog</option>
                   <option value="cat">Cat</option>
                   <option value="bird">Bird</option>
                   <option value="rabbit">Rabbit</option>
+=======
+                  <option value="Dog">Dog</option>
+                  <option value="Cat">Cat</option>
+                  <option value="Bird">Bird</option>
+                  <option value="Rabbit">Rabbit</option>
+>>>>>>> 5c2ccd2 (feat: edit update pet form)
                 </Field>
               </div>
               {/* Breed */}
@@ -334,6 +392,7 @@ export default function UpdatePetForm() {
 
             {/* About */}
             <div className="flex flex-col w-full">
+<<<<<<< HEAD
               <label
                 htmlFor="description"
                 className="text-[16px] font-bold pb-1"
@@ -344,6 +403,15 @@ export default function UpdatePetForm() {
                 as="textarea"
                 id="description"
                 name="description"
+=======
+              <label htmlFor="about" className="text-[16px] font-bold pb-1">
+                About
+              </label>
+              <Field
+                as="textarea"
+                id="about"
+                name="about"
+>>>>>>> 5c2ccd2 (feat: edit update pet form)
                 className="border-[#DCDFED] text-[#7B7E8F] rounded-lg h-[140px]"
                 placeholder="Describe more about your pet..."
               />
@@ -353,7 +421,11 @@ export default function UpdatePetForm() {
             <div className="flex gap-2 items-center cursor-pointer">
               <Image
                 src="/assets/icons/icon-bin.svg"
+<<<<<<< HEAD
                 alt="Delete Pet Icon"
+=======
+                alt="Dummy Pet Image"
+>>>>>>> 5c2ccd2 (feat: edit update pet form)
                 width={18}
                 height={20}
               />
@@ -365,7 +437,10 @@ export default function UpdatePetForm() {
               <button
                 type="button"
                 className="w-[127px] bg-ps-orange-100 text-ps-orange-500 text-[16px] font-bold rounded-full tracking-wide h-[48px]"
+<<<<<<< HEAD
                 onClick={() => router.back()} // Navigate back on cancel
+=======
+>>>>>>> 5c2ccd2 (feat: edit update pet form)
               >
                 Cancel
               </button>

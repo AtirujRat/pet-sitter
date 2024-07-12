@@ -1,4 +1,5 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
+<<<<<<< HEAD
 import axios from "axios";
 import { useRouter } from "next/router";
 import Image from "next/image";
@@ -20,6 +21,24 @@ export default function CreatePetForm() {
 >>>>>>> ce812ed (feat: set path of pet list)
 =======
 >>>>>>> 01989d5 (feat: create pet)
+=======
+import Image from "next/image";
+
+const onSubmit = (values, actions) => {
+  console.log(values);
+  actions.setSubmitting(false);
+};
+
+function validateRequired(value) {
+  let error;
+  if (!value === undefined || value === null || value === "") {
+    error = " Required";
+  }
+  return error;
+}
+
+export default function CreatePetForm() {
+>>>>>>> 5c2ccd2 (feat: edit update pet form)
   const initialValues = {
     petName: "",
     petType: "",
@@ -31,6 +50,7 @@ export default function CreatePetForm() {
     about: "",
   };
 
+<<<<<<< HEAD
   const validateRequired = (value) => {
     let error;
     if (!value || value === "") {
@@ -55,6 +75,8 @@ export default function CreatePetForm() {
     }
   };
 
+=======
+>>>>>>> 5c2ccd2 (feat: edit update pet form)
   return (
     <Formik initialValues={initialValues} onSubmit={onSubmit}>
       {({ isSubmitting, errors, touched }) => (
@@ -260,6 +282,7 @@ export default function CreatePetForm() {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
               <Link href={`/owners/${id}/yourpet`}>
 =======
 =======
@@ -278,6 +301,14 @@ export default function CreatePetForm() {
                   Cancel
                 </button>
               </Link>
+=======
+              <button
+                type="button"
+                className="w-[127px] bg-ps-orange-100 text-ps-orange-500 text-[16px] font-bold rounded-full tracking-wide h-[48px]"
+              >
+                Cancel
+              </button>
+>>>>>>> 5c2ccd2 (feat: edit update pet form)
               <button
                 type="submit"
                 className="w-[127px] bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide h-[48px]"
