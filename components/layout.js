@@ -15,18 +15,10 @@ export default function Layout({ children }) {
     "/register/owner",
     "/login/owner",
     "/register/sitter",
-<<<<<<< HEAD
     "/login/sitter",
     "/login/recovery",
     "/login/updatepassword",
-=======
->>>>>>> 28fb7cf (feat:create api get sitters by id)
-    "/sitters/[id]/profile",
   ];
-
-  const isNoLayoutRoute =
-    noLayoutRoutes.includes(router.pathname) ||
-    /^\/sitter\/\d+\/profile$/.test(router.pathname);
 
   useEffect(() => {
     setOpenModal(false);
@@ -34,7 +26,7 @@ export default function Layout({ children }) {
 
   return (
     <div className="w-full">
-      {!isNoLayoutRoute && (
+      {!noLayoutRoutes.includes(router.pathname) && (
         <NavBar setOpenModal={() => setOpenModal((prev) => !prev)} />
       )}
       {openModal && (
@@ -43,7 +35,7 @@ export default function Layout({ children }) {
         </div>
       )}
       <div>{children}</div>
-      {!isNoLayoutRoute && <Footer />}
+      {!noLayoutRoutes.includes(router.pathname) && <Footer />}
     </div>
   );
 }
