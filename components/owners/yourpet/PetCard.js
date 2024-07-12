@@ -7,57 +7,13 @@ export default function PetCard({ name, type }) {
       <div className="container-card flex flex-col justify-center items-center gap-3">
         <Image
           src="/assets/pets/pet-dummy.svg"
-<<<<<<< HEAD
-<<<<<<< HEAD
           alt="image"
-<<<<<<< HEAD
-=======
-          alt={`${type.toLowerCase()}`}
->>>>>>> 5c2ccd2 (feat: edit update pet form)
-=======
-          alt="image"
->>>>>>> b87b3ee (feat: create api get pet)
-=======
-          alt={`${type.toLowerCase()}`}
->>>>>>> 0333687 (feat: edit update pet form)
-=======
->>>>>>> 3403445 (feat: create api get pet)
-=======
-          alt={`${type.toLowerCase()}`}
->>>>>>> 5c2ccd2 (feat: edit update pet form)
-=======
-          alt="image"
->>>>>>> b87b3ee (feat: create api get pet)
           width={100}
           height={100}
           className="rounded-t-3xl rounded-full"
         />
         <p className="text-b1 text-center">{name}</p>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
         <PetTag type={type} />
-=======
-        <PetTag type={type.toLowerCase()} />
->>>>>>> 5c2ccd2 (feat: edit update pet form)
-=======
-        <PetTag type={type} />
->>>>>>> b87b3ee (feat: create api get pet)
-=======
-        <PetTag type={type.toLowerCase()} />
->>>>>>> 0333687 (feat: edit update pet form)
-=======
-        <PetTag type={type} />
->>>>>>> 3403445 (feat: create api get pet)
-=======
-        <PetTag type={type.toLowerCase()} />
->>>>>>> 5c2ccd2 (feat: edit update pet form)
-=======
-        <PetTag type={type} />
->>>>>>> b87b3ee (feat: create api get pet)
       </div>
     </section>
   );
