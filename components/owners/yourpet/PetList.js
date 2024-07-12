@@ -1,5 +1,6 @@
 import PetCard from "./PetCard";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import Link from "next/link";
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -117,6 +118,9 @@ export default function YourPage() {
 
 <<<<<<< HEAD
 =======
+=======
+import Link from "next/link";
+>>>>>>> bf2cbb2 (feat: update create pet form)
 
 export default function YourPet() {
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
@@ -146,6 +150,7 @@ export default function YourPet() {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
           <Link href={`/owners/${id}/yourpet/create`}>
 =======
 =======
@@ -157,10 +162,14 @@ export default function YourPet() {
 =======
           <Link href={`/owners/${id}/yourpet/create`}>
 >>>>>>> ce812ed (feat: set path of pet list)
+=======
+          <Link href="/owners/yourpet/create">
+>>>>>>> bf2cbb2 (feat: update create pet form)
             <button className="w-[127px] bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide h-[48px]">
               Create Pet
             </button>
           </Link>
+<<<<<<< HEAD
         </div>
         <div className="flex flex-wrap gap-4 justify-stretch">
 <<<<<<< HEAD
@@ -183,6 +192,8 @@ export default function YourPet() {
           <button className="w-[127px] bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide h-[48px]">
             Create Pet
           </button>
+=======
+>>>>>>> bf2cbb2 (feat: update create pet form)
         </div>
         <div className="flex flex-wrap gap-4 justify-stretch">
           {pets.map((pet, index) => (
