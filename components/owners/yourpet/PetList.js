@@ -1,5 +1,6 @@
 import PetCard from "./PetCard";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -54,6 +55,9 @@ export default function YourPage() {
     return <div>Error: {error}</div>;
   }
 =======
+=======
+import Link from "next/link";
+>>>>>>> bf2cbb2 (feat: update create pet form)
 
 export default function YourPet() {
   const pets = [
@@ -70,11 +74,16 @@ export default function YourPet() {
         <div className="flex justify-between items-center">
           <p className="text-h3">Your Pet</p>
 <<<<<<< HEAD
+<<<<<<< HEAD
           <Link href={`/owners/${id}/yourpet/create`}>
+=======
+          <Link href="/owners/yourpet/create">
+>>>>>>> bf2cbb2 (feat: update create pet form)
             <button className="w-[127px] bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide h-[48px]">
               Create Pet
             </button>
           </Link>
+<<<<<<< HEAD
         </div>
         <div className="flex flex-wrap gap-4 justify-stretch">
           {pets.map((pet) => (
@@ -85,6 +94,8 @@ export default function YourPet() {
           <button className="w-[127px] bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide h-[48px]">
             Create Pet
           </button>
+=======
+>>>>>>> bf2cbb2 (feat: update create pet form)
         </div>
         <div className="flex flex-wrap gap-4 justify-stretch">
           {pets.map((pet, index) => (
