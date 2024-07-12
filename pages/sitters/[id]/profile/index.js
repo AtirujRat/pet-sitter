@@ -1,5 +1,9 @@
+import SideBarSitter from "@/components/sitters/profile/SideBarSitter";
+import SitterProfileForm from "@/components/sitters/profile/SitterProfileForm";
+import NavBarSitter from "@/components/sitters/profile/NavbarSitter";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function SitterManageProfile() {
   const router = useRouter();
@@ -7,13 +11,19 @@ export default function SitterManageProfile() {
 
   const [profile, setProfile] = useState(null);
 
-  useEffect(() => {
-    if (id) {
-      // Fetch the profile data from your API
-      fetch(`/api/sitters/${id}`)
-        .then((response) => response.json())
-        .then((data) => setProfile(data));
+  const GetProfile = async () => {
+    try {
+      if (id) {
+        const response = await axios.get(`/api/sitters/${id}`);
+        setProfile(response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching profile data:", error);
     }
+  };
+
+  useEffect(() => {
+    GetProfile();
   }, [id]);
 
   if (!profile) {
@@ -21,11 +31,28 @@ export default function SitterManageProfile() {
   }
 
   return (
-    <div>
-      <h1>Profile of Sitter ID: {id}</h1>
-      <p>Email: {profile.email}</p>
-      <p>Full Name: {profile.fullname}</p>
-      {/* Display other profile information */}
+    <div className="flex">
+      <SideBarSitter />
+      <div className="w-full flex-col">
+        <NavBarSitter
+          profileImage={profile.profile_image_url}
+          fullName={profile.full_name}
+        />
+        <div className="bg-ps-gray-200 h-full flex flex-col gap-6 p-10">
+          <div className="text-h3">
+            <p>Pet Sitter Profile</p>
+          </div>
+          <SitterProfileForm />
+        </div>
+      </div>
     </div>
   );
 }
+
+SitterManageProfile.getLayout = function getLayout(page) {
+  return (
+    <>
+      <SitterManageProfile />
+    </>
+  );
+};
