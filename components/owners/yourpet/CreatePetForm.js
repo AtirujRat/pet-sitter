@@ -2,7 +2,10 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import axios from "axios";
 import { useRouter } from "next/router";
 import Image from "next/image";
+<<<<<<< HEAD
 import Link from "next/link";
+=======
+>>>>>>> d3a647f (feat: edit update pet form)
 
 const API_URL = "/api/owners/pets";
 
@@ -247,8 +250,11 @@ export default function CreatePetForm() {
             {/* Buttons */}
             <div className="flex flex-wrap gap-4 justify-between">
 <<<<<<< HEAD
+<<<<<<< HEAD
               <Link href={`/owners/${id}/yourpet`}>
 =======
+=======
+>>>>>>> 53b534c (feat: edit update pet form)
               <Link href="/owners/yourpet">
 >>>>>>> af253ba (feat: update create pet form)
                 <button
@@ -258,6 +264,14 @@ export default function CreatePetForm() {
                   Cancel
                 </button>
               </Link>
+=======
+              <button
+                type="button"
+                className="w-[127px] bg-ps-orange-100 text-ps-orange-500 text-[16px] font-bold rounded-full tracking-wide h-[48px]"
+              >
+                Cancel
+              </button>
+>>>>>>> d3a647f (feat: edit update pet form)
               <button
                 type="submit"
                 className="w-[127px] bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide h-[48px]"
