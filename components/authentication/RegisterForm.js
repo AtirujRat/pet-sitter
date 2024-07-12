@@ -37,6 +37,7 @@ function validatePhone(value) {
 
 export default function RegisterForm(props) {
   const [showPassword, setShowPassword] = useState(false);
+
   const getData = async (data) => {
     try {
       await axios.post(props.api, data);

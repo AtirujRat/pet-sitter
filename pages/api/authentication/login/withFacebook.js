@@ -3,12 +3,13 @@ import { supabase } from "@/utils/supabase";
 export async function signInWithFacebook() {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "facebook",
+    options: {
+      redirectTo: `/auth/callback`,
+    },
   });
   if (error) {
     console.log("Error :" + error);
   }
 
-  if (data.url) {
-    redirect(data.url); // use the redirect API for your server framework
-  }
+  console.log(data);
 }
