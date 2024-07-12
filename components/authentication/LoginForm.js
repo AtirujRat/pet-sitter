@@ -1,6 +1,7 @@
 import { Formik, Form, Field } from "formik";
 import { useRouter } from "next/router";
 import { supabase } from "@/utils/supabase";
+import axios from "axios";
 import { useState } from "react";
 import Link from "next/link";
 
@@ -22,18 +23,24 @@ function validatePassword(value) {
   return error;
 }
 
-export default function LoginForm() {
+export default function LoginForm(props) {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
 
   async function logIn(formData) {
-    const { data, error } = await supabase.auth.signInWithPassword(formData);
-    if (error) {
-      console.error("error");
-      return;
+    try {
+      const checkUser = await axios.post(props.api, formData);
+      const { data, error } = await supabase.auth.signInWithPassword(
+        checkUser.data.data[0]
+      );
+      if (error) {
+        console.log(error);
+        return;
+      }
+      router.push("/");
+    } catch (e) {
+      alert("connection error");
     }
-    router.push("/");
-    console.log(data);
   }
 
   return (

@@ -2,6 +2,7 @@ import { Formik, Form, Field } from "formik";
 import axios from "axios";
 import PhoneInput from "./PhoneInput";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 function validateEmail(value) {
   let error;
@@ -37,11 +38,14 @@ function validatePhone(value) {
 
 export default function RegisterForm(props) {
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
   const getData = async (data) => {
     try {
       await axios.post(props.api, data);
       alert("register successful");
+      router.push(props.route);
     } catch (e) {
+      console.log(e);
       alert("connection error");
     }
   };
@@ -106,6 +110,7 @@ export default function RegisterForm(props) {
             />
             <button
               className="absolute right-[5%] top-[55%]"
+              type="button"
               onClick={() => {
                 setShowPassword(!showPassword);
               }}
