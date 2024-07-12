@@ -73,26 +73,34 @@ export default function UpdatePetForm() {
   }
 
   return (
-    <Formik
-      initialValues={initialValues}
-      onSubmit={onSubmit}
-      enableReinitialize
-    >
-      {({ isSubmitting }) => (
-        <Form className="w-[75%] h-fit shadow-lg rounded-xl bg-ps-white p-10">
-          <div className="flex flex-col gap-10">
-            <p className="flex text-h3 gap-2">Your Pet</p>
+    <Formik initialValues={initialValues} onSubmit={onSubmit}>
+      {({ isSubmitting, errors, touched }) => (
+        <Form className="w-full h-fit sm:shadow-lg rounded-xl bg-ps-white max-sm:bg-ps-gray-100 p-10">
+          <div className="flex w-full flex-col gap-10 max-sm:gap-4">
+            <button
+              className="flex items-center gap-2 mb-3"
+              onClick={() => router.back()}
+            >
+              <Image
+                src="/assets/icons/icon-previous.svg"
+                alt="icon-previous"
+                width={24}
+                height={24}
+              />
+              <p className="flex text-h3 gap-2">Your Pet</p>
+            </button>
             {/* Image */}
             <div className="cursor-pointer w-fit h-fit">
               <Image
                 src="/assets/pets/pet-dummy.svg"
                 alt="Dummy Pet Image"
+                className="max-sm:w-[120px] max-sm:h-[120px]"
                 width={240}
                 height={240}
               />
             </div>
             {/* Pet Name */}
-            <div className="max-sm:hidden flex flex-col">
+            <div className="flex flex-col">
               <label htmlFor="name" className="text-[16px] font-bold pb-1 flex">
                 Pet Name*
                 <ErrorMessage
@@ -111,9 +119,9 @@ export default function UpdatePetForm() {
               />
             </div>
 
-            <div className="flex justify-between">
+            <div className="flex max-sm:flex-col  justify-between gap-2 max-sm:w-full max-sm:gap-4">
               {/* Pet Type */}
-              <div className="flex flex-col w-[48%]">
+              <div className="flex flex-col max-sm:w-full w-[48%]">
                 <label htmlFor="type" className="flex text-[16px] font-bold">
                   Pet Type*
                   <ErrorMessage
@@ -128,7 +136,7 @@ export default function UpdatePetForm() {
                   id="type"
                   name="type"
                   validate={validateRequired}
-                  className="select select-bordered w-full outline-none ring-0 border-[#DCDFED] text-[#7B7E8F] font-normal text-[16px]"
+                  className="select select-bordered max-sm:w-full outline-none ring-0 border-[#DCDFED] text-[#7B7E8F] font-normal text-[16px]"
                 >
                   <option value="">Select your pet type</option>
                   <option value="dog">Dog</option>
@@ -138,7 +146,7 @@ export default function UpdatePetForm() {
                 </Field>
               </div>
               {/* Breed */}
-              <div className="flex flex-col w-[48%]">
+              <div className="flex flex-col w-[48%] max-sm:w-full">
                 <label
                   htmlFor="breed"
                   className="flex text-[16px] font-bold pb-1"
@@ -155,15 +163,15 @@ export default function UpdatePetForm() {
                   id="breed"
                   name="breed"
                   validate={validateRequired}
-                  className="border-[#DCDFED] text-[#7B7E8F] rounded-lg"
+                  className="border-[#DCDFED] text-[#7B7E8F] rounded-lg max-sm:w-full"
                   placeholder="Breed of your pet"
                 />
               </div>
             </div>
 
-            <div className="flex justify-between">
+            <div className="flex max-sm:flex-col justify-between max-sm:gap-4">
               {/* Sex */}
-              <div className="flex flex-col w-[48%]">
+              <div className="flex flex-col w-[48%] max-sm:w-full">
                 <label htmlFor="sex" className="flex text-[16px] font-bold">
                   Sex*
                   <ErrorMessage
@@ -177,15 +185,15 @@ export default function UpdatePetForm() {
                   id="sex"
                   name="sex"
                   validate={validateRequired}
-                  className="select select-bordered w-full outline-none ring-0 border-[#DCDFED] text-[#7B7E8F] font-normal text-[16px]"
+                  className="select select-bordered max-sm:w-full outline-none ring-0 border-[#DCDFED] text-[#7B7E8F] font-normal text-[16px]"
                 >
                   <option value="">Select sex of your pet</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
                 </Field>
               </div>
               {/* Age */}
-              <div className="flex flex-col w-[48%]">
+              <div className="flex flex-col w-[48%] max-sm:w-full">
                 <label
                   htmlFor="age"
                   className="flex text-[16px] font-bold pb-1"
@@ -202,16 +210,16 @@ export default function UpdatePetForm() {
                   id="age"
                   name="age"
                   validate={validateRequired}
-                  className="border-[#DCDFED] text-[#7B7E8F] rounded-lg"
+                  className="border-[#DCDFED] text-[#7B7E8F] rounded-lg max-sm:w-full"
                   placeholder="Age of your pet"
                   min="1"
                 />
               </div>
             </div>
 
-            <div className="flex justify-between">
+            <div className="flex max-sm:flex-col justify-between max-sm:gap-4">
               {/* Color */}
-              <div className="flex flex-col w-[48%]">
+              <div className="flex flex-col w-[48%] max-sm:w-full">
                 <label
                   htmlFor="color"
                   className="flex text-[16px] font-bold pb-1"
@@ -228,12 +236,12 @@ export default function UpdatePetForm() {
                   id="color"
                   name="color"
                   validate={validateRequired}
-                  className="border-[#DCDFED] text-[#7B7E8F] rounded-lg"
+                  className="border-[#DCDFED] text-[#7B7E8F] rounded-lg max-sm:w-full"
                   placeholder="Describe color of your pet"
                 />
               </div>
               {/* Weight */}
-              <div className="flex flex-col w-[48%]">
+              <div className="flex flex-col w-[48%] max-sm:w-full">
                 <label
                   htmlFor="weight"
                   className="flex text-[16px] font-bold pb-1"
@@ -250,7 +258,7 @@ export default function UpdatePetForm() {
                   id="weight"
                   name="weight"
                   validate={validateRequired}
-                  className="border-[#DCDFED] text-[#7B7E8F] rounded-lg"
+                  className="border-[#DCDFED] text-[#7B7E8F] rounded-lg max-sm:w-full"
                   placeholder="Weight of your pet"
                   min="1"
                   step="0.1"
@@ -264,7 +272,7 @@ export default function UpdatePetForm() {
                 htmlFor="description"
                 className="text-[16px] font-bold pb-1"
               >
-                Description
+                About
               </label>
               <Field
                 as="textarea"
@@ -276,8 +284,8 @@ export default function UpdatePetForm() {
             </div>
 
             {/* delete pet */}
-            <div
-              className="flex gap-2 items-center cursor-pointer"
+            <button
+              className="flex gap-2 items-center max-sm:justify-center max-sm:my-3"
               onClick={handleDelete}
             >
               <Image
@@ -287,20 +295,20 @@ export default function UpdatePetForm() {
                 height={20}
               />
               <p className="text-ps-orange-500 text-b2">Delete Pet</p>
-            </div>
+            </button>
 
             {/* Buttons */}
             <div className="flex flex-wrap gap-4 justify-between">
               <button
                 type="button"
-                className="w-[127px] bg-ps-orange-100 text-ps-orange-500 text-[16px] font-bold rounded-full tracking-wide h-[48px]"
+                className="w-[127px] bg-ps-orange-100 text-ps-orange-500 text-[16px] font-bold rounded-full tracking-wide h-[48px] max-sm:w-[163px]"
                 onClick={() => router.back()}
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="w-[127px] bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide h-[48px]"
+                className="w-[127px] bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide h-[48px] max-sm:w-[163px]"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? "Updating..." : "Update Pet"}

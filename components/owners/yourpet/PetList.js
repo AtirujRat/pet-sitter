@@ -1,65 +1,15 @@
-import PetCard from "./PetCard";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import SideBarOwners from "@/components/owners/SideBarOwners";
+import PetList from "@/components/owners/yourpet/PetList";
 
-const API_URL = "/api/owners";
-
-export default function PetList() {
-  const router = useRouter();
-  const { id } = router.query;
-  const [pets, setPets] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchPets = async () => {
-      setLoading(true);
-      setError(null);
-
-      try {
-        if (id) {
-          const response = await axios.get(`${API_URL}/${id}`);
-          setPets(response.data);
-        }
-
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching pets:", error.message);
-        setError("Error fetching pets");
-        setLoading(false);
-      }
-    };
-
-    fetchPets();
-  }, [id]);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
+export default function PetListPage() {
   return (
-    <section className="w-[75%] min-h-[824px] h-fit shadow-lg rounded-xl bg-ps-white">
-      <div className="flex flex-col justify-center p-10 gap-10">
-        <div className="flex justify-between items-center">
-          <p className="text-h3">Your Pet</p>
-          <Link href={`/owners/${id}/yourpet/create`}>
-            <button className="w-[127px] bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide h-[48px]">
-              Create Pet
-            </button>
-          </Link>
-        </div>
-        <div className="flex flex-wrap gap-4 justify-stretch">
-          {pets.map((pet) => (
-            <Link key={pet.id} href={`/owners/${id}/yourpet/${pet.id}`}>
-              <PetCard key={pet.id} name={pet.name} type={pet.type} />
-            </Link>
-          ))}
+    <section className="w-full flex justify-center bg-ps-gray-100 sm:py-8 pt-4 lg:pb-32">
+      <div className="page-container w-full sm:px-20 max-w-[1440px]">
+        <div className="flex gap-8 max-lg:flex-col">
+          <SideBarOwners />
+          <div className="w-full flex justify-start">
+            <PetList />
+          </div>
         </div>
       </div>
     </section>
