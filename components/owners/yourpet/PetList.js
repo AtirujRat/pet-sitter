@@ -2,6 +2,7 @@ import PetCard from "./PetCard";
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -64,6 +65,9 @@ import Link from "next/link";
 =======
 >>>>>>> d3a647f (feat: edit update pet form)
 >>>>>>> 19e2e33 (feat: edit update pet form)
+=======
+import Link from "next/link";
+>>>>>>> 1d054ed (feat: edit update pet form)
 
 export default function YourPet() {
   const pets = [
@@ -82,16 +86,20 @@ export default function YourPet() {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
           <Link href={`/owners/${id}/yourpet/create`}>
 =======
 =======
 >>>>>>> 19e2e33 (feat: edit update pet form)
+=======
+>>>>>>> 1d054ed (feat: edit update pet form)
           <Link href="/owners/yourpet/create">
 >>>>>>> bf2cbb2 (feat: update create pet form)
             <button className="w-[127px] bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide h-[48px]">
               Create Pet
             </button>
           </Link>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
         </div>
@@ -112,6 +120,8 @@ export default function YourPet() {
 =======
 >>>>>>> d3a647f (feat: edit update pet form)
 >>>>>>> 19e2e33 (feat: edit update pet form)
+=======
+>>>>>>> 1d054ed (feat: edit update pet form)
         </div>
         <div className="flex flex-wrap gap-4 justify-stretch">
           {pets.map((pet, index) => (
