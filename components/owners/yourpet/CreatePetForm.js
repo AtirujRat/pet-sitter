@@ -1,15 +1,8 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
-<<<<<<< HEAD
-<<<<<<< HEAD
 import axios from "axios";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 const API_URL = "/api/owners";
 
@@ -17,54 +10,6 @@ export default function CreatePetForm() {
   const router = useRouter();
   const { id } = router.query;
 
-  if (!id) {
-    return <div>Loading...</div>;
-  }
-=======
->>>>>>> af253ba (feat: update create pet form)
-=======
-=======
->>>>>>> d3a647f (feat: edit update pet form)
->>>>>>> 53b534c (feat: edit update pet form)
-=======
->>>>>>> f6fd319 (feat: edit update pet form)
-=======
-import { useRouter } from "next/router";
->>>>>>> ce812ed (feat: set path of pet list)
-=======
->>>>>>> 01989d5 (feat: create pet)
-
-const API_URL = "/api/owners";
-
-export default function CreatePetForm() {
-  const router = useRouter();
-  const { id } = router.query;
-
-=======
-=======
-import axios from "axios";
-import { useRouter } from "next/router";
->>>>>>> ef81c68 (feat: create pet)
-import Image from "next/image";
-import Link from "next/link";
-
-const API_URL = "/api/owners/pets";
-
-export default function CreatePetForm() {
-<<<<<<< HEAD
->>>>>>> 5c2ccd2 (feat: edit update pet form)
-=======
-  const router = useRouter();
-  const { id } = router.query;
-
-<<<<<<< HEAD
-  if (!id) {
-    return <div>Loading...</div>;
-  }
-
->>>>>>> 1919ac5 (feat: set path of pet list)
-=======
->>>>>>> ef81c68 (feat: create pet)
   const initialValues = {
     name: "",
     type: "",
@@ -73,12 +18,8 @@ export default function CreatePetForm() {
     age: "",
     color: "",
     weight: "",
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     description: "",
   };
-
   const validateRequired = (value) => {
     let error;
     if (!value || value === "") {
@@ -90,63 +31,6 @@ export default function CreatePetForm() {
   const onSubmit = async (values, actions) => {
     try {
       const response = await axios.post(`${API_URL}/${id}`, {
-<<<<<<< HEAD
-        ...values,
-        owner_id: id,
-      });
-
-      console.log("Response:", response.data);
-      router.push(`/owners/${id}/yourpet`);
-    } catch (error) {
-      console.error("Error creating pet:", error);
-    } finally {
-      actions.setSubmitting(false);
-    }
-  };
-
-  const validateRequired = (value) => {
-    let error;
-    if (!value || value === "") {
-      error = "Required";
-    }
-    return error;
-  };
-
-  const onSubmit = async (values, actions) => {
-    try {
-      const response = await axios.post(API_URL, {
-        ...values,
-        owner_id: id,
-      });
-
-      console.log("Response:", response.data);
-      router.push(`/owners/${id}/yourpet`);
-      actions.setSubmitting(false);
-    } catch (error) {
-      console.error("Error creating pet:", error);
-      actions.setSubmitting(false);
-    }
-=======
-    about: "",
->>>>>>> 5c2ccd2 (feat: edit update pet form)
-=======
-    description: "",
->>>>>>> 8ff4edd (refactor: edit update pet form)
-  };
-
-  const validateRequired = (value) => {
-    let error;
-    if (!value || value === "") {
-      error = "Required";
-    }
-    return error;
-  };
-
-  const onSubmit = async (values, actions) => {
-    try {
-      const response = await axios.post(API_URL, {
-=======
->>>>>>> 9dc1fd7 (refactor: update api pets)
         ...values,
         owner_id: id,
       });
@@ -177,46 +61,18 @@ export default function CreatePetForm() {
             </div>
             {/* Pet Name */}
             <div className="max-sm:hidden flex flex-col">
-<<<<<<< HEAD
-<<<<<<< HEAD
-
               <label htmlFor="name" className="text-[16px] font-bold pb-1 flex">
                 Pet Name*
                 <ErrorMessage
                   name="name"
-=======
-              <label
-                htmlFor="petName"
-                className="text-[16px] font-bold pb-1 flex"
-              >
-                Pet Name*
-                <ErrorMessage
-                  name="petName"
->>>>>>> 5c2ccd2 (feat: edit update pet form)
-=======
-              <label htmlFor="name" className="text-[16px] font-bold pb-1 flex">
-                Pet Name*
-                <ErrorMessage
-                  name="name"
->>>>>>> 8ff4edd (refactor: edit update pet form)
                   component="div"
                   className="text-ps-red text-b3"
                 />
               </label>
               <Field
                 type="text"
-<<<<<<< HEAD
-<<<<<<< HEAD
                 id="name"
                 name="name"
-=======
-                id="petName"
-                name="petName"
->>>>>>> 5c2ccd2 (feat: edit update pet form)
-=======
-                id="name"
-                name="name"
->>>>>>> 8ff4edd (refactor: edit update pet form)
                 validate={validateRequired}
                 className="border-[#DCDFED] text-[#7B7E8F] rounded-lg"
                 placeholder="John Wick"
@@ -226,24 +82,10 @@ export default function CreatePetForm() {
             <div className="flex justify-between">
               {/* Pet Type */}
               <div className="flex flex-col w-[48%]">
-<<<<<<< HEAD
-<<<<<<< HEAD
                 <label htmlFor="type" className="flex text-[16px] font-bold">
                   Pet Type*
                   <ErrorMessage
                     name="type"
-=======
-                <label htmlFor="petType" className="flex text-[16px] font-bold">
-                  Pet Type*
-                  <ErrorMessage
-                    name="petType"
->>>>>>> 5c2ccd2 (feat: edit update pet form)
-=======
-                <label htmlFor="type" className="flex text-[16px] font-bold">
-                  Pet Type*
-                  <ErrorMessage
-                    name="type"
->>>>>>> 8ff4edd (refactor: edit update pet form)
                     component="div"
                     className="text-ps-red text-b3"
                   />
@@ -251,39 +93,16 @@ export default function CreatePetForm() {
 
                 <Field
                   as="select"
-<<<<<<< HEAD
-<<<<<<< HEAD
                   id="type"
                   name="type"
-=======
-                  id="petType"
-                  name="petType"
->>>>>>> 5c2ccd2 (feat: edit update pet form)
-=======
-                  id="type"
-                  name="type"
->>>>>>> 8ff4edd (refactor: edit update pet form)
                   validate={validateRequired}
                   className="select select-bordered w-full outline-none ring-0 border-[#DCDFED] text-[#7B7E8F] font-normal text-[16px]"
                 >
                   <option value="">Select your pet type</option>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 8ff4edd (refactor: edit update pet form)
                   <option value="dog">Dog</option>
                   <option value="cat">Cat</option>
                   <option value="bird">Bird</option>
                   <option value="rabbit">Rabbit</option>
-<<<<<<< HEAD
-=======
-                  <option value="Dog">Dog</option>
-                  <option value="Cat">Cat</option>
-                  <option value="Bird">Bird</option>
-                  <option value="Rabbit">Rabbit</option>
->>>>>>> 5c2ccd2 (feat: edit update pet form)
-=======
->>>>>>> 8ff4edd (refactor: edit update pet form)
                 </Field>
               </div>
               {/* Breed */}
@@ -329,18 +148,8 @@ export default function CreatePetForm() {
                   className="select select-bordered w-full outline-none ring-0 border-[#DCDFED] text-[#7B7E8F] font-normal text-[16px]"
                 >
                   <option value="">Select sex of your pet</option>
-<<<<<<< HEAD
-<<<<<<< HEAD
                   <option value="male">Male</option>
                   <option value="female">Female</option>
-=======
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
->>>>>>> 5c2ccd2 (feat: edit update pet form)
-=======
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
->>>>>>> 8ff4edd (refactor: edit update pet form)
                 </Field>
               </div>
               {/* Age */}
@@ -412,43 +221,23 @@ export default function CreatePetForm() {
                   className="border-[#DCDFED] text-[#7B7E8F] rounded-lg"
                   placeholder="Weight of your pet"
                   min="1"
-                  step="0.01"
+                  step="0.1"
                 />
               </div>
             </div>
 
             {/* About */}
             <div className="flex flex-col w-full">
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 8ff4edd (refactor: edit update pet form)
               <label
                 htmlFor="description"
                 className="text-[16px] font-bold pb-1"
               >
-<<<<<<< HEAD
-=======
-              <label htmlFor="about" className="text-[16px] font-bold pb-1">
->>>>>>> 5c2ccd2 (feat: edit update pet form)
-=======
->>>>>>> 8ff4edd (refactor: edit update pet form)
                 About
               </label>
               <Field
                 as="textarea"
-<<<<<<< HEAD
-<<<<<<< HEAD
                 id="description"
                 name="description"
-=======
-                id="about"
-                name="about"
->>>>>>> 5c2ccd2 (feat: edit update pet form)
-=======
-                id="description"
-                name="description"
->>>>>>> 8ff4edd (refactor: edit update pet form)
                 className="border-[#DCDFED] text-[#7B7E8F] rounded-lg h-[140px]"
                 placeholder="Describe more about your pet..."
               />
@@ -456,85 +245,13 @@ export default function CreatePetForm() {
 
             {/* Buttons */}
             <div className="flex flex-wrap gap-4 justify-between">
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-              <Link href={`/owners/${id}/yourpet`}>
-=======
-=======
->>>>>>> 53b534c (feat: edit update pet form)
-=======
->>>>>>> f6fd319 (feat: edit update pet form)
-=======
->>>>>>> 19e2e33 (feat: edit update pet form)
-=======
->>>>>>> 1d054ed (feat: edit update pet form)
-              <Link href="/owners/yourpet">
->>>>>>> af253ba (feat: update create pet form)
-=======
-              <Link href={`/owners/${id}/yourpet`}>
->>>>>>> ce812ed (feat: set path of pet list)
-=======
-              <Link href="/owners/yourpet">
->>>>>>> bf2cbb2 (feat: update create pet form)
-=======
-              <Link href={`/owners/${id}/yourpet`}>
->>>>>>> 1919ac5 (feat: set path of pet list)
-                <button
-                  type="button"
-                  className="w-[127px] bg-ps-orange-100 text-ps-orange-500 text-[16px] font-bold rounded-full tracking-wide h-[48px]"
-                >
-                  Cancel
-                </button>
-              </Link>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 53b534c (feat: edit update pet form)
-=======
->>>>>>> 5c2ccd2 (feat: edit update pet form)
-=======
-=======
->>>>>>> 19e2e33 (feat: edit update pet form)
               <button
                 type="button"
                 className="w-[127px] bg-ps-orange-100 text-ps-orange-500 text-[16px] font-bold rounded-full tracking-wide h-[48px]"
+                onClick={() => router.back()}
               >
                 Cancel
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-              </button>           
-=======
->>>>>>> af253ba (feat: update create pet form)
-=======
               </button>
->>>>>>> d3a647f (feat: edit update pet form)
->>>>>>> 53b534c (feat: edit update pet form)
-=======
->>>>>>> f6fd319 (feat: edit update pet form)
-=======
-              </button>
->>>>>>> 5c2ccd2 (feat: edit update pet form)
-=======
->>>>>>> bf2cbb2 (feat: update create pet form)
-=======
-              </button>
->>>>>>> d3a647f (feat: edit update pet form)
->>>>>>> 19e2e33 (feat: edit update pet form)
-=======
->>>>>>> 1d054ed (feat: edit update pet form)
               <button
                 type="submit"
                 className="w-[127px] bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide h-[48px]"
