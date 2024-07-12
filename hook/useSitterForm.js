@@ -1,10 +1,4 @@
-import axios from "axios";
-import { useRouter } from "next/router";
-
 export const useSitterForm = () => {
-  const router = useRouter();
-  const { id } = router.query;
-
   const initialValues = {
     email: "",
     password: "",
@@ -15,10 +9,8 @@ export const useSitterForm = () => {
     introduction: "",
     bank_id: "",
     account_number: "",
-    trade_name: "",
+    trad_ename: "",
     place_description: "",
-    member_status: "",
-    sitter_address_id: "",
   };
 
   const validate = (values) => {
@@ -39,15 +31,13 @@ export const useSitterForm = () => {
     }
 
     if (!values.profile_image_url) {
-      errors.profile_image_url = "Required";
-    } else if (
-      !/^(https?:\/\/.*\.(?:png|jpg))$/i.test(values.profile_image_url)
-    ) {
-      errors.profile_image_url = "Invalid URL format";
+      errors.profile_image = "Required";
+    } else if (!/^(https?:\/\/.*\.(?:png|jpg))$/i.test(values.profile_image)) {
+      errors.profile_image = "Invalid URL format";
     }
 
     if (!values.full_name) {
-      errors.full_name = "Required";
+      errors.fullname = "Required";
     }
 
     if (!values.experience) {
@@ -67,7 +57,7 @@ export const useSitterForm = () => {
     }
 
     if (!values.trade_name) {
-      errors.trade_name = "Required";
+      errors.tradename = "Required";
     }
 
     if (!values.place_description) {
@@ -86,20 +76,21 @@ export const useSitterForm = () => {
   };
 
   const onSubmit = async (values) => {
-    try {
-      const response = await axios.put(`/api/sitters/${id}`, values, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+    const id = 1; // ตัวอย่าง ID
+    const response = await fetch(`/api/sitters/${id}/profile`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(values),
+    });
 
-      console.log("Profile updated:", response.data);
-    } catch (error) {
-      if (error.response) {
-        console.error("Error updating profile:", error.response.data);
-      } else {
-        console.error("Error updating profile:", error.message);
-      }
+    if (response.ok) {
+      const data = await response.json();
+      console.log("Profile updated:", data);
+    } else {
+      const errorData = await response.json();
+      console.error("Error updating profile:", errorData);
     }
   };
 
