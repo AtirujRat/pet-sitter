@@ -1,5 +1,8 @@
 import PetCard from "./PetCard";
+<<<<<<< HEAD
 import Link from "next/link";
+=======
+>>>>>>> d3a647f (feat: edit update pet form)
 
 export default function YourPet() {
   const pets = [
@@ -14,11 +17,17 @@ export default function YourPet() {
       <div className="flex flex-col justify-center p-10 gap-10">
         <div className="flex justify-between items-center">
           <p className="text-h3">Your Pet</p>
+<<<<<<< HEAD
           <Link href="/owners/yourpet/create">
             <button className="w-[127px] bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide h-[48px]">
               Create Pet
             </button>
           </Link>
+=======
+          <button className="w-[127px] bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide h-[48px]">
+            Create Pet
+          </button>
+>>>>>>> d3a647f (feat: edit update pet form)
         </div>
         <div className="flex flex-wrap gap-4 justify-stretch">
           {pets.map((pet, index) => (
