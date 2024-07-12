@@ -23,10 +23,7 @@ export default function CreatePetForm() {
 >>>>>>> 01989d5 (feat: create pet)
 =======
 import Image from "next/image";
-<<<<<<< HEAD
 import Link from "next/link";
-=======
->>>>>>> d3a647f (feat: edit update pet form)
 
 const onSubmit = (values, actions) => {
   console.log(values);
@@ -289,6 +286,7 @@ export default function CreatePetForm() {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
               <Link href={`/owners/${id}/yourpet`}>
 =======
 =======
@@ -297,6 +295,8 @@ export default function CreatePetForm() {
 >>>>>>> f6fd319 (feat: edit update pet form)
 =======
 >>>>>>> 19e2e33 (feat: edit update pet form)
+=======
+>>>>>>> 1d054ed (feat: edit update pet form)
               <Link href="/owners/yourpet">
 >>>>>>> af253ba (feat: update create pet form)
 =======
@@ -312,6 +312,7 @@ export default function CreatePetForm() {
                   Cancel
                 </button>
               </Link>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
@@ -330,6 +331,8 @@ export default function CreatePetForm() {
 =======
 >>>>>>> d3a647f (feat: edit update pet form)
 >>>>>>> 19e2e33 (feat: edit update pet form)
+=======
+>>>>>>> 1d054ed (feat: edit update pet form)
               <button
                 type="submit"
                 className="w-[127px] bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide h-[48px]"
