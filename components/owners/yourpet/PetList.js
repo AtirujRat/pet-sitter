@@ -2,7 +2,6 @@ import PetCard from "./PetCard";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { supabase } from "@/utils/supabase";
 import axios from "axios";
 
 const API_URL = "/api/owners";
