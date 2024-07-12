@@ -1,6 +1,6 @@
 import PetCard from "./PetCard";
-<<<<<<< HEAD
 import Link from "next/link";
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 import { useRouter } from "next/router";
@@ -12,6 +12,8 @@ import { supabase } from "@/utils/supabase";
 =======
 >>>>>>> d3a647f (feat: edit update pet form)
 >>>>>>> 53b534c (feat: edit update pet form)
+=======
+>>>>>>> f6fd319 (feat: edit update pet form)
 
 export default function YourPage() {
   const router = useRouter();
@@ -69,21 +71,19 @@ export default function YourPage() {
           <p className="text-h3">Your Pet</p>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
           <Link href={`/owners/${id}/yourpet/create`}>
 =======
 =======
 >>>>>>> 53b534c (feat: edit update pet form)
+=======
+>>>>>>> f6fd319 (feat: edit update pet form)
           <Link href="/owners/yourpet/create">
 >>>>>>> af253ba (feat: update create pet form)
             <button className="w-[127px] bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide h-[48px]">
               Create Pet
             </button>
           </Link>
-=======
-          <button className="w-[127px] bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide h-[48px]">
-            Create Pet
-          </button>
->>>>>>> d3a647f (feat: edit update pet form)
         </div>
         <div className="flex flex-wrap gap-4 justify-stretch">
           {pets.map((pet) => (
