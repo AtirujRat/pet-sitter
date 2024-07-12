@@ -1,4 +1,5 @@
 import PetCard from "./PetCard";
+<<<<<<< HEAD
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -52,12 +53,23 @@ export default function YourPage() {
   if (error) {
     return <div>Error: {error}</div>;
   }
+=======
+
+export default function YourPet() {
+  const pets = [
+    { name: "Bubba", type: "Dog" },
+    { name: "Daisy", type: "Dog" },
+    { name: "I Som", type: "Cat" },
+    { name: "Noodle Bird", type: "Bird" },
+  ];
+>>>>>>> 5c2ccd2 (feat: edit update pet form)
 
   return (
     <section className="w-[75%] min-h-[824px] h-fit shadow-lg rounded-xl bg-ps-white">
       <div className="flex flex-col justify-center p-10 gap-10">
         <div className="flex justify-between items-center">
           <p className="text-h3">Your Pet</p>
+<<<<<<< HEAD
           <Link href={`/owners/${id}/yourpet/create`}>
             <button className="w-[127px] bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide h-[48px]">
               Create Pet
@@ -69,6 +81,15 @@ export default function YourPage() {
             <Link key={pet.id} href={`/owners/${id}/yourpet/${pet.id}`}>
               <PetCard key={pet.id} name={pet.name} type={pet.pet_type} />
             </Link>
+=======
+          <button className="w-[127px] bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide h-[48px]">
+            Create Pet
+          </button>
+        </div>
+        <div className="flex flex-wrap gap-4 justify-stretch">
+          {pets.map((pet, index) => (
+            <PetCard key={index} name={pet.name} type={pet.type} />
+>>>>>>> 5c2ccd2 (feat: edit update pet form)
           ))}
         </div>
       </div>
