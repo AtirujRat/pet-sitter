@@ -1,8 +1,11 @@
 import PetCard from "./PetCard";
 import Link from "next/link";
+<<<<<<< HEAD
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/utils/supabase";
+=======
+>>>>>>> af253ba (feat: update create pet form)
 
 export default function YourPage() {
   const router = useRouter();
@@ -58,7 +61,11 @@ export default function YourPage() {
       <div className="flex flex-col justify-center p-10 gap-10">
         <div className="flex justify-between items-center">
           <p className="text-h3">Your Pet</p>
+<<<<<<< HEAD
           <Link href={`/owners/${id}/yourpet/create`}>
+=======
+          <Link href="/owners/yourpet/create">
+>>>>>>> af253ba (feat: update create pet form)
             <button className="w-[127px] bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide h-[48px]">
               Create Pet
             </button>
