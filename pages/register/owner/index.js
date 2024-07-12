@@ -4,6 +4,7 @@ import SocialLogin from "@/components/authentication/SocialLogin";
 
 export default function RegisterOwner() {
   const api = "/api/authentication/register/owner";
+  const route = "/login/owner";
   return (
     <section className="w-full h-screen flex max-sm:text-scale-75 justify-center items-center relative z-10">
       <BackgroundAuth />
@@ -18,8 +19,8 @@ export default function RegisterOwner() {
         </div>
 
         <div className="max-sm:text-b2 max-sm:w-[100%] min-sm:w-[20%] flex flex-col gap-8 max-sm:gap-6">
-          <RegisterForm api={api} />
-          <SocialLogin title="Login" path="/login/owner" />
+          <RegisterForm api={api} route={route} />
+          <SocialLogin title="Login" path={route} />
         </div>
       </div>
     </section>
