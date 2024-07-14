@@ -18,6 +18,7 @@ import Link from "next/link";
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 <<<<<<< HEAD
@@ -277,6 +278,18 @@ export default function YourPage() {
 
 export default function YourPet() {
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
+=======
+import { useRouter } from "next/router";
+
+export default function YourPet() {
+  const router = useRouter();
+  const { id } = router.query;
+
+  if (!id) {
+    return <div>Loading...</div>;
+  }
+
+>>>>>>> 1919ac5 (feat: set path of pet list)
   const pets = [
     { name: "Bubba", type: "Dog" },
     { name: "Daisy", type: "Dog" },
@@ -314,6 +327,7 @@ export default function YourPet() {
       <div className="flex flex-col justify-center p-10 gap-10">
         <div className="flex justify-between items-center">
           <p className="text-h3">Your Pet</p>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -370,6 +384,9 @@ export default function YourPet() {
 =======
           <Link href="/owners/yourpet/create">
 >>>>>>> bf2cbb2 (feat: update create pet form)
+=======
+          <Link href={`/owners/${id}/yourpet/create`}>
+>>>>>>> 1919ac5 (feat: set path of pet list)
             <button className="w-[127px] bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide h-[48px]">
               Create Pet
             </button>
@@ -484,8 +501,14 @@ export default function YourPet() {
         </div>
         <div className="flex flex-wrap gap-4 justify-stretch">
           {pets.map((pet, index) => (
+<<<<<<< HEAD
             <PetCard key={index} name={pet.name} type={pet.type} />
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
+=======
+            <Link key={pet.id} href={`/owners/${id}/yourpet/${pet.id}/update`}>
+              <PetCard key={index} name={pet.name} type={pet.type} />
+            </Link>
+>>>>>>> 1919ac5 (feat: set path of pet list)
           ))}
         </div>
       </div>
