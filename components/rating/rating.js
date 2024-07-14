@@ -6,9 +6,11 @@ export default function Rating() {
         {rate.reverse().map((x, index) => (
           <button
             key={index}
-            className="flex px-2 py-1 items-center justify-center gap-1 border border-[#DCDFED] rounded-lg"
+            id={x}
+            role="checkbox"
+            className="flex px-2 py-1 items-center justify-center gap-1 border border-[#DCDFED] focus:border-ps-orange-500 rounded-lg text-b2 text-ps-gray-400 focus:text-ps-orange-500"
           >
-            <p className="text-b2 text-ps-gray-400">{x}</p>
+            {x}
             {Array.from({ length: x }).map((rate, index2) => (
               <img
                 src="/assets/star-rating.svg"

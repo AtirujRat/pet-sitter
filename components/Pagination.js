@@ -9,16 +9,16 @@ export default function Pagination() {
       <button className="next h-10 w-10 flex justify-center items-center">
         <Image src={previous} alt="previous page" />
       </button>
-      <button className="next h-10 w-10 flex justify-center items-center font-bold text-ps-gray-300 bg-ps-white active:text-ps-orange-500 active:bg-ps-orange-100 rounded-full">
+      <button className="next h-10 w-10 flex justify-center items-center font-bold text-ps-gray-300 bg-ps-white focus:text-ps-orange-500 focus:bg-ps-orange-100 rounded-full">
         1
       </button>
-      <button className="next h-10 w-10 flex justify-center items-center font-bold text-ps-gray-300 bg-ps-white active:text-ps-orange-500 active:bg-ps-orange-100 rounded-full">
+      <button className="next h-10 w-10 flex justify-center items-center font-bold text-ps-gray-300 bg-ps-white focus:text-ps-orange-500 focus:bg-ps-orange-100 rounded-full">
         2
       </button>
-      <button className="next h-10 w-10 flex justify-center items-center font-bold text-ps-gray-300 bg-ps-white active:text-ps-orange-500 active:bg-ps-orange-100 rounded-full">
+      <button className="next h-10 w-10 flex justify-center items-center font-bold text-ps-gray-300 bg-ps-white focus:text-ps-orange-500 focus:bg-ps-orange-100 rounded-full">
         3
       </button>
-      <button className="next h-10 w-10 flex justify-center items-center font-bold text-ps-gray-300 bg-ps-white active:text-ps-orange-500 active:bg-ps-orange-100 rounded-full">
+      <button className="next h-10 w-10 flex justify-center items-center font-bold text-ps-gray-300 bg-ps-white focus:text-ps-orange-500 focus:bg-ps-orange-100 rounded-full">
         4
       </button>
       <button className="next h-10 w-10 flex justify-center items-center">

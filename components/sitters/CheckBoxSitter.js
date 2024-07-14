@@ -1,8 +1,9 @@
 import { useContext, useState } from "react";
 import { sittersContext } from "@/pages/sitters";
 
-export default function Checkbox() {
-  const [selectedPets, setSelectedPets] = useState([]);
+export default function CheckBoxSitter() {
+  const { selectedPets, setSelectedPets, setPetQuery } =
+    useContext(sittersContext);
 
   function handlePetSelect(event) {
     const { value, checked } = event.target;
@@ -14,6 +15,7 @@ export default function Checkbox() {
       } else {
         updatedSelectedPets = prevSelectedPets.filter((pet) => pet !== value);
       }
+      setPetQuery(updatedSelectedPets.join("&pet="));
       return updatedSelectedPets;
     });
   }
@@ -26,8 +28,9 @@ export default function Checkbox() {
             id="dog"
             type="checkbox"
             value="Dog"
+            checked={selectedPets.includes("Dog")}
             onChange={handlePetSelect}
-            className="checkbox checkbox-primary [--chkfg:white] border border-ps-gray-300 hover:border-ps-orange-300 focus:border-ps-orange-300"
+            className="checkbox checkbox-primary [--chkfg:white] border border-ps-gray-300 hover:border-ps-orange-300"
           />
           <label htmlFor="dog" className="label-text text-[16px] font-medium">
             Dog
@@ -36,6 +39,7 @@ export default function Checkbox() {
             id="cat"
             type="checkbox"
             value="Cat"
+            checked={selectedPets.includes("Cat")}
             onChange={handlePetSelect}
             className="checkbox checkbox-primary [--chkfg:white] border border-ps-gray-300 hover:border-ps-orange-300 focus:border-ps-orange-300"
           />
@@ -46,6 +50,7 @@ export default function Checkbox() {
             id="bird"
             type="checkbox"
             value="Bird"
+            checked={selectedPets.includes("Bird")}
             onChange={handlePetSelect}
             className="checkbox checkbox-primary [--chkfg:white] border border-ps-gray-300 hover:border-ps-orange-300 focus:border-ps-orange-300"
           />
@@ -56,6 +61,7 @@ export default function Checkbox() {
             id="rabbit"
             type="checkbox"
             value="Rabbit"
+            checked={selectedPets.includes("Rabbit")}
             onChange={handlePetSelect}
             className="checkbox checkbox-primary [--chkfg:white] border border-ps-gray-300 hover:border-ps-orange-300 focus:border-ps-orange-300"
           />
