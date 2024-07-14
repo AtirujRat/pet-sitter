@@ -8,6 +8,7 @@ export default function PetCard({ name, type }) {
         <Image
           src="/assets/pets/pet-dummy.svg"
           alt="image"
+<<<<<<< HEAD
 =======
           alt={`${type.toLowerCase()}`}
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
@@ -17,11 +18,14 @@ export default function PetCard({ name, type }) {
 =======
           alt={`${type.toLowerCase()}`}
 >>>>>>> 0333687 (feat: edit update pet form)
+=======
+>>>>>>> 3403445 (feat: create api get pet)
           width={100}
           height={100}
           className="rounded-t-3xl rounded-full"
         />
         <p className="text-b1 text-center">{name}</p>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -35,6 +39,9 @@ export default function PetCard({ name, type }) {
 =======
         <PetTag type={type.toLowerCase()} />
 >>>>>>> 0333687 (feat: edit update pet form)
+=======
+        <PetTag type={type} />
+>>>>>>> 3403445 (feat: create api get pet)
       </div>
     </section>
   );
