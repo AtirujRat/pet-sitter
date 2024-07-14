@@ -1,33 +1,90 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { supabase } from "@/utils/supabase";
 
-const onSubmit = (values, actions) => {
-  console.log(values);
+const onSubmit = async (values, actions) => {
+  try {
+    // Perform the update operation here
+    const { data, error } = await supabase
+      .from("pets")
+      .update(values)
+      .eq("id", values.petId)
+      .eq("owner_id", values.ownerId);
+
+    if (error) {
+      console.error("Error updating pet data:", error);
+    } else {
+      console.log("Pet data updated successfully:", data);
+    }
+  } catch (error) {
+    console.error("An unexpected error occurred:", error);
+  }
   actions.setSubmitting(false);
 };
 
 function validateRequired(value) {
   let error;
-  if (!value === undefined || value === null || value === "") {
+  if (value === undefined || value === null || value === "") {
     error = " Required";
   }
   return error;
 }
 
 export default function UpdatePetForm() {
-  const initialValues = {
-    petName: "",
-    petType: "",
+  const router = useRouter();
+  const { ownerId, petId } = router.query;
+
+  const [initialValues, setInitialValues] = useState({
+    name: "",
+    pet_type: "",
     breed: "",
     sex: "",
     age: "",
     color: "",
     weight: "",
-    about: "",
-  };
+    description: "",
+  });
+
+  useEffect(() => {
+    const fetchPetData = async () => {
+      if (ownerId && petId) {
+        const { data, error } = await supabase
+          .from("pets")
+          .select(
+            `
+            name,
+            pet_type,
+            breed,
+            sex,
+            age,
+            color,
+            weight,
+            description
+          `
+          )
+          .eq("owner_id", ownerId)
+          .eq("id", petId)
+          .single();
+
+        if (error) {
+          console.error("Error fetching pet data:", error);
+        } else {
+          setInitialValues(data);
+        }
+      }
+    };
+
+    fetchPetData();
+  }, [ownerId, petId]);
 
   return (
-    <Formik initialValues={initialValues} onSubmit={onSubmit}>
+    <Formik
+      initialValues={initialValues}
+      onSubmit={onSubmit}
+      enableReinitialize
+    >
       {({ isSubmitting, errors, touched }) => (
         <Form className="w-[75%] h-fit shadow-lg rounded-xl bg-ps-white p-10">
           <div className="flex flex-col gap-10">
@@ -43,21 +100,18 @@ export default function UpdatePetForm() {
             </div>
             {/* Pet Name */}
             <div className="max-sm:hidden flex flex-col">
-              <label
-                htmlFor="petName"
-                className="text-[16px] font-bold pb-1 flex"
-              >
+              <label htmlFor="name" className="text-[16px] font-bold pb-1 flex">
                 Pet Name*
                 <ErrorMessage
-                  name="petName"
+                  name="name"
                   component="div"
                   className="text-ps-red text-b3"
                 />
               </label>
               <Field
                 type="text"
-                id="petName"
-                name="petName"
+                id="name"
+                name="name"
                 validate={validateRequired}
                 className="border-[#DCDFED] text-[#7B7E8F] rounded-lg"
                 placeholder="John Wick"
@@ -67,10 +121,13 @@ export default function UpdatePetForm() {
             <div className="flex justify-between">
               {/* Pet Type */}
               <div className="flex flex-col w-[48%]">
-                <label htmlFor="petType" className="flex text-[16px] font-bold">
+                <label
+                  htmlFor="pet_type"
+                  className="flex text-[16px] font-bold"
+                >
                   Pet Type*
                   <ErrorMessage
-                    name="petType"
+                    name="pet_type"
                     component="div"
                     className="text-ps-red text-b3"
                   />
@@ -78,16 +135,16 @@ export default function UpdatePetForm() {
 
                 <Field
                   as="select"
-                  id="petType"
-                  name="petType"
+                  id="pet_type"
+                  name="pet_type"
                   validate={validateRequired}
                   className="select select-bordered w-full outline-none ring-0 border-[#DCDFED] text-[#7B7E8F] font-normal text-[16px]"
                 >
                   <option value="">Select your pet type</option>
-                  <option value="Dog">Dog</option>
-                  <option value="Cat">Cat</option>
-                  <option value="Bird">Bird</option>
-                  <option value="Rabbit">Rabbit</option>
+                  <option value="dog">Dog</option>
+                  <option value="cat">Cat</option>
+                  <option value="bird">Bird</option>
+                  <option value="rabbit">Rabbit</option>
                 </Field>
               </div>
               {/* Breed */}
@@ -213,13 +270,16 @@ export default function UpdatePetForm() {
 
             {/* About */}
             <div className="flex flex-col w-full">
-              <label htmlFor="about" className="text-[16px] font-bold pb-1">
-                About
+              <label
+                htmlFor="description"
+                className="text-[16px] font-bold pb-1"
+              >
+                Description
               </label>
               <Field
                 as="textarea"
-                id="about"
-                name="about"
+                id="description"
+                name="description"
                 className="border-[#DCDFED] text-[#7B7E8F] rounded-lg h-[140px]"
                 placeholder="Describe more about your pet..."
               />
@@ -229,7 +289,7 @@ export default function UpdatePetForm() {
             <div className="flex gap-2 items-center cursor-pointer">
               <Image
                 src="/assets/icons/icon-bin.svg"
-                alt="Dummy Pet Image"
+                alt="Delete Pet Icon"
                 width={18}
                 height={20}
               />
@@ -241,6 +301,7 @@ export default function UpdatePetForm() {
               <button
                 type="button"
                 className="w-[127px] bg-ps-orange-100 text-ps-orange-500 text-[16px] font-bold rounded-full tracking-wide h-[48px]"
+                onClick={() => router.back()} // Navigate back on cancel
               >
                 Cancel
               </button>
