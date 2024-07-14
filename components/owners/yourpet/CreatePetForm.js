@@ -24,6 +24,7 @@ export default function CreatePetForm() {
 =======
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const onSubmit = (values, actions) => {
   console.log(values);
@@ -39,7 +40,17 @@ function validateRequired(value) {
 }
 
 export default function CreatePetForm() {
+<<<<<<< HEAD
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
+=======
+  const router = useRouter();
+  const { id } = router.query;
+
+  if (!id) {
+    return <div>Loading...</div>;
+  }
+
+>>>>>>> 1919ac5 (feat: set path of pet list)
   const initialValues = {
     petName: "",
     petType: "",
@@ -287,6 +298,7 @@ export default function CreatePetForm() {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
               <Link href={`/owners/${id}/yourpet`}>
 =======
 =======
@@ -305,6 +317,9 @@ export default function CreatePetForm() {
 =======
               <Link href="/owners/yourpet">
 >>>>>>> bf2cbb2 (feat: update create pet form)
+=======
+              <Link href={`/owners/${id}/yourpet`}>
+>>>>>>> 1919ac5 (feat: set path of pet list)
                 <button
                   type="button"
                   className="w-[127px] bg-ps-orange-100 text-ps-orange-500 text-[16px] font-bold rounded-full tracking-wide h-[48px]"
