@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { supabase } from "@/utils/supabase";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import axios from "axios";
 
 export default function UpdatePetForm() {
@@ -43,6 +44,13 @@ export default function UpdatePetForm() {
   const router = useRouter();
   const { ownerId, petId } = router.query;
 >>>>>>> 3403445 (feat: create api get pet)
+=======
+import axios from "axios";
+
+export default function UpdatePetForm() {
+  const router = useRouter();
+  const { Id, petId } = router.query;
+>>>>>>> 7a4243e (feat: create api update pet)
 
   const [initialValues, setInitialValues] = useState({
     name: "",
@@ -58,10 +66,14 @@ export default function UpdatePetForm() {
   useEffect(() => {
     const fetchPetData = async () => {
 <<<<<<< HEAD
+<<<<<<< HEAD
       if (Id && petId) {
 =======
       if (ownerId && petId) {
 >>>>>>> 3403445 (feat: create api get pet)
+=======
+      if (Id && petId) {
+>>>>>>> 7a4243e (feat: create api update pet)
         const { data, error } = await supabase
           .from("pets")
           .select(
@@ -82,10 +94,14 @@ export default function UpdatePetForm() {
 
         if (error) {
 <<<<<<< HEAD
+<<<<<<< HEAD
           console.error("Error fetching pet data:", error.message);
 =======
           console.error("Error fetching pet data:", error);
 >>>>>>> 3403445 (feat: create api get pet)
+=======
+          console.error("Error fetching pet data:", error.message);
+>>>>>>> 7a4243e (feat: create api update pet)
         } else {
           setInitialValues(data);
         }
@@ -94,6 +110,9 @@ export default function UpdatePetForm() {
 
     fetchPetData();
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 7a4243e (feat: create api update pet)
   }, [Id, petId]);
 
   const onSubmit = async (values, actions) => {
@@ -109,9 +128,12 @@ export default function UpdatePetForm() {
       actions.setSubmitting(false);
     }
   };
+<<<<<<< HEAD
 =======
   }, [ownerId, petId]);
 >>>>>>> 3403445 (feat: create api get pet)
+=======
+>>>>>>> 7a4243e (feat: create api update pet)
 
   function validateRequired(value) {
     let error;
