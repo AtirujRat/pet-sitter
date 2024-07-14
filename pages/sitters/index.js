@@ -31,6 +31,8 @@ export default function Sitters() {
   const [selectedRating, setSelectedRating] = useState(null);
   const [filteredRating, setFilteredRating] = useState(null);
   const [refresh, setRefresh] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   const getSitters = async () => {
     const res = await axios.get(
@@ -38,6 +40,8 @@ export default function Sitters() {
     );
     setSitters(res.data.data);
   };
+
+  // console.log("page", currentPage, "/", totalPages);
 
   const handleClearSearch = () => {
     setSearchName("");
@@ -51,7 +55,7 @@ export default function Sitters() {
 
   useEffect(() => {
     getSitters();
-  }, [refresh]);
+  }, [refresh, currentPage]);
 
   return (
     <sittersContext.Provider
@@ -76,6 +80,10 @@ export default function Sitters() {
         setFilteredRating,
         refresh,
         setRefresh,
+        currentPage,
+        setCurrentPage,
+        totalPages,
+        setTotalPages,
       }}
     >
       <section className="w-full flex justify-center bg-ps-gray-100 sm:py-8 pt-4 lg:pb-32">

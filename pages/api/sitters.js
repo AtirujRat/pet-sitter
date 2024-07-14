@@ -3,7 +3,6 @@ import { supabase } from "@/utils/supabase";
 export default async function handler(req, res) {
   const tradeName = req.query.name;
   const petType = [req.query.pet];
-  const rating = req.query.rating;
   const experience = req.query.exp;
 
   if (req.method === "GET") {
@@ -17,9 +16,6 @@ export default async function handler(req, res) {
         .order("id", { ascending: true })
         .ilike("trade_name", `%${tradeName}%`)
         .contains("pet_types", petType);
-
-        console.log(petType);
-        
 
       if (experience) {
         supabaseQuery = supabaseQuery.eq("experience", experience);
