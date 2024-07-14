@@ -3,38 +3,11 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { supabase } from "@/utils/supabase";
-
-const onSubmit = async (values, actions) => {
-  try {
-    // Perform the update operation here
-    const { data, error } = await supabase
-      .from("pets")
-      .update(values)
-      .eq("id", values.petId)
-      .eq("owner_id", values.ownerId);
-
-    if (error) {
-      console.error("Error updating pet data:", error);
-    } else {
-      console.log("Pet data updated successfully:", data);
-    }
-  } catch (error) {
-    console.error("An unexpected error occurred:", error);
-  }
-  actions.setSubmitting(false);
-};
-
-function validateRequired(value) {
-  let error;
-  if (value === undefined || value === null || value === "") {
-    error = " Required";
-  }
-  return error;
-}
+import axios from "axios";
 
 export default function UpdatePetForm() {
   const router = useRouter();
-  const { ownerId, petId } = router.query;
+  const { Id, petId } = router.query;
 
   const [initialValues, setInitialValues] = useState({
     name: "",
@@ -49,7 +22,7 @@ export default function UpdatePetForm() {
 
   useEffect(() => {
     const fetchPetData = async () => {
-      if (ownerId && petId) {
+      if (Id && petId) {
         const { data, error } = await supabase
           .from("pets")
           .select(
@@ -69,7 +42,7 @@ export default function UpdatePetForm() {
           .single();
 
         if (error) {
-          console.error("Error fetching pet data:", error);
+          console.error("Error fetching pet data:", error.message);
         } else {
           setInitialValues(data);
         }
@@ -77,7 +50,29 @@ export default function UpdatePetForm() {
     };
 
     fetchPetData();
-  }, [ownerId, petId]);
+  }, [Id, petId]);
+
+  const onSubmit = async (values, actions) => {
+    const { Id, petId } = router.query;
+
+    try {
+      const response = await axios.put(`/api/owners/${Id}/pets`, values);
+
+      console.log("Pet updated successfully:", response.data);
+    } catch (error) {
+      console.error("Error updating pet:", error.message);
+    } finally {
+      actions.setSubmitting(false);
+    }
+  };
+
+  function validateRequired(value) {
+    let error;
+    if (!value) {
+      error = "Required";
+    }
+    return error;
+  }
 
   return (
     <Formik
