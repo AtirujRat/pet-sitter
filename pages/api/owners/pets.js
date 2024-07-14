@@ -51,39 +51,12 @@ export default async function handler(req, res) {
     }
   } else if (req.method === "PUT") {
     try {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-      const { data, error } = await supabase
-        .from("pets")
-        .update(values)
-        .eq("owner_id", ownerId)
-        .eq("id", petId);
-
-      if (error) {
-        throw error;
-      }
-
-      res.status(200).json({ message: "Pet updated successfully", data });
-    } catch (error) {
-      console.error("Error updating pet:", error);
-      res.status(500).json({ message: "Error updating pet", error });
-=======
       const { id, ...updatedPet } = req.body;
+      const { ownerId, petId } = updatedPet; // Assuming these are passed in the body
 
-      const { data: updatedData, error: updateError } = await supabase
-=======
       const { data, error } = await supabase
->>>>>>> 6fecf16 (feat: create api update pet)
         .from("pets")
-        .update(values)
+        .update(updatedPet)
         .eq("owner_id", ownerId)
         .eq("id", petId);
 
@@ -91,115 +64,12 @@ export default async function handler(req, res) {
         throw error;
       }
 
-      res.status(200).json({ message: "Pet updated successfully", data });
+      return res
+        .status(200)
+        .json({ message: "Pet updated successfully", data });
     } catch (error) {
       console.error("Error updating pet:", error);
-<<<<<<< HEAD
       return res.status(500).json({ message: "Failed to update pet" });
->>>>>>> ef81c68 (feat: create pet)
-=======
-      res.status(500).json({ message: "Error updating pet", error });
->>>>>>> 6fecf16 (feat: create api update pet)
-=======
-      const { id, ...updatedPet } = req.body;
-
-      const { data: updatedData, error: updateError } = await supabase
-=======
-      const { data, error } = await supabase
->>>>>>> 7a4243e (feat: create api update pet)
-        .from("pets")
-        .update(values)
-        .eq("owner_id", ownerId)
-        .eq("id", petId);
-
-      if (error) {
-        throw error;
-      }
-
-      res.status(200).json({ message: "Pet updated successfully", data });
-    } catch (error) {
-      console.error("Error updating pet:", error);
-<<<<<<< HEAD
-      return res.status(500).json({ message: "Failed to update pet" });
->>>>>>> 01989d5 (feat: create pet)
-=======
-      res.status(500).json({ message: "Error updating pet", error });
->>>>>>> 7a4243e (feat: create api update pet)
-=======
-      const { id, ...updatedPet } = req.body;
-
-      const { data: updatedData, error: updateError } = await supabase
-=======
-      const { data, error } = await supabase
->>>>>>> 6fecf16 (feat: create api update pet)
-        .from("pets")
-        .update(values)
-        .eq("owner_id", ownerId)
-        .eq("id", petId);
-
-      if (error) {
-        throw error;
-      }
-
-      res.status(200).json({ message: "Pet updated successfully", data });
-    } catch (error) {
-      console.error("Error updating pet:", error);
-<<<<<<< HEAD
-      return res.status(500).json({ message: "Failed to update pet" });
->>>>>>> ef81c68 (feat: create pet)
-=======
-      res.status(500).json({ message: "Error updating pet", error });
->>>>>>> 6fecf16 (feat: create api update pet)
-=======
-      const { id, ...updatedPet } = req.body;
-
-      const { data: updatedData, error: updateError } = await supabase
-=======
-      const { data, error } = await supabase
->>>>>>> 7a4243e (feat: create api update pet)
-        .from("pets")
-        .update(values)
-        .eq("owner_id", ownerId)
-        .eq("id", petId);
-
-      if (error) {
-        throw error;
-      }
-
-      res.status(200).json({ message: "Pet updated successfully", data });
-    } catch (error) {
-      console.error("Error updating pet:", error);
-<<<<<<< HEAD
-      return res.status(500).json({ message: "Failed to update pet" });
->>>>>>> 01989d5 (feat: create pet)
-=======
-      res.status(500).json({ message: "Error updating pet", error });
->>>>>>> 7a4243e (feat: create api update pet)
-=======
-      const { id, ...updatedPet } = req.body;
-
-      const { data: updatedData, error: updateError } = await supabase
-=======
-      const { data, error } = await supabase
->>>>>>> 6fecf16 (feat: create api update pet)
-        .from("pets")
-        .update(values)
-        .eq("owner_id", ownerId)
-        .eq("id", petId);
-
-      if (error) {
-        throw error;
-      }
-
-      res.status(200).json({ message: "Pet updated successfully", data });
-    } catch (error) {
-      console.error("Error updating pet:", error);
-<<<<<<< HEAD
-      return res.status(500).json({ message: "Failed to update pet" });
->>>>>>> ef81c68 (feat: create pet)
-=======
-      res.status(500).json({ message: "Error updating pet", error });
->>>>>>> 6fecf16 (feat: create api update pet)
     }
   } else if (req.method === "DELETE") {
     try {
