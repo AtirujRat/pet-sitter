@@ -1,6 +1,7 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const onSubmit = (values, actions) => {
   console.log(values);
@@ -16,6 +17,13 @@ function validateRequired(value) {
 }
 
 export default function CreatePetForm() {
+  const router = useRouter();
+  const { id } = router.query;
+
+  if (!id) {
+    return <div>Loading...</div>;
+  }
+
   const initialValues = {
     petName: "",
     petType: "",
@@ -228,7 +236,7 @@ export default function CreatePetForm() {
 
             {/* Buttons */}
             <div className="flex flex-wrap gap-4 justify-between">
-              <Link href="/owners/yourpet">
+              <Link href={`/owners/${id}/yourpet`}>
                 <button
                   type="button"
                   className="w-[127px] bg-ps-orange-100 text-ps-orange-500 text-[16px] font-bold rounded-full tracking-wide h-[48px]"
