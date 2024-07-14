@@ -13,6 +13,7 @@ import { supabase } from "@/utils/supabase";
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import { useRouter } from "next/router";
 >>>>>>> 8ff4edd (refactor: edit update pet form)
@@ -144,6 +145,9 @@ import axios from "axios";
 =======
 import axios from "axios";
 >>>>>>> 7a4243e (feat: create api update pet)
+=======
+import axios from "axios";
+>>>>>>> 6fecf16 (feat: create api update pet)
 
 export default function UpdatePetForm() {
 <<<<<<< HEAD
@@ -204,7 +208,7 @@ export default function UpdatePetForm() {
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
 =======
   const router = useRouter();
-  const { ownerId, petId } = router.query;
+  const { Id, petId } = router.query;
 
   const [initialValues, setInitialValues] = useState({
     name: "",
@@ -239,6 +243,7 @@ export default function UpdatePetForm() {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       if (Id && petId) {
 =======
       if (ownerId && petId) {
@@ -261,6 +266,9 @@ export default function UpdatePetForm() {
 =======
       if (ownerId && petId) {
 >>>>>>> b87b3ee (feat: create api get pet)
+=======
+      if (Id && petId) {
+>>>>>>> 6fecf16 (feat: create api update pet)
         const { data, error } = await supabase
           .from("pets")
           .select(
@@ -287,6 +295,7 @@ export default function UpdatePetForm() {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
           console.error("Error fetching pet data:", error.message);
 =======
           console.error("Error fetching pet data:", error);
@@ -309,6 +318,9 @@ export default function UpdatePetForm() {
 =======
           console.error("Error fetching pet data:", error);
 >>>>>>> b87b3ee (feat: create api get pet)
+=======
+          console.error("Error fetching pet data:", error.message);
+>>>>>>> 6fecf16 (feat: create api update pet)
         } else {
           setInitialValues(data);
         }
@@ -316,6 +328,7 @@ export default function UpdatePetForm() {
     };
 
     fetchPetData();
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -379,6 +392,8 @@ export default function UpdatePetForm() {
     } catch (error) {
       console.error("Error updating pet:", error);
 =======
+=======
+>>>>>>> 6fecf16 (feat: create api update pet)
   }, [Id, petId]);
 
   const onSubmit = async (values, actions) => {
@@ -390,11 +405,15 @@ export default function UpdatePetForm() {
       console.log("Pet updated successfully:", response.data);
     } catch (error) {
       console.error("Error updating pet:", error.message);
+<<<<<<< HEAD
 >>>>>>> 7a4243e (feat: create api update pet)
+=======
+>>>>>>> 6fecf16 (feat: create api update pet)
     } finally {
       actions.setSubmitting(false);
     }
   };
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -421,6 +440,8 @@ export default function UpdatePetForm() {
   }
 <<<<<<< HEAD
 =======
+=======
+>>>>>>> 6fecf16 (feat: create api update pet)
 
   function validateRequired(value) {
     let error;
@@ -429,7 +450,10 @@ export default function UpdatePetForm() {
     }
     return error;
   }
+<<<<<<< HEAD
 >>>>>>> 7a4243e (feat: create api update pet)
+=======
+>>>>>>> 6fecf16 (feat: create api update pet)
 
   return (
     <Formik
