@@ -51,23 +51,20 @@ export default async function handler(req, res) {
     }
   } else if (req.method === "PUT") {
     try {
-      const { id, ...updatedPet } = req.body;
-
-      const { data: updatedData, error: updateError } = await supabase
+      const { data, error } = await supabase
         .from("pets")
-        .update(updatedPet)
-        .eq("id", id);
+        .update(values)
+        .eq("owner_id", ownerId)
+        .eq("id", petId);
 
-      if (updateError) {
-        throw new Error("Error updating pet in the database");
+      if (error) {
+        throw error;
       }
 
-      return res
-        .status(200)
-        .json({ message: "Pet updated successfully", pet: updatedData[0] });
+      res.status(200).json({ message: "Pet updated successfully", data });
     } catch (error) {
       console.error("Error updating pet:", error);
-      return res.status(500).json({ message: "Failed to update pet" });
+      res.status(500).json({ message: "Error updating pet", error });
     }
   } else if (req.method === "DELETE") {
     try {
