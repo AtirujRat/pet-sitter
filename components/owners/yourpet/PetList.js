@@ -208,15 +208,55 @@ export default function YourPet() {
 >>>>>>> 0333687 (feat: edit update pet form)
 =======
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { supabase } from "@/utils/supabase";
 
-export default function YourPet() {
+export default function YourPage() {
   const router = useRouter();
   const { id } = router.query;
+  const [pets, setPets] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  if (!id) {
+  useEffect(() => {
+    const fetchPets = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        if (id) {
+          const { data, error } = await supabase
+            .from("pets")
+            .select("*")
+            .eq("owner_id", id);
+
+          if (error) {
+            throw error;
+          }
+
+          if (data && Array.isArray(data)) {
+            setPets(data);
+          } else {
+            setError("Data received is not in expected format or empty");
+          }
+        }
+
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching pets:", error.message);
+        setError("Error fetching pets");
+        setLoading(false);
+      }
+    };
+
+    fetchPets();
+  }, [id]);
+
+  if (loading) {
     return <div>Loading...</div>;
   }
 
+<<<<<<< HEAD
 >>>>>>> ce812ed (feat: set path of pet list)
   const pets = [
     { name: "Bubba", type: "Dog" },
@@ -241,6 +281,11 @@ export default function YourPet() {
 >>>>>>> b87b3ee (feat: create api get pet)
 =======
 >>>>>>> 0333687 (feat: edit update pet form)
+=======
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+>>>>>>> 3403445 (feat: create api get pet)
 
   return (
     <section className="w-[75%] min-h-[824px] h-fit shadow-lg rounded-xl bg-ps-white">
@@ -307,6 +352,7 @@ export default function YourPet() {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
           {pets.map((pet) => (
             <Link key={pet.id} href={`/owners/${id}/yourpet/${pet.id}`}>
 <<<<<<< HEAD
@@ -329,6 +375,11 @@ export default function YourPet() {
 =======
               <PetCard key={pet.id} name={pet.name} type={pet.type} />
 >>>>>>> 8ff4edd (refactor: edit update pet form)
+=======
+          {pets.map((pet) => (
+            <Link key={pet.id} href={`/owners/${id}/yourpet/${pet.id}`}>
+              <PetCard key={pet.id} name={pet.name} type={pet.pet_type} />
+>>>>>>> 3403445 (feat: create api get pet)
             </Link>
 =======
 >>>>>>> 19e2e33 (feat: edit update pet form)
