@@ -6,6 +6,7 @@ import Image from "next/image";
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { supabase } from "@/utils/supabase";
@@ -61,6 +62,12 @@ import { useRouter } from "next/router";
 import { supabase } from "@/utils/supabase";
 
 >>>>>>> 3403445 (feat: create api get pet)
+=======
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { supabase } from "@/utils/supabase";
+
+>>>>>>> b87b3ee (feat: create api get pet)
 const onSubmit = async (values, actions) => {
   try {
     // Perform the update operation here
@@ -79,6 +86,7 @@ const onSubmit = async (values, actions) => {
     console.error("An unexpected error occurred:", error);
   }
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> b87b3ee (feat: create api get pet)
 =======
 
@@ -92,6 +100,8 @@ const onSubmit = (values, actions) => {
 const onSubmit = (values, actions) => {
   console.log(values);
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
+=======
+>>>>>>> b87b3ee (feat: create api get pet)
   actions.setSubmitting(false);
 };
 
@@ -102,6 +112,7 @@ function validateRequired(value) {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   if (value === undefined || value === null || value === "") {
 =======
   if (!value === undefined || value === null || value === "") {
@@ -118,6 +129,9 @@ function validateRequired(value) {
 =======
   if (!value === undefined || value === null || value === "") {
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
+=======
+  if (value === undefined || value === null || value === "") {
+>>>>>>> b87b3ee (feat: create api get pet)
     error = " Required";
   }
   return error;
@@ -183,10 +197,19 @@ export default function UpdatePetForm() {
 =======
 
 export default function UpdatePetForm() {
+<<<<<<< HEAD
   const initialValues = {
     petName: "",
     petType: "",
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
+=======
+  const router = useRouter();
+  const { ownerId, petId } = router.query;
+
+  const [initialValues, setInitialValues] = useState({
+    name: "",
+    pet_type: "",
+>>>>>>> b87b3ee (feat: create api get pet)
     breed: "",
     sex: "",
     age: "",
@@ -197,15 +220,19 @@ export default function UpdatePetForm() {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> b87b3ee (feat: create api get pet)
 =======
 >>>>>>> 3403445 (feat: create api get pet)
+=======
+>>>>>>> b87b3ee (feat: create api get pet)
     description: "",
   });
 
   useEffect(() => {
     const fetchPetData = async () => {
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -231,6 +258,9 @@ export default function UpdatePetForm() {
 =======
       if (Id && petId) {
 >>>>>>> 7a4243e (feat: create api update pet)
+=======
+      if (ownerId && petId) {
+>>>>>>> b87b3ee (feat: create api get pet)
         const { data, error } = await supabase
           .from("pets")
           .select(
@@ -256,6 +286,7 @@ export default function UpdatePetForm() {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
           console.error("Error fetching pet data:", error.message);
 =======
           console.error("Error fetching pet data:", error);
@@ -275,6 +306,9 @@ export default function UpdatePetForm() {
 =======
           console.error("Error fetching pet data:", error.message);
 >>>>>>> 7a4243e (feat: create api update pet)
+=======
+          console.error("Error fetching pet data:", error);
+>>>>>>> b87b3ee (feat: create api get pet)
         } else {
           setInitialValues(data);
         }
@@ -282,6 +316,7 @@ export default function UpdatePetForm() {
     };
 
     fetchPetData();
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -427,15 +462,23 @@ export default function UpdatePetForm() {
 
   return (
 >>>>>>> 3403445 (feat: create api get pet)
+=======
+  }, [ownerId, petId]);
+
+  return (
+>>>>>>> b87b3ee (feat: create api get pet)
     <Formik
       initialValues={initialValues}
       onSubmit={onSubmit}
       enableReinitialize
     >
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> b87b3ee (feat: create api get pet)
 =======
 >>>>>>> 3403445 (feat: create api get pet)
+=======
+>>>>>>> b87b3ee (feat: create api get pet)
       {({ isSubmitting, errors, touched }) => (
 =======
       {({ isSubmitting }) => (
@@ -460,6 +503,7 @@ export default function UpdatePetForm() {
             </div>
             {/* Pet Name */}
             <div className="max-sm:hidden flex flex-col">
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -500,12 +544,19 @@ export default function UpdatePetForm() {
 >>>>>>> 3403445 (feat: create api get pet)
 =======
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
+=======
+              <label htmlFor="name" className="text-[16px] font-bold pb-1 flex">
+                Pet Name*
+                <ErrorMessage
+                  name="name"
+>>>>>>> b87b3ee (feat: create api get pet)
                   component="div"
                   className="text-ps-red text-b3"
                 />
               </label>
               <Field
                 type="text"
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -533,6 +584,10 @@ export default function UpdatePetForm() {
                 id="petName"
                 name="petName"
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
+=======
+                id="name"
+                name="name"
+>>>>>>> b87b3ee (feat: create api get pet)
                 validate={validateRequired}
                 className="border-[#DCDFED] text-[#7B7E8F] rounded-lg"
                 placeholder="John Wick"
@@ -548,14 +603,18 @@ export default function UpdatePetForm() {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> b87b3ee (feat: create api get pet)
 =======
 >>>>>>> 3403445 (feat: create api get pet)
+=======
+>>>>>>> b87b3ee (feat: create api get pet)
                 <label
                   htmlFor="pet_type"
                   className="flex text-[16px] font-bold"
                 >
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
                   Pet Type*
@@ -593,6 +652,11 @@ export default function UpdatePetForm() {
 >>>>>>> 3403445 (feat: create api get pet)
 =======
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
+=======
+                  Pet Type*
+                  <ErrorMessage
+                    name="pet_type"
+>>>>>>> b87b3ee (feat: create api get pet)
                     component="div"
                     className="text-ps-red text-b3"
                   />
@@ -600,6 +664,7 @@ export default function UpdatePetForm() {
 
                 <Field
                   as="select"
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -632,6 +697,10 @@ export default function UpdatePetForm() {
                   id="petType"
                   name="petType"
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
+=======
+                  id="pet_type"
+                  name="pet_type"
+>>>>>>> b87b3ee (feat: create api get pet)
                   validate={validateRequired}
                   className="select select-bordered w-full outline-none ring-0 border-[#DCDFED] text-[#7B7E8F] font-normal text-[16px]"
                 >
@@ -641,14 +710,18 @@ export default function UpdatePetForm() {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> b87b3ee (feat: create api get pet)
 =======
 >>>>>>> 3403445 (feat: create api get pet)
+=======
+>>>>>>> b87b3ee (feat: create api get pet)
                   <option value="dog">Dog</option>
                   <option value="cat">Cat</option>
                   <option value="bird">Bird</option>
                   <option value="rabbit">Rabbit</option>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
@@ -671,6 +744,8 @@ export default function UpdatePetForm() {
 >>>>>>> 3403445 (feat: create api get pet)
 =======
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
+=======
+>>>>>>> b87b3ee (feat: create api get pet)
                 </Field>
               </div>
               {/* Breed */}
@@ -811,15 +886,19 @@ export default function UpdatePetForm() {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> b87b3ee (feat: create api get pet)
 =======
 >>>>>>> 3403445 (feat: create api get pet)
+=======
+>>>>>>> b87b3ee (feat: create api get pet)
               <label
                 htmlFor="description"
                 className="text-[16px] font-bold pb-1"
               >
                 Description
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
               </label>
@@ -860,6 +939,13 @@ export default function UpdatePetForm() {
 >>>>>>> 3403445 (feat: create api get pet)
 =======
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
+=======
+              </label>
+              <Field
+                as="textarea"
+                id="description"
+                name="description"
+>>>>>>> b87b3ee (feat: create api get pet)
                 className="border-[#DCDFED] text-[#7B7E8F] rounded-lg h-[140px]"
                 placeholder="Describe more about your pet..."
               />
@@ -894,8 +980,12 @@ export default function UpdatePetForm() {
             <div className="flex gap-2 items-center cursor-pointer">
               <Image
                 src="/assets/icons/icon-bin.svg"
+<<<<<<< HEAD
                 alt="Dummy Pet Image"
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
+=======
+                alt="Delete Pet Icon"
+>>>>>>> b87b3ee (feat: create api get pet)
                 width={18}
                 height={20}
               />
@@ -921,6 +1011,7 @@ export default function UpdatePetForm() {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                 onClick={() => router.back()} // Navigate back on cancel
 =======
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
@@ -937,6 +1028,9 @@ export default function UpdatePetForm() {
 >>>>>>> 3403445 (feat: create api get pet)
 =======
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
+=======
+                onClick={() => router.back()} // Navigate back on cancel
+>>>>>>> b87b3ee (feat: create api get pet)
               >
                 Cancel
               </button>
