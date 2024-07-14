@@ -1,42 +1,41 @@
 export function PetTag({ type }) {
-  let styles = {};
-  let text = "";
+  let styles = {
+    textColor: "text-gray-500",
+    borderColor: "border-gray-500",
+    bgColor: "bg-gray-100",
+  };
+  let text = "Unknown";
 
-  if (type.toLowerCase() === "dog") {
+  const lowerCaseType = type ? type.toLowerCase() : null;
+
+  if (lowerCaseType === "dog") {
     styles = {
       textColor: "text-ps-green-500",
       borderColor: "border-ps-green-500",
       bgColor: "bg-ps-green-100",
     };
     text = "Dog";
-  } else if (type.toLowerCase() === "cat") {
+  } else if (lowerCaseType === "cat") {
     styles = {
       textColor: "text-ps-pink-500",
       borderColor: "border-ps-pink-500",
       bgColor: "bg-ps-pink-100",
     };
     text = "Cat";
-  } else if (type.toLowerCase() === "bird") {
+  } else if (lowerCaseType === "bird") {
     styles = {
       textColor: "text-ps-blue-500",
       borderColor: "border-ps-blue-500",
       bgColor: "bg-ps-blue-100",
     };
     text = "Bird";
-  } else if (type.toLowerCase() === "rabbit") {
+  } else if (lowerCaseType === "rabbit") {
     styles = {
       textColor: "text-ps-orange-400",
       borderColor: "border-ps-orange-400",
       bgColor: "bg-ps-yellow-100",
     };
     text = "Rabbit";
-  } else {
-    styles = {
-      textColor: "text-gray-500",
-      borderColor: "border-gray-500",
-      bgColor: "bg-gray-100",
-    };
-    text = "Unknown";
   }
 
   return (

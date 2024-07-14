@@ -7,13 +7,13 @@ export default function PetCard({ name, type }) {
       <div className="container-card flex flex-col justify-center items-center gap-3">
         <Image
           src="/assets/pets/pet-dummy.svg"
-          alt={`${type.toLowerCase()}`}
+          alt="image"
           width={100}
           height={100}
           className="rounded-t-3xl rounded-full"
         />
         <p className="text-b1 text-center">{name}</p>
-        <PetTag type={type.toLowerCase()} />
+        <PetTag type={type} />
       </div>
     </section>
   );
