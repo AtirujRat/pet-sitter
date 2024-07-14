@@ -5,6 +5,7 @@ import pin from "/public/assets/sitters/icon-location.svg";
 import { DogBadge, CatBadge, BirdBadge, RabbitBadge } from "./PetBadges";
 import { sittersContext } from "@/pages/sitters";
 import { useContext } from "react";
+import { useMediaQuery } from "react-responsive";
 
 const calculateRatingStars = (bookings) => {
   let ratingStars = 0;
@@ -22,8 +23,9 @@ const calculateRatingStars = (bookings) => {
 const ITEMS_PER_PAGE = 5;
 
 export default function SittersList() {
-  const { sitters, filteredRating, currentPage, setTotalPages} =
+  const { sitters, filteredRating, currentPage, setTotalPages } =
     useContext(sittersContext);
+  const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
   const petTypeComponents = {
     Dog: DogBadge,
     Cat: CatBadge,
@@ -38,10 +40,12 @@ export default function SittersList() {
 
   setTotalPages(Math.ceil(filteredSitters.length / ITEMS_PER_PAGE));
 
-  const currentSitters = filteredSitters.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
-  );
+  const currentSitters = isDesktop
+    ? filteredSitters.slice(
+        (currentPage - 1) * ITEMS_PER_PAGE,
+        currentPage * ITEMS_PER_PAGE
+      )
+    : filteredSitters;
 
   return (
     <div className="sitters-list flex-2 w-[70%] flex flex-col gap-4 max-lg:w-full min-w-[325px] max-sm:px-5">

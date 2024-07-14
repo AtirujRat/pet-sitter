@@ -3,11 +3,7 @@ import { useContext } from "react";
 
 export default function RatingSitter() {
   const rate = [1, 2, 3, 4, 5];
-  const { setSelectedRating } = useContext(sittersContext);
-
-  function selectRating(num) {
-    setSelectedRating(num);
-  }
+  const { setSelectedRating, selectedRating } = useContext(sittersContext);
 
   return (
     <div className="flex flex-wrap gap-2">
@@ -15,8 +11,12 @@ export default function RatingSitter() {
         <button
           key={index}
           id={num}
-          onClick={() => selectRating(num)}
-          className="flex px-2 py-1 items-center justify-center gap-1 border border-[#DCDFED] focus:border-ps-orange-500 rounded-lg text-b2 text-ps-gray-400 focus:text-ps-orange-500"
+          onClick={() => setSelectedRating(num)}
+          className={`flex px-2 py-1 items-center justify-center gap-1 border rounded-lg text-b2 ${
+            selectedRating === num
+              ? "border-ps-orange-500 text-ps-orange-500"
+              : "border-ps-gray-200 text-ps-gray-400"
+          } `}
         >
           {num}
           {Array.from({ length: num }).map((_, index) => (

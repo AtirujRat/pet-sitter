@@ -9,17 +9,6 @@ import Pagination from "@/components/Pagination";
 import axios from "axios";
 import { useState, useEffect, createContext } from "react";
 
-// export async function getStaticProps() {
-//   const res = await fetch("http://localhost:3000/api/sitters");
-//   const data = await res.json();
-
-//   return {
-//     props: {
-//       data,
-//     },
-//   };
-// }
-
 export const sittersContext = createContext();
 
 export default function Sitters() {
@@ -38,10 +27,12 @@ export default function Sitters() {
     const res = await axios.get(
       `http://localhost:3000/api/sitters?name=${searchName}&pet=${petQuery}&exp=${experience}`
     );
+
+    if (res.statusText !== "OK") {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
     setSitters(res.data.data);
   };
-
-  // console.log("page", currentPage, "/", totalPages);
 
   const handleClearSearch = () => {
     setSearchName("");
@@ -133,3 +124,14 @@ export default function Sitters() {
     </sittersContext.Provider>
   );
 }
+
+// export async function getStaticProps() {
+//   const res = await fetch("http://localhost:3000/api/sitters");
+//   const data = await res.json();
+
+//   return {
+//     props: {
+//       data,
+//     },
+//   };
+// }
