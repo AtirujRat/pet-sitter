@@ -1,5 +1,6 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import axios from "axios";
 import { useRouter } from "next/router";
 import Image from "next/image";
@@ -40,22 +41,14 @@ export default function CreatePetForm() {
   const { id } = router.query;
 
 =======
+=======
+import axios from "axios";
+import { useRouter } from "next/router";
+>>>>>>> ef81c68 (feat: create pet)
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
 
-const onSubmit = (values, actions) => {
-  console.log(values);
-  actions.setSubmitting(false);
-};
-
-function validateRequired(value) {
-  let error;
-  if (!value === undefined || value === null || value === "") {
-    error = " Required";
-  }
-  return error;
-}
+const API_URL = "/api/owners/pets";
 
 export default function CreatePetForm() {
 <<<<<<< HEAD
@@ -64,11 +57,14 @@ export default function CreatePetForm() {
   const router = useRouter();
   const { id } = router.query;
 
+<<<<<<< HEAD
   if (!id) {
     return <div>Loading...</div>;
   }
 
 >>>>>>> 1919ac5 (feat: set path of pet list)
+=======
+>>>>>>> ef81c68 (feat: create pet)
   const initialValues = {
     petName: "",
     petType: "",
@@ -131,6 +127,30 @@ export default function CreatePetForm() {
 =======
     about: "",
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
+  };
+
+  const validateRequired = (value) => {
+    let error;
+    if (!value || value === "") {
+      error = "Required";
+    }
+    return error;
+  };
+
+  const onSubmit = async (values, actions) => {
+    try {
+      const response = await axios.post(API_URL, {
+        ...values,
+        owner_id: id,
+      });
+
+      console.log("Response:", response.data);
+      router.push(`/owners/${id}/yourpet`);
+      actions.setSubmitting(false);
+    } catch (error) {
+      console.error("Error creating pet:", error);
+      actions.setSubmitting(false);
+    }
   };
 
   return (
