@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { supabase } from "@/utils/supabase";
 import axios from "axios";
+<<<<<<< HEAD
 
 export default function UpdatePetForm() {
   const router = useRouter();
@@ -48,6 +49,8 @@ function validateRequired(value) {
   }
   return error;
 }
+=======
+>>>>>>> 6fecf16 (feat: create api update pet)
 
 export default function UpdatePetForm() {
 <<<<<<< HEAD
@@ -57,7 +60,7 @@ export default function UpdatePetForm() {
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
 =======
   const router = useRouter();
-  const { ownerId, petId } = router.query;
+  const { Id, petId } = router.query;
 
   const [initialValues, setInitialValues] = useState({
     name: "",
@@ -78,10 +81,14 @@ export default function UpdatePetForm() {
   useEffect(() => {
     const fetchPetData = async () => {
 <<<<<<< HEAD
+<<<<<<< HEAD
       if (Id && petId) {
 =======
       if (ownerId && petId) {
 >>>>>>> b87b3ee (feat: create api get pet)
+=======
+      if (Id && petId) {
+>>>>>>> 6fecf16 (feat: create api update pet)
         const { data, error } = await supabase
           .from("pets")
           .select(
@@ -102,10 +109,14 @@ export default function UpdatePetForm() {
 
         if (error) {
 <<<<<<< HEAD
+<<<<<<< HEAD
           console.error("Error fetching pet data:", error.message);
 =======
           console.error("Error fetching pet data:", error);
 >>>>>>> b87b3ee (feat: create api get pet)
+=======
+          console.error("Error fetching pet data:", error.message);
+>>>>>>> 6fecf16 (feat: create api update pet)
         } else {
           setInitialValues(data);
         }
@@ -114,6 +125,9 @@ export default function UpdatePetForm() {
 
     fetchPetData();
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 6fecf16 (feat: create api update pet)
   }, [Id, petId]);
 
   const onSubmit = async (values, actions) => {
@@ -137,6 +151,7 @@ export default function UpdatePetForm() {
     }
     return error;
   }
+<<<<<<< HEAD
 
   return (
     <Formik
@@ -153,6 +168,8 @@ export default function UpdatePetForm() {
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
 =======
   }, [ownerId, petId]);
+=======
+>>>>>>> 6fecf16 (feat: create api update pet)
 
   return (
     <Formik
