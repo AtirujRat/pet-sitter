@@ -1,21 +1,57 @@
 import PetCard from "./PetCard";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { supabase } from "@/utils/supabase";
 
-export default function YourPet() {
+export default function YourPage() {
   const router = useRouter();
   const { id } = router.query;
+  const [pets, setPets] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  if (!id) {
+  useEffect(() => {
+    const fetchPets = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        if (id) {
+          const { data, error } = await supabase
+            .from("pets")
+            .select("*")
+            .eq("owner_id", id);
+
+          if (error) {
+            throw error;
+          }
+
+          if (data && Array.isArray(data)) {
+            setPets(data);
+          } else {
+            setError("Data received is not in expected format or empty");
+          }
+        }
+
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching pets:", error.message);
+        setError("Error fetching pets");
+        setLoading(false);
+      }
+    };
+
+    fetchPets();
+  }, [id]);
+
+  if (loading) {
     return <div>Loading...</div>;
   }
 
-  const pets = [
-    { name: "Bubba", type: "Dog" },
-    { name: "Daisy", type: "Dog" },
-    { name: "I Som", type: "Cat" },
-    { name: "Noodle Bird", type: "Bird" },
-  ];
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <section className="w-[75%] min-h-[824px] h-fit shadow-lg rounded-xl bg-ps-white">
@@ -29,9 +65,9 @@ export default function YourPet() {
           </Link>
         </div>
         <div className="flex flex-wrap gap-4 justify-stretch">
-          {pets.map((pet, index) => (
-            <Link key={pet.id} href={`/owners/${id}/yourpet/${pet.id}/update`}>
-              <PetCard key={index} name={pet.name} type={pet.type} />
+          {pets.map((pet) => (
+            <Link key={pet.id} href={`/owners/${id}/yourpet/${pet.id}`}>
+              <PetCard key={pet.id} name={pet.name} type={pet.pet_type} />
             </Link>
           ))}
         </div>
