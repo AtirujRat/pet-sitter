@@ -55,6 +55,7 @@ export default async function handler(req, res) {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       const { data, error } = await supabase
         .from("pets")
         .update(values)
@@ -119,6 +120,25 @@ export default async function handler(req, res) {
 =======
       res.status(500).json({ message: "Error updating pet", error });
 >>>>>>> 7a4243e (feat: create api update pet)
+=======
+      const { id, ...updatedPet } = req.body;
+
+      const { data: updatedData, error: updateError } = await supabase
+        .from("pets")
+        .update(updatedPet)
+        .eq("id", id);
+
+      if (updateError) {
+        throw new Error("Error updating pet in the database");
+      }
+
+      return res
+        .status(200)
+        .json({ message: "Pet updated successfully", pet: updatedData[0] });
+    } catch (error) {
+      console.error("Error updating pet:", error);
+      return res.status(500).json({ message: "Failed to update pet" });
+>>>>>>> ef81c68 (feat: create pet)
     }
   } else if (req.method === "DELETE") {
     try {

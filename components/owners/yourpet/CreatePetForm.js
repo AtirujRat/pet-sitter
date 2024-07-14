@@ -1,5 +1,6 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import axios from "axios";
 import { useRouter } from "next/router";
 import Image from "next/image";
@@ -22,22 +23,14 @@ export default function CreatePetForm() {
 =======
 >>>>>>> 01989d5 (feat: create pet)
 =======
+=======
+import axios from "axios";
+import { useRouter } from "next/router";
+>>>>>>> ef81c68 (feat: create pet)
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
 
-const onSubmit = (values, actions) => {
-  console.log(values);
-  actions.setSubmitting(false);
-};
-
-function validateRequired(value) {
-  let error;
-  if (!value === undefined || value === null || value === "") {
-    error = " Required";
-  }
-  return error;
-}
+const API_URL = "/api/owners/pets";
 
 export default function CreatePetForm() {
 <<<<<<< HEAD
@@ -46,11 +39,14 @@ export default function CreatePetForm() {
   const router = useRouter();
   const { id } = router.query;
 
+<<<<<<< HEAD
   if (!id) {
     return <div>Loading...</div>;
   }
 
 >>>>>>> 1919ac5 (feat: set path of pet list)
+=======
+>>>>>>> ef81c68 (feat: create pet)
   const initialValues = {
     petName: "",
     petType: "",
@@ -63,6 +59,9 @@ export default function CreatePetForm() {
   };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> ef81c68 (feat: create pet)
   const validateRequired = (value) => {
     let error;
     if (!value || value === "") {
@@ -87,8 +86,11 @@ export default function CreatePetForm() {
     }
   };
 
+<<<<<<< HEAD
 =======
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
+=======
+>>>>>>> ef81c68 (feat: create pet)
   return (
     <Formik initialValues={initialValues} onSubmit={onSubmit}>
       {({ isSubmitting, errors, touched }) => (
