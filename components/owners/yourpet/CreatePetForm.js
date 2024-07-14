@@ -7,6 +7,7 @@ import Link from "next/link";
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 const API_URL = "/api/owners";
 
@@ -28,27 +29,14 @@ export default function CreatePetForm() {
 =======
 import { useRouter } from "next/router";
 >>>>>>> ce812ed (feat: set path of pet list)
+=======
+>>>>>>> 01989d5 (feat: create pet)
 
-const onSubmit = (values, actions) => {
-  console.log(values);
-  actions.setSubmitting(false);
-};
-
-function validateRequired(value) {
-  let error;
-  if (!value === undefined || value === null || value === "") {
-    error = " Required";
-  }
-  return error;
-}
+const API_URL = "/api/owners/pets";
 
 export default function CreatePetForm() {
   const router = useRouter();
   const { id } = router.query;
-
-  if (!id) {
-    return <div>Loading...</div>;
-  }
 
   const initialValues = {
     petName: "",
@@ -82,6 +70,30 @@ export default function CreatePetForm() {
     } catch (error) {
       console.error("Error creating pet:", error);
     } finally {
+      actions.setSubmitting(false);
+    }
+  };
+
+  const validateRequired = (value) => {
+    let error;
+    if (!value || value === "") {
+      error = "Required";
+    }
+    return error;
+  };
+
+  const onSubmit = async (values, actions) => {
+    try {
+      const response = await axios.post(API_URL, {
+        ...values,
+        owner_id: id,
+      });
+
+      console.log("Response:", response.data);
+      router.push(`/owners/${id}/yourpet`);
+      actions.setSubmitting(false);
+    } catch (error) {
+      console.error("Error creating pet:", error);
       actions.setSubmitting(false);
     }
   };
