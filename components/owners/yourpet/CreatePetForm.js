@@ -3,7 +3,6 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
 
 const API_URL = "/api/owners/pets";
 
@@ -12,12 +11,15 @@ export default function CreatePetForm() {
   const { id } = router.query;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
   if (!id) {
     return <div>Loading...</div>;
   }
 
 >>>>>>> ce812ed (feat: set path of pet list)
+=======
+>>>>>>> 01989d5 (feat: create pet)
   const initialValues = {
     petName: "",
     petType: "",
