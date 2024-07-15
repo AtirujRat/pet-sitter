@@ -1,4 +1,10 @@
+import axios from "axios";
+import { useRouter } from "next/router";
+
 export const useSitterForm = () => {
+  const router = useRouter();
+  const { id } = router.query;
+
   const initialValues = {
     email: "",
     password: "",
@@ -9,8 +15,10 @@ export const useSitterForm = () => {
     introduction: "",
     bank_id: "",
     account_number: "",
-    trad_ename: "",
+    trade_name: "",
     place_description: "",
+    member_status: "",
+    sitter_address_id: "",
   };
 
   const validate = (values) => {
@@ -31,13 +39,15 @@ export const useSitterForm = () => {
     }
 
     if (!values.profile_image_url) {
-      errors.profile_image = "Required";
-    } else if (!/^(https?:\/\/.*\.(?:png|jpg))$/i.test(values.profile_image)) {
-      errors.profile_image = "Invalid URL format";
+      errors.profile_image_url = "Required";
+    } else if (
+      !/^(https?:\/\/.*\.(?:png|jpg))$/i.test(values.profile_image_url)
+    ) {
+      errors.profile_image_url = "Invalid URL format";
     }
 
     if (!values.full_name) {
-      errors.fullname = "Required";
+      errors.full_name = "Required";
     }
 
     if (!values.experience) {
