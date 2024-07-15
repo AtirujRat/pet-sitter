@@ -34,7 +34,7 @@ import { useRouter } from "next/router";
 =======
 >>>>>>> 01989d5 (feat: create pet)
 
-const API_URL = "/api/pets";
+const API_URL = "/api/owners";
 
 export default function CreatePetForm() {
   const router = useRouter();
@@ -90,6 +90,7 @@ export default function CreatePetForm() {
   const onSubmit = async (values, actions) => {
     try {
       const response = await axios.post(`${API_URL}/${id}`, {
+<<<<<<< HEAD
         ...values,
         owner_id: id,
       });
@@ -144,15 +145,17 @@ export default function CreatePetForm() {
   const onSubmit = async (values, actions) => {
     try {
       const response = await axios.post(API_URL, {
+=======
+>>>>>>> 9dc1fd7 (refactor: update api pets)
         ...values,
         owner_id: id,
       });
 
       console.log("Response:", response.data);
       router.push(`/owners/${id}/yourpet`);
-      actions.setSubmitting(false);
     } catch (error) {
       console.error("Error creating pet:", error);
+    } finally {
       actions.setSubmitting(false);
     }
   };
