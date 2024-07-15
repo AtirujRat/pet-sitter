@@ -12,7 +12,7 @@ const SearchBar = () => {
   return (
     <div className="w-full max-w-[1064px] px-4 py-4 lg:px-0">
       {/* Checkbox */}
-      <div className="bg-ps-gray-200 md:px-6 px-4 w-full flex flex-col sm:flex-row sm:items-center sm:h-[72px] text-ps-gray-600 rounded-t-3xl">
+      <div className="bg-ps-gray-100 md:px-6 px-4 w-full flex flex-col sm:flex-row sm:items-center sm:h-[72px] text-ps-gray-600 rounded-t-3xl">
         <div className="text-ps-gray-600 font-bold pt-4 pb-2 pr-3 sm:pt-0 sm:pb-0 w-[100px]">
           Pet Type:
         </div>

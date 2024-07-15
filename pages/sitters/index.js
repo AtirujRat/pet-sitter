@@ -19,6 +19,7 @@ export default function Sitters() {
   const [refresh, setRefresh] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(true);
 
   const getSitters = async () => {
     const res = await axios.get(
@@ -29,6 +30,7 @@ export default function Sitters() {
       throw new Error(`HTTP error! status: ${res.status}`);
     }
     setSitters(res.data.data);
+    setLoading(false);
   };
 
   const handleClearSearch = () => {
@@ -72,6 +74,7 @@ export default function Sitters() {
         setCurrentPage,
         totalPages,
         setTotalPages,
+        loading
       }}
     >
       <section className="w-full flex justify-center bg-ps-gray-100 sm:py-8 pt-4 lg:pb-32">

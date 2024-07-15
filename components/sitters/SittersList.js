@@ -1,12 +1,13 @@
 import ReviewRating from "./ReviewRating";
 import Link from "next/link";
 import Image from "next/image";
-import pin from "/public/assets/sitters/icon-location.svg";
-import goUp from "/public/assets/sitters/icon-up.svg";
+import pin from "/public/assets/icons/icon-location.svg";
+import goUp from "/public/assets/icons/icon-up.svg";
 import { DogBadge, CatBadge, BirdBadge, RabbitBadge } from "./PetBadges";
 import { sittersContext } from "@/pages/sitters";
 import { useContext } from "react";
 import { useMediaQuery } from "react-responsive";
+import Loading from "../Loading";
 
 const calculateRatingStars = (bookings) => {
   let ratingStars = 0;
@@ -24,7 +25,7 @@ const calculateRatingStars = (bookings) => {
 const ITEMS_PER_PAGE = 5;
 
 export default function SittersList() {
-  const { sitters, filteredRating, currentPage, setTotalPages } =
+  const { sitters, filteredRating, currentPage, setTotalPages, loading } =
     useContext(sittersContext);
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
   const petTypeComponents = {
@@ -48,11 +49,17 @@ export default function SittersList() {
       )
     : filteredSitters;
 
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <>
       <div className="sitters-list flex-2 w-[70%] flex flex-col gap-4 max-lg:w-full min-w-[325px] max-sm:px-5">
         {currentSitters.length === 0 ? (
-          <div className="notfound text-center text-ps-gray-600 text-b1  h-full w-full p-4 rounded-2xl max-xl:flex-col">Sitter not found</div>
+          <div className="notfound text-center text-ps-gray-600 text-b1  h-full w-full p-4 rounded-2xl max-xl:flex-col">
+            Sitter not found
+          </div>
         ) : (
           currentSitters.map((sitter) => {
             let galleryImage = "https://placehold.co/400x300";

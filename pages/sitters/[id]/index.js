@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Image from "next/image";
-import pin from "/public/assets/sitters/icon-location.svg";
+import pin from "/public/assets/icons/icon-location.svg";
 import ReviewRating from "@/components/sitters/ReviewRating";
 import Loading from "@/components/Loading";
 import {
@@ -63,7 +63,7 @@ export default function SitterDetails() {
             <b2 className="text-b2 text-ps-gray-500">{sitter.introduction}</b2>
           </div>
           <div className="service flex flex-col gap-3">
-            <h3 className="text-h3">Service</h3>
+            <h3 className="text-h3">Services</h3>
             <b2 className="text-b2 text-ps-gray-500">{sitter.services}</b2>
           </div>
           <div className="my-place flex flex-col gap-3">
