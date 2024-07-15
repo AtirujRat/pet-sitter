@@ -1,7 +1,6 @@
 import React from "react";
 import { GoogleMap, useJsApiLoader, MarkerF } from "@react-google-maps/api";
 import { useSearch } from "@/pages/context/Search";
-// import { useState } from "react";
 
 export default function Map() {
   const { searchLat, searchLng } = useSearch();

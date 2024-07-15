@@ -1,7 +1,7 @@
 import { getGeocode, getLatLng } from "use-places-autocomplete";
 import { useSearch } from "@/pages/context/Search";
 import { useEffect } from "react";
-import Map from "@/components/Map";
+import Map from "@/components/map/Map";
 
 export default function PlaceSearch() {
   const { location, address } = useSearch();
