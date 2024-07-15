@@ -1,14 +1,13 @@
+// Import necessary utilities or dependencies
 import { supabase } from "@/utils/supabase";
 
 export default async function handler(req, res) {
   const { path } = req.query;
-  const [id, ...rest] = path;
+  const [id, petId] = path;
 
   if (req.method === "GET") {
     try {
-      if (rest.length > 0) {
-        const petId = rest[0];
-
+      if (petId) {
         const { data: pet, error } = await supabase
           .from("pets")
           .select("*")
@@ -43,21 +42,25 @@ export default async function handler(req, res) {
     }
   } else if (req.method === "POST") {
     try {
-      const pet = req.body;
+      const { name, type, breed, sex, age, color, weight, description } =
+        req.body;
+
+      if (!name || !type || !breed || !sex || !age || !color || !weight) {
+        return res.status(400).json({ message: "Missing required fields" });
+      }
 
       const { data: newPet, error } = await supabase.from("pets").insert([
         {
           owner_id: id,
-          profile_image_url: pet.profile_image_url || "",
-          name: pet.name,
-          type: pet.type,
-          breed: pet.breed,
-          age: pet.age,
-          sex: pet.sex,
-          color: pet.color,
-          weight: pet.weight,
-          description: pet.description,
-          status: "Active",
+          name,
+          type,
+          breed,
+          sex,
+          age,
+          color,
+          weight,
+          description,
+          status: "active",
           created_at: new Date(),
           updated_at: new Date(),
         },
@@ -76,9 +79,12 @@ export default async function handler(req, res) {
     }
   } else if (req.method === "PUT") {
     try {
-      const petId = rest[0];
       const { name, type, breed, sex, age, color, weight, description } =
         req.body;
+
+      if (!name || !type || !breed || !sex || !age || !color || !weight) {
+        return res.status(400).json({ message: "Missing required fields" });
+      }
 
       const { data: updatedPet, error } = await supabase
         .from("pets")
@@ -101,10 +107,6 @@ export default async function handler(req, res) {
         throw error;
       }
 
-      if (!updatedPet) {
-        return res.status(404).json({ message: "Pet not found" });
-      }
-
       return res
         .status(200)
         .json({ message: "Pet updated successfully", data: updatedPet });
@@ -114,25 +116,30 @@ export default async function handler(req, res) {
     }
   } else if (req.method === "DELETE") {
     try {
-      const petId = rest[0];
+      if (!petId) {
+        return res.status(400).json({ message: "Pet ID is required" });
+      }
 
-      const { error } = await supabase
+      const { data: deletedPet, error } = await supabase
         .from("pets")
         .delete()
         .eq("owner_id", id)
-        .eq("id", petId);
+        .eq("id", petId)
+        .single();
 
       if (error) {
         throw error;
       }
 
-      return res.status(200).json({ message: "Pet deleted successfully" });
+      return res
+        .status(200)
+        .json({ message: "Pet deleted successfully", data: deletedPet });
     } catch (error) {
       console.error("Error deleting pet:", error.message);
       return res.status(500).json({ message: "Error deleting pet" });
     }
   } else {
-    res.setHeader("Allow", ["GET", "POST", "PUT", "DELETE"]);
+    res.setHeader("Allow", ["GET", "PUT", "POST", "DELETE"]);
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }
