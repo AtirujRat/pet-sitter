@@ -1,8 +1,8 @@
 import SittersList from "@/components/sitters/SittersList";
 import PageTitleDesktop from "@/components/sitters/PageTitleDesktop";
-import SearchBarSitter from "@/components/sitters/SearchBarSitter";
+import SearchBarSitter from "@/components/sitters/searchbar/SearchBarSitter";
 import PageTitleMobile from "@/components/sitters/PageTitleMobile";
-import Pagination from "@/components/Pagination";
+import Pagination from "@/components/sitters/Pagination";
 import axios from "axios";
 import { useState, useEffect, createContext } from "react";
 
@@ -77,7 +77,7 @@ export default function Sitters() {
       <section className="w-full flex justify-center bg-ps-gray-100 sm:py-8 pt-4 lg:pb-32">
         <div className="page-container w-full sm:px-20 max-w-[1440px] flex flex-col items-center">
           <PageTitleDesktop />
-          <div className="content-container flex gap-8 max-lg:flex-col lg:mb-11">
+          <div className="content-container flex gap-8 max-lg:flex-col lg:mb-11 w-full">
             <SearchBarSitter />
             <PageTitleMobile />
             <SittersList sitters={sitters} />

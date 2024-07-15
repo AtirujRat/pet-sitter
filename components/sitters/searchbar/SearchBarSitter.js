@@ -1,13 +1,12 @@
 import CheckBoxSitter from "./CheckBoxSitter";
 import RatingSitter from "./RatingSitter";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import Image from "next/image";
 import search from "/public/assets/sitters/icon-search.svg";
 import { sittersContext } from "@/pages/sitters";
 
-const SearchBar = () => {
+const SearchBarSitter = () => {
   const {
-    getSitters,
     searchName,
     setSearchName,
     experience,
@@ -88,4 +87,4 @@ const SearchBar = () => {
   );
 };
 
-export default SearchBar;
+export default SearchBarSitter;
