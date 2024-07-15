@@ -9,7 +9,6 @@ export default function Layout({ children }) {
   const [openModal, setOpenModal] = useState(false);
   const router = useRouter();
   const pathName = usePathname();
-  console.log(pathName);
   const noLayoutRoutes = [
     "/login",
     "/register",
@@ -32,7 +31,7 @@ export default function Layout({ children }) {
       )}
       {openModal && (
         <div className="absolute top-15 right-0 size-10 bg-ps-white w-full h-full z-10">
-          <LoginMobile />
+          <LoginMobile setOpenModal={() => setOpenModal((prev) => !prev)} />
         </div>
       )}
       <div>{children}</div>
