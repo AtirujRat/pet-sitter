@@ -1,14 +1,10 @@
-import usePlacesAutocomplete, {
-  getGeocode,
-  getLatLng,
-} from "use-places-autocomplete";
+import { getGeocode, getLatLng } from "use-places-autocomplete";
 import { useSearch } from "@/pages/context/Search";
 import { useEffect } from "react";
 import Map from "@/components/Map";
 
 export default function PlaceSearch() {
   const { location, address } = useSearch();
-  const check = Object.keys(address).length;
   let addresses = `${address.add} ${address.subDistrict} ${address.district} ${address.province} ${address.zip_code}`;
 
   const handleClick = () => {
