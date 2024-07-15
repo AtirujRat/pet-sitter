@@ -1,7 +1,7 @@
 // import HeaderHomes from "@/components/home/HeaderHome";
 // import ContentHomePage from "@/components/home/ContentHomePage";
 // import FindAPetSister from "@/components/home/FindAPetSister";
-import AddressForm from "@/components/AddressForm";
+import AddressForm from "@/components/map/AddressForm";
 
 export default function Home() {
   return (
