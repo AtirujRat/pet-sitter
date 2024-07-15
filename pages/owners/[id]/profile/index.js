@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-
 import SideBarOwners from "@/components/owners/SideBarOwners";
 import Profile from "@/components/owners/Profile";
 

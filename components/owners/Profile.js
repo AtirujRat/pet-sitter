@@ -7,6 +7,8 @@ import * as Yup from "yup";
 import PhoneInput from "../authentication/PhoneInput";
 import IdInput from "../authentication/IdInput";
 import { supabase } from "@/utils/supabase";
+import { v4 as uuidv4 } from "uuid";
+import { useParams } from "next/navigation";
 
 function validateName(value) {
   let error;
@@ -44,6 +46,24 @@ async function validateNumber(value) {
     error = "Id number must have 13 digits";
   } else if (owner_id_number[0]) {
     error = "This Id number already exist";
+  }
+
+  return error;
+}
+
+async function validateEmail(value) {
+  let error;
+  let { data: owner_email } = await supabase
+    .from("owners")
+    .select("*")
+    .eq("email", value);
+
+  if (!value) {
+    error = "Required";
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
+    error = "Invalid email address";
+  } else if (owner_email[0]) {
+    error = "This email already exist";
   }
 
   return error;
@@ -89,21 +109,11 @@ const ImageChange = ({ setPreview }) => {
   );
 };
 
-//upload to storage
-const uploadImageHandle = async (file) => {
-  const { data, error } = await supabase.storage
-    .from("owner")
-    .upload("profile_image/" + file?.name, file);
-  if (data) {
-    console.log(data);
-  } else if (error) {
-    console.log(error);
-  }
-};
-
 const Profile = () => {
   const [preview, setPreview] = useState(null);
   const [userData, setUser] = useState();
+
+  const params = useParams();
 
   const getUser = async () => {
     const {
@@ -120,45 +130,41 @@ const Profile = () => {
     getUser();
   }, []);
 
-  //insert to table
   const updateProfile = async (formData) => {
-    if (userData !== null) {
-      const { error } = await supabase
-        .from("owners")
-        .update({
-          profile_image_url: formData.image.name,
-          full_name: formData.name,
-          email: formData.email,
-          phone_number: formData.phone,
-          id_number: formData.id_number,
-          date_of_birth: formData.date_of_birth,
-          updated_at: new Date(),
-        })
-        .eq("email", userData?.email)
-        .select();
-      if (error) {
-        console.log(error);
-      }
-    }
-  };
+    const fileName = uuidv4();
 
-  async function validateEmail(value) {
-    let error;
-    let { data: owner_email } = await supabase
+    const { image_url, image_url_error } = await supabase.storage
+      .from("owner")
+      .upload("profile_image/" + fileName, formData.image);
+
+    if (image_url_error) {
+      console.log(image_url_error);
+    }
+
+    const publicAttachmentUrl = supabase.storage
+      .from("owner/profile_image")
+      .getPublicUrl(fileName);
+
+    const { data, error } = await supabase
       .from("owners")
-      .select("*")
-      .eq("email", value);
-
-    if (!value) {
-      error = "Required";
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
-      error = "Invalid email address";
-    } else if (owner_email[0]) {
-      error = "This email already exist";
+      .update({
+        profile_image_url: publicAttachmentUrl.data.publicUrl,
+        full_name: formData.name,
+        email: userData?.email,
+        phone_number: formData.phone,
+        id_number: formData.id_number,
+        date_of_birth: formData.date_of_birth,
+        updated_at: new Date(),
+      })
+      .eq("id", params?.id)
+      .select();
+    if (error) {
+      console.log(error);
     }
 
-    return error;
-  }
+    console.log("Updated Successfully");
+    alert("Profile has been updated");
+  };
 
   return (
     <Formik
@@ -175,7 +181,6 @@ const Profile = () => {
       })}
       onSubmit={(values, { setSubmitting }) => {
         updateProfile(values);
-        uploadImageHandle(values.image);
         setSubmitting(false);
         console.log(values);
       }}
@@ -227,8 +232,10 @@ const Profile = () => {
               <Field
                 type="email"
                 name="email"
+                disabled={true}
+                placeholder={userData?.email}
                 className="text-b2 rounded-lg border-2 border-ps-gray-200 focus:border-ps-gray-200 focus:ring-0"
-                validate={validateEmail}
+                // validate={validateEmail}
               />
               {errors.email && touched.email && (
                 <div className="text-ps-red">{errors.email}</div>

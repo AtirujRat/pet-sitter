@@ -15,6 +15,7 @@ import axios from "axios";
 
 const NavBar = ({ setOpenModal }) => {
   const [userData, setUserData] = useState();
+  const [userId, setUserId] = useState();
 
   async function getUser() {
     const {
@@ -35,7 +36,19 @@ const NavBar = ({ setOpenModal }) => {
       return;
     }
     setUserData(user);
+
+    const { data: owners_id, error: getIdError } = await supabase
+      .from("owners")
+      .select("id")
+      .eq("email", user.email);
+
+    if (getIdError) {
+      console.log(getIdError);
+    }
+
+    setUserId(owners_id[0].id);
   }
+
   const newUser = async (data) => {
     try {
       await axios.post("/api/authentication/register/owner", data);
@@ -93,7 +106,7 @@ const NavBar = ({ setOpenModal }) => {
                     className="dropdown-content menu bg-base-100 rounded-lg z-[1] w-52 p-2 text-b2 drop-shadow-costom px-0"
                   >
                     <li className="py-2 text-b2">
-                      <Link href={"/account"}>
+                      <Link href={`owners/${userId}/profile`}>
                         <Image src={profile} alt="profile" width={20} />
                         Profile
                       </Link>
