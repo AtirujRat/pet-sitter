@@ -3,6 +3,7 @@ import { supabase } from "@/utils/supabase";
 export default async function handler(req, res) {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   const { path } = req.query;
   const [id, ...rest] = path;
 
@@ -136,6 +137,8 @@ export default async function handler(req, res) {
   } else {
     res.setHeader("Allow", ["GET", "POST", "PUT", "DELETE"]);
 =======
+=======
+>>>>>>> 8ff4edd (refactor: edit update pet form)
   if (req.method === "POST") {
     const pet = req.body;
     const { data, error } = await supabase.from("pets").insert([
@@ -155,6 +158,7 @@ export default async function handler(req, res) {
         updated_at: new Date(),
       },
     ]);
+<<<<<<< HEAD
 =======
   const { path } = req.query;
   const [id, ...rest] = path;
@@ -294,6 +298,15 @@ export default async function handler(req, res) {
 =======
     res.setHeader("Allow", ["GET", "POST", "PUT", "DELETE"]);
 >>>>>>> 9dc1fd7 (refactor: update api pets)
+=======
+
+    if (error) {
+      return res.status(500).json({ error: error.message });
+    }
+    return res.status(201).json(data);
+  } else {
+    res.setHeader("Allow", ["POST"]);
+>>>>>>> 8ff4edd (refactor: edit update pet form)
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }
