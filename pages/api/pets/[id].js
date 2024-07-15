@@ -1,53 +1,60 @@
-import { supabase } from "@/utils/supabase";
+import { supabase } from "@/utils/supabase"; // Adjust the import path as per your project structure
 
 export default async function handler(req, res) {
-  const { id } = req.query;
+  const { path } = req.query;
+  const [id, petId] = path; // Destructure the path array into id and petId
 
+  // Handle GET method
   if (req.method === "GET") {
     try {
-      const getPetsByOwner = async (ownerId) => {
-        const { data, error } = await supabase
+      if (petId) {
+        // Fetch a single pet by id belonging to the owner_id
+        const { data: pet, error } = await supabase
           .from("pets")
           .select("*")
-          .eq("owner_id", ownerId);
+          .eq("owner_id", id)
+          .eq("id", petId)
+          .single();
 
         if (error) {
           throw error;
         }
 
-<<<<<<< HEAD
-        return data;
-=======
-        if (data && Array.isArray(data)) {
-          return data;
+        if (pet) {
+          return res.status(200).json(pet);
         } else {
-          return [];
+          return res.status(404).json({ message: "Pet not found" });
         }
->>>>>>> 8ff4edd (refactor: edit update pet form)
-      };
-
-      const pets = await getPetsByOwner(id);
-
-      if (pets.length > 0) {
-        return res.status(200).json(pets);
       } else {
-        return res
-          .status(404)
-          .json({ message: "No pets found for this owner." });
+        // Fetch all pets belonging to the owner_id
+        const { data: pets, error } = await supabase
+          .from("pets")
+          .select("*")
+          .eq("owner_id", id);
+
+        if (error) {
+          throw error;
+        }
+
+        return res.status(200).json(pets);
       }
     } catch (error) {
-      return res.status(500).json({ error: error.message });
+      console.error("Error fetching pet:", error.message);
+      return res.status(500).json({ message: "Error fetching pet" });
     }
-  } else if (req.method === "PUT") {
+  }
+  // Handle PUT method for updating a pet
+  else if (req.method === "PUT") {
     try {
       const { name, type, breed, sex, age, color, weight, description } =
         req.body;
 
       if (!name || !type || !breed || !sex || !age || !color || !weight) {
-        return res.status(400).json({ error: "Missing required fields" });
+        return res.status(400).json({ message: "Missing required fields" });
       }
 
-      const { data, error } = await supabase
+      // Update the pet with the specified petId belonging to the owner_id
+      const { data: updatedPet, error } = await supabase
         .from("pets")
         .update({
           name,
@@ -60,47 +67,93 @@ export default async function handler(req, res) {
           description,
           updated_at: new Date(),
         })
-<<<<<<< HEAD
-        .eq("id", id)
+        .eq("owner_id", id)
+        .eq("id", petId)
         .single();
 
       if (error) {
         throw error;
-=======
-        .eq("id", id);
-
-      if (error) {
-        return res.status(500).json({ error: error.message });
->>>>>>> 8ff4edd (refactor: edit update pet form)
       }
 
       return res
         .status(200)
-        .json({ message: "Pet updated successfully", data });
+        .json({ message: "Pet updated successfully", data: updatedPet });
     } catch (error) {
       console.error("Error updating pet:", error.message);
-      return res.status(500).json({ error: "Error updating pet" });
+      return res.status(500).json({ message: "Error updating pet" });
     }
-<<<<<<< HEAD
-  } else if (req.method === "DELETE") {
+  }
+  // Handle POST method for creating a new pet
+  else if (req.method === "POST") {
     try {
-      const { error } = await supabase.from("pets").delete().eq("id", id);
+      const { name, type, breed, sex, age, color, weight, description } =
+        req.body;
+
+      // Validate required fields
+      if (!name || !type || !breed || !sex || !age || !color || !weight) {
+        return res.status(400).json({ message: "Missing required fields" });
+      }
+
+      // Insert new pet into database
+      const { data: newPet, error } = await supabase.from("pets").insert([
+        {
+          owner_id: id,
+          name,
+          type,
+          breed,
+          sex,
+          age,
+          color,
+          weight,
+          description,
+          status: "active",
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+      ]);
 
       if (error) {
         throw error;
       }
 
-      return res.status(200).json({ message: "Pet deleted successfully" });
+      // Return success response
+      return res
+        .status(201)
+        .json({ message: "Pet created successfully", data: newPet[0] });
+    } catch (error) {
+      console.error("Error creating pet:", error.message);
+      return res.status(500).json({ message: "Error creating pet" });
+    }
+  }
+  // Handle unsupported methods
+  else if (req.method === "DELETE") {
+    try {
+      if (!petId) {
+        return res.status(400).json({ message: "Pet ID is required" });
+      }
+
+      const { data: deletedPet, error } = await supabase
+        .from("pets")
+        .delete()
+        .eq("owner_id", id)
+        .eq("id", petId)
+        .single();
+
+      if (error) {
+        throw error;
+      }
+
+      return res
+        .status(200)
+        .json({ message: "Pet deleted successfully", data: deletedPet });
     } catch (error) {
       console.error("Error deleting pet:", error.message);
-      return res.status(500).json({ error: "Error deleting pet" });
+      return res.status(500).json({ message: "Error deleting pet" });
     }
-  } else {
-    res.setHeader("Allow", ["GET", "PUT", "DELETE"]);
-=======
-  } else {
-    res.setHeader("Allow", ["GET", "PUT"]);
->>>>>>> 8ff4edd (refactor: edit update pet form)
-    return res.status(405).end(`Method ${req.method} Not Allowed`);
+  }
+  // Handle unsupported methods
+  else {
+    res.setHeader("Allow", ["GET", "PUT", "POST", "DELETE"]);
+    return res.status(405);
   }
 }
