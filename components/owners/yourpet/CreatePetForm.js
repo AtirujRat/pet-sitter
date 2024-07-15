@@ -34,7 +34,7 @@ import { useRouter } from "next/router";
 =======
 >>>>>>> 01989d5 (feat: create pet)
 
-const API_URL = "/api/owners/pets";
+const API_URL = "/api/pets";
 
 export default function CreatePetForm() {
   const router = useRouter();
@@ -66,13 +66,14 @@ export default function CreatePetForm() {
 =======
 >>>>>>> ef81c68 (feat: create pet)
   const initialValues = {
-    petName: "",
-    petType: "",
+    name: "",
+    type: "",
     breed: "",
     sex: "",
     age: "",
     color: "",
     weight: "",
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     description: "",
@@ -127,6 +128,9 @@ export default function CreatePetForm() {
 =======
     about: "",
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
+=======
+    description: "",
+>>>>>>> 8ff4edd (refactor: edit update pet form)
   };
 
   const validateRequired = (value) => {
@@ -171,6 +175,7 @@ export default function CreatePetForm() {
             {/* Pet Name */}
             <div className="max-sm:hidden flex flex-col">
 <<<<<<< HEAD
+<<<<<<< HEAD
 
               <label htmlFor="name" className="text-[16px] font-bold pb-1 flex">
                 Pet Name*
@@ -185,6 +190,12 @@ export default function CreatePetForm() {
                 <ErrorMessage
                   name="petName"
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
+=======
+              <label htmlFor="name" className="text-[16px] font-bold pb-1 flex">
+                Pet Name*
+                <ErrorMessage
+                  name="name"
+>>>>>>> 8ff4edd (refactor: edit update pet form)
                   component="div"
                   className="text-ps-red text-b3"
                 />
@@ -192,12 +203,17 @@ export default function CreatePetForm() {
               <Field
                 type="text"
 <<<<<<< HEAD
+<<<<<<< HEAD
                 id="name"
                 name="name"
 =======
                 id="petName"
                 name="petName"
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
+=======
+                id="name"
+                name="name"
+>>>>>>> 8ff4edd (refactor: edit update pet form)
                 validate={validateRequired}
                 className="border-[#DCDFED] text-[#7B7E8F] rounded-lg"
                 placeholder="John Wick"
@@ -207,6 +223,7 @@ export default function CreatePetForm() {
             <div className="flex justify-between">
               {/* Pet Type */}
               <div className="flex flex-col w-[48%]">
+<<<<<<< HEAD
 <<<<<<< HEAD
                 <label htmlFor="type" className="flex text-[16px] font-bold">
                   Pet Type*
@@ -218,6 +235,12 @@ export default function CreatePetForm() {
                   <ErrorMessage
                     name="petType"
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
+=======
+                <label htmlFor="type" className="flex text-[16px] font-bold">
+                  Pet Type*
+                  <ErrorMessage
+                    name="type"
+>>>>>>> 8ff4edd (refactor: edit update pet form)
                     component="div"
                     className="text-ps-red text-b3"
                   />
@@ -226,27 +249,38 @@ export default function CreatePetForm() {
                 <Field
                   as="select"
 <<<<<<< HEAD
+<<<<<<< HEAD
                   id="type"
                   name="type"
 =======
                   id="petType"
                   name="petType"
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
+=======
+                  id="type"
+                  name="type"
+>>>>>>> 8ff4edd (refactor: edit update pet form)
                   validate={validateRequired}
                   className="select select-bordered w-full outline-none ring-0 border-[#DCDFED] text-[#7B7E8F] font-normal text-[16px]"
                 >
                   <option value="">Select your pet type</option>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 8ff4edd (refactor: edit update pet form)
                   <option value="dog">Dog</option>
                   <option value="cat">Cat</option>
                   <option value="bird">Bird</option>
                   <option value="rabbit">Rabbit</option>
+<<<<<<< HEAD
 =======
                   <option value="Dog">Dog</option>
                   <option value="Cat">Cat</option>
                   <option value="Bird">Bird</option>
                   <option value="Rabbit">Rabbit</option>
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
+=======
+>>>>>>> 8ff4edd (refactor: edit update pet form)
                 </Field>
               </div>
               {/* Breed */}
@@ -293,12 +327,17 @@ export default function CreatePetForm() {
                 >
                   <option value="">Select sex of your pet</option>
 <<<<<<< HEAD
+<<<<<<< HEAD
                   <option value="male">Male</option>
                   <option value="female">Female</option>
 =======
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
+=======
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+>>>>>>> 8ff4edd (refactor: edit update pet form)
                 </Field>
               </div>
               {/* Age */}
@@ -378,17 +417,24 @@ export default function CreatePetForm() {
             {/* About */}
             <div className="flex flex-col w-full">
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 8ff4edd (refactor: edit update pet form)
               <label
                 htmlFor="description"
                 className="text-[16px] font-bold pb-1"
               >
+<<<<<<< HEAD
 =======
               <label htmlFor="about" className="text-[16px] font-bold pb-1">
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
+=======
+>>>>>>> 8ff4edd (refactor: edit update pet form)
                 About
               </label>
               <Field
                 as="textarea"
+<<<<<<< HEAD
 <<<<<<< HEAD
                 id="description"
                 name="description"
@@ -396,6 +442,10 @@ export default function CreatePetForm() {
                 id="about"
                 name="about"
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
+=======
+                id="description"
+                name="description"
+>>>>>>> 8ff4edd (refactor: edit update pet form)
                 className="border-[#DCDFED] text-[#7B7E8F] rounded-lg h-[140px]"
                 placeholder="Describe more about your pet..."
               />

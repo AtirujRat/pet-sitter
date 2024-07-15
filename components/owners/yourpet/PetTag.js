@@ -39,6 +39,7 @@ export function PetTag({ type }) {
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
 =======
 
+<<<<<<< HEAD
   const lowerCaseType = type ? type.toLowerCase() : null;
 
   if (lowerCaseType === "dog") {
@@ -62,12 +63,16 @@ export function PetTag({ type }) {
 
   if (lowerCaseType === "dog") {
 >>>>>>> b87b3ee (feat: create api get pet)
+=======
+  if (type === "dog") {
+>>>>>>> 8ff4edd (refactor: edit update pet form)
     styles = {
       textColor: "text-ps-green-500",
       borderColor: "border-ps-green-500",
       bgColor: "bg-ps-green-100",
     };
     text = "Dog";
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -97,12 +102,16 @@ export function PetTag({ type }) {
 =======
   } else if (lowerCaseType === "cat") {
 >>>>>>> b87b3ee (feat: create api get pet)
+=======
+  } else if (type === "cat") {
+>>>>>>> 8ff4edd (refactor: edit update pet form)
     styles = {
       textColor: "text-ps-pink-500",
       borderColor: "border-ps-pink-500",
       bgColor: "bg-ps-pink-100",
     };
     text = "Cat";
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -132,12 +141,16 @@ export function PetTag({ type }) {
 =======
   } else if (lowerCaseType === "bird") {
 >>>>>>> b87b3ee (feat: create api get pet)
+=======
+  } else if (type === "bird") {
+>>>>>>> 8ff4edd (refactor: edit update pet form)
     styles = {
       textColor: "text-ps-blue-500",
       borderColor: "border-ps-blue-500",
       bgColor: "bg-ps-blue-100",
     };
     text = "Bird";
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -167,6 +180,9 @@ export function PetTag({ type }) {
 =======
   } else if (lowerCaseType === "rabbit") {
 >>>>>>> b87b3ee (feat: create api get pet)
+=======
+  } else if (type === "rabbit") {
+>>>>>>> 8ff4edd (refactor: edit update pet form)
     styles = {
       textColor: "text-ps-orange-400",
       borderColor: "border-ps-orange-400",

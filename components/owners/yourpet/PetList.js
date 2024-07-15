@@ -81,9 +81,9 @@ export default function PetList() {
 =======
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { supabase } from "@/utils/supabase";
+import axios from "axios";
 
-export default function YourPage() {
+export default function PetList() {
   const router = useRouter();
   const { id } = router.query;
   const [pets, setPets] = useState([]);
@@ -97,17 +97,10 @@ export default function YourPage() {
 
       try {
         if (id) {
-          const { data, error } = await supabase
-            .from("pets")
-            .select("*")
-            .eq("owner_id", id);
+          const response = await axios.get(`/api/pets/${id}`);
 
-          if (error) {
-            throw error;
-          }
-
-          if (data && Array.isArray(data)) {
-            setPets(data);
+          if (response.data && Array.isArray(response.data)) {
+            setPets(response.data);
           } else {
             setError("Data received is not in expected format or empty");
           }
@@ -464,6 +457,7 @@ export default function YourPage() {
 =======
           {pets.map((pet) => (
             <Link key={pet.id} href={`/owners/${id}/yourpet/${pet.id}`}>
+<<<<<<< HEAD
               <PetCard key={pet.id} name={pet.name} type={pet.pet_type} />
 >>>>>>> 3403445 (feat: create api get pet)
 =======
@@ -484,6 +478,9 @@ export default function YourPage() {
             <Link key={pet.id} href={`/owners/${id}/yourpet/${pet.id}`}>
               <PetCard key={pet.id} name={pet.name} type={pet.pet_type} />
 >>>>>>> b87b3ee (feat: create api get pet)
+=======
+              <PetCard key={pet.id} name={pet.name} type={pet.type} />
+>>>>>>> 8ff4edd (refactor: edit update pet form)
             </Link>
 =======
 >>>>>>> 19e2e33 (feat: edit update pet form)
