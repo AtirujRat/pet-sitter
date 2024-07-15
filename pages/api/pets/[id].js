@@ -1,0 +1,76 @@
+import { supabase } from "@/utils/supabase";
+
+export default async function handler(req, res) {
+  const { id } = req.query;
+
+  if (req.method === "GET") {
+    try {
+      const getPetsByOwner = async (ownerId) => {
+        const { data, error } = await supabase
+          .from("pets")
+          .select("*")
+          .eq("owner_id", ownerId);
+
+        if (error) {
+          throw error;
+        }
+
+        if (data && Array.isArray(data)) {
+          return data;
+        } else {
+          return [];
+        }
+      };
+
+      const pets = await getPetsByOwner(id);
+
+      if (pets.length > 0) {
+        return res.status(200).json(pets);
+      } else {
+        return res
+          .status(404)
+          .json({ message: "No pets found for this owner." });
+      }
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
+  } else if (req.method === "PUT") {
+    try {
+      const { name, type, breed, sex, age, color, weight, description } =
+        req.body;
+
+      if (!name || !type || !breed || !sex || !age || !color || !weight) {
+        return res.status(400).json({ error: "Missing required fields" });
+      }
+
+      const { data, error } = await supabase
+        .from("pets")
+        .update({
+          name,
+          type,
+          breed,
+          sex,
+          age,
+          color,
+          weight,
+          description,
+          updated_at: new Date(),
+        })
+        .eq("id", id);
+
+      if (error) {
+        return res.status(500).json({ error: error.message });
+      }
+
+      return res
+        .status(200)
+        .json({ message: "Pet updated successfully", data });
+    } catch (error) {
+      console.error("Error updating pet:", error.message);
+      return res.status(500).json({ error: "Error updating pet" });
+    }
+  } else {
+    res.setHeader("Allow", ["GET", "PUT"]);
+    return res.status(405).end(`Method ${req.method} Not Allowed`);
+  }
+}

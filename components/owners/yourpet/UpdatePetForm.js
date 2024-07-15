@@ -1,77 +1,65 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { supabase } from "@/utils/supabase";
 import axios from "axios";
+import { useEffect, useState } from "react";
+
+const API_URL = "/api/pets";
 
 export default function UpdatePetForm() {
   const router = useRouter();
-  const { Id, petId } = router.query;
+  const { petId } = router.query;
 
-  const [initialValues, setInitialValues] = useState({
-    name: "",
-    pet_type: "",
-    breed: "",
-    sex: "",
-    age: "",
-    color: "",
-    weight: "",
-    description: "",
-  });
+  const [pet, setPet] = useState(null);
 
   useEffect(() => {
-    const fetchPetData = async () => {
-      if (Id && petId) {
-        const { data, error } = await supabase
-          .from("pets")
-          .select(
-            `
-            name,
-            pet_type,
-            breed,
-            sex,
-            age,
-            color,
-            weight,
-            description
-          `
-          )
-          .eq("owner_id", ownerId)
-          .eq("id", petId)
-          .single();
-
-        if (error) {
-          console.error("Error fetching pet data:", error.message);
-        } else {
-          setInitialValues(data);
-        }
+    const fetchPetById = async () => {
+      try {
+        const response = await axios.get(`${API_URL}/${petId}`);
+        setPet(response.data);
+      } catch (error) {
+        console.error("Error fetching pet:", error);
       }
     };
 
-    fetchPetData();
-  }, [Id, petId]);
+    if (id) {
+      fetchPetById();
+    }
+  }, [id]);
+
+  const initialValues = {
+    name: pet?.name || "",
+    type: pet?.type || "",
+    breed: pet?.breed || "",
+    sex: pet?.sex || "",
+    age: pet?.age || "",
+    color: pet?.color || "",
+    weight: pet?.weight || "",
+    description: pet?.description || "",
+  };
+
+  const validateRequired = (value) => {
+    let error;
+    if (!value || value === "") {
+      error = "Required";
+    }
+    return error;
+  };
 
   const onSubmit = async (values, actions) => {
-    const { Id, petId } = router.query;
-
     try {
-      const response = await axios.put(`/api/owners/${Id}/pets`, values);
-
-      console.log("Pet updated successfully:", response.data);
+      const response = await axios.put(`${API_URL}/${id}`, values);
+      console.log("Response:", response.data);
+      router.push(`/owners/${id}/yourpet`);
     } catch (error) {
-      console.error("Error updating pet:", error.message);
+      console.error("Error updating pet:", error);
     } finally {
       actions.setSubmitting(false);
     }
   };
 
-  function validateRequired(value) {
-    let error;
-    if (!value) {
-      error = "Required";
-    }
-    return error;
+  if (!pet) {
+    return <p>Loading...</p>;
   }
 
   return (
@@ -80,7 +68,7 @@ export default function UpdatePetForm() {
       onSubmit={onSubmit}
       enableReinitialize
     >
-      {({ isSubmitting, errors, touched }) => (
+      {({ isSubmitting }) => (
         <Form className="w-[75%] h-fit shadow-lg rounded-xl bg-ps-white p-10">
           <div className="flex flex-col gap-10">
             <p className="flex text-h3 gap-2">Your Pet</p>
@@ -116,13 +104,10 @@ export default function UpdatePetForm() {
             <div className="flex justify-between">
               {/* Pet Type */}
               <div className="flex flex-col w-[48%]">
-                <label
-                  htmlFor="pet_type"
-                  className="flex text-[16px] font-bold"
-                >
+                <label htmlFor="type" className="flex text-[16px] font-bold">
                   Pet Type*
                   <ErrorMessage
-                    name="pet_type"
+                    name="type"
                     component="div"
                     className="text-ps-red text-b3"
                   />
@@ -130,8 +115,8 @@ export default function UpdatePetForm() {
 
                 <Field
                   as="select"
-                  id="pet_type"
-                  name="pet_type"
+                  id="type"
+                  name="type"
                   validate={validateRequired}
                   className="select select-bordered w-full outline-none ring-0 border-[#DCDFED] text-[#7B7E8F] font-normal text-[16px]"
                 >
@@ -296,7 +281,7 @@ export default function UpdatePetForm() {
               <button
                 type="button"
                 className="w-[127px] bg-ps-orange-100 text-ps-orange-500 text-[16px] font-bold rounded-full tracking-wide h-[48px]"
-                onClick={() => router.back()} // Navigate back on cancel
+                onClick={() => router.back()}
               >
                 Cancel
               </button>

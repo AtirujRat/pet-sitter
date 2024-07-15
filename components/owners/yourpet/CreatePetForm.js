@@ -4,21 +4,21 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
 
-const API_URL = "/api/owners/pets";
+const API_URL = "/api/pets";
 
 export default function CreatePetForm() {
   const router = useRouter();
   const { id } = router.query;
 
   const initialValues = {
-    petName: "",
-    petType: "",
+    name: "",
+    type: "",
     breed: "",
     sex: "",
     age: "",
     color: "",
     weight: "",
-    about: "",
+    description: "",
   };
 
   const validateRequired = (value) => {
@@ -62,21 +62,18 @@ export default function CreatePetForm() {
             </div>
             {/* Pet Name */}
             <div className="max-sm:hidden flex flex-col">
-              <label
-                htmlFor="petName"
-                className="text-[16px] font-bold pb-1 flex"
-              >
+              <label htmlFor="name" className="text-[16px] font-bold pb-1 flex">
                 Pet Name*
                 <ErrorMessage
-                  name="petName"
+                  name="name"
                   component="div"
                   className="text-ps-red text-b3"
                 />
               </label>
               <Field
                 type="text"
-                id="petName"
-                name="petName"
+                id="name"
+                name="name"
                 validate={validateRequired}
                 className="border-[#DCDFED] text-[#7B7E8F] rounded-lg"
                 placeholder="John Wick"
@@ -86,10 +83,10 @@ export default function CreatePetForm() {
             <div className="flex justify-between">
               {/* Pet Type */}
               <div className="flex flex-col w-[48%]">
-                <label htmlFor="petType" className="flex text-[16px] font-bold">
+                <label htmlFor="type" className="flex text-[16px] font-bold">
                   Pet Type*
                   <ErrorMessage
-                    name="petType"
+                    name="type"
                     component="div"
                     className="text-ps-red text-b3"
                   />
@@ -97,16 +94,16 @@ export default function CreatePetForm() {
 
                 <Field
                   as="select"
-                  id="petType"
-                  name="petType"
+                  id="type"
+                  name="type"
                   validate={validateRequired}
                   className="select select-bordered w-full outline-none ring-0 border-[#DCDFED] text-[#7B7E8F] font-normal text-[16px]"
                 >
                   <option value="">Select your pet type</option>
-                  <option value="Dog">Dog</option>
-                  <option value="Cat">Cat</option>
-                  <option value="Bird">Bird</option>
-                  <option value="Rabbit">Rabbit</option>
+                  <option value="dog">Dog</option>
+                  <option value="cat">Cat</option>
+                  <option value="bird">Bird</option>
+                  <option value="rabbit">Rabbit</option>
                 </Field>
               </div>
               {/* Breed */}
@@ -152,8 +149,8 @@ export default function CreatePetForm() {
                   className="select select-bordered w-full outline-none ring-0 border-[#DCDFED] text-[#7B7E8F] font-normal text-[16px]"
                 >
                   <option value="">Select sex of your pet</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
                 </Field>
               </div>
               {/* Age */}
@@ -232,13 +229,16 @@ export default function CreatePetForm() {
 
             {/* About */}
             <div className="flex flex-col w-full">
-              <label htmlFor="about" className="text-[16px] font-bold pb-1">
+              <label
+                htmlFor="description"
+                className="text-[16px] font-bold pb-1"
+              >
                 About
               </label>
               <Field
                 as="textarea"
-                id="about"
-                name="about"
+                id="description"
+                name="description"
                 className="border-[#DCDFED] text-[#7B7E8F] rounded-lg h-[140px]"
                 placeholder="Describe more about your pet..."
               />

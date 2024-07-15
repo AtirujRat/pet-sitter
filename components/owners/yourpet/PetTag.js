@@ -6,30 +6,28 @@ export function PetTag({ type }) {
   };
   let text = "Unknown";
 
-  const lowerCaseType = type ? type.toLowerCase() : null;
-
-  if (lowerCaseType === "dog") {
+  if (type === "dog") {
     styles = {
       textColor: "text-ps-green-500",
       borderColor: "border-ps-green-500",
       bgColor: "bg-ps-green-100",
     };
     text = "Dog";
-  } else if (lowerCaseType === "cat") {
+  } else if (type === "cat") {
     styles = {
       textColor: "text-ps-pink-500",
       borderColor: "border-ps-pink-500",
       bgColor: "bg-ps-pink-100",
     };
     text = "Cat";
-  } else if (lowerCaseType === "bird") {
+  } else if (type === "bird") {
     styles = {
       textColor: "text-ps-blue-500",
       borderColor: "border-ps-blue-500",
       bgColor: "bg-ps-blue-100",
     };
     text = "Bird";
-  } else if (lowerCaseType === "rabbit") {
+  } else if (type === "rabbit") {
     styles = {
       textColor: "text-ps-orange-400",
       borderColor: "border-ps-orange-400",
