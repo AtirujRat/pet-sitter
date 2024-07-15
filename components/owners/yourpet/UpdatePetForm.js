@@ -164,10 +164,11 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-const API_URL = "/api/pets";
+const API_URL = "/api/owners";
 
 export default function UpdatePetForm() {
   const router = useRouter();
+<<<<<<< HEAD
 <<<<<<< HEAD
   const { Id, petId } = router.query;
 >>>>>>> 7a4243e (feat: create api update pet)
@@ -383,13 +384,16 @@ export default function UpdatePetForm() {
     description: pet ? pet.description : "",
 =======
   const { petId } = router.query;
+=======
+  const { id, petId } = router.query;
+>>>>>>> 9dc1fd7 (refactor: update api pets)
 
   const [pet, setPet] = useState(null);
 
   useEffect(() => {
-    const fetchPetById = async () => {
+    const fetchPet = async () => {
       try {
-        const response = await axios.get(`${API_URL}/${petId}`);
+        const response = await axios.get(`${API_URL}/${id}/${petId}`);
         setPet(response.data);
       } catch (error) {
         console.error("Error fetching pet:", error);
@@ -397,11 +401,12 @@ export default function UpdatePetForm() {
     };
 
     if (id) {
-      fetchPetById();
+      fetchPet();
     }
-  }, [id]);
+  }, [petId]);
 
   const initialValues = {
+<<<<<<< HEAD
     name: pet?.name || "",
     type: pet?.type || "",
     breed: pet?.breed || "",
@@ -411,6 +416,16 @@ export default function UpdatePetForm() {
     weight: pet?.weight || "",
     description: pet?.description || "",
 >>>>>>> 8ff4edd (refactor: edit update pet form)
+=======
+    name: pet ? pet.name : "",
+    type: pet ? pet.type : "",
+    breed: pet ? pet.breed : "",
+    sex: pet ? pet.sex : "",
+    age: pet ? pet.age : "",
+    color: pet ? pet.color : "",
+    weight: pet ? pet.weight : "",
+    description: pet ? pet.description : "",
+>>>>>>> 9dc1fd7 (refactor: update api pets)
   };
 
   const validateRequired = (value) => {
@@ -439,7 +454,7 @@ export default function UpdatePetForm() {
 
   const onSubmit = async (values, actions) => {
     try {
-      const response = await axios.put(`${API_URL}/${id}`, values);
+      const response = await axios.put(`${API_URL}/${id}/${petId}`, values);
       console.log("Response:", response.data);
       router.push(`/owners/${id}/yourpet`);
     } catch (error) {
@@ -467,6 +482,16 @@ export default function UpdatePetForm() {
 >>>>>>> 7a4243e (feat: create api update pet)
 =======
 >>>>>>> 6fecf16 (feat: create api update pet)
+
+  const onDelete = async () => {
+    try {
+      const response = await axios.delete(`${API_URL}/${id}/${petId}`);
+      console.log("Pet deleted:", response.data);
+      router.push(`/owners/${id}/yourpet`);
+    } catch (error) {
+      console.error("Error deleting pet:", error);
+    }
+  };
 
   const onDelete = async () => {
     try {
@@ -872,6 +897,7 @@ export default function UpdatePetForm() {
                   <option value="">Select sex of your pet</option>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                   <option value="male">Male</option>
                   <option value="female">Female</option>
 =======
@@ -882,6 +908,10 @@ export default function UpdatePetForm() {
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
+=======
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+>>>>>>> 9dc1fd7 (refactor: update api pets)
                 </Field>
               </div>
               {/* Age */}
@@ -1033,6 +1063,7 @@ export default function UpdatePetForm() {
             {/* delete pet */}
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             <button className="flex gap-2 items-center" onClick={onDelete}>
               <Image
                 src="/assets/icons/icon-bin.svg"
@@ -1047,6 +1078,9 @@ export default function UpdatePetForm() {
 >>>>>>> b87b3ee (feat: create api get pet)
 =======
             <div className="flex gap-2 items-center cursor-pointer">
+=======
+            <button className="flex gap-2 items-center" onClick={onDelete}>
+>>>>>>> 9dc1fd7 (refactor: update api pets)
               <Image
                 src="/assets/icons/icon-bin.svg"
 <<<<<<< HEAD
@@ -1071,6 +1105,7 @@ export default function UpdatePetForm() {
               <p className="text-ps-orange-500 text-b2">Delete Pet</p>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             </button>
 =======
             </div>
@@ -1078,6 +1113,9 @@ export default function UpdatePetForm() {
 =======
             </div>
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
+=======
+            </button>
+>>>>>>> 9dc1fd7 (refactor: update api pets)
 
             {/* Buttons */}
             <div className="flex flex-wrap gap-4 justify-between">
