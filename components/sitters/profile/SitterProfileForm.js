@@ -1,30 +1,24 @@
 import Image from "next/image";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import { useRouter } from "next/router";
-import { useSitterForm } from "@/hook/useSitterForm";
-import userimage from "../../../public/assets/navbar/usermock.svg";
-import plus from "../../../public/assets/icon-plus.svg";
 import { Formik, Form, Field, ErrorMessage, useFormikContext } from "formik";
 import { useRouter } from "next/router";
 import { useSitterForm } from "@/hook/useSitterForm";
 import { useState, useRef } from "react";
+import { v4 as uuidv4 } from "uuid";
 import PhoneInput from "@/components/authentication/PhoneInput";
+import MultiSelect from "./MultiSelectPetType";
+import ImageChange from "./ImageChange";
 import userimage from "../../../public/assets/navbar/usermock.svg";
 import plus from "../../../public/assets/icon-plus.svg";
 import iconUpLoad from "../../../public/assets/sitters/icon-upload.svg";
 import iconClose from "../../../public/assets/sitters/icon-close.svg";
 import iconApproved from "../../../public/assets/sitters/icon-approved.svg";
+import axios from "axios";
 
 const SitterProfileForm = ({ profile = {} }) => {
   const router = useRouter();
   const { id } = router.query;
   const { initialValues, validate, onSubmit } = useSitterForm(id);
 
-  // console.log(profile.profile_image_url);
-
-  return (
-    <Formik
-      initialValues={initialValues}
   const initialFormValues = {
     ...initialValues,
     ...profile,
@@ -66,6 +60,7 @@ const SitterProfileForm = ({ profile = {} }) => {
             layout="fill"
             objectFit="cover"
             className="rounded-full"
+            priority
           />
         ) : (
           <Image
@@ -109,9 +104,9 @@ const SitterProfileForm = ({ profile = {} }) => {
       const newImages = [];
       for (const file of files) {
         if (file.size <= 2 * 1024 * 1024) {
-          // Check file size
           const reader = new FileReader();
           reader.onloadend = () => {
+            newImages.push(reader.result);
             setGallery((prev) => [...prev, reader.result]);
           };
           reader.readAsDataURL(file);
@@ -119,6 +114,7 @@ const SitterProfileForm = ({ profile = {} }) => {
           alert("File size should not exceed 2 MB.");
         }
       }
+      console.log(newImages);
     };
 
     const handleRemoveImage = (index) => {
@@ -167,49 +163,70 @@ const SitterProfileForm = ({ profile = {} }) => {
     );
   };
 
-const SitterProfileForm = () => {
-  // const { id } = router.query;
-  // const { initialValues, validate, onSubmit } = useSitterForm(id);
+  const updateProfile = async (formData) => {
+    const fileName = uuidv4();
+
+    const { image_url, image_url_error } = await supabase.storage
+      .from("sitters")
+      .upload("profile_image/" + fileName, formData.image);
+
+    if (image_url_error) {
+      console.log(image_url_error);
+    }
+
+    const { image_gallery_url, image_gallery_url_error } =
+      await supabase.storage
+        .from("sitters")
+        .upload("gallery_image/" + fileName, formData.image);
+
+    if (image_url_error) {
+      console.log(image_gallery_url_error);
+    }
+
+    const publicAttachmentUrl = supabase.storage
+      .from("sitters/profile_image")
+      .getPublicUrl(fileName);
+
+    const publicAttachmentUrlGallry = supabase.storage
+      .from("sitters/gallery_image")
+      .getPublicUrl(fileName);
+
+    const { data, error } = await supabase
+      .from("sitters")
+      .update({
+        profile_image_url: publicAttachmentUrl.data.publicUrl,
+        full_name: formData.name,
+        email: userData?.email,
+        phone_number: formData.phone,
+        id_number: formData.id_number,
+        date_of_birth: formData.date_of_birth,
+        updated_at: new Date(),
+      })
+      .eq("id", id)
+      .select();
+    if (error) {
+      console.log(error);
+    }
+
+    console.log("Updated Successfully");
+    alert("Profile has been updated");
+  };
+
+  const data = async (values) => {
+    await axios.put(`/api/sitters/${id}`, values);
+  };
+
   return (
     <Formik
       initialValues={initialFormValues}
-      validate={validate}
-      onSubmit={onSubmit}
+      // validate={validate}
+      onSubmit={(values, { setSubmitting }) => {
+        setSubmitting(false);
+        console.log(values);
+        data(values);
+      }}
       enableReinitialize
     >
-      {({ isSubmitting }) => (
-        <Form className="flex flex-col gap-6">
-          <div className="bg-ps-white rounded-2xl px-20 py-10 flex flex-col gap-6">
-            <div className="flex flex-col gap-6">
-              <p className="text-ps-gray-300 text-h3">Basic Information</p>
-              {/* Basic Information */}
-              <label htmlFor="userimage">Profile Image</label>
-              {profile.profile_image_url ? (
-                <div className="relative w-[240px] h-[240px]">
-                  <Image
-                    src={profile.profile_image_url}
-                    alt="userimage"
-                    layout="fill"
-                    objectFit="cover"
-                    className=" rounded-full relative"
-                    priority
-                  />
-                  <Image
-                    src={plus}
-                    alt="userimage"
-                    width={60}
-                    height={60}
-                    className="absolute z-10 bottom-0 right-0 cursor-pointer"
-                  />
-                </div>
-              ) : (
-                <Image
-                  src={userimage}
-                  alt="userimage"
-                  width={240}
-                  height={240}
-                />
-              )}
       {({ errors, touched, isSubmitting }) => (
         <Form className="flex flex-col gap-6">
           <div className="text-h3 flex justify-between">
@@ -244,15 +261,9 @@ const SitterProfileForm = () => {
                   Your full name*
                 </label>
                 <Field
-                  placeHolder="12334455"
                   type="text"
                   name="full_name"
                   className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400 focus:outline-none focus:ring-0"
-                />
-                <ErrorMessage
-                  name="full_name"
-                  component="div"
-                  className="text-ps-red"
                 />
                 {errors.full_name && touched.full_name && (
                   <div className="text-ps-red">{errors.full_name}</div>
@@ -268,15 +279,6 @@ const SitterProfileForm = () => {
                   className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400 focus:outline-none focus:ring-0"
                 >
                   <option value="" label="Select experience" />
-                  <option value="0-2 year" label="0-2 year" />
-                  <option value="3-5 years" label="3-5 years" />
-                  <option value="5+ years" label="5+ years" />
-                </Field>
-                <ErrorMessage
-                  name="experience"
-                  component="div"
-                  className="text-ps-red"
-                />
                   <option value="0-2" label="0-2 year" />
                   <option value="3-5" label="3-5 years" />
                   <option value="5" label="5+ years" />
@@ -294,13 +296,6 @@ const SitterProfileForm = () => {
                 <Field
                   type="tel"
                   name="phone_number"
-                  className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400 focus:outline-none focus:ring-0"
-                />
-                <ErrorMessage
-                  name="phone_number"
-                  component="div"
-                  className="text-ps-red"
-                />
                   component={PhoneInput}
                   className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400 focus:outline-none focus:ring-0"
                 />
@@ -315,13 +310,6 @@ const SitterProfileForm = () => {
                 <Field
                   type="email"
                   name="email"
-                  className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400 focus:outline-none focus:ring-0"
-                />
-                <ErrorMessage
-                  name="email"
-                  component="div"
-                  className="text-ps-red"
-                />
                   disabled={true}
                   className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-300 focus:outline-none focus:ring-0"
                 />
@@ -340,55 +328,12 @@ const SitterProfileForm = () => {
                   name="introduction"
                   className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400 h-[140px] focus:outline-none focus:ring-0"
                 />
-                <ErrorMessage
-                  name="introduction"
-                  component="div"
-                  className="text-ps-red"
-                />
-              </div>
-            </div>
-          </div>
                 {errors.introduction && touched.introduction && (
                   <div className="text-ps-red">{errors.introduction}</div>
                 )}
               </div>
             </div>
           </div>
-          <div className="flex w-full gap-10">
-            <div className="flex flex-col w-full">
-              <label htmlFor="phone_number" className="text-b2">
-                Phone Number*
-              </label>
-              <Field
-                type="tel"
-                name="phone_number"
-                className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400"
-              />
-            </div>
-            <div className="flex flex-col w-full">
-              <label htmlFor="email" className="text-b2">
-                Email*
-              </label>
-              <Field
-                type="select"
-                name="email"
-                className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400"
-              />
-            </div>
-          </div>
-          <div className="flex w-full gap-10">
-            <div className="flex flex-col w-full">
-              <label htmlFor="introduction" className="text-b2">
-                Introduction (Describe about yourself as pet sitter)
-              </label>
-              <Field
-                type="text"
-                name="introduction"
-                className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400 h-[140px]"
-              />
-            </div>
-          </div>
-        </div>
 
           {/* Pet Sitter */}
           <div className="bg-ps-white rounded-2xl px-20 py-10 flex flex-col gap-6">
@@ -405,17 +350,12 @@ const SitterProfileForm = () => {
                   name="trade_name"
                   className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400 focus:outline-none focus:ring-0"
                 />
-                <ErrorMessage
-                  name="trade_name"
-                  component="div"
-                  className="text-ps-red"
-                />
                 {errors.trade_name && touched.trade_name && (
                   <div className="text-ps-red">{errors.trade_name}</div>
                 )}
               </div>
             </div>
-            <div className="flex w-full gap-10">
+            {/* <div className="flex w-full gap-10">
               <div className="flex flex-col w-full">
                 <label htmlFor="pet_type" className="text-b2">
                   Pet type
@@ -431,29 +371,34 @@ const SitterProfileForm = () => {
                   <option value="Bird" label="Bird" />
                   <option value="Rabbit" label="Rabbit" />
                 </Field>
-                <ErrorMessage
-                  name="pet_type"
-                  component="div"
-                  className="text-ps-red"
-                />
+                {errors.pet_type && touched.pet_type && (
+                  <div className="text-ps-red">{errors.pet_type}</div>
+                )}
               </div>
-            </div>
+            </div> */}
             <div className="flex w-full gap-10">
               <div className="flex flex-col w-full">
-                <label htmlFor="introduction" className="text-b2">
+                <label htmlFor="pet_type" className="text-b2">
+                  Pet type
+                </label>
+                <Field
+                  component={MultiSelect}
+                  name="pet_type"
+                  options={["Dog", "Cat", "Bird", "Rabbit"]} // Add your options here
+                />
+                {errors.pet_type && touched.pet_type && (
+                  <div className="text-ps-red">{errors.pet_type}</div>
+                )}
+              </div>
+            </div>
+
+            <div className="flex w-full gap-10">
+              <div className="flex flex-col w-full">
                 <label htmlFor="services_description" className="text-b2">
                   Services (Describe all of your service for pet sitting)
                 </label>
                 <Field
                   as="textarea"
-                  name="introduction"
-                  className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400 h-[140px] focus:outline-none focus:ring-0"
-                />
-                <ErrorMessage
-                  name="introduction"
-                  component="div"
-                  className="text-ps-red"
-                />
                   name="services_description"
                   className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400 h-[140px] focus:outline-none focus:ring-0"
                 />
@@ -467,26 +412,11 @@ const SitterProfileForm = () => {
             </div>
             <div className="flex w-full gap-10">
               <div className="flex flex-col w-full">
-                <label htmlFor="introduction" className="text-b2">
                 <label htmlFor="place_description" className="text-b2">
                   My Place (Describe you place)
                 </label>
                 <Field
                   as="textarea"
-                  name="introduction"
-                  className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400 h-[140px] focus:outline-none focus:ring-0"
-                />
-                <ErrorMessage
-                  name="introduction"
-                  component="div"
-                  className="text-ps-red"
-                />
-              </div>
-            </div>
-          </div>
-          {/* <button type="submit" disabled={isSubmitting}>
-            Submit
-          </button> */}
                   name="place_description"
                   className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400 h-[140px] focus:outline-none focus:ring-0"
                 />
@@ -509,5 +439,4 @@ const SitterProfileForm = () => {
     </Formik>
   );
 };
-
 export default SitterProfileForm;

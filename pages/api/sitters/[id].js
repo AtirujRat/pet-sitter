@@ -6,9 +6,7 @@ export default async function handler(req, res) {
     try {
       let { data: sitters, error } = await supabase
         .from("sitters")
-        .select(
-          "*, sitters_images(image_url), bookings(reviews!inner(rating))"
-        )
+        .select("*, sitters_images(image_url), bookings(reviews!inner(rating))")
         .eq("id", id);
 
       if (error) {
@@ -26,6 +24,7 @@ export default async function handler(req, res) {
   if (req.method === "PUT") {
     const { id } = req.query;
     const reqBody = { ...req.body, updated_at: new Date() };
+    console.log(reqBody);
 
     try {
       // ตรวจสอบว่าแถวข้อมูลมีอยู่หรือไม่

@@ -4,7 +4,7 @@ import NavBarSitter from "@/components/sitters/profile/NavbarSitter";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import defaultImage from "../../../../public/assets/navbar/usermock.svg";
+// import defaultImage from "../../../../public/assets/navbar/usermock.svg";
 
 export default function SitterManageProfile() {
   const router = useRouter();

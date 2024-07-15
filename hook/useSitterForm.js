@@ -29,7 +29,7 @@ export const useSitterForm = () => {
       errors.phone_number = "Required";
     } else if (values.phone_number[0] != 0) {
       errors.phone_number = "The first digit must be 0.";
-    } else if (values.phone_number.length != 10) {
+    } else if (values.phone_number.length != 12) {
       errors.phone_number = "Phone number must contain 10 digits.";
     }
 
@@ -66,28 +66,33 @@ export const useSitterForm = () => {
     return errors;
   };
 
-  const onSubmit = async (values) => {
-    const id = 1; // ตัวอย่าง ID
-    const response = await fetch(`/api/sitters/${id}/profile`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(values),
-    });
+  // const onSubmit = async (values, { setSubmitting }) => {
+  // setSubmitting(false);
+  // console.log(values);
+  // console.log("wiiiiii");
+  // try {
+  //   const response = await axios.put(`/api/sitters/${id}`, values, {
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   });
 
-    if (response.ok) {
-      const data = await response.json();
-      console.log("Profile updated:", data);
-    } else {
-      const errorData = await response.json();
-      console.error("Error updating profile:", errorData);
-    }
-  };
-
+  //   if (response.status === 200) {
+  //     console.log("Profile updated:", response.data);
+  //     // router.push('/success-page');
+  //   }
+  // } catch (error) {
+  //   console.error(
+  //     "Error updating profile:",
+  //     error.response?.data || error.message
+  //   );
+  // } finally {
+  //   setSubmitting(false);
+  // }
+  // };
   return {
     initialValues,
     validate,
-    onSubmit,
+    // onSubmit,
   };
 };
