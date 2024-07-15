@@ -15,7 +15,15 @@ export default async function handler(req, res) {
           throw error;
         }
 
+<<<<<<< HEAD
         return data;
+=======
+        if (data && Array.isArray(data)) {
+          return data;
+        } else {
+          return [];
+        }
+>>>>>>> 8ff4edd (refactor: edit update pet form)
       };
 
       const pets = await getPetsByOwner(id);
@@ -52,11 +60,18 @@ export default async function handler(req, res) {
           description,
           updated_at: new Date(),
         })
+<<<<<<< HEAD
         .eq("id", id)
         .single();
 
       if (error) {
         throw error;
+=======
+        .eq("id", id);
+
+      if (error) {
+        return res.status(500).json({ error: error.message });
+>>>>>>> 8ff4edd (refactor: edit update pet form)
       }
 
       return res
@@ -66,6 +81,7 @@ export default async function handler(req, res) {
       console.error("Error updating pet:", error.message);
       return res.status(500).json({ error: "Error updating pet" });
     }
+<<<<<<< HEAD
   } else if (req.method === "DELETE") {
     try {
       const { error } = await supabase.from("pets").delete().eq("id", id);
@@ -81,6 +97,10 @@ export default async function handler(req, res) {
     }
   } else {
     res.setHeader("Allow", ["GET", "PUT", "DELETE"]);
+=======
+  } else {
+    res.setHeader("Allow", ["GET", "PUT"]);
+>>>>>>> 8ff4edd (refactor: edit update pet form)
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }
