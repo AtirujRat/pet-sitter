@@ -11,6 +11,7 @@ import Link from "next/link";
 <<<<<<< HEAD
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+<<<<<<< HEAD
 import { supabase } from "@/utils/supabase";
 =======
 >>>>>>> af253ba (feat: update create pet form)
@@ -20,8 +21,11 @@ import { supabase } from "@/utils/supabase";
 >>>>>>> 53b534c (feat: edit update pet form)
 =======
 >>>>>>> f6fd319 (feat: edit update pet form)
+=======
+import axios from "axios";
+>>>>>>> 8ff4edd (refactor: edit update pet form)
 
-export default function YourPage() {
+export default function PetList() {
   const router = useRouter();
   const { id } = router.query;
   const [pets, setPets] = useState([]);
@@ -35,17 +39,10 @@ export default function YourPage() {
 
       try {
         if (id) {
-          const { data, error } = await supabase
-            .from("pets")
-            .select("*")
-            .eq("owner_id", id);
+          const response = await axios.get(`/api/pets/${id}`);
 
-          if (error) {
-            throw error;
-          }
-
-          if (data && Array.isArray(data)) {
-            setPets(data);
+          if (response.data && Array.isArray(response.data)) {
+            setPets(response.data);
           } else {
             setError("Data received is not in expected format or empty");
           }
@@ -257,6 +254,7 @@ export default function YourPage() {
 <<<<<<< HEAD
           {pets.map((pet) => (
             <Link key={pet.id} href={`/owners/${id}/yourpet/${pet.id}`}>
+<<<<<<< HEAD
               <PetCard key={pet.id} name={pet.name} type={pet.pet_type} />
 =======
           {pets.map((pet, index) => (
@@ -273,6 +271,9 @@ export default function YourPage() {
             <Link key={pet.id} href={`/owners/${id}/yourpet/${pet.id}`}>
               <PetCard key={pet.id} name={pet.name} type={pet.pet_type} />
 >>>>>>> b87b3ee (feat: create api get pet)
+=======
+              <PetCard key={pet.id} name={pet.name} type={pet.type} />
+>>>>>>> 8ff4edd (refactor: edit update pet form)
             </Link>
 =======
 >>>>>>> 19e2e33 (feat: edit update pet form)
