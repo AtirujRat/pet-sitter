@@ -28,6 +28,12 @@ export default function Layout({ children }) {
 
   return (
     <>
+      <Head>
+        <script
+          defer
+          src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
+        />
+      </Head>
       <SearchProvider>
         <div className="w-full">
           {!noLayoutRoutes.includes(router.pathname) && (
