@@ -70,14 +70,14 @@ export default function SittersList() {
                     <img
                       src={galleryImage}
                       alt={`first gallery image for ${sitter.full_name}`}
-                      className="h-[185px] w-[245px] rounded-lg object-cover self-center max-xl:w-full max-sm:h-[100px]"
+                      className="h-[185px] w-[245px] rounded-lg object-cover object-center self-center max-xl:w-full max-sm:h-[100px]"
                     ></img>
                     <div className="setter-info flex-col w-full">
                       <div className="profile flex gap-5 my-2">
                         <img
                           src={sitter.profile_image_url ?? profilePlaceholder}
                           alt={`${sitter.full_name}-profile-image`}
-                          className="rounded-full object-cover sm:h-[64px] sm:w-[64px] h-[36px] w-[36px]"
+                          className="rounded-full object-cover object-center sm:h-[64px] sm:w-[64px] h-[36px] w-[36px]"
                         ></img>
                         <div className="sitter-title w-full">
                           <h3 className="sm:text-h3 text-lg font-bold leading-6">

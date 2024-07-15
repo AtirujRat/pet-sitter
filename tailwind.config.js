@@ -73,7 +73,7 @@ module.exports = {
       ps: {
         gray: {
           100: "#FAFAFB",
-          200: "#F6F6F9",
+          200: "#DCDFED",
           300: "#AEB1C3",
           400: "#7B7E8F",
           500: "#5B5D6F",
