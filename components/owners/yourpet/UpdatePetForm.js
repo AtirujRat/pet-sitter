@@ -2,15 +2,23 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import Image from "next/image";
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { supabase } from "@/utils/supabase";
 <<<<<<< HEAD
 <<<<<<< HEAD
+=======
+import { useRouter } from "next/router";
+>>>>>>> 8ff4edd (refactor: edit update pet form)
 import axios from "axios";
+import { useEffect, useState } from "react";
+
+const API_URL = "/api/pets";
 
 export default function UpdatePetForm() {
   const router = useRouter();
+<<<<<<< HEAD
   const { Id, petId } = router.query;
 =======
 
@@ -198,16 +206,53 @@ export default function UpdatePetForm() {
 =======
 >>>>>>> 6fecf16 (feat: create api update pet)
   }, [Id, petId]);
+=======
+  const { petId } = router.query;
+
+  const [pet, setPet] = useState(null);
+
+  useEffect(() => {
+    const fetchPetById = async () => {
+      try {
+        const response = await axios.get(`${API_URL}/${petId}`);
+        setPet(response.data);
+      } catch (error) {
+        console.error("Error fetching pet:", error);
+      }
+    };
+
+    if (id) {
+      fetchPetById();
+    }
+  }, [id]);
+
+  const initialValues = {
+    name: pet?.name || "",
+    type: pet?.type || "",
+    breed: pet?.breed || "",
+    sex: pet?.sex || "",
+    age: pet?.age || "",
+    color: pet?.color || "",
+    weight: pet?.weight || "",
+    description: pet?.description || "",
+  };
+
+  const validateRequired = (value) => {
+    let error;
+    if (!value || value === "") {
+      error = "Required";
+    }
+    return error;
+  };
+>>>>>>> 8ff4edd (refactor: edit update pet form)
 
   const onSubmit = async (values, actions) => {
-    const { Id, petId } = router.query;
-
     try {
-      const response = await axios.put(`/api/owners/${Id}/pets`, values);
-
-      console.log("Pet updated successfully:", response.data);
+      const response = await axios.put(`${API_URL}/${id}`, values);
+      console.log("Response:", response.data);
+      router.push(`/owners/${id}/yourpet`);
     } catch (error) {
-      console.error("Error updating pet:", error.message);
+      console.error("Error updating pet:", error);
     } finally {
       actions.setSubmitting(false);
     }
@@ -222,12 +267,8 @@ export default function UpdatePetForm() {
 =======
 >>>>>>> 6fecf16 (feat: create api update pet)
 
-  function validateRequired(value) {
-    let error;
-    if (!value) {
-      error = "Required";
-    }
-    return error;
+  if (!pet) {
+    return <p>Loading...</p>;
   }
 <<<<<<< HEAD
 
@@ -237,6 +278,7 @@ export default function UpdatePetForm() {
       onSubmit={onSubmit}
       enableReinitialize
     >
+<<<<<<< HEAD
 =======
     about: "",
   };
@@ -257,6 +299,9 @@ export default function UpdatePetForm() {
     >
 >>>>>>> b87b3ee (feat: create api get pet)
       {({ isSubmitting, errors, touched }) => (
+=======
+      {({ isSubmitting }) => (
+>>>>>>> 8ff4edd (refactor: edit update pet form)
         <Form className="w-[75%] h-fit shadow-lg rounded-xl bg-ps-white p-10">
           <div className="flex flex-col gap-10">
             <p className="flex text-h3 gap-2">Your Pet</p>
@@ -321,6 +366,7 @@ export default function UpdatePetForm() {
               <div className="flex flex-col w-[48%]">
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> b87b3ee (feat: create api get pet)
                 <label
@@ -342,6 +388,12 @@ export default function UpdatePetForm() {
                   <ErrorMessage
                     name="pet_type"
 >>>>>>> b87b3ee (feat: create api get pet)
+=======
+                <label htmlFor="type" className="flex text-[16px] font-bold">
+                  Pet Type*
+                  <ErrorMessage
+                    name="type"
+>>>>>>> 8ff4edd (refactor: edit update pet form)
                     component="div"
                     className="text-ps-red text-b3"
                   />
@@ -349,6 +401,7 @@ export default function UpdatePetForm() {
 
                 <Field
                   as="select"
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
                   id="pet_type"
@@ -361,6 +414,10 @@ export default function UpdatePetForm() {
                   id="pet_type"
                   name="pet_type"
 >>>>>>> b87b3ee (feat: create api get pet)
+=======
+                  id="type"
+                  name="type"
+>>>>>>> 8ff4edd (refactor: edit update pet form)
                   validate={validateRequired}
                   className="select select-bordered w-full outline-none ring-0 border-[#DCDFED] text-[#7B7E8F] font-normal text-[16px]"
                 >
@@ -569,12 +626,16 @@ export default function UpdatePetForm() {
                 className="w-[127px] bg-ps-orange-100 text-ps-orange-500 text-[16px] font-bold rounded-full tracking-wide h-[48px]"
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                 onClick={() => router.back()} // Navigate back on cancel
 =======
 >>>>>>> 5c2ccd2 (feat: edit update pet form)
 =======
                 onClick={() => router.back()} // Navigate back on cancel
 >>>>>>> b87b3ee (feat: create api get pet)
+=======
+                onClick={() => router.back()}
+>>>>>>> 8ff4edd (refactor: edit update pet form)
               >
                 Cancel
               </button>

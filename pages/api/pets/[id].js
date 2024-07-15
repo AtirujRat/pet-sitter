@@ -5,6 +5,7 @@ export default async function handler(req, res) {
 
   if (req.method === "GET") {
     try {
+<<<<<<< HEAD
       const { data, error } = await supabase
         .from("pets")
         .select("*")
@@ -22,6 +23,36 @@ export default async function handler(req, res) {
     } catch (error) {
       console.error("Error fetching pet:", error.message);
       return res.status(500).json({ message: "Error fetching pet" });
+=======
+      const getPetsByOwner = async (ownerId) => {
+        const { data, error } = await supabase
+          .from("pets")
+          .select("*")
+          .eq("owner_id", ownerId);
+
+        if (error) {
+          throw error;
+        }
+
+        if (data && Array.isArray(data)) {
+          return data;
+        } else {
+          return [];
+        }
+      };
+
+      const pets = await getPetsByOwner(id);
+
+      if (pets.length > 0) {
+        return res.status(200).json(pets);
+      } else {
+        return res
+          .status(404)
+          .json({ message: "No pets found for this owner." });
+      }
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+>>>>>>> 8ff4edd (refactor: edit update pet form)
     }
   } else if (req.method === "PUT") {
     try {
@@ -29,7 +60,11 @@ export default async function handler(req, res) {
         req.body;
 
       if (!name || !type || !breed || !sex || !age || !color || !weight) {
+<<<<<<< HEAD
         return res.status(400).json({ message: "Missing required fields" });
+=======
+        return res.status(400).json({ error: "Missing required fields" });
+>>>>>>> 8ff4edd (refactor: edit update pet form)
       }
 
       const { data, error } = await supabase
@@ -45,11 +80,18 @@ export default async function handler(req, res) {
           description,
           updated_at: new Date(),
         })
+<<<<<<< HEAD
         .eq("id", id)
         .single();
 
       if (error) {
         throw error;
+=======
+        .eq("id", id);
+
+      if (error) {
+        return res.status(500).json({ error: error.message });
+>>>>>>> 8ff4edd (refactor: edit update pet form)
       }
 
       return res
@@ -57,6 +99,7 @@ export default async function handler(req, res) {
         .json({ message: "Pet updated successfully", data });
     } catch (error) {
       console.error("Error updating pet:", error.message);
+<<<<<<< HEAD
       return res.status(500).json({ message: "Error updating pet" });
     }
   } else if (req.method === "DELETE") {
@@ -74,6 +117,12 @@ export default async function handler(req, res) {
     }
   } else {
     res.setHeader("Allow", ["GET", "PUT", "DELETE"]);
+=======
+      return res.status(500).json({ error: "Error updating pet" });
+    }
+  } else {
+    res.setHeader("Allow", ["GET", "PUT"]);
+>>>>>>> 8ff4edd (refactor: edit update pet form)
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }
