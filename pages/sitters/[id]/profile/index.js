@@ -4,13 +4,17 @@ import NavBarSitter from "@/components/sitters/profile/NavbarSitter";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import axios from "axios";
+<<<<<<< HEAD
 import defaultImage from "../../../../public/assets/navbar/usermock.svg";
+=======
+>>>>>>> 40adff159b944931ebb64a234f0d39c73b156b86
 
 export default function SitterManageProfile() {
   const router = useRouter();
   const { id } = router.query;
 
   const [profile, setProfile] = useState(null);
+<<<<<<< HEAD
   const [preview, setPreview] = useState(null);
 
   const ImageChange = ({ setPreview }) => {
@@ -38,14 +42,20 @@ export default function SitterManageProfile() {
       />
     );
   };
+=======
+>>>>>>> 40adff159b944931ebb64a234f0d39c73b156b86
 
   const GetProfile = async () => {
     try {
       if (id) {
         const response = await axios.get(`/api/sitters/${id}`);
+<<<<<<< HEAD
         console.log("Response Data:", response.data);
         setProfile(response.data.data[0]);
         // console.log(response.data.data[0]);
+=======
+        setProfile(response.data);
+>>>>>>> 40adff159b944931ebb64a234f0d39c73b156b86
       }
     } catch (error) {
       console.error("Error fetching profile data:", error);
