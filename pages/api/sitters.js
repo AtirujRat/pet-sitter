@@ -1,14 +1,27 @@
 import { supabase } from "@/utils/supabase";
 
 export default async function handler(req, res) {
+  const tradeName = req.query.name;
+  const petType = [req.query.pet];
+  const experience = req.query.exp;
+
   if (req.method === "GET") {
     try {
-      let { data: sitters, error } = await supabase
+      let supabaseQuery = supabase
         .from("sitters")
         .select(
-          "id, full_name, trade_name, profile_image_url, sitters_images(image_url), pet_types(id,pet_type), bookings(reviews!inner(rating))"
+          "id, full_name, trade_name, profile_image_url, pet_types, sitters_images(image_url), bookings(reviews!inner(rating))"
         )
-        .eq("sitter_status", "approved");
+        .eq("sitter_status", "approved")
+        .order("id", { ascending: true })
+        .ilike("trade_name", `%${tradeName}%`)
+        .contains("pet_types", petType);
+
+      if (experience) {
+        supabaseQuery = supabaseQuery.eq("experience", experience);
+      }
+
+      let { data: sitters, error } = await supabaseQuery;
 
       if (error) {
         throw error;
