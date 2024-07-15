@@ -7,18 +7,13 @@ export const useSitterForm = () => {
 
   const initialValues = {
     email: "",
-    password: "",
     phone_number: "",
     profile_image_url: "",
     full_name: "",
     experience: "",
     introduction: "",
-    bank_id: "",
-    account_number: "",
     trade_name: "",
     place_description: "",
-    member_status: "",
-    sitter_address_id: "",
   };
 
   const validate = (values) => {
@@ -30,12 +25,12 @@ export const useSitterForm = () => {
       errors.email = "Invalid email address";
     }
 
-    if (!values.password) {
-      errors.password = "Required";
-    }
-
     if (!values.phone_number) {
       errors.phone_number = "Required";
+    } else if (values.phone_number[0] != 0) {
+      errors.phone_number = "The first digit must be 0.";
+    } else if (values.phone_number.length != 10) {
+      errors.phone_number = "Phone number must contain 10 digits.";
     }
 
     if (!values.profile_image_url) {
@@ -48,6 +43,8 @@ export const useSitterForm = () => {
 
     if (!values.full_name) {
       errors.full_name = "Required";
+    } else if (values.full_name.length < 6 || values.full_name.length > 20) {
+      errors.full_name = "Name characters must be between 6-20";
     }
 
     if (!values.experience) {
@@ -58,28 +55,12 @@ export const useSitterForm = () => {
       errors.introduction = "Required";
     }
 
-    if (!values.bank_id) {
-      errors.bank_id = "Required";
-    }
-
-    if (!values.account_number) {
-      errors.account_number = "Required";
-    }
-
     if (!values.trade_name) {
       errors.tradename = "Required";
     }
 
     if (!values.place_description) {
       errors.place_description = "Required";
-    }
-
-    if (!values.member_status) {
-      errors.member_status = "Required";
-    }
-
-    if (!values.sitter_address_id) {
-      errors.sitter_address_id = "Required";
     }
 
     return errors;
