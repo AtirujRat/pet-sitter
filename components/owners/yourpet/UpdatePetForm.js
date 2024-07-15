@@ -14,10 +14,11 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-const API_URL = "/api/pets";
+const API_URL = "/api/owners";
 
 export default function UpdatePetForm() {
   const router = useRouter();
+<<<<<<< HEAD
 <<<<<<< HEAD
   const { Id, petId } = router.query;
 =======
@@ -208,13 +209,16 @@ export default function UpdatePetForm() {
   }, [Id, petId]);
 =======
   const { petId } = router.query;
+=======
+  const { id, petId } = router.query;
+>>>>>>> 9dc1fd7 (refactor: update api pets)
 
   const [pet, setPet] = useState(null);
 
   useEffect(() => {
-    const fetchPetById = async () => {
+    const fetchPet = async () => {
       try {
-        const response = await axios.get(`${API_URL}/${petId}`);
+        const response = await axios.get(`${API_URL}/${id}/${petId}`);
         setPet(response.data);
       } catch (error) {
         console.error("Error fetching pet:", error);
@@ -222,19 +226,19 @@ export default function UpdatePetForm() {
     };
 
     if (id) {
-      fetchPetById();
+      fetchPet();
     }
-  }, [id]);
+  }, [petId]);
 
   const initialValues = {
-    name: pet?.name || "",
-    type: pet?.type || "",
-    breed: pet?.breed || "",
-    sex: pet?.sex || "",
-    age: pet?.age || "",
-    color: pet?.color || "",
-    weight: pet?.weight || "",
-    description: pet?.description || "",
+    name: pet ? pet.name : "",
+    type: pet ? pet.type : "",
+    breed: pet ? pet.breed : "",
+    sex: pet ? pet.sex : "",
+    age: pet ? pet.age : "",
+    color: pet ? pet.color : "",
+    weight: pet ? pet.weight : "",
+    description: pet ? pet.description : "",
   };
 
   const validateRequired = (value) => {
@@ -248,7 +252,7 @@ export default function UpdatePetForm() {
 
   const onSubmit = async (values, actions) => {
     try {
-      const response = await axios.put(`${API_URL}/${id}`, values);
+      const response = await axios.put(`${API_URL}/${id}/${petId}`, values);
       console.log("Response:", response.data);
       router.push(`/owners/${id}/yourpet`);
     } catch (error) {
@@ -266,6 +270,16 @@ export default function UpdatePetForm() {
 >>>>>>> 7a4243e (feat: create api update pet)
 =======
 >>>>>>> 6fecf16 (feat: create api update pet)
+
+  const onDelete = async () => {
+    try {
+      const response = await axios.delete(`${API_URL}/${id}/${petId}`);
+      console.log("Pet deleted:", response.data);
+      router.push(`/owners/${id}/yourpet`);
+    } catch (error) {
+      console.error("Error deleting pet:", error);
+    }
+  };
 
   if (!pet) {
     return <p>Loading...</p>;
@@ -484,8 +498,8 @@ export default function UpdatePetForm() {
                   className="select select-bordered w-full outline-none ring-0 border-[#DCDFED] text-[#7B7E8F] font-normal text-[16px]"
                 >
                   <option value="">Select sex of your pet</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
                 </Field>
               </div>
               {/* Age */}
@@ -601,7 +615,7 @@ export default function UpdatePetForm() {
             </div>
 
             {/* delete pet */}
-            <div className="flex gap-2 items-center cursor-pointer">
+            <button className="flex gap-2 items-center" onClick={onDelete}>
               <Image
                 src="/assets/icons/icon-bin.svg"
 <<<<<<< HEAD
@@ -617,7 +631,7 @@ export default function UpdatePetForm() {
                 height={20}
               />
               <p className="text-ps-orange-500 text-b2">Delete Pet</p>
-            </div>
+            </button>
 
             {/* Buttons */}
             <div className="flex flex-wrap gap-4 justify-between">

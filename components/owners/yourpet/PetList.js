@@ -25,6 +25,8 @@ import { supabase } from "@/utils/supabase";
 import axios from "axios";
 >>>>>>> 8ff4edd (refactor: edit update pet form)
 
+const API_URL = "/api/owners";
+
 export default function PetList() {
   const router = useRouter();
   const { id } = router.query;
@@ -39,7 +41,7 @@ export default function PetList() {
 
       try {
         if (id) {
-          const response = await axios.get(`/api/pets/${id}`);
+          const response = await axios.get(`${API_URL}/${id}`);
 
           if (response.data && Array.isArray(response.data)) {
             setPets(response.data);

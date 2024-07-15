@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
 
-const API_URL = "/api/pets";
+const API_URL = "/api/owners";
 
 export default function CreatePetForm() {
   const router = useRouter();
@@ -72,16 +72,16 @@ export default function CreatePetForm() {
 
   const onSubmit = async (values, actions) => {
     try {
-      const response = await axios.post(API_URL, {
+      const response = await axios.post(`${API_URL}/${id}`, {
         ...values,
         owner_id: id,
       });
 
       console.log("Response:", response.data);
       router.push(`/owners/${id}/yourpet`);
-      actions.setSubmitting(false);
     } catch (error) {
       console.error("Error creating pet:", error);
+    } finally {
       actions.setSubmitting(false);
     }
   };
