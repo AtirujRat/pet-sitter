@@ -54,6 +54,7 @@ export default async function handler(req, res) {
         description,
       } = req.body;
 
+      // Validate required fields
       if (!name || !type || !breed || !sex || !age || !color || !weight) {
         return res.status(400).json({ message: "Missing required fields" });
       }

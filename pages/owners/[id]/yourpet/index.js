@@ -7,7 +7,9 @@ export default function PetListPage() {
       <div className="page-container w-full sm:px-20 max-w-[1440px]">
         <div className="flex gap-8 max-lg:flex-col">
           <SideBarOwners />
-          <PetList />
+          <div className="w-full flex justify-start">
+            <PetList />
+          </div>
         </div>
       </div>
     </section>
