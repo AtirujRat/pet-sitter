@@ -6,8 +6,10 @@ export default async function handler(req, res) {
     try {
       let { data: sitters, error } = await supabase
         .from("sitters")
-        .select("*, sitters_images(image_url), bookings(reviews!inner(rating))")
-        .eq("id", id);
+        .select(
+          "*, sitters_images(image_url), bookings(reviews!inner(rating, description,status,updated_at))"
+        )
+        .eq("id", id)
 
       if (error) {
         throw error;

@@ -8,19 +8,7 @@ import { sittersContext } from "@/pages/sitters";
 import { useContext } from "react";
 import { useMediaQuery } from "react-responsive";
 import Loading from "../Loading";
-
-const calculateRatingStars = (bookings) => {
-  let ratingStars = 0;
-  if (bookings) {
-    const totalRating = bookings.reduce(
-      (acc, cur) => acc + cur.reviews[0].rating,
-      0
-    );
-    const averageRating = totalRating / bookings.length;
-    ratingStars = Math.round(averageRating);
-  }
-  return ratingStars;
-};
+import useCalculateRatingStars from "@/hook/useCalculateRatingStars";
 
 const ITEMS_PER_PAGE = 5;
 
@@ -36,7 +24,7 @@ export default function SittersList() {
   };
 
   const filteredSitters = sitters.filter((sitter) => {
-    const ratingStars = calculateRatingStars(sitter.bookings);
+    const ratingStars = useCalculateRatingStars(sitter.bookings);
     return filteredRating === null || ratingStars === filteredRating;
   });
 
@@ -68,7 +56,7 @@ export default function SittersList() {
               galleryImage = sitter.sitters_images[0].image_url;
             }
 
-            const ratingStars = calculateRatingStars(sitter.bookings);
+            const ratingStars = useCalculateRatingStars(sitter.bookings);
 
             return (
               <div key={sitter.id}>
