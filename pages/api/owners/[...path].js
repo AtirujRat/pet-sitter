@@ -41,16 +41,28 @@ export default async function handler(req, res) {
     }
   } else if (req.method === "POST") {
     try {
-      const { name, type, breed, sex, age, color, weight, description } =
-        req.body;
+      const {
+        owner_id,
+        profile_image_url,
+        name,
+        type,
+        breed,
+        sex,
+        age,
+        color,
+        weight,
+        description,
+      } = req.body;
 
+      // Validate required fields
       if (!name || !type || !breed || !sex || !age || !color || !weight) {
         return res.status(400).json({ message: "Missing required fields" });
       }
 
       const { data: newPet, error } = await supabase.from("pets").insert([
         {
-          owner_id: id,
+          owner_id,
+          pet_image_url,
           name,
           type,
           breed,

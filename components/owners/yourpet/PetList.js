@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { ButtonOrange } from "@/components/buttons/OrangeButtons";
 
 const API_URL = "/api/owners";
 
@@ -44,20 +45,24 @@ export default function PetList() {
   }
 
   return (
-    <section className="w-[75%] min-h-[824px] h-fit shadow-lg rounded-xl bg-ps-white">
+    <section className="w-full min-h-[824px]max-sm:min-h-fit h-fit shadow-lg rounded-xl bg-ps-white max-sm:bg-ps-gray-100">
       <div className="flex flex-col justify-center p-10 gap-10">
         <div className="flex justify-between items-center">
           <p className="text-h3">Your Pet</p>
           <Link href={`/owners/${id}/yourpet/create`}>
-            <button className="w-[127px] bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide h-[48px]">
-              Create Pet
-            </button>
+            <ButtonOrange text="Create Pet" width="w-fit" />
           </Link>
         </div>
-        <div className="flex flex-wrap gap-4 justify-stretch">
+        <div className="flex flex-wrap gap-4 max-md:justify-around justify-stretch">
           {pets.map((pet) => (
             <Link key={pet.id} href={`/owners/${id}/yourpet/${pet.id}`}>
-              <PetCard key={pet.id} name={pet.name} type={pet.type} />
+              <PetCard
+                className="flex justify-center"
+                key={pet.id}
+                name={pet.name}
+                type={pet.type}
+                styles="w-[207px] h-[240px] max-md:w-[343px]"
+              />
             </Link>
           ))}
         </div>
