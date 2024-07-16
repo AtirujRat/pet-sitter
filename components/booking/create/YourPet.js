@@ -1,0 +1,125 @@
+import Image from "next/image";
+import test from "../../../public/assets/booking/create/imgtest.svg";
+import plus from "../../../public/assets/booking/create/plus.svg";
+import { useState, useEffect } from "react";
+import { supabase } from "@/utils/supabase";
+import axios from "axios";
+
+export default function YourPet() {
+  const [selectedPets, setSelectedPets] = useState([]);
+  const [petData, setPetData] = useState([]);
+  const [select, setSelect] = useState({});
+
+  const checkbox = Object.values(select).includes(true);
+
+  const getUser = async () => {
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.getUser();
+    try {
+      const getData = await axios.post("/api/owner/booking", {
+        email: user.email,
+      });
+      setPetData(getData.data);
+    } catch (e) {
+      console.log(e);
+    }
+    if (error) {
+      console.log("error");
+      return;
+    }
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  function handlePetSelect(event) {
+    const { value, checked } = event.target;
+    setSelectedPets((prevSelectedPets) => {
+      let updatedSelectedPets;
+      setSelect({ ...select, [value]: checked });
+      if (checked) {
+        updatedSelectedPets = [...prevSelectedPets, value];
+      } else {
+        updatedSelectedPets = prevSelectedPets.filter((pet) => pet !== value);
+      }
+      return updatedSelectedPets;
+    });
+  }
+
+  return (
+    <div className="w-full h-full flex flex-col p-10 gap-10 shadow-[4px_4px_24px_0_rgba(0,0,0,0.04)]">
+      <div className="w-full h-full flex flex-col gap-4">
+        <p className="text-b2">Choose your pet</p>
+        <div className="w-full h-full flex flex-wrap gap-4">
+          {petData.map((pet) => {
+            return (
+              <div
+                key={pet.id}
+                className={
+                  select[pet.type]
+                    ? "w-[240px] h-[240px] border border-ps-orange-500 rounded-2xl flex flex-col justify-center items-center relative gap-2"
+                    : "w-[240px] h-[240px] border border-ps-gray-200 rounded-2xl flex flex-col justify-center items-center relative gap-2"
+                }
+              >
+                <input
+                  type="checkbox"
+                  value={pet.type}
+                  onChange={handlePetSelect}
+                  className="checkbox checkbox-primary [--chkfg:white] border border-ps-gray-300 hover:border-ps-orange-300 focus:border-ps-orange-300 absolute top-2 right-2"
+                />
+                <Image src={test} alt="test" className="w-20 h-20" />
+                <h4 className="text-h4">{pet.name}</h4>
+                <p className="w-16 h-8 bg-ps-gray-400 text-center">
+                  {pet.type}
+                </p>
+              </div>
+            );
+          })}
+
+          <button
+            type="button"
+            className="w-[240px] h-[240px] bg-ps-orange-100 border-none rounded-2xl flex flex-col justify-center items-center gap-2"
+          >
+            <Image src={plus} alt="plus" className="w-12 h-12" />
+            <h4 className="text-b2 font-bold text-ps-orange-500">
+              Create New Pet
+            </h4>
+          </button>
+
+          {/* <button
+            type="button"
+            className="w-[240px] h-[240px] bg-ps-orange-100 border-none rounded-2xl flex flex-col justify-center items-center gap-2"
+          >
+            <Image src={plus} alt="plus" className="w-12 h-12" />
+            <h4 className="text-b2 font-bold text-ps-orange-500">
+              Create New Pet
+            </h4>
+          </button> */}
+        </div>
+      </div>
+
+      <div className="flex justify-between">
+        <button
+          type="button"
+          className="py-3 px-12 bg-ps-orange-100 text-b2 text-ps-orange-500 border-none rounded-[99px]"
+        >
+          Back
+        </button>
+        <button
+          type="button"
+          className={
+            checkbox
+              ? "py-3 px-12 bg-ps-orange-500 text-ps-white rounded-[99px]"
+              : "py-3 px-12 bg-ps-gray-200 text-b2 text-ps-gray-300 border-none rounded-[99px]"
+          }
+          disabled={!checkbox}
+        >
+          Next
+        </button>
+      </div>
+    </div>
+  );
+}

@@ -25,6 +25,8 @@ export default function Layout({ children }) {
     "/login/updatepassword",
   ];
 
+  const noFooterRoutes = ["/sitters/1/booking/create"];
+
   useEffect(() => {
     setOpenModal(false);
   }, [pathName]);
