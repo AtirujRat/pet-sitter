@@ -49,7 +49,7 @@ export default async function handler(req, res) {
         return res.status(400).json({ message: "Missing required fields" });
       }
 
-      const { data: newPet, error } = await supabase.from("pets").insert([
+      const { data, error } = await supabase.from("pets").insert([
         {
           owner_id: id,
           name,
@@ -70,17 +70,17 @@ export default async function handler(req, res) {
         throw error;
       }
 
-      return res
-        .status(201)
-        .json({ message: "Pet created successfully", data: newPet[0] });
+      return res.status(201).json({ message: "Pet created successfully" });
     } catch (error) {
       console.error("Error creating pet:", error.message);
+      console.log(error);
       return res.status(500).json({ message: "Error creating pet" });
     }
   } else if (req.method === "PUT") {
     try {
       const { name, type, breed, sex, age, color, weight, description } =
         req.body;
+      console.log(req.body);
 
       if (!name || !type || !breed || !sex || !age || !color || !weight) {
         return res.status(400).json({ message: "Missing required fields" });
