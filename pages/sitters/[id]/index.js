@@ -108,8 +108,8 @@ export default function SitterDetails() {
             </div>
           </div>
           <div className="buttons flex p-6 border-t-[1px] border-ps-gray-200 gap-4">
-            <ButtonOrangeLight id="chat" text="Send Message" />
-            <ButtonOrange id="booking" text="Book Now" />
+            <ButtonOrangeLight id="chat" text="Send Message" width="w-full" />
+            <ButtonOrange id="booking" text="Booking" width="w-full" />
           </div>
         </div>
       </div>
