@@ -59,7 +59,7 @@ export default async function handler(req, res) {
         return res.status(400).json({ message: "Missing required fields" });
       }
 
-      const { data, error } = await supabase.from("pets").insert([
+      const { data: newPet, error } = await supabase.from("pets").insert([
         {
           owner_id,
           pet_image_url,
