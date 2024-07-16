@@ -3,15 +3,14 @@ import { Formik, Form, Field, ErrorMessage, useFormikContext } from "formik";
 import { useRouter } from "next/router";
 import { useSitterForm } from "@/hook/useSitterForm";
 import { useState, useRef } from "react";
-import { v4 as uuidv4 } from "uuid";
 import PhoneInput from "@/components/authentication/PhoneInput";
 import MultiSelect from "./MultiSelectPetType";
-import ImageChange from "./ImageChange";
 import userimage from "../../../public/assets/navbar/usermock.svg";
 import plus from "../../../public/assets/icon-plus.svg";
 import iconUpLoad from "../../../public/assets/sitters/icon-upload.svg";
 import iconClose from "../../../public/assets/sitters/icon-close.svg";
 import iconApproved from "../../../public/assets/sitters/icon-approved.svg";
+import * as Yup from "yup";
 import axios from "axios";
 
 const SitterProfileForm = ({ profile = {} }) => {
@@ -34,17 +33,23 @@ const SitterProfileForm = ({ profile = {} }) => {
       const file = event.currentTarget.files[0];
 
       if (file && file.size > 2 * 1024 * 1024) {
-        // 2 MB
         setError("File size should not exceed 2 MB.");
         return;
       }
 
-      setError(null);
-      setFieldValue("profile_image_url", file);
+      if (
+        file &&
+        !["image/jpeg", "image/png", "image/jpg"].includes(file.type)
+      ) {
+        setError("Only .jpg, .jpeg, and .png files are allowed.");
+        return;
+      }
 
+      setError(null);
       const reader = new FileReader();
       reader.onloadend = () => {
         setPreview(reader.result);
+        setFieldValue("profile_image_url", reader.result);
       };
       if (file) {
         reader.readAsDataURL(file);
@@ -56,7 +61,7 @@ const SitterProfileForm = ({ profile = {} }) => {
         {preview ? (
           <Image
             src={preview}
-            alt="userimage"
+            alt="Profile Preview"
             layout="fill"
             objectFit="cover"
             className="rounded-full"
@@ -65,7 +70,7 @@ const SitterProfileForm = ({ profile = {} }) => {
         ) : (
           <Image
             src={userimage}
-            alt="userimage"
+            alt="Default User Image"
             layout="fill"
             objectFit="cover"
             className="rounded-full"
@@ -75,7 +80,7 @@ const SitterProfileForm = ({ profile = {} }) => {
           className="absolute w-[60px] h-[60px] opacity-0 cursor-pointer"
           type="file"
           ref={fileInputRef}
-          name="image"
+          name="profile_image_url"
           onChange={handleImageChange}
           accept="image/*"
           style={{ display: "none" }}
@@ -84,8 +89,9 @@ const SitterProfileForm = ({ profile = {} }) => {
           onClick={() => fileInputRef.current.click()}
           className="absolute z-10 bottom-0 right-0 cursor-pointer"
         >
-          <Image src={plus} alt="upload" width={60} height={60} />
+          <Image src={plus} alt="Upload Icon" width={60} height={60} />
         </div>
+        {error && <div className="text-red-500">{error}</div>}
       </div>
     );
   };
@@ -114,7 +120,6 @@ const SitterProfileForm = ({ profile = {} }) => {
           alert("File size should not exceed 2 MB.");
         }
       }
-      console.log(newImages);
     };
 
     const handleRemoveImage = (index) => {
@@ -136,7 +141,7 @@ const SitterProfileForm = ({ profile = {} }) => {
               className="absolute w-[24px] h-[24px] top-0 right-0 translate-x-1 -translate-y-1 cursor-pointer rounded-full bg-ps-gray-400 flex items-center justify-center"
               onClick={() => handleRemoveImage(index)}
             >
-              <Image src={iconClose} alt="remove" width={8} height={8} />
+              <Image src={iconClose} alt="Remove Icon" width={8} height={8} />
             </div>
           </div>
         ))}
@@ -153,7 +158,7 @@ const SitterProfileForm = ({ profile = {} }) => {
               accept="image/*"
               multiple
             />
-            <Image src={iconUpLoad} width={40} height={40} />
+            <Image src={iconUpLoad} width={40} height={40} alt="Upload Icon" />
             <p className="text-ps-orange-500 font-bold text-[16px] p-3">
               Upload Image
             </p>
@@ -163,57 +168,14 @@ const SitterProfileForm = ({ profile = {} }) => {
     );
   };
 
-  const updateProfile = async (formData) => {
-    const fileName = uuidv4();
-
-    const { image_url, image_url_error } = await supabase.storage
-      .from("sitters")
-      .upload("profile_image/" + fileName, formData.image);
-
-    if (image_url_error) {
-      console.log(image_url_error);
-    }
-
-    const { image_gallery_url, image_gallery_url_error } =
-      await supabase.storage
-        .from("sitters")
-        .upload("gallery_image/" + fileName, formData.image);
-
-    if (image_url_error) {
-      console.log(image_gallery_url_error);
-    }
-
-    const publicAttachmentUrl = supabase.storage
-      .from("sitters/profile_image")
-      .getPublicUrl(fileName);
-
-    const publicAttachmentUrlGallry = supabase.storage
-      .from("sitters/gallery_image")
-      .getPublicUrl(fileName);
-
-    const { data, error } = await supabase
-      .from("sitters")
-      .update({
-        profile_image_url: publicAttachmentUrl.data.publicUrl,
-        full_name: formData.name,
-        email: userData?.email,
-        phone_number: formData.phone,
-        id_number: formData.id_number,
-        date_of_birth: formData.date_of_birth,
-        updated_at: new Date(),
-      })
-      .eq("id", id)
-      .select();
-    if (error) {
-      console.log(error);
-    }
-
-    console.log("Updated Successfully");
-    alert("Profile has been updated");
-  };
-
   const data = async (values) => {
-    await axios.put(`/api/sitters/${id}`, values);
+    try {
+      await axios.put(`/api/sitters/${id}`, values);
+      alert("Profile updated successfully!");
+    } catch (error) {
+      console.error("Error updating profile:", error.response.data);
+      alert("Failed to update profile. Please try again.");
+    }
   };
 
   return (
@@ -221,8 +183,8 @@ const SitterProfileForm = ({ profile = {} }) => {
       initialValues={initialFormValues}
       // validate={validate}
       onSubmit={(values, { setSubmitting }) => {
-        setSubmitting(false);
         console.log(values);
+        setSubmitting(true);
         data(values);
       }}
       enableReinitialize
@@ -233,7 +195,12 @@ const SitterProfileForm = ({ profile = {} }) => {
             <div className="flex items-center gap-6">
               <p>Pet Sitter Profile</p>
               <p className="text-[16px] text-ps-green-500 flex text-center gap-2">
-                <Image src={iconApproved} width={6} height={6} />
+                <Image
+                  src={iconApproved}
+                  width={6}
+                  height={6}
+                  alt="Approved Icon"
+                />
                 {profile.sitter_status &&
                   profile.sitter_status[0].toUpperCase() +
                     profile.sitter_status.slice(1)}
@@ -250,10 +217,10 @@ const SitterProfileForm = ({ profile = {} }) => {
           <div className="bg-ps-white rounded-2xl px-20 py-10 flex flex-col gap-6">
             <div className="flex flex-col gap-6">
               <p className="text-ps-gray-300 text-h3">Basic Information</p>
-              <label htmlFor="userimage" className="text-b2">
+              <label htmlFor="profile_image_url" className="text-b2">
                 Profile Image
               </label>
-              <ImageChange />
+              <Field component={ImageChange} name="profile_image_url" />
             </div>
             <div className="flex w-full gap-10">
               <div className="flex flex-col w-full">
@@ -355,27 +322,6 @@ const SitterProfileForm = ({ profile = {} }) => {
                 )}
               </div>
             </div>
-            {/* <div className="flex w-full gap-10">
-              <div className="flex flex-col w-full">
-                <label htmlFor="pet_type" className="text-b2">
-                  Pet type
-                </label>
-                <Field
-                  as="select"
-                  name="pet_type"
-                  className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400 focus:outline-none focus:ring-0"
-                >
-                  <option value="" label="Select pet type" />
-                  <option value="dog" label="Dog" />
-                  <option value="cat" label="Cat" />
-                  <option value="Bird" label="Bird" />
-                  <option value="Rabbit" label="Rabbit" />
-                </Field>
-                {errors.pet_type && touched.pet_type && (
-                  <div className="text-ps-red">{errors.pet_type}</div>
-                )}
-              </div>
-            </div> */}
             <div className="flex w-full gap-10">
               <div className="flex flex-col w-full">
                 <label htmlFor="pet_type" className="text-b2">
@@ -384,14 +330,13 @@ const SitterProfileForm = ({ profile = {} }) => {
                 <Field
                   component={MultiSelect}
                   name="pet_type"
-                  options={["Dog", "Cat", "Bird", "Rabbit"]} // Add your options here
+                  options={["Dog", "Cat", "Bird", "Rabbit"]}
                 />
                 {errors.pet_type && touched.pet_type && (
                   <div className="text-ps-red">{errors.pet_type}</div>
                 )}
               </div>
             </div>
-
             <div className="flex w-full gap-10">
               <div className="flex flex-col w-full">
                 <label htmlFor="services_description" className="text-b2">
@@ -427,10 +372,10 @@ const SitterProfileForm = ({ profile = {} }) => {
             </div>
             <div className="flex w-full gap-10">
               <div className="flex flex-col w-full gap-4">
-                <label htmlFor="introduction" className="text-b2">
+                <label htmlFor="gallery" className="text-b2">
                   Image Gallery (Maximum 10 images)
                 </label>
-                <ImageGallery />
+                <Field component={ImageGallery} name="gallery" />
               </div>
             </div>
           </div>

@@ -1,12 +1,16 @@
 import Image from "next/image";
-import { useField, useFormikContext } from "formik";
+import { useFormikContext } from "formik";
 import { useState, useRef } from "react";
 import userimage from "../../../public/assets/navbar/usermock.svg";
 import plus from "../../../public/assets/icon-plus.svg";
 
-const ImageChange = ({ field, form, setPreview, preview }) => {
+const ImageChange = ({ profile }) => {
+  const [preview, setPreview] = useState(profile.profile_image_url || null);
   const [error, setError] = useState(null);
+  const { setFieldValue } = useFormikContext();
   const fileInputRef = useRef(null);
+
+  console.log(profile);
 
   const handleImageChange = async (event) => {
     const file = event.currentTarget.files[0];
@@ -17,7 +21,7 @@ const ImageChange = ({ field, form, setPreview, preview }) => {
     }
 
     setError(null);
-    form.setFieldValue(field.name, file);
+    setFieldValue("profile_image_url", file);
 
     const reader = new FileReader();
     reader.onloadend = () => {
@@ -33,16 +37,16 @@ const ImageChange = ({ field, form, setPreview, preview }) => {
       {preview ? (
         <Image
           src={preview}
-          alt="Profile Preview"
+          alt="userimage"
           layout="fill"
           objectFit="cover"
           className="rounded-full"
-          priority // Add priority property here
+          priority
         />
       ) : (
         <Image
           src={userimage}
-          alt="Default User Image"
+          alt="userimage"
           layout="fill"
           objectFit="cover"
           className="rounded-full"
@@ -52,7 +56,7 @@ const ImageChange = ({ field, form, setPreview, preview }) => {
         className="absolute w-[60px] h-[60px] opacity-0 cursor-pointer"
         type="file"
         ref={fileInputRef}
-        name={field.name}
+        name="image"
         onChange={handleImageChange}
         accept="image/*"
         style={{ display: "none" }}
@@ -61,7 +65,7 @@ const ImageChange = ({ field, form, setPreview, preview }) => {
         onClick={() => fileInputRef.current.click()}
         className="absolute z-10 bottom-0 right-0 cursor-pointer"
       >
-        <Image src={plus} alt="Upload Icon" width={60} height={60} />
+        <Image src={plus} alt="upload" width={60} height={60} />
       </div>
       {error && <div className="text-red-500">{error}</div>}
     </div>

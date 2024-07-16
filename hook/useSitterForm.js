@@ -8,7 +8,7 @@ export const useSitterForm = () => {
   const initialValues = {
     email: "",
     phone_number: "",
-    profile_image_url: "",
+    profile_image_url: null,
     full_name: "",
     experience: "",
     introduction: "",

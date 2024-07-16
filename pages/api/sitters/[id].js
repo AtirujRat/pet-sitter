@@ -1,4 +1,5 @@
 import { supabase } from "@/utils/supabase";
+import { v4 as uuidv4 } from "uuid";
 
 export default async function handler(req, res) {
   const { id } = req.query;
@@ -26,6 +27,19 @@ export default async function handler(req, res) {
     const reqBody = { ...req.body, updated_at: new Date() };
     console.log(reqBody);
 
+    const fileName = uuidv4();
+
+    const { image_url, image_url_error } = await supabase.storage
+      .from("sitters")
+      .upload("profile_image/" + fileName, reqBody.profile_image_url);
+    if (image_url_error) {
+      console.log(image_url_error);
+    }
+
+    const publicAttachmentUrl = supabase.storage
+      .from("sitters/profile_image")
+      .getPublicUrl(fileName);
+
     try {
       // ตรวจสอบว่าแถวข้อมูลมีอยู่หรือไม่
       const { data: existingData, error } = await supabase
@@ -45,7 +59,7 @@ export default async function handler(req, res) {
             email: reqBody.email,
             password: reqBody.password,
             phone_number: reqBody.phone_number,
-            profile_image_url: reqBody.profile_image_url,
+            profile_image_url: publicAttachmentUrl.data.data[0].publicUrl,
             full_name: reqBody.full_name,
             experience: reqBody.experience,
             introduction: reqBody.introduction,
@@ -75,7 +89,7 @@ export default async function handler(req, res) {
             email: reqBody.email,
             password: reqBody.password,
             phone_number: reqBody.phone_number,
-            profile_image_url: reqBody.profile_image_url,
+            profile_image_url: publicAttachmentUrl.data.data[0].publicUrl,
             full_name: reqBody.full_name,
             experience: reqBody.experience,
             introduction: reqBody.introduction,
