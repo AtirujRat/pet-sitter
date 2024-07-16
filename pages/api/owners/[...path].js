@@ -1,4 +1,3 @@
-// Import necessary utilities or dependencies
 import { supabase } from "@/utils/supabase";
 
 export default async function handler(req, res) {
@@ -8,7 +7,6 @@ export default async function handler(req, res) {
   if (req.method === "GET") {
     try {
       if (petId) {
-        // Fetch a single pet by id belonging to the owner_id
         const { data: pet, error } = await supabase
           .from("pets")
           .select("*")
@@ -26,7 +24,6 @@ export default async function handler(req, res) {
           return res.status(404).json({ message: "Pet not found" });
         }
       } else {
-        // Fetch all pets belonging to the owner_id
         const { data: pets, error } = await supabase
           .from("pets")
           .select("*")
@@ -47,12 +44,10 @@ export default async function handler(req, res) {
       const { name, type, breed, sex, age, color, weight, description } =
         req.body;
 
-      // Validate required fields
       if (!name || !type || !breed || !sex || !age || !color || !weight) {
         return res.status(400).json({ message: "Missing required fields" });
       }
 
-      // Insert new pet into database
       const { data: newPet, error } = await supabase.from("pets").insert([
         {
           owner_id: id,
@@ -74,15 +69,12 @@ export default async function handler(req, res) {
         throw error;
       }
 
-      // Return success response
       return res.status(201).json({ message: "Pet created successfully" });
     } catch (error) {
       console.error("Error creating pet:", error.message);
       return res.status(500).json({ message: "Error creating pet" });
     }
-  }
-  // Handle PUT method for updating a pet
-  else if (req.method === "PUT") {
+  } else if (req.method === "PUT") {
     try {
       const { name, type, breed, sex, age, color, weight, description } =
         req.body;
@@ -91,7 +83,6 @@ export default async function handler(req, res) {
         return res.status(400).json({ message: "Missing required fields" });
       }
 
-      // Update the pet with the specified petId belonging to the owner_id
       const { data: updatedPet, error } = await supabase
         .from("pets")
         .update({
@@ -120,11 +111,7 @@ export default async function handler(req, res) {
       console.error("Error updating pet:", error.message);
       return res.status(500).json({ message: "Error updating pet" });
     }
-  }
-  // Handle POST method for creating a new pet
-
-  // Handle unsupported methods
-  else if (req.method === "DELETE") {
+  } else if (req.method === "DELETE") {
     try {
       if (!petId) {
         return res.status(400).json({ message: "Pet ID is required" });
