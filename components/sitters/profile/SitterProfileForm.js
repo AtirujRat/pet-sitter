@@ -2,7 +2,7 @@ import Image from "next/image";
 import { Formik, Form, Field, ErrorMessage, useFormikContext } from "formik";
 import { useRouter } from "next/router";
 import { useSitterForm } from "@/hook/useSitterForm";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import PhoneInput from "@/components/authentication/PhoneInput";
 import MultiSelect from "./MultiSelectPetType";
 import userimage from "../../../public/assets/navbar/usermock.svg";
@@ -15,11 +15,12 @@ import * as Yup from "yup";
 import { v4 as uuidv4 } from "uuid";
 import { supabase } from "@/utils/supabase";
 
-const ImageGallery = ({ gallery, setGallery }) => {
+const ImageGallery = ({ gallery, setGallery, images, setImages }) => {
   const { setFieldValue } = useFormikContext();
 
   const handleGalleryChange = async (event) => {
     const files = Array.from(event.target.files);
+    // console.log(files);
     if (files.length + gallery.length > 10) {
       alert("You can only upload a maximum of 10 images.");
       return;
@@ -30,31 +31,37 @@ const ImageGallery = ({ gallery, setGallery }) => {
 
     for (const file of files) {
       // if (file.size <= 2 * 1024 * 1024) {
+      console.log(file);
       const reader = new FileReader();
       reader.onloadend = () => {
-        newImages.push(reader.result);
+        // newImages.push(file);
         // console.log(reader.result);
         setGallery((prev) => [...prev, reader.result]);
+        const newImage = images;
+        newImage.push(file);
+        setImages(newImage);
+        console.log(images);
         // newFileList.push(file);
         // setFieldValue("sitters_images", [...gallery, ...newImages]);
-        setFieldValue([...gallery, ...files]);
       };
+      setFieldValue("sitters_images", images);
       // console.log(newImages);
       reader.readAsDataURL(file);
       // } else {
       //   alert("File size should not exceed 2 MB.");
       // }
     }
-    console.log(gallery);
+    // console.log(gallery);
 
     // console.log(newFileList);
-    console.log(newImages.length);
   };
 
   const handleRemoveImage = (index) => {
     const newGallery = gallery.filter((_, i) => i !== index);
+    const newImages = images.filter((_, i) => i !== index);
     setGallery(newGallery);
-    setFieldValue("sitters_images", newGallery);
+    setImages(newImages);
+    setFieldValue("sitters_images", images);
   };
 
   return (
@@ -111,11 +118,13 @@ const SitterProfileForm = ({ profile = {} }) => {
 
   const [preview, setPreview] = useState(profile.profile_image_url || null);
   const [gallery, setGallery] = useState([]);
+  const [images, setImages] = useState([]);
 
   const ImageChange = ({ setPreview }) => {
     const { setFieldValue } = useFormikContext();
     const handleImageChange = async (event) => {
       const file = event.currentTarget.files[0];
+      console.log(file);
       setFieldValue("profile_image_url", file);
 
       const reader = new FileReader();
@@ -137,6 +146,7 @@ const SitterProfileForm = ({ profile = {} }) => {
       />
     );
   };
+  // console.log(preview);
 
   // const data = async (values) => {
   //   try {
@@ -166,42 +176,56 @@ const SitterProfileForm = ({ profile = {} }) => {
 
   const updateProfile = async (values) => {
     // const fileName = uuidv4();
-    try {
-      // Upload profile image if it exists
-      let profileImageUrl = null;
-      if (values.profile_image_url) {
-        profileImageUrl = await uploadImage(
-          values.profile_image_url,
-          "profile_image"
-        );
+    // try {
+    // Upload profile image if it exists
+    // console.log(values.profile_image_url);
+    // // let profileImageUrl = null;
+    // console.log(values.profile_image_url);
+    if (values.profile_image_url !== initialFormValues.profile_image_url) {
+      const profileImageUrl = await uploadImage(
+        values.profile_image_url,
+        "profile_image"
+      );
+      console.log(profileImageUrl);
+    }
+    // // Upload gallery images
+    const galleryImageUrls = [];
+    // // let fileNameGallery = [];
+    let checkSiterImage = 0;
+    for (let i = 0; i < values.sitters_images.length; i++) {
+      if (
+        values.sitters_images[i].image_url !==
+        initialFormValues.sitters_images[i].image_url
+      ) {
+        checkSiterImage++;
       }
-
-      // Upload gallery images
-      const galleryImageUrls = [];
-      // let fileNameGallery = [];
-      for (const file of gallery) {
+    }
+    if (checkSiterImage > 0) {
+      for (const file of values.sitters_images) {
         const url = await uploadImage(file, "gallery_images");
+        console.log(url);
         galleryImageUrls.push(url);
+        // console.log(galleryImageUrls);
         // fileNameGallery.push(fName);
       }
-      console.log(gallery);
-      // Update profile with uploaded image URLs
-      const updatedValues = {
-        ...values,
-        profile_image_url: profileImageUrl,
-        sitters_images: galleryImageUrls,
-        // fileName: fileName,
-      };
-
-      // data(updatedValues);
-
-      await axios.put(`/api/sitters/${id}`, updatedValues);
-      alert("Profile updated successfully!");
-    } catch (error) {
-      console.log(error);
-      console.error("Error updating profile:", error);
-      alert("Failed to update profile. Please try again.");
     }
+    console.log(galleryImageUrls);
+    // console.log(gallery);
+    // Update profile with uploaded image URLs
+    // const updatedValues = {
+    //   ...values,
+    //   profile_image_url: profileImageUrl,
+    //   sitters_images: galleryImageUrls,
+    //   // fileName: fileName,
+    // };
+    // data(updatedValues);
+    //   await axios.put(`/api/sitters/${id}`, updatedValues);
+    //   alert("Profile updated successfully!");
+    // } catch (error) {
+    //   console.log(error);
+    //   console.error("Error updating profile:", error);
+    //   alert("Failed to update profile. Please try again.");
+    // }
   };
 
   // const updateProfile = async (values) => {
@@ -450,7 +474,12 @@ const SitterProfileForm = ({ profile = {} }) => {
                 <label htmlFor="gallery" className="text-b2">
                   Image Gallery (Maximum 10 images)
                 </label>
-                <ImageGallery gallery={gallery} setGallery={setGallery} />
+                <ImageGallery
+                  gallery={gallery}
+                  setGallery={setGallery}
+                  images={images}
+                  setImages={setImages}
+                />
               </div>
             </div>
           </div>
