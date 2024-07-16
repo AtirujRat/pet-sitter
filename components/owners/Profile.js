@@ -136,6 +136,7 @@ const Profile = () => {
     const { image_url, image_url_error } = await supabase.storage
       .from("owner")
       .upload("profile_image/" + fileName, formData.image);
+    console.log(formData.image);
 
     if (image_url_error) {
       console.log(image_url_error);
