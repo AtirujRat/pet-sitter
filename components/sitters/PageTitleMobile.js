@@ -1,6 +1,6 @@
 import Image from "next/image";
-import listActive from "/public/assets/sitters/icon-list-active.svg";
-import mapInactive from "/public/assets/sitters/icon-map-inactive.svg";
+import listActive from "/public/assets/icons/icon-list-active.svg";
+import mapInactive from "/public/assets/icons/icon-map-inactive.svg";
 
 export default function PageTitleMobile() {
   return (

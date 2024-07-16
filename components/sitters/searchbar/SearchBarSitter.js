@@ -2,7 +2,7 @@ import CheckBoxSitter from "./CheckBoxSitter";
 import RatingSitter from "./RatingSitter";
 import { useContext } from "react";
 import Image from "next/image";
-import search from "/public/assets/sitters/icon-search.svg";
+import search from "/public/assets/icons/icon-search.svg";
 import { sittersContext } from "@/pages/sitters";
 
 const SearchBarSitter = () => {

@@ -1,6 +1,6 @@
 import Image from "next/image";
-import previous from "/public/assets/icon-previous.svg";
-import next from "/public/assets/icon-next.svg";
+import previous from "/public/assets/icons/icon-previous.svg";
+import next from "/public/assets/icons/icon-next.svg";
 import { sittersContext } from "@/pages/sitters";
 import { useContext } from "react";
 
