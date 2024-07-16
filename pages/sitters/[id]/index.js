@@ -6,6 +6,7 @@ import pin from "/public/assets/icons/icon-location.svg";
 import ReviewRating from "@/components/sitters/ReviewRating";
 import Loading from "@/components/Loading";
 import Gallery from "@/components/sitters/details/Gallery";
+import Reviews from "@/components/sitters/details/Reviews";
 import {
   DogBadge,
   CatBadge,
@@ -50,33 +51,35 @@ export default function SitterDetails() {
     return <Loading />;
   }
 
-  console.log(sitter.sitters_images)
-const OPTIONS = { loop: true }
-const SLIDES = sitter.sitters_images
+  const OPTIONS = { loop: true };
+  const SLIDES = sitter.sitters_images;
 
   return (
     <section className="w-full flex flex-col items-center bg-[#FAFAFB] sm:py-1 lg:pb-32 ">
       {/*--- To add gallery module ---*/}
       <Gallery slides={SLIDES} options={OPTIONS} />
       <div className="page-container w-full px-20 max-w-[1440px] flex justify-center gap-4">
-        <div className="text-details w-[67%] flex flex-col gap-12 py-6 px-20">
-          <h1 className="trade-name text-h1">{sitter.trade_name}</h1>
-          <div className="introduction flex flex-col gap-3">
-            <h3 className="text-h3">Introduction</h3>
-            <b className="text-b2 text-ps-gray-500">{sitter.introduction}</b>
+        <div className="left-container w-[67%] flex flex-col gap-10">
+          <div className="sitter-details w-full flex flex-col gap-12 py-6 px-20 ">
+            <h1 className="trade-name text-h1">{sitter.trade_name}</h1>
+            <div className="introduction flex flex-col gap-3">
+              <h3 className="text-h3">Introduction</h3>
+              <p className="text-b2 text-ps-gray-500">{sitter.introduction}</p>
+            </div>
+            <div className="service flex flex-col gap-3">
+              <h3 className="text-h3">Services</h3>
+              <p className="text-b2 text-ps-gray-500">{sitter.services}</p>
+            </div>
+            <div className="my-place flex flex-col gap-3">
+              <h3 className="text-h3">My Place</h3>
+              <p className="text-b2 text-ps-gray-500">
+                {sitter.place_description}
+              </p>
+            </div>
           </div>
-          <div className="service flex flex-col gap-3">
-            <h3 className="text-h3">Services</h3>
-            <b className="text-b2 text-ps-gray-500">{sitter.services}</b>
-          </div>
-          <div className="my-place flex flex-col gap-3">
-            <h3 className="text-h3">My Place</h3>
-            <b className="text-b2 text-ps-gray-500">
-              {sitter.place_description}
-            </b>
-          </div>
+          <Reviews />
         </div>
-        <div className="sitter-card flex flex-col w-[33%] bg-ps-white rounded-2xl h-fit min-w-[370px]">
+        <div className="sitter-card flex flex-col w-[33%] bg-ps-white rounded-2xl h-fit min-w-[370px] lg:sticky top-5">
           <div className="sister-profile px-10 py-10 flex flex-col gap-6 items-center w-full">
             <img
               src={sitter.profile_image_url}

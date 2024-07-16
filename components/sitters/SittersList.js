@@ -84,7 +84,7 @@ export default function SittersList() {
                         <img
                           src={sitter.profile_image_url ?? profilePlaceholder}
                           alt={`${sitter.full_name}-profile-image`}
-                          className="rounded-full object-cover object-center sm:h-[64px] sm:w-[64px] h-[36px] w-[36px]"
+                          className="rounded-full object-cover sm:h-[64px] sm:max-h-[64px] sm:min-w-[64px] sm:w-[64px] h-[36px] w-[36px] max-h-[36px] min-w-[36px]"
                         ></img>
                         <div className="sitter-title w-full">
                           <h3 className="sm:text-h3 text-lg font-bold leading-6">
