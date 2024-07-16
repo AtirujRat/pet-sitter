@@ -22,12 +22,7 @@ export default function PetList() {
       try {
         if (id) {
           const response = await axios.get(`${API_URL}/${id}`);
-
-          if (response.data && Array.isArray(response.data)) {
-            setPets(response.data);
-          } else {
-            setError("Data received is not in expected format or empty");
-          }
+          setPets(response.data);
         }
 
         setLoading(false);
