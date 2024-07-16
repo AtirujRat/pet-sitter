@@ -5,6 +5,7 @@ import Image from "next/image";
 import pin from "/public/assets/icons/icon-location.svg";
 import ReviewRating from "@/components/sitters/ReviewRating";
 import Loading from "@/components/Loading";
+import Gallery from "@/components/sitters/details/Gallery";
 import {
   DogBadge,
   CatBadge,
@@ -49,28 +50,30 @@ export default function SitterDetails() {
     return <Loading />;
   }
 
+  console.log(sitter.sitters_images)
+const OPTIONS = { loop: true }
+const SLIDES = sitter.sitters_images
+
   return (
-    <section className="w-full flex flex-col items-center bg-[#FAFAFB] sm:py-8 pt-4 lg:pb-32 ">
+    <section className="w-full flex flex-col items-center bg-[#FAFAFB] sm:py-1 lg:pb-32 ">
       {/*--- To add gallery module ---*/}
-      <div className="gallery bg-ps-gray-300 h-56 w-full text-h4 text-ps-white my-2 mb-10 flex justify-center items-center">
-        Gallery
-      </div>
+      <Gallery slides={SLIDES} options={OPTIONS} />
       <div className="page-container w-full px-20 max-w-[1440px] flex justify-center gap-4">
         <div className="text-details w-[67%] flex flex-col gap-12 py-6 px-20">
           <h1 className="trade-name text-h1">{sitter.trade_name}</h1>
           <div className="introduction flex flex-col gap-3">
             <h3 className="text-h3">Introduction</h3>
-            <b2 className="text-b2 text-ps-gray-500">{sitter.introduction}</b2>
+            <b className="text-b2 text-ps-gray-500">{sitter.introduction}</b>
           </div>
           <div className="service flex flex-col gap-3">
             <h3 className="text-h3">Services</h3>
-            <b2 className="text-b2 text-ps-gray-500">{sitter.services}</b2>
+            <b className="text-b2 text-ps-gray-500">{sitter.services}</b>
           </div>
           <div className="my-place flex flex-col gap-3">
             <h3 className="text-h3">My Place</h3>
-            <b2 className="text-b2 text-ps-gray-500">
+            <b className="text-b2 text-ps-gray-500">
               {sitter.place_description}
-            </b2>
+            </b>
           </div>
         </div>
         <div className="sitter-card flex flex-col w-[33%] bg-ps-white rounded-2xl h-fit min-w-[370px]">
