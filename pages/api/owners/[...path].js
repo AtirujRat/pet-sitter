@@ -49,7 +49,7 @@ export default async function handler(req, res) {
         return res.status(400).json({ message: "Missing required fields" });
       }
 
-      const { data: newPet, error } = await supabase.from("pets").insert([
+      const { data, error } = await supabase.from("pets").insert([
         {
           owner_id: id,
           name,
@@ -71,6 +71,7 @@ export default async function handler(req, res) {
       }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
       return res.status(201).json({ message: "Pet created successfully" });
     } catch (error) {
       console.error("Error creating pet:", error.message);
@@ -82,6 +83,12 @@ export default async function handler(req, res) {
     } catch (error) {
       console.error("Error creating pet:", error.message);
 >>>>>>> 9dc1fd7 (refactor: update api pets)
+=======
+      return res.status(201).json({ message: "Pet created successfully" });
+    } catch (error) {
+      console.error("Error creating pet:", error.message);
+      console.log(error);
+>>>>>>> d0faa4e (fix: solve create pet)
       return res.status(500).json({ message: "Error creating pet" });
     }
   } else if (req.method === "PUT") {
@@ -89,9 +96,13 @@ export default async function handler(req, res) {
       const { name, type, breed, sex, age, color, weight, description } =
         req.body;
 <<<<<<< HEAD
+<<<<<<< HEAD
       console.log(req.body);
 =======
 >>>>>>> 9dc1fd7 (refactor: update api pets)
+=======
+      console.log(req.body);
+>>>>>>> d0faa4e (fix: solve create pet)
 
       if (!name || !type || !breed || !sex || !age || !color || !weight) {
         return res.status(400).json({ message: "Missing required fields" });
