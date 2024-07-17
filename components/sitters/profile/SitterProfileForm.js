@@ -1,8 +1,13 @@
 import Image from "next/image";
-import { Formik, Form, Field, ErrorMessage, useFormikContext } from "formik";
+import { Formik, Form, Field, useFormikContext } from "formik";
 import { useRouter } from "next/router";
 import { useSitterForm } from "@/hook/useSitterForm";
-import { useState, useRef } from "react";
+import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+import { supabase } from "@/utils/supabase";
+import axios from "axios";
+import * as Yup from "yup";
+
 import PhoneInput from "@/components/authentication/PhoneInput";
 import MultiSelect from "./MultiSelectPetType";
 import userimage from "../../../public/assets/navbar/usermock.svg";
@@ -10,12 +15,8 @@ import plus from "../../../public/assets/icon-plus.svg";
 import iconUpLoad from "../../../public/assets/sitters/icon-upload.svg";
 import iconClose from "../../../public/assets/sitters/icon-close.svg";
 import iconApproved from "../../../public/assets/sitters/icon-approved.svg";
-import axios from "axios";
-import * as Yup from "yup";
-import { v4 as uuidv4 } from "uuid";
-import { supabase } from "@/utils/supabase";
 
-const ImageGallery = ({ gallery, setGallery }) => {
+const ImageGallery = ({ gallery, setGallery, images, setImage }) => {
   const { setFieldValue } = useFormikContext();
 
   const handleGalleryChange = async (event) => {
@@ -25,36 +26,32 @@ const ImageGallery = ({ gallery, setGallery }) => {
       return;
     }
 
-    const newImages = [];
-    // const newFileList = [];
-
     for (const file of files) {
-      // if (file.size <= 2 * 1024 * 1024) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        newImages.push(reader.result);
-        // console.log(reader.result);
-        setGallery((prev) => [...prev, reader.result]);
-        // newFileList.push(file);
-        // setFieldValue("sitters_images", [...gallery, ...newImages]);
-        setFieldValue([...gallery, ...files]);
-      };
-      // console.log(newImages);
-      reader.readAsDataURL(file);
-      // } else {
-      //   alert("File size should not exceed 2 MB.");
-      // }
+      if (file.size <= 2 * 1024 * 1024) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setGallery((prev) => [...prev, reader.result]);
+          const newImage = images;
+          newImage.push(file);
+          setImage(newImage);
+          console.log(images);
+          // setFieldValue("sitters_images", images);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        alert("File size should not exceed 2 MB.");
+      }
     }
-    console.log(gallery);
-
-    // console.log(newFileList);
-    console.log(newImages.length);
   };
 
   const handleRemoveImage = (index) => {
     const newGallery = gallery.filter((_, i) => i !== index);
     setGallery(newGallery);
-    setFieldValue("sitters_images", newGallery);
+
+    const newImagesGallery = images.filter((_, i) => i !== index);
+    setImage(newImagesGallery);
+
+    // setFieldValue("sitters_images", newImagesGallery);
   };
 
   return (
@@ -111,6 +108,7 @@ const SitterProfileForm = ({ profile = {} }) => {
 
   const [preview, setPreview] = useState(profile.profile_image_url || null);
   const [gallery, setGallery] = useState([]);
+  const [images, setImage] = useState([]);
 
   const ImageChange = ({ setPreview }) => {
     const { setFieldValue } = useFormikContext();
@@ -138,16 +136,6 @@ const SitterProfileForm = ({ profile = {} }) => {
     );
   };
 
-  // const data = async (values) => {
-  //   try {
-  //     await axios.put(`/api/sitters/${id}`, values);
-  //     alert("Profile updated successfully!");
-  //   } catch (error) {
-  //     console.error("Error updating profile:", error.response.data);
-  //     alert("Failed to update profile. Please try again.");
-  //   }
-  // };
-
   const uploadImage = async (file, folder) => {
     const fileName = uuidv4();
     const { data, error } = await supabase.storage
@@ -165,7 +153,6 @@ const SitterProfileForm = ({ profile = {} }) => {
   };
 
   const updateProfile = async (values) => {
-    // const fileName = uuidv4();
     try {
       // Upload profile image if it exists
       let profileImageUrl = null;
@@ -178,22 +165,18 @@ const SitterProfileForm = ({ profile = {} }) => {
 
       // Upload gallery images
       const galleryImageUrls = [];
-      // let fileNameGallery = [];
-      for (const file of gallery) {
+
+      for (const file of images) {
         const url = await uploadImage(file, "gallery_images");
-        galleryImageUrls.push(url);
-        // fileNameGallery.push(fName);
+        galleryImageUrls.push({ image_url: url });
       }
-      console.log(gallery);
+
       // Update profile with uploaded image URLs
       const updatedValues = {
         ...values,
         profile_image_url: profileImageUrl,
         sitters_images: galleryImageUrls,
-        // fileName: fileName,
       };
-
-      // data(updatedValues);
 
       await axios.put(`/api/sitters/${id}`, updatedValues);
       alert("Profile updated successfully!");
@@ -203,28 +186,6 @@ const SitterProfileForm = ({ profile = {} }) => {
       alert("Failed to update profile. Please try again.");
     }
   };
-
-  // const updateProfile = async (values) => {
-  //   const fileName = uuidv4();
-
-  //   const { error } = await supabase.storage
-  //     .from("sitters")
-  //     .upload("profile_image/" + fileName, values.profile_image_url);
-  //   console.log(values);
-
-  //   if (error) {
-  //     console.log(error);
-  //   }
-
-  //   const galleryImageUrls = [];
-  //   for (const file of values.sitters_images) {
-  //     const url = await uploadImage(file, "gallery_images");
-  //     galleryImageUrls.push(url);
-  //     // fileNameGallery.push(fName);
-  //   }
-  //   // console.log(reqBody.profile_image_url);
-  //   data({ ...values, fileName });
-  // };
 
   return (
     <Formik
@@ -271,7 +232,6 @@ const SitterProfileForm = ({ profile = {} }) => {
               <label htmlFor="profile_image_url" className="text-b2">
                 Profile Image
               </label>
-              {/* <Field component={ImageChange} name="profile_image_url" /> */}
               <div className="relative flex justify-center items-center w-[120px] h-[120px] lg:w-[220px] lg:h-[220px] bg-ps-gray-300 rounded-full">
                 {preview ? (
                   <img
@@ -450,7 +410,12 @@ const SitterProfileForm = ({ profile = {} }) => {
                 <label htmlFor="gallery" className="text-b2">
                   Image Gallery (Maximum 10 images)
                 </label>
-                <ImageGallery gallery={gallery} setGallery={setGallery} />
+                <ImageGallery
+                  gallery={gallery}
+                  setGallery={setGallery}
+                  images={images}
+                  setImage={setImage}
+                />
               </div>
             </div>
           </div>
