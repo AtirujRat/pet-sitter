@@ -24,7 +24,6 @@ export default function UpdatePetForm() {
       try {
         const response = await axios.get(`${API_URL}/${id}/${petId}`);
         setPet(response.data);
-        setPreview(response.data.pet_image_url);
       } catch (error) {
         console.error("Error fetching pet:", error);
       }
@@ -61,12 +60,8 @@ export default function UpdatePetForm() {
     setFieldValue("pet_image_url", file);
 
     const reader = new FileReader();
-    reader.onloadend = () => {
-      setPreview(reader.result);
-    };
-    if (file) {
-      reader.readAsDataURL(file);
-    }
+    reader.onloadend = () => setPreview(reader.result);
+    reader.readAsDataURL(file);
   };
 
   const onSubmit = async (values, actions) => {
@@ -293,7 +288,7 @@ export default function UpdatePetForm() {
                   htmlFor="age"
                   className="flex text-[16px] font-bold pb-1"
                 >
-                  Age*
+                  Age (Months)*
                   <ErrorMessage
                     name="age"
                     component="div"
@@ -306,15 +301,19 @@ export default function UpdatePetForm() {
                   name="age"
                   validate={validateRequired}
                   className="border-[#DCDFED] text-[#7B7E8F] rounded-lg max-sm:w-full"
-                  placeholder="Enter your pet age"
+                  placeholder="Age of your pet"
+                  min="1"
                 />
               </div>
             </div>
 
-            <div className="flex max-sm:flex-col justify-between gap-2 max-sm:gap-4">
+            <div className="flex max-sm:flex-col justify-between max-sm:gap-4">
               {/* Color */}
               <div className="flex flex-col w-[48%] max-sm:w-full">
-                <label htmlFor="color" className="text-[16px] font-bold pb-1">
+                <label
+                  htmlFor="color"
+                  className="flex text-[16px] font-bold pb-1"
+                >
                   Color*
                   <ErrorMessage
                     name="color"
@@ -328,13 +327,16 @@ export default function UpdatePetForm() {
                   name="color"
                   validate={validateRequired}
                   className="border-[#DCDFED] text-[#7B7E8F] rounded-lg max-sm:w-full"
-                  placeholder="Color"
+                  placeholder="Describe color of your pet"
                 />
               </div>
               {/* Weight */}
               <div className="flex flex-col w-[48%] max-sm:w-full">
-                <label htmlFor="weight" className="text-[16px] font-bold pb-1">
-                  Weight*
+                <label
+                  htmlFor="weight"
+                  className="flex text-[16px] font-bold pb-1"
+                >
+                  Weight (Kilogram)*
                   <ErrorMessage
                     name="weight"
                     component="div"
@@ -347,10 +349,13 @@ export default function UpdatePetForm() {
                   name="weight"
                   validate={validateRequired}
                   className="border-[#DCDFED] text-[#7B7E8F] rounded-lg max-sm:w-full"
-                  placeholder="Weight"
+                  placeholder="Weight of your pet"
+                  min="1"
+                  step="0.1"
                 />
               </div>
             </div>
+
             {/* About */}
             <div className="flex flex-col w-full">
               <label

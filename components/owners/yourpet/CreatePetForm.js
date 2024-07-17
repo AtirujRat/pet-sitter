@@ -82,7 +82,7 @@ export default function CreatePetForm() {
 
       const updatedValues = {
         ...values,
-        pet_image_url: publicImageUrl,
+        pet_image_url: publicImageUrl.data.publicUrl,
         owner_id: id,
       };
 
