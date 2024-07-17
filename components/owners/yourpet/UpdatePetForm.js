@@ -1,8 +1,8 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import Image from "next/image";
-import { useRouter } from "next/router";
 import axios from "axios";
-import { useEffect, useState, useRef } from "react";
+import { useRouter } from "next/router";
+import Image from "next/image";
+import { useState, useEffect, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { supabase } from "@/utils/supabase";
 
@@ -22,7 +22,6 @@ export default function UpdatePetForm() {
       try {
         const response = await axios.get(`${API_URL}/${id}/${petId}`);
         setPet(response.data);
-        setPreview(response.data.pet_image_url);
       } catch (error) {
         console.error("Error fetching pet:", error);
       }
@@ -45,19 +44,12 @@ export default function UpdatePetForm() {
     description: pet?.description || "",
   };
 
-  const validateRequired = (value) => {
-    let error;
-    if (!value || value === "") {
-      error = "Required";
-    }
-    return error;
-  };
+  const validateRequired = (value) => (!value ? "Required" : undefined);
 
   const handleImageChange = async (event, setFieldValue) => {
     const file = event.currentTarget.files[0];
 
     if (file && file.size > 2 * 1024 * 1024) {
-      // 2 MB
       setError("File size should not exceed 2 MB.");
       return;
     }
@@ -66,46 +58,35 @@ export default function UpdatePetForm() {
     setFieldValue("pet_image_url", file);
 
     const reader = new FileReader();
-    reader.onloadend = () => {
-      setPreview(reader.result);
-    };
-    if (file) {
-      reader.readAsDataURL(file);
-    }
+    reader.onloadend = () => setPreview(reader.result);
+    reader.readAsDataURL(file);
   };
 
   const onSubmit = async (values, actions) => {
     try {
-      let publicImageUrl = values.pet_image_url;
+      const fileName = uuidv4();
+      const file = values.pet_image_url;
 
-      if (typeof values.pet_image_url === "object") {
-        const fileName = uuidv4();
-        const file = values.pet_image_url;
+      const { data: petImage, error: imageError } = await supabase.storage
+        .from("pets")
+        .upload(`pet_image/${fileName}`, file);
 
-        const { data: petImage, error: imageError } = await supabase.storage
-          .from("pets")
-          .upload(`pet_image/${fileName}`, file);
-
-        if (imageError) {
-          console.error("Error uploading image:", imageError.message);
-          return;
-        }
-
-        publicImageUrl = supabase.storage
-          .from("pets/pet_image")
-          .getPublicUrl(fileName).publicUrl;
+      if (imageError) {
+        console.error("Error uploading image:", imageError.message);
+        return;
       }
+
+      const publicImageUrl = supabase.storage
+        .from("pets/pet_image")
+        .getPublicUrl(fileName);
 
       const updatedValues = {
         ...values,
-        pet_image_url: publicImageUrl,
+        pet_image_url: publicImageUrl.data.publicUrl,
+        owner_id: id,
       };
 
-      const response = await axios.put(
-        `${API_URL}/${id}/${petId}`,
-        updatedValues
-      );
-      console.log("Response:", response.data);
+      await axios.put(`${API_URL}/${id}/${petId}`, updatedValues);
       router.push(`/owners/${id}/yourpet`);
     } catch (error) {
       console.error("Error updating pet:", error);
@@ -116,8 +97,7 @@ export default function UpdatePetForm() {
 
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(`${API_URL}/${id}/${petId}`);
-      console.log("Response:", response.data);
+      await axios.delete(`${API_URL}/${id}/${petId}`);
       router.push(`/owners/${id}/yourpet`);
     } catch (error) {
       console.error("Error deleting pet:", error);
@@ -134,6 +114,7 @@ export default function UpdatePetForm() {
         <Form className="w-full h-fit sm:shadow-lg rounded-xl bg-ps-white max-sm:bg-ps-gray-100 p-10">
           <div className="flex w-full flex-col gap-10 max-sm:gap-4">
             <button
+              type="button"
               className="flex items-center gap-2 mb-3"
               onClick={() => router.back()}
             >
@@ -145,7 +126,7 @@ export default function UpdatePetForm() {
               />
               <p className="flex text-h3 gap-2">Your Pet</p>
             </button>
-            {/* upload image */}
+            {/* Upload Image */}
             <div className="relative w-[240px] h-[240px]">
               {preview ? (
                 <Image
@@ -164,7 +145,6 @@ export default function UpdatePetForm() {
                   <Image
                     src="/assets/pets/pet-dummy.svg"
                     alt="Dummy Pet Image"
-                    className=""
                     width={240}
                     height={240}
                   />
@@ -290,7 +270,7 @@ export default function UpdatePetForm() {
                   htmlFor="age"
                   className="flex text-[16px] font-bold pb-1"
                 >
-                  Age*
+                  Age (Months)*
                   <ErrorMessage
                     name="age"
                     component="div"
@@ -303,15 +283,19 @@ export default function UpdatePetForm() {
                   name="age"
                   validate={validateRequired}
                   className="border-[#DCDFED] text-[#7B7E8F] rounded-lg max-sm:w-full"
-                  placeholder="Enter your pet age"
+                  placeholder="Age of your pet"
+                  min="1"
                 />
               </div>
             </div>
 
-            <div className="flex max-sm:flex-col justify-between gap-2 max-sm:gap-4">
+            <div className="flex max-sm:flex-col justify-between max-sm:gap-4">
               {/* Color */}
               <div className="flex flex-col w-[48%] max-sm:w-full">
-                <label htmlFor="color" className="text-[16px] font-bold pb-1">
+                <label
+                  htmlFor="color"
+                  className="flex text-[16px] font-bold pb-1"
+                >
                   Color*
                   <ErrorMessage
                     name="color"
@@ -325,13 +309,16 @@ export default function UpdatePetForm() {
                   name="color"
                   validate={validateRequired}
                   className="border-[#DCDFED] text-[#7B7E8F] rounded-lg max-sm:w-full"
-                  placeholder="Color"
+                  placeholder="Describe color of your pet"
                 />
               </div>
               {/* Weight */}
               <div className="flex flex-col w-[48%] max-sm:w-full">
-                <label htmlFor="weight" className="text-[16px] font-bold pb-1">
-                  Weight*
+                <label
+                  htmlFor="weight"
+                  className="flex text-[16px] font-bold pb-1"
+                >
+                  Weight (Kilogram)*
                   <ErrorMessage
                     name="weight"
                     component="div"
@@ -344,10 +331,13 @@ export default function UpdatePetForm() {
                   name="weight"
                   validate={validateRequired}
                   className="border-[#DCDFED] text-[#7B7E8F] rounded-lg max-sm:w-full"
-                  placeholder="Weight"
+                  placeholder="Weight of your pet"
+                  min="1"
+                  step="0.1"
                 />
               </div>
             </div>
+
             {/* About */}
             <div className="flex flex-col w-full">
               <label
