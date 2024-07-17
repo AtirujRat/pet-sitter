@@ -58,6 +58,7 @@ export default function PetList() {
             <Link key={pet.id} href={`/owners/${id}/yourpet/${pet.id}`}>
               <PetCard
                 className="flex justify-center"
+                image={pet.pet_image_url}
                 key={pet.id}
                 name={pet.name}
                 type={pet.type}

@@ -87,8 +87,17 @@ export default async function handler(req, res) {
     }
   } else if (req.method === "PUT") {
     try {
-      const { name, type, breed, sex, age, color, weight, description } =
-        req.body;
+      const {
+        name,
+        type,
+        breed,
+        sex,
+        age,
+        color,
+        weight,
+        description,
+        pet_image_url,
+      } = req.body;
 
       if (!name || !type || !breed || !sex || !age || !color || !weight) {
         return res.status(400).json({ message: "Missing required fields" });
@@ -116,9 +125,7 @@ export default async function handler(req, res) {
         throw error;
       }
 
-      return res
-        .status(200)
-        .json({ message: "Pet updated successfully" });
+      return res.status(200).json({ message: "Pet updated successfully" });
     } catch (error) {
       console.error("Error updating pet:", error.message);
       return res.status(500).json({ message: "Error updating pet" });
