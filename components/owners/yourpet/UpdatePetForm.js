@@ -24,6 +24,7 @@ export default function UpdatePetForm() {
       try {
         const response = await axios.get(`${API_URL}/${id}/${petId}`);
         setPet(response.data);
+        setPreview(response.data.pet_image_url);
       } catch (error) {
         console.error("Error fetching pet:", error);
       }

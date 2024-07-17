@@ -124,14 +124,7 @@ export default async function handler(req, res) {
       if (error) {
         throw error;
       }
-
-<<<<<<< HEAD
       return res.status(200).json({ message: "Pet updated successfully" });
-=======
-      return res
-        .status(200)
-        .json({ message: "Pet updated successfully" });
->>>>>>> f9134c3 (feat: upload image update pet form)
     } catch (error) {
       console.error("Error updating pet:", error.message);
       return res.status(500).json({ message: "Error updating pet" });
