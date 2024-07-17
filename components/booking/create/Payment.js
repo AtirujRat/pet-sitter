@@ -1,54 +1,41 @@
 import { Formik, Form, Field } from "formik";
-import PhoneInput from "@/components/authentication/PhoneInput";
+import Image from "next/image";
+import alert from "@/public/assets/booking/create/alert.svg";
+import CheckCardNumber from "./CheckCardNumber";
+import CheckExpire from "./CheckExpire";
+import CheckCvc from "./CheckCvc";
+import {
+  validateCardNumber,
+  validateName,
+  validateExpire,
+  validateCvc,
+} from "./validate/validate";
 
 export default function Payment() {
-  function validatePhone(value) {
-    let error;
-    if (!value) {
-      error = "Required";
-    } else if (value[0] != 0) {
-      error = "The first digit must be 0.";
-    } else if (value.length != 12) {
-      error = "Phone number must contain 10 digits.";
-    }
-    return error;
-  }
-
-  function validateName(value) {
-    let error;
-    if (!value) {
-      error = "Required";
-    }
-    return error;
-  }
-  function validateEmail(value) {
-    let error;
-    if (!value) {
-      error = "Required";
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
-      error = "Invalid email address";
-    }
-    return error;
-  }
-
   return (
     <section className="w-full h-full p-10">
       <div className="w-full h-[13%] flex justify-between gap-4">
-        <p className="w-[50%] h-full border border-ps-orange-500 rounded-full text-ps-orange-500 text-b1 flex justify-center items-center">
+        <button
+          type="button"
+          className="w-[50%] h-full border border-ps-orange-500 rounded-full text-ps-orange-500 text-b1 flex justify-center items-center"
+        >
           Credit Card
-        </p>
-        <p className="w-[50%] h-full border border-ps-gray-200 rounded-full text-ps-gray-400 text-b1 flex justify-center items-center">
+        </button>
+        <button
+          type="button"
+          className="w-[50%] h-full border border-ps-gray-200 rounded-full text-ps-gray-400 text-b1 flex justify-center items-center"
+        >
           Cash
-        </p>
+        </button>
       </div>
       <Formik
-        initialValues={{ number: "", email: "", phone: "", message: "" }}
+        initialValues={{ number: "", email: "", expire: "", cvc: "" }}
         onSubmit={(values, { setSubmitting }) => {
           setSubmitting(false);
           console.log(values);
         }}
       >
-        {({ errors, touched, isSubmitting, setFieldValue }) => (
+        {({ errors, touched, isSubmitting }) => (
           <Form className="w-full p-10 flex flex-col gap-10 max-sm:gap-6">
             <div className="w-full flex justify-between gap-10 relative">
               <div className="w-[50%] flex flex-col gap-2 relative">
@@ -56,73 +43,95 @@ export default function Payment() {
                   Card Number*
                 </label>
                 <Field
-                  type="number"
                   name="number"
-                  validate={validateName}
+                  validate={validateCardNumber}
+                  component={CheckCardNumber}
                   placeholder="xxx-xxxx-x-xx-xx"
-                  className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400"
+                  className={
+                    errors.number && touched.number
+                      ? "p-3 border-2 rounded-lg border-ps-red text-b2 font-normal text-ps-gray-400"
+                      : "p-3 border-2 rounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400"
+                  }
                 />
-                {errors.name && touched.name && (
-                  <div className="absolute bottom-[-22px] text-ps-red bg-transparent">
-                    {errors.name}
-                  </div>
-                )}
+                {errors.number && touched.number ? (
+                  <Image
+                    src={alert}
+                    alt={alert}
+                    className="absolute right-4 top-14"
+                  />
+                ) : null}
               </div>
               <div className="w-[50%] flex flex-col gap-2 relative">
-                <label htmlFor="number" className="text-b2">
+                <label htmlFor="name" className="text-b2">
                   Card Owner*
                 </label>
                 <Field
-                  type="number"
-                  name="number"
+                  name="name"
                   validate={validateName}
                   placeholder="Card owner name"
-                  className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400"
+                  className={
+                    errors.name && touched.name
+                      ? "p-3 border-2 rounded-lg border-ps-red text-b2 font-normal text-ps-gray-400"
+                      : "p-3 border-2 rounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400"
+                  }
                 />
-                {errors.name && touched.name && (
-                  <div className="absolute bottom-[-22px] text-ps-red bg-transparent">
-                    {errors.name}
-                  </div>
-                )}
+                {errors.name && touched.name ? (
+                  <Image
+                    src={alert}
+                    alt={alert}
+                    className="absolute right-4 top-14"
+                  />
+                ) : null}
               </div>
             </div>
 
             <div className="w-full flex justify-between gap-10 relative">
-              <div className="w-[50%] flex flex-col">
-                <label htmlFor="email" className="text-b2">
-                  Expiry Date*{" "}
+              <div className="w-[50%] flex flex-col gap-2 relative">
+                <label htmlFor="expire" className="text-b2">
+                  Expiry Date*
                 </label>
                 <Field
-                  type="email"
-                  name="email"
-                  validate={validateEmail}
+                  name="expire"
+                  validate={validateExpire}
+                  component={CheckExpire}
                   placeholder="xxx-xxx-xxxx"
-                  className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400"
+                  className={
+                    errors.expire && touched.expire
+                      ? "p-3 border-2 rounded-lg border-ps-red text-b2 font-normal text-ps-gray-400"
+                      : "p-3 border-2 rounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400"
+                  }
                 />
-                {errors.email && touched.email && (
-                  <div className="absolute bottom-[-22px] text-ps-red bg-transparent">
-                    {errors.email}
-                  </div>
-                )}
+                {errors.expire && touched.expire ? (
+                  <Image
+                    src={alert}
+                    alt={alert}
+                    className="absolute right-4 top-14"
+                  />
+                ) : null}
               </div>
 
-              <div className="w-[50%] flex flex-col">
+              <div className="w-[50%] flex flex-col gap-2">
                 <label htmlFor="phone" className="text-b2">
                   CVC/CVV*
                 </label>
                 <Field
-                  type="tel"
-                  name="phone"
-                  validate={validatePhone}
-                  component={PhoneInput}
+                  name="cvc"
+                  validate={validateCvc}
+                  component={CheckCvc}
                   placeholder="xxx"
-                  className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400"
+                  className={
+                    errors.cvc && touched.cvc
+                      ? "p-3 border-2 rounded-lg border-ps-red text-b2 font-normal text-ps-gray-400"
+                      : "p-3 border-2 rounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400"
+                  }
                 />
-                {errors.phone && touched.phone && (
-                  <div className="absolute bottom-[-22px] text-ps-red bg-transparent">
-                    {errors.phone}
-                  </div>
-                )}
+                {errors.cvc && touched.cvc ? (
+                  <Image
+                    src={alert}
+                    alt={alert}
+                    className="absolute right-4 top-14"
+                  />
+                ) : null}
               </div>
             </div>
 
