@@ -8,9 +8,9 @@ export default function PetCard(props) {
     >
       <div className="container-card flex flex-col justify-center items-center gap-3">
         <img
-          src={props.image}
+          src={props.image ? props.image : "/assets/pets/pet-dummy.svg"}
           alt="pet-image"
-          className="rounded-full w-[100px] h-[100px]          object-cover"
+          className="rounded-full w-[100px] h-[100px] object-cover"
           layout="fill"
         />
         <p className="text-b1 text-center">{props.name}</p>
