@@ -61,8 +61,12 @@ export default function UpdatePetForm() {
     setFieldValue("pet_image_url", file);
 
     const reader = new FileReader();
-    reader.onloadend = () => setPreview(reader.result);
-    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setPreview(reader.result);
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
   };
 
   const onSubmit = async (values, actions) => {
@@ -289,7 +293,7 @@ export default function UpdatePetForm() {
                   htmlFor="age"
                   className="flex text-[16px] font-bold pb-1"
                 >
-                  Age (Months)*
+                  Age*
                   <ErrorMessage
                     name="age"
                     component="div"
@@ -302,19 +306,15 @@ export default function UpdatePetForm() {
                   name="age"
                   validate={validateRequired}
                   className="border-[#DCDFED] text-[#7B7E8F] rounded-lg max-sm:w-full"
-                  placeholder="Age of your pet"
-                  min="1"
+                  placeholder="Enter your pet age"
                 />
               </div>
             </div>
 
-            <div className="flex max-sm:flex-col justify-between max-sm:gap-4">
+            <div className="flex max-sm:flex-col justify-between gap-2 max-sm:gap-4">
               {/* Color */}
               <div className="flex flex-col w-[48%] max-sm:w-full">
-                <label
-                  htmlFor="color"
-                  className="flex text-[16px] font-bold pb-1"
-                >
+                <label htmlFor="color" className="text-[16px] font-bold pb-1">
                   Color*
                   <ErrorMessage
                     name="color"
@@ -328,16 +328,13 @@ export default function UpdatePetForm() {
                   name="color"
                   validate={validateRequired}
                   className="border-[#DCDFED] text-[#7B7E8F] rounded-lg max-sm:w-full"
-                  placeholder="Describe color of your pet"
+                  placeholder="Color"
                 />
               </div>
               {/* Weight */}
               <div className="flex flex-col w-[48%] max-sm:w-full">
-                <label
-                  htmlFor="weight"
-                  className="flex text-[16px] font-bold pb-1"
-                >
-                  Weight (Kilogram)*
+                <label htmlFor="weight" className="text-[16px] font-bold pb-1">
+                  Weight*
                   <ErrorMessage
                     name="weight"
                     component="div"
@@ -350,13 +347,10 @@ export default function UpdatePetForm() {
                   name="weight"
                   validate={validateRequired}
                   className="border-[#DCDFED] text-[#7B7E8F] rounded-lg max-sm:w-full"
-                  placeholder="Weight of your pet"
-                  min="1"
-                  step="0.1"
+                  placeholder="Weight"
                 />
               </div>
             </div>
-
             {/* About */}
             <div className="flex flex-col w-full">
               <label
