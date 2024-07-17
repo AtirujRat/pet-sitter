@@ -7,12 +7,11 @@ export default function PetCard(props) {
       className={`min-w-fit min-h-fit shadow rounded-3xl flex justify-center items-center transition-transform duration-200 hover:-translate-y-2 cursor-pointer ${props.styles} bg-ps-white`}
     >
       <div className="container-card flex flex-col justify-center items-center gap-3">
-        <Image
-          src="/assets/pets/pet-dummy.svg"
+        <img
+          src={props.image}
           alt="pet-image"
-          className="rounded-full"
-          width={100}
-          height={100}
+          className="rounded-full w-[100px] h-[100px]          object-cover"
+          layout="fill"
         />
         <p className="text-b1 text-center">{props.name}</p>
         <PetTag type={props.type} />
