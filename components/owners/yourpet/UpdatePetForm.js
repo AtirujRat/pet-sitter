@@ -2,7 +2,9 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { v4 as uuidv4 } from "uuid";
+import { supabase } from "@/utils/supabase";
 
 const API_URL = "/api/owners";
 
@@ -11,12 +13,16 @@ export default function UpdatePetForm() {
   const { id, petId } = router.query;
 
   const [pet, setPet] = useState(null);
+  const [preview, setPreview] = useState(null);
+  const [error, setError] = useState(null);
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     const fetchPet = async () => {
       try {
         const response = await axios.get(`${API_URL}/${id}/${petId}`);
         setPet(response.data);
+        setPreview(response.data.pet_image_url);
       } catch (error) {
         console.error("Error fetching pet:", error);
       }
@@ -28,6 +34,7 @@ export default function UpdatePetForm() {
   }, [id, petId]);
 
   const initialValues = {
+    pet_image_url: pet?.pet_image_url || null,
     name: pet?.name || "",
     type: pet?.type || "",
     breed: pet?.breed || "",
@@ -46,9 +53,58 @@ export default function UpdatePetForm() {
     return error;
   };
 
+  const handleImageChange = async (event, setFieldValue) => {
+    const file = event.currentTarget.files[0];
+
+    if (file && file.size > 2 * 1024 * 1024) {
+      // 2 MB
+      setError("File size should not exceed 2 MB.");
+      return;
+    }
+
+    setError(null);
+    setFieldValue("pet_image_url", file);
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPreview(reader.result);
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
+
   const onSubmit = async (values, actions) => {
     try {
-      const response = await axios.put(`${API_URL}/${id}/${petId}`, values);
+      let publicImageUrl = values.pet_image_url;
+
+      if (typeof values.pet_image_url === "object") {
+        const fileName = uuidv4();
+        const file = values.pet_image_url;
+
+        const { data: petImage, error: imageError } = await supabase.storage
+          .from("pets")
+          .upload(`pet_image/${fileName}`, file);
+
+        if (imageError) {
+          console.error("Error uploading image:", imageError.message);
+          return;
+        }
+
+        publicImageUrl = supabase.storage
+          .from("pets/pet_image")
+          .getPublicUrl(fileName).publicUrl;
+      }
+
+      const updatedValues = {
+        ...values,
+        pet_image_url: publicImageUrl,
+      };
+
+      const response = await axios.put(
+        `${API_URL}/${id}/${petId}`,
+        updatedValues
+      );
       console.log("Response:", response.data);
       router.push(`/owners/${id}/yourpet`);
     } catch (error) {
@@ -74,7 +130,7 @@ export default function UpdatePetForm() {
 
   return (
     <Formik initialValues={initialValues} onSubmit={onSubmit}>
-      {({ isSubmitting, errors, touched }) => (
+      {({ isSubmitting, setFieldValue }) => (
         <Form className="w-full h-fit sm:shadow-lg rounded-xl bg-ps-white max-sm:bg-ps-gray-100 p-10">
           <div className="flex w-full flex-col gap-10 max-sm:gap-4">
             <button
@@ -89,15 +145,51 @@ export default function UpdatePetForm() {
               />
               <p className="flex text-h3 gap-2">Your Pet</p>
             </button>
-            {/* Image */}
-            <div className="cursor-pointer w-fit h-fit">
-              <Image
-                src="/assets/pets/pet-dummy.svg"
-                alt="Dummy Pet Image"
-                className="max-sm:w-[120px] max-sm:h-[120px]"
-                width={240}
-                height={240}
+            {/* upload image */}
+            <div className="relative w-[240px] h-[240px]">
+              {preview ? (
+                <Image
+                  src={preview}
+                  alt="pet_image"
+                  layout="fill"
+                  objectFit="cover"
+                  className="rounded-full"
+                  priority
+                />
+              ) : (
+                <div
+                  onClick={() => fileInputRef.current.click()}
+                  className="cursor-pointer w-full h-full"
+                >
+                  <Image
+                    src="/assets/pets/pet-dummy.svg"
+                    alt="Dummy Pet Image"
+                    className=""
+                    width={240}
+                    height={240}
+                  />
+                </div>
+              )}
+              <input
+                className="absolute w-full h-full opacity-0 cursor-pointer"
+                type="file"
+                ref={fileInputRef}
+                name="image"
+                onChange={(event) => handleImageChange(event, setFieldValue)}
+                accept="image/*"
+                style={{ display: "none" }}
               />
+              <div
+                onClick={() => fileInputRef.current.click()}
+                className="absolute z-10 bottom-0 right-0 cursor-pointer"
+              >
+                <Image
+                  src="/assets/icons/icon-plus.svg"
+                  alt="upload"
+                  width={60}
+                  height={60}
+                />
+              </div>
             </div>
             {/* Pet Name */}
             <div className="flex flex-col">
@@ -198,7 +290,7 @@ export default function UpdatePetForm() {
                   htmlFor="age"
                   className="flex text-[16px] font-bold pb-1"
                 >
-                  Age (Months)*
+                  Age*
                   <ErrorMessage
                     name="age"
                     component="div"
@@ -211,19 +303,15 @@ export default function UpdatePetForm() {
                   name="age"
                   validate={validateRequired}
                   className="border-[#DCDFED] text-[#7B7E8F] rounded-lg max-sm:w-full"
-                  placeholder="Age of your pet"
-                  min="1"
+                  placeholder="Enter your pet age"
                 />
               </div>
             </div>
 
-            <div className="flex max-sm:flex-col justify-between max-sm:gap-4">
+            <div className="flex max-sm:flex-col justify-between gap-2 max-sm:gap-4">
               {/* Color */}
               <div className="flex flex-col w-[48%] max-sm:w-full">
-                <label
-                  htmlFor="color"
-                  className="flex text-[16px] font-bold pb-1"
-                >
+                <label htmlFor="color" className="text-[16px] font-bold pb-1">
                   Color*
                   <ErrorMessage
                     name="color"
@@ -237,16 +325,13 @@ export default function UpdatePetForm() {
                   name="color"
                   validate={validateRequired}
                   className="border-[#DCDFED] text-[#7B7E8F] rounded-lg max-sm:w-full"
-                  placeholder="Describe color of your pet"
+                  placeholder="Color"
                 />
               </div>
               {/* Weight */}
               <div className="flex flex-col w-[48%] max-sm:w-full">
-                <label
-                  htmlFor="weight"
-                  className="flex text-[16px] font-bold pb-1"
-                >
-                  Weight (Kilogram)*
+                <label htmlFor="weight" className="text-[16px] font-bold pb-1">
+                  Weight*
                   <ErrorMessage
                     name="weight"
                     component="div"
@@ -259,13 +344,10 @@ export default function UpdatePetForm() {
                   name="weight"
                   validate={validateRequired}
                   className="border-[#DCDFED] text-[#7B7E8F] rounded-lg max-sm:w-full"
-                  placeholder="Weight of your pet"
-                  min="1"
-                  step="0.1"
+                  placeholder="Weight"
                 />
               </div>
             </div>
-
             {/* About */}
             <div className="flex flex-col w-full">
               <label

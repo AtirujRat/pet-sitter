@@ -43,7 +43,7 @@ export default async function handler(req, res) {
     try {
       const {
         owner_id,
-        profile_image_url,
+        pet_image_url,
         name,
         type,
         breed,
@@ -54,7 +54,6 @@ export default async function handler(req, res) {
         description,
       } = req.body;
 
-      // Validate required fields
       if (!name || !type || !breed || !sex || !age || !color || !weight) {
         return res.status(400).json({ message: "Missing required fields" });
       }
@@ -98,6 +97,7 @@ export default async function handler(req, res) {
       const { data: updatedPet, error } = await supabase
         .from("pets")
         .update({
+          pet_image_url,
           name,
           type,
           breed,

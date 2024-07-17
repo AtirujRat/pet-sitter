@@ -2,7 +2,9 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import axios from "axios";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { ButtonOrange } from "@/components/buttons/OrangeButtons";
+import { useState, useRef } from "react";
+import { v4 as uuidv4 } from "uuid";
+import { supabase } from "@/utils/supabase";
 
 const API_URL = "/api/owners";
 
@@ -21,6 +23,7 @@ export default function CreatePetForm() {
     weight: "",
     description: "",
   };
+
   const validateRequired = (value) => {
     let error;
     if (!value || value === "") {
@@ -29,14 +32,57 @@ export default function CreatePetForm() {
     return error;
   };
 
+  const [preview, setPreview] = useState(null);
+  const [error, setError] = useState(null);
+  const fileInputRef = useRef(null);
+
+  const handleImageChange = async (event, setFieldValue) => {
+    const file = event.currentTarget.files[0];
+
+    if (file && file.size > 2 * 1024 * 1024) {
+      // 2 MB
+      setError("File size should not exceed 2 MB.");
+      return;
+    }
+
+    setError(null);
+    setFieldValue("pet_image_url", file);
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPreview(reader.result);
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
+
   const onSubmit = async (values, actions) => {
     try {
-      const response = await axios.post(`${API_URL}/${id}`, {
-        ...values,
-        owner_id: id,
-      });
+      const fileName = uuidv4();
+      const file = values.pet_image_url;
 
-      console.log("Response:", response.data);
+      const { data: petImage, error: imageError } = await supabase.storage
+        .from("pets")
+        .upload(`pet_image/${fileName}`, file);
+
+      if (imageError) {
+        console.error("Error uploading image:", imageError.message);
+        return;
+      }
+
+      const publicImageUrl = supabase.storage
+        .from("pets/pet_image")
+        .getPublicUrl(fileName);
+
+      const updatedValues = {
+        ...values,
+        pet_image_url: publicImageUrl,
+        owner_id: id,
+      };
+
+      const response = await axios.post(`${API_URL}/${id}`, updatedValues);
+
       router.push(`/owners/${id}/yourpet`);
     } catch (error) {
       console.error("Error creating pet:", error);
@@ -47,7 +93,7 @@ export default function CreatePetForm() {
 
   return (
     <Formik initialValues={initialValues} onSubmit={onSubmit}>
-      {({ isSubmitting, errors, touched }) => (
+      {({ isSubmitting, setFieldValue }) => (
         <Form className="w-full h-fit sm:shadow-lg rounded-xl bg-ps-white max-sm:bg-ps-gray-100 p-10">
           <div className="flex w-full flex-col gap-10 max-sm:gap-4">
             <button
@@ -62,15 +108,51 @@ export default function CreatePetForm() {
               />
               <p className="flex text-h3 gap-2">Your Pet</p>
             </button>
-            {/* Image */}
-            <div className="cursor-pointer w-fit h-fit">
-              <Image
-                src="/assets/pets/pet-dummy.svg"
-                alt="Dummy Pet Image"
-                className="max-sm:w-[120px] max-sm:h-[120px]"
-                width={240}
-                height={240}
+            {/* upload image */}
+            <div className="relative w-[240px] h-[240px]">
+              {preview ? (
+                <Image
+                  src={preview}
+                  alt="pet_image"
+                  layout="fill"
+                  objectFit="cover"
+                  className="rounded-full"
+                  priority
+                />
+              ) : (
+                <div
+                  onClick={() => fileInputRef.current.click()}
+                  className="cursor-pointer w-full h-full"
+                >
+                  <Image
+                    src="/assets/pets/pet-dummy.svg"
+                    alt="Dummy Pet Image"
+                    className=""
+                    width={240}
+                    height={240}
+                  />
+                </div>
+              )}
+              <input
+                className="absolute w-full h-full opacity-0 cursor-pointer"
+                type="file"
+                ref={fileInputRef}
+                name="image"
+                onChange={(event) => handleImageChange(event, setFieldValue)}
+                accept="image/*"
+                style={{ display: "none" }}
               />
+              <div
+                onClick={() => fileInputRef.current.click()}
+                className="absolute z-10 bottom-0 right-0 cursor-pointer"
+              >
+                <Image
+                  src="/assets/icons/icon-plus.svg"
+                  alt="upload"
+                  width={60}
+                  height={60}
+                />
+              </div>
             </div>
             {/* Pet Name */}
             <div className="flex flex-col">
@@ -91,7 +173,6 @@ export default function CreatePetForm() {
                 placeholder="John Wick"
               />
             </div>
-
             <div className="flex max-sm:flex-col  justify-between gap-2 max-sm:w-full max-sm:gap-4">
               {/* Pet Type */}
               <div className="flex flex-col max-sm:w-full w-[48%]">
