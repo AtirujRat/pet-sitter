@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import date_icon from "@/public/assets/booking/date-icon.svg";
 import time_icon from "@/public/assets/booking/time.svg";
 import cross_icon from "@/public/assets/booking/cross.svg";
 import Image from "next/image";
 import { Formik, Field, Form } from "formik";
-import { supabase } from "@/utils/supabase";
+import { BookingContext } from "@/pages/context/Booking";
+import { OnwerContext } from "@/pages/context/Owners";
 
 const timeSchedule = [
   "8:00 AM",
@@ -15,19 +16,19 @@ const timeSchedule = [
   "10:30 AM",
   "11:00 AM",
   "11:30 AM",
-  "12:00 AM",
-  "12:30 AM",
-  "13:00 AM",
-  "13:30 AM",
-  "14:00 AM",
-  "14:30 AM",
-  "15:00 AM",
-  "15:30 AM",
-  "16:00 AM",
-  "16:30 AM",
-  "17:00 AM",
-  "17:30 AM",
-  "18:00 AM",
+  "12:00 PM",
+  "12:30 PM",
+  "13:00 PM",
+  "13:30 PM",
+  "14:00 PM",
+  "14:30 PM",
+  "15:00 PM",
+  "15:30 PM",
+  "16:00 PM",
+  "16:30 PM",
+  "17:00 PM",
+  "17:30 PM",
+  "18:00 PM",
 ];
 
 const validateCalendar = (value) => {
@@ -43,15 +44,32 @@ const validateCalendar = (value) => {
   return error;
 };
 
-const validateTimeSchedule = (value1, value2) => {
-  let error;
-  if (value1 >= value2) {
-    error = "Invalid time";
-  } else if (value1 === "" || value2 === "") {
-    error = "Require";
+const convertToDate = (time) => {
+  const [timeStr, modifier] = time.split(" ");
+  let [hours, minutes] = timeStr.split(":").map(Number);
+
+  if (modifier === "PM" && hours !== 12) {
+    hours += 12;
+  } else if (modifier === "AM" && hours === 12) {
+    hours = 0;
   }
 
-  return error;
+  return new Date(1970, 0, 1, hours, minutes);
+};
+
+const validateTimeSchedule = (value1, value2) => {
+  if (value1 === "" || value2 === "") {
+    return "Require";
+  }
+
+  const time1 = convertToDate(value1);
+  const time2 = convertToDate(value2);
+
+  if (time1 >= time2) {
+    return "Invalid time";
+  }
+
+  return "";
 };
 
 const BookingModal = () => {
@@ -60,6 +78,9 @@ const BookingModal = () => {
   const [toggleStartTime, setToggleStartTime] = useState(false);
   const [toggleEndTime, setToggleEndTime] = useState(false);
   const [timeError, setTimeError] = useState(null);
+
+  const { addBookingHandle } = useContext(BookingContext);
+  const { userId } = useContext(OnwerContext);
 
   useEffect(() => {
     if (startTime === "" || endTime === "") {
@@ -76,26 +97,17 @@ const BookingModal = () => {
     } else if (timeError) {
       return;
     }
-    const { data, error } = await supabase
-      .from("bookings")
-      .insert([
-        {
-          owner_id: "",
-          sitter_id: "",
-          start_time: formdata.booking_date + " " + startTime,
-          end_time: formdata.booking_date + " " + endTime,
-          status: "",
-          created_at: new Date(),
-          last_updated: new Date(),
-          price: 600,
-        },
-      ])
-      .select();
-    if (error) {
-      console.log(error);
-    }
 
-    console.log(data);
+    addBookingHandle({
+      owner_id: userId,
+      sitter_id: "",
+      start_time: formdata.booking_date + " " + startTime,
+      end_time: formdata.booking_date + " " + endTime,
+      status: "waiting for confirm",
+      creted_at: new Date(),
+      last_updated: new Date(),
+      price: "",
+    });
   };
 
   return (
@@ -109,9 +121,11 @@ const BookingModal = () => {
         <Form className=" w-[100vw] h-[100vh] sm:w-[560px] sm:h-[438px] bg-ps-white sm:rounded-2xl ">
           <div className="flex justify-between py-[24px] px-[40px] border-b-[1px] border-ps-gray-200 ">
             <h1 className="text-ps-gray-600 text-h3 ">Booking</h1>
-            <button className="text-ps-gray-600">
-              <Image src={cross_icon} alt="cross icon" />
-            </button>
+            <Image
+              className="cursor-pointer"
+              src={cross_icon}
+              alt="cross icon"
+            />
           </div>
 
           <div className="flex flex-col gap-[24px] text-b1 p-[40px]">
