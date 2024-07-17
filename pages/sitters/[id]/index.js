@@ -5,11 +5,16 @@ import Loading from "@/components/Loading";
 import Gallery from "@/components/sitters/details/Gallery";
 import Reviews from "@/components/sitters/details/Reviews";
 import SitterCard from "@/components/sitters/details/SitterCard";
+import SitterDescriptions from "@/components/sitters/details/SitterDescriptions";
+import useCalculateRatingStars from "@/hook/useCalculateRatingStars";
 
 export default function SitterDetails() {
   const [sitter, setSitter] = useState({});
   const [loading, setLoading] = useState(true);
   const id = useRouter().query.id;
+  const { ratingStars, averageRating } = useCalculateRatingStars(
+    sitter.bookings
+  );
 
   const getSitter = async () => {
     try {
@@ -39,26 +44,10 @@ export default function SitterDetails() {
       <Gallery slides={SLIDES} options={OPTIONS} />
       <div className="page-container w-full px-20 max-w-[1440px] flex justify-center gap-4">
         <div className="left-container w-[67%] flex flex-col gap-10">
-          <div className="sitter-details w-full flex flex-col gap-12 py-6 px-20 ">
-            <h1 className="trade-name text-h1">{sitter.trade_name}</h1>
-            <div className="introduction flex flex-col gap-3">
-              <h3 className="text-h3">Introduction</h3>
-              <p className="text-b2 text-ps-gray-500">{sitter.introduction}</p>
-            </div>
-            <div className="service flex flex-col gap-3">
-              <h3 className="text-h3">Services</h3>
-              <p className="text-b2 text-ps-gray-500">{sitter.services}</p>
-            </div>
-            <div className="my-place flex flex-col gap-3">
-              <h3 className="text-h3">My Place</h3>
-              <p className="text-b2 text-ps-gray-500">
-                {sitter.place_description}
-              </p>
-            </div>
-          </div>
-          <Reviews />
+          <SitterDescriptions sitter={sitter} />
+          <Reviews sitter={sitter} averageRating={averageRating} />
         </div>
-        <SitterCard sitter={sitter} />
+        <SitterCard sitter={sitter} ratingStars={ratingStars} />
       </div>
     </section>
   );

@@ -1,4 +1,3 @@
-import useCalculateRatingStars from "@/hook/useCalculateRatingStars";
 import Image from "next/image";
 import pin from "/public/assets/icons/icon-location.svg";
 import ReviewRating from "@/components/sitters/ReviewRating";
@@ -13,21 +12,20 @@ import {
   RabbitBadge,
 } from "@/components/sitters/PetBadges";
 
-export default function SitterCard({ sitter }) {
+export default function SitterCard({ sitter, ratingStars }) {
   const petTypeComponents = {
     Dog: DogBadge,
     Cat: CatBadge,
     Bird: BirdBadge,
     Rabbit: RabbitBadge,
   };
-  const ratingStars = useCalculateRatingStars(sitter.bookings)
   return (
     <div className="sitter-card flex flex-col w-[33%] bg-ps-white rounded-2xl h-fit min-w-[370px] lg:sticky top-5">
       <div className="sister-profile px-10 py-10 flex flex-col gap-6 items-center w-full">
         <img
-          src={sitter.profile_image_url}
+          src={sitter.profile_image_url ?? "/assets/account/profile_white.svg"}
           alt={`${sitter.full_name}-profile-image`}
-          className="rounded-full object-cover sm:h-[160px] sm:w-[160px] h-[36px] w-[36px]"
+          className="rounded-full object-cover sm:h-[160px] sm:w-[160px] h-[36px] w-[36px] bg-ps-gray-200"
         ></img>
         <div className="sister-info flex flex-col items-center gap-2">
           <h2 className="text-h2 text-nowrap">{sitter.trade_name}</h2>

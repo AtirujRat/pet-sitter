@@ -1,5 +1,6 @@
 export default function useCalculateRatingStars(bookings) {
   let ratingStars = 0;
+  let averageRating = null;
 
   if (bookings) {
     const approvedReviews = bookings.filter(
@@ -15,9 +16,9 @@ export default function useCalculateRatingStars(bookings) {
       0
     );
 
-    const averageRating = totalRating / approvedReviews.length;
+    averageRating = totalRating / approvedReviews.length;
     ratingStars = Math.round(averageRating);
   }
 
-  return ratingStars;
+  return { ratingStars, averageRating };
 }
