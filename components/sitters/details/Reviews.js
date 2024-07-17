@@ -2,16 +2,16 @@ import RatingFilter from "./RatingFilter";
 import ReviewRating from "@/components/sitters/ReviewRating";
 
 export default function Reviews({ sitter, averageRating }) {
-  console.log(sitter.bookings);
-
   const reviews = sitter.bookings;
 
   return (
     <div className="reviews-container w-full h-fit bg-[#f6f6f9] rounded-tl-[120px] rounded-bl-2xl rounded-r-2xl flex flex-col gap-4 p-6">
       <div className="reviews-bar w-full min-w-[590px] h-fit bg-ps-white rounded-r-xl rounded-l-[99px] p-6 gap-10 flex">
         <div className="bg-ps-black w-[146px] h-[146px] min-w-[146px] max-h-[146px] rounded-full rounded-br-none flex flex-col justify-center items-center">
-          <h2 className="text-h2 text-ps-white">{averageRating.toFixed(2)}</h2>
-          <p className="text-b3 text-ps-white">{reviews.length} Reviews</p>
+          <h2 className="text-h2 text-ps-white">{averageRating}</h2>
+          <p className="text-b3 text-ps-white">
+            {reviews.length === 0 ? "No" : reviews.length} Reviews
+          </p>
         </div>
         <div className="rating-filter flex flex-col gap-4">
           <h3 className="text-h3">Rating & Reviews</h3>
@@ -22,7 +22,10 @@ export default function Reviews({ sitter, averageRating }) {
       {reviews.map((review) => {
         let options = { year: "numeric", month: "short", day: "numeric" };
         const reviewDate = new Date(review.reviews[0].updated_at);
-        const formattedReviewDate = reviewDate.toLocaleDateString("en-US", options);
+        const formattedReviewDate = reviewDate.toLocaleDateString(
+          "en-US",
+          options
+        );
 
         return (
           <div className="review w-full h-fit flex gap-4 px-6 pt-6 pb-10 border-b border-b-ps-gray-200">

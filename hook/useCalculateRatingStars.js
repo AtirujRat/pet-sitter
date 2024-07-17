@@ -15,8 +15,7 @@ export default function useCalculateRatingStars(bookings) {
       (acc, cur) => acc + cur.reviews[0].rating,
       0
     );
-
-    averageRating = totalRating / approvedReviews.length;
+    averageRating = (totalRating / approvedReviews.length).toFixed(2)
     ratingStars = Math.round(averageRating);
   }
 

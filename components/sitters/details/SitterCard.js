@@ -12,7 +12,11 @@ import {
   RabbitBadge,
 } from "@/components/sitters/PetBadges";
 
-export default function SitterCard({ sitter, ratingStars }) {
+export default function SitterCard({
+  sitter,
+  ratingStars,
+  setIsBookingModalOpen,
+}) {
   const petTypeComponents = {
     Dog: DogBadge,
     Cat: CatBadge,
@@ -56,7 +60,14 @@ export default function SitterCard({ sitter, ratingStars }) {
       </div>
       <div className="buttons flex p-6 border-t-[1px] border-ps-gray-200 gap-4">
         <ButtonOrangeLight id="chat" text="Send Message" width="w-full" />
-        <ButtonOrange id="booking" text="Booking" width="w-full" />
+        <ButtonOrange
+          id="booking"
+          text="Booking"
+          width="w-full"
+          onClick={() => {
+            setIsBookingModalOpen(true);
+          }}
+        />
       </div>
     </div>
   );
