@@ -7,6 +7,7 @@ import { Formik, Field, Form } from "formik";
 import { BookingContext } from "@/pages/context/Booking";
 import { OnwerContext } from "@/pages/context/Owners";
 
+
 const timeSchedule = [
   "8:00 AM",
   "8:30 AM",
@@ -72,7 +73,7 @@ const validateTimeSchedule = (value1, value2) => {
   return "";
 };
 
-const BookingModal = () => {
+const BookingModal = ({ setIsBookingModalOpen }) => {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [toggleStartTime, setToggleStartTime] = useState(false);
