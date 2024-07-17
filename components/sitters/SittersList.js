@@ -50,7 +50,7 @@ export default function SittersList() {
         ) : (
           currentSitters.map((sitter) => {
             let galleryImage = "https://placehold.co/400x300";
-            
+
             if (sitter.sitters_images.length > 0) {
               galleryImage = sitter.sitters_images[0].image_url;
             }
@@ -69,7 +69,10 @@ export default function SittersList() {
                     <div className="setter-info flex-col w-full">
                       <div className="profile flex gap-5 my-2">
                         <img
-                          src={sitter.profile_image_url ?? "/assets/account/profile_white.svg"}
+                          src={
+                            sitter.profile_image_url ??
+                            "/assets/account/profile_white.svg"
+                          }
                           alt={`${sitter.full_name}-profile-image`}
                           className="rounded-full object-cover sm:h-[64px] sm:max-h-[64px] sm:min-w-[64px] sm:w-[64px] h-[36px] w-[36px] max-h-[36px] min-w-[36px] bg-ps-gray-200"
                         ></img>

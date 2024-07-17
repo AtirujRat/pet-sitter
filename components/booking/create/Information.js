@@ -1,5 +1,6 @@
 import { Formik, Form, Field } from "formik";
 import PhoneInput from "@/components/authentication/PhoneInput";
+
 export default function Information() {
   function validatePhone(value) {
     let error;
