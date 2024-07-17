@@ -8,19 +8,7 @@ import { sittersContext } from "@/pages/sitters";
 import { useContext } from "react";
 import { useMediaQuery } from "react-responsive";
 import Loading from "../Loading";
-
-const calculateRatingStars = (bookings) => {
-  let ratingStars = 0;
-  if (bookings) {
-    const totalRating = bookings.reduce(
-      (acc, cur) => acc + cur.reviews[0].rating,
-      0
-    );
-    const averageRating = totalRating / bookings.length;
-    ratingStars = Math.round(averageRating);
-  }
-  return ratingStars;
-};
+import useCalculateRatingStars from "@/hook/useCalculateRatingStars";
 
 const ITEMS_PER_PAGE = 5;
 
@@ -36,7 +24,7 @@ export default function SittersList() {
   };
 
   const filteredSitters = sitters.filter((sitter) => {
-    const ratingStars = calculateRatingStars(sitter.bookings);
+    const { ratingStars } = useCalculateRatingStars(sitter.bookings);
     return filteredRating === null || ratingStars === filteredRating;
   });
 
@@ -63,12 +51,12 @@ export default function SittersList() {
         ) : (
           currentSitters.map((sitter) => {
             let galleryImage = "https://placehold.co/400x300";
-            const profilePlaceholder = "https://placehold.co/200x200";
+            
             if (sitter.sitters_images.length > 0) {
               galleryImage = sitter.sitters_images[0].image_url;
             }
 
-            const ratingStars = calculateRatingStars(sitter.bookings);
+            const { ratingStars } = useCalculateRatingStars(sitter.bookings);
 
             return (
               <div key={sitter.id}>
@@ -82,9 +70,9 @@ export default function SittersList() {
                     <div className="setter-info flex-col w-full">
                       <div className="profile flex gap-5 my-2">
                         <img
-                          src={sitter.profile_image_url ?? profilePlaceholder}
+                          src={sitter.profile_image_url ?? "/assets/account/profile_white.svg"}
                           alt={`${sitter.full_name}-profile-image`}
-                          className="rounded-full object-cover object-center sm:h-[64px] sm:w-[64px] h-[36px] w-[36px]"
+                          className="rounded-full object-cover sm:h-[64px] sm:max-h-[64px] sm:min-w-[64px] sm:w-[64px] h-[36px] w-[36px] max-h-[36px] min-w-[36px] bg-ps-gray-200"
                         ></img>
                         <div className="sitter-title w-full">
                           <h3 className="sm:text-h3 text-lg font-bold leading-6">

@@ -1,14 +1,24 @@
-import { sittersContext } from "@/pages/sitters";
-import { useContext } from "react";
 import Image from "next/image";
 import star from "/public/assets/star-rating.svg";
+import { useState } from "react";
 
-export default function RatingSitter() {
+export default function RatingFilter() {
   const rate = [1, 2, 3, 4, 5];
-  const { setSelectedRating, selectedRating } = useContext(sittersContext);
+  const [selectedRating, setSelectedRating] = useState("All reviews");
 
   return (
     <div className="flex flex-wrap gap-2">
+      <button
+          id="All reviews"
+          onClick={() => setSelectedRating("All reviews")}
+          className={`flex px-2 py-1 items-center justify-center gap-1 border rounded-lg text-b2 ${
+            selectedRating === "All reviews"
+              ? "border-ps-orange-500 text-ps-orange-500"
+              : "border-ps-gray-200 text-ps-gray-400"
+          } `}
+        >
+          All Reviews
+        </button>
       {rate.reverse().map((num, index) => (
         <button
           key={index}
