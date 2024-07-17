@@ -1,16 +1,30 @@
 import Image from "next/image";
 import test from "../../../public/assets/booking/create/imgtest.svg";
 import plus from "../../../public/assets/booking/create/plus.svg";
+import {
+  DogBadge,
+  CatBadge,
+  BirdBadge,
+  RabbitBadge,
+} from "../../sitters/PetBadges";
 import { useState, useEffect } from "react";
 import { supabase } from "@/utils/supabase";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 export default function YourPet() {
+  const router = useRouter();
   const [selectedPets, setSelectedPets] = useState([]);
   const [petData, setPetData] = useState([]);
   const [select, setSelect] = useState({});
 
   const checkbox = Object.values(select).includes(true);
+  const petTypeComponents = {
+    dog: <DogBadge />,
+    cat: <CatBadge />,
+    bird: <BirdBadge />,
+    rabbit: <RabbitBadge />,
+  };
 
   const getUser = async () => {
     const {
@@ -60,8 +74,8 @@ export default function YourPet() {
                 key={pet.id}
                 className={
                   select[pet.type]
-                    ? "w-[240px] h-[240px] border border-ps-orange-500 rounded-2xl flex flex-col justify-center items-center relative gap-2"
-                    : "w-[240px] h-[240px] border border-ps-gray-200 rounded-2xl flex flex-col justify-center items-center relative gap-2"
+                    ? "w-[240px] h-[240px] border border-ps-orange-500 rounded-2xl flex flex-col justify-center items-center relative gap-4"
+                    : "w-[240px] h-[240px] border border-ps-gray-200 rounded-2xl flex flex-col justify-center items-center relative gap-4"
                 }
               >
                 <input
@@ -72,15 +86,16 @@ export default function YourPet() {
                 />
                 <Image src={test} alt="test" className="w-20 h-20" />
                 <h4 className="text-h4">{pet.name}</h4>
-                <p className="w-16 h-8 bg-ps-gray-400 text-center">
-                  {pet.type}
-                </p>
+                <p>{petTypeComponents[pet.type]}</p>
               </div>
             );
           })}
 
           <button
             type="button"
+            onClick={() => {
+              router.push("/");
+            }}
             className="w-[240px] h-[240px] bg-ps-orange-100 border-none rounded-2xl flex flex-col justify-center items-center gap-2"
           >
             <Image src={plus} alt="plus" className="w-12 h-12" />
