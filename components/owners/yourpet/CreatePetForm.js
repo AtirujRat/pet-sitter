@@ -40,7 +40,6 @@ export default function CreatePetForm() {
     const file = event.currentTarget.files[0];
 
     if (file && file.size > 2 * 1024 * 1024) {
-      // 2 MB
       setError("File size should not exceed 2 MB.");
       return;
     }
@@ -77,7 +76,7 @@ export default function CreatePetForm() {
 
       const updatedValues = {
         ...values,
-        pet_image_url: publicImageUrl,
+        pet_image_url: publicImageUrl.data.publicUrl,
         owner_id: id,
       };
 
