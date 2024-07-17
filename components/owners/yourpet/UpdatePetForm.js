@@ -22,6 +22,7 @@ export default function UpdatePetForm() {
       try {
         const response = await axios.get(`${API_URL}/${id}/${petId}`);
         setPet(response.data);
+        setPreview(response.data.pet_image_url);
       } catch (error) {
         console.error("Error fetching pet:", error);
       }
@@ -129,12 +130,11 @@ export default function UpdatePetForm() {
             {/* Upload Image */}
             <div className="relative w-[240px] h-[240px]">
               {preview ? (
-                <Image
+                <img
                   src={preview}
                   alt="pet_image"
+                  className="relative h-full rounded-full object-cover"
                   layout="fill"
-                  objectFit="cover"
-                  className="rounded-full"
                   priority
                 />
               ) : (
