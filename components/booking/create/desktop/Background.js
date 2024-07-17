@@ -1,4 +1,4 @@
-import star from "../../../public/assets/booking/create/star.svg";
+import star from "@/public/assets/booking/create/star.svg";
 import Image from "next/image";
 
 export default function Backgroud() {

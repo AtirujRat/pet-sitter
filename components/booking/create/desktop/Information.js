@@ -6,9 +6,11 @@ import {
   validateName,
   validateEmail,
   validatePhone,
-} from "./validate/validate";
+} from "../validate/validate";
+import { useSearch } from "@/context/Search";
 
 export default function Information() {
+  const { setStepBooking } = useSearch();
   return (
     <Formik
       initialValues={{ name: "", email: "", phone: "", message: "" }}
@@ -18,7 +20,7 @@ export default function Information() {
       }}
     >
       {({ errors, touched, isSubmitting, setFieldValue }) => (
-        <Form className="w-full p-10 flex flex-col gap-10 max-sm:gap-6">
+        <Form className="w-full h-full p-10 flex flex-col gap-10 max-sm:gap-6 relative">
           <div className="flex flex-col gap-2 relative">
             <label htmlFor="name" className="text-b2">
               Your Name*
@@ -109,42 +111,23 @@ export default function Information() {
             ></textarea>
           </div>
 
-          {/* <div className="flex flex-col gap-2 relative">
-            <label htmlFor="password" className="text-b2">
-              Password
-            </label>
-            <Field
-              type={showPassword ? "text" : "password"}
-              name="password"
-              validate={validatePassword}
-              placeholder="Create your password"
-              className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400"
-            />
-            <button
-              className="absolute right-[5%] top-[55%]"
-              onClick={() => {
-                setShowPassword(!showPassword);
-              }}
-            >
-              {showPassword ? (
-                <div className="text-ps-gray-400">hide</div>
-              ) : (
-                <div className="text-ps-gray-400">show</div>
-              )}
-            </button>
-            {errors.password && touched.password && (
-              <div className="absolute bottom-[-22px] text-ps-red bg-transparent">
-                {errors.password}
-              </div>
-            )}
-          </div> */}
-
           <button
-            type="submit"
-            disabled={isSubmitting}
-            className="btn text-b2 text-ps-white bg-ps-orange-500 border-none rounded-full hover:bg-ps-orange-400 "
+            type="button"
+            onClick={() => {
+              setStepBooking(1);
+            }}
+            className="py-3 px-12 bg-ps-orange-100 text-b2 text-ps-orange-500 border-none rounded-[99px] absolute bottom-14"
           >
-            Register
+            Back
+          </button>
+          <button
+            type="summit"
+            onClick={() => {
+              setStepBooking(3);
+            }}
+            className="py-3 px-12 bg-ps-orange-500 text-ps-white rounded-[99px] absolute bottom-14 right-10"
+          >
+            Next
           </button>
         </Form>
       )}
