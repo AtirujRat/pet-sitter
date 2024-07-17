@@ -17,6 +17,7 @@ export default function YourPet() {
   const [selectedPets, setSelectedPets] = useState([]);
   const [petData, setPetData] = useState([]);
   const [select, setSelect] = useState({});
+  const disabled = true;
 
   const checkbox = Object.values(select).includes(true);
   const petTypeComponents = {
@@ -78,12 +79,21 @@ export default function YourPet() {
                     : "w-[240px] h-[240px] border border-ps-gray-200 rounded-2xl flex flex-col justify-center items-center relative gap-4"
                 }
               >
-                <input
-                  type="checkbox"
-                  value={pet.type}
-                  onChange={handlePetSelect}
-                  className="checkbox checkbox-primary [--chkfg:white] border border-ps-gray-300 hover:border-ps-orange-300 focus:border-ps-orange-300 absolute top-2 right-2"
-                />
+                <div
+                  className={
+                    disabled
+                      ? "absolute w-full h-full bg-ps-gray-100 opacity-70 z-10"
+                      : "absolute"
+                  }
+                ></div>
+                {disabled ? null : (
+                  <input
+                    type="checkbox"
+                    value={pet.type}
+                    onChange={handlePetSelect}
+                    className="checkbox checkbox-primary [--chkfg:white] border border-ps-gray-300 hover:border-ps-orange-300 focus:border-ps-orange-300 absolute top-2 right-2"
+                  />
+                )}
                 <Image src={test} alt="test" className="w-20 h-20" />
                 <h4 className="text-h4">{pet.name}</h4>
                 <p>{petTypeComponents[pet.type]}</p>

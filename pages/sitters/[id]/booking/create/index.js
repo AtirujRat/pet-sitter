@@ -3,6 +3,7 @@ import BookingDetail from "@/components/booking/create/BookingDetail";
 import Step from "@/components/booking/create/Step";
 import YourPet from "@/components/booking/create/YourPet";
 import Information from "@/components/booking/create/Information";
+import Payment from "@/components/booking/create/Payment";
 
 export default function BookingCreate() {
   return (
@@ -13,7 +14,8 @@ export default function BookingCreate() {
           <div className="w-[70%] h-full">
             <Step />
             {/* <YourPet /> */}
-            <Information />
+            {/* <Information /> */}
+            <Payment />
           </div>
           <BookingDetail />
         </div>

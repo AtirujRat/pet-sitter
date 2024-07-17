@@ -21,7 +21,6 @@ export default function Information() {
     }
     return error;
   }
-
   function validateEmail(value) {
     let error;
     if (!value) {
@@ -41,7 +40,7 @@ export default function Information() {
       }}
     >
       {({ errors, touched, isSubmitting, setFieldValue }) => (
-        <Form className="w-full flex flex-col gap-8 max-sm:gap-6">
+        <Form className="w-full p-10 flex flex-col gap-10 max-sm:gap-6">
           <div className="flex flex-col gap-2 relative">
             <label htmlFor="name" className="text-b2">
               Your Name*
@@ -50,6 +49,7 @@ export default function Information() {
               type="text"
               name="name"
               validate={validateName}
+              placeholder="Full name"
               className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400"
             />
             {errors.name && touched.name && (
@@ -59,39 +59,43 @@ export default function Information() {
             )}
           </div>
 
-          <div className="flex flex-col gap-2 relative">
-            <label htmlFor="email" className="text-b2">
-              Email*
-            </label>
-            <Field
-              type="email"
-              name="email"
-              validate={validateEmail}
-              className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400"
-            />
-            {errors.email && touched.email && (
-              <div className="absolute bottom-[-22px] text-ps-red bg-transparent">
-                {errors.email}
-              </div>
-            )}
-          </div>
+          <div className="w-full flex justify-between gap-10 relative">
+            <div className="w-[50%] flex flex-col">
+              <label htmlFor="email" className="text-b2">
+                Email*
+              </label>
+              <Field
+                type="email"
+                name="email"
+                validate={validateEmail}
+                placeholder="youremail@company.com"
+                className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400"
+              />
+              {errors.email && touched.email && (
+                <div className="absolute bottom-[-22px] text-ps-red bg-transparent">
+                  {errors.email}
+                </div>
+              )}
+            </div>
 
-          <div className="flex flex-col gap-2 relative">
-            <label htmlFor="phone" className="text-b2">
-              Phone*
-            </label>
-            <Field
-              type="tel"
-              name="phone"
-              validate={validatePhone}
-              component={PhoneInput}
-              className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400"
-            />
-            {errors.phone && touched.phone && (
-              <div className="absolute bottom-[-22px] text-ps-red bg-transparent">
-                {errors.phone}
-              </div>
-            )}
+            <div className="w-[50%] flex flex-col">
+              <label htmlFor="phone" className="text-b2">
+                Phone*
+              </label>
+              <Field
+                type="tel"
+                name="phone"
+                validate={validatePhone}
+                component={PhoneInput}
+                placeholder="xxx-xxx-xxxx"
+                className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400"
+              />
+              {errors.phone && touched.phone && (
+                <div className="absolute bottom-[-22px] text-ps-red bg-transparent">
+                  {errors.phone}
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="flex flex-col gap-2 relative">
@@ -102,6 +106,7 @@ export default function Information() {
               name="message"
               rows={4}
               cols={50}
+              className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400 resize-none"
               onChange={(e) => {
                 setFieldValue("message", e.target.value);
               }}
