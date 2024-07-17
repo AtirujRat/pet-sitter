@@ -43,21 +43,28 @@ export default function SitterDetails() {
   const SLIDES = sitter.sitters_images;
 
   return (
-    <>
-      <section className="w-full flex flex-col items-center bg-[#FAFAFB] sm:py-1 lg:pb-32 ">
-        <Gallery slides={SLIDES} options={OPTIONS} />
-        <div className="page-container w-full px-20 max-w-[1440px] flex justify-center gap-4">
-          <div className="left-container w-[67%] flex flex-col gap-10">
-            <SitterDescriptions sitter={sitter} />
-            <Reviews sitter={sitter} averageRating={averageRating} />
+    <section className="w-full flex flex-col items-center bg-[#FAFAFB] sm:pt-1 lg:pb-32 sm:pb-14">
+      <Gallery slides={SLIDES} options={OPTIONS} />
+      <div className="page-container w-full lg:px-20 sm:px-5 max-w-[1440px] flex max-lg:flex-col lg:justify-center gap-4">
+        <div className="left-container lg:w-[67%] w-full flex flex-col sm:gap-10">
+          <SitterDescriptions sitter={sitter} />
+          <div className="lg:hidden w-full">
+            <SitterCard
+              sitter={sitter}
+              ratingStars={ratingStars}
+              setIsBookingModalOpen={setIsBookingModalOpen}
+            />
           </div>
+          <Reviews sitter={sitter} averageRating={averageRating} />
+        </div>
+        <div className="max-lg:hidden">
           <SitterCard
             sitter={sitter}
             ratingStars={ratingStars}
             setIsBookingModalOpen={setIsBookingModalOpen}
           />
         </div>
-      </section>
+      </div>
       {isBookingModalOpen && (
         <Modal>
           <BookingModal
@@ -66,7 +73,7 @@ export default function SitterDetails() {
           />
         </Modal>
       )}
-    </>
+    </section>
   );
 }
 
