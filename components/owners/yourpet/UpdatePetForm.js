@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { supabase } from "@/utils/supabase";
+import DeletePetModal from "@/components/modal/DeletePetModal";
 
 const API_URL = "/api/owners";
 
@@ -16,6 +17,7 @@ export default function UpdatePetForm() {
   const [preview, setPreview] = useState(null);
   const [error, setError] = useState(null);
   const fileInputRef = useRef(null);
+  const [isModalOpen, setIsModalOpen] = useState(null);
 
   useEffect(() => {
     const fetchPet = async () => {
@@ -65,27 +67,35 @@ export default function UpdatePetForm() {
 
   const onSubmit = async (values, actions) => {
     try {
-      const fileName = uuidv4();
-      const file = values.pet_image_url;
+      let updatedValues = { ...values };
 
-      const { data: petImage, error: imageError } = await supabase.storage
-        .from("pets")
-        .upload(`pet_image/${fileName}`, file);
+      if (values.pet_image_url instanceof File) {
+        const fileName = uuidv4();
+        const file = values.pet_image_url;
 
-      if (imageError) {
-        console.error("Error uploading image:", imageError.message);
-        return;
+        const { data: petImage, error: imageError } = await supabase.storage
+          .from("pets")
+          .upload(`pet_image/${fileName}`, file);
+
+        if (imageError) {
+          console.error("Error uploading image:", imageError.message);
+          return;
+        }
+
+        const publicImageUrl = supabase.storage
+          .from("pets/pet_image")
+          .getPublicUrl(fileName);
+
+        updatedValues = {
+          ...values,
+          pet_image_url: publicImageUrl.data.publicUrl,
+        };
+      } else {
+        updatedValues = {
+          ...values,
+          pet_image_url: pet.pet_image_url,
+        };
       }
-
-      const publicImageUrl = supabase.storage
-        .from("pets/pet_image")
-        .getPublicUrl(fileName);
-
-      const updatedValues = {
-        ...values,
-        pet_image_url: publicImageUrl.data.publicUrl,
-        owner_id: id,
-      };
 
       await axios.put(`${API_URL}/${id}/${petId}`, updatedValues);
       router.push(`/owners/${id}/yourpet`);
@@ -96,9 +106,18 @@ export default function UpdatePetForm() {
     }
   };
 
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   const handleDelete = async () => {
     try {
       await axios.delete(`${API_URL}/${id}/${petId}`);
+      closeModal();
       router.push(`/owners/${id}/yourpet`);
     } catch (error) {
       console.error("Error deleting pet:", error);
@@ -357,8 +376,11 @@ export default function UpdatePetForm() {
 
             {/* delete pet */}
             <button
-              className="flex gap-2 items-center max-sm:justify-center max-sm:my-3"
-              onClick={handleDelete}
+              className="flex gap-2 items-center max-sm:justify-center max-sm:mx-auto max-sm:my-3 w-fit"
+              onClick={(event) => {
+                event.preventDefault();
+                openModal();
+              }}
             >
               <Image
                 src="/assets/icons/icon-bin.svg"
@@ -370,6 +392,13 @@ export default function UpdatePetForm() {
             </button>
 
             {/* Buttons */}
+            {isModalOpen && (
+              <DeletePetModal
+                isOpen={isModalOpen}
+                onCancel={closeModal}
+                onDelete={handleDelete}
+              />
+            )}
             <div className="flex flex-wrap gap-4 justify-between">
               <button
                 type="button"

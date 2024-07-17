@@ -58,25 +58,31 @@ export default function CreatePetForm() {
 
   const onSubmit = async (values, actions) => {
     try {
-      const fileName = uuidv4();
+      let publicImageUrl = null;
       const file = values.pet_image_url;
 
-      const { data: petImage, error: imageError } = await supabase.storage
-        .from("pets")
-        .upload(`pet_image/${fileName}`, file);
+      if (file) {
+        const fileName = uuidv4();
 
-      if (imageError) {
-        console.error("Error uploading image:", imageError.message);
-        return;
+        const { data: petImage, error: imageError } = await supabase.storage
+          .from("pets")
+          .upload(`pet_image/${fileName}`, file);
+
+        if (imageError) {
+          console.error("Error uploading image:", imageError.message);
+          return;
+        }
+
+        const publicUrlResponse = supabase.storage
+          .from("pets/pet_image")
+          .getPublicUrl(fileName);
+
+        publicImageUrl = publicUrlResponse.data.publicUrl;
       }
-
-      const publicImageUrl = supabase.storage
-        .from("pets/pet_image")
-        .getPublicUrl(fileName);
 
       const updatedValues = {
         ...values,
-        pet_image_url: publicImageUrl.data.publicUrl,
+        pet_image_url: publicImageUrl,
         owner_id: id,
       };
 
