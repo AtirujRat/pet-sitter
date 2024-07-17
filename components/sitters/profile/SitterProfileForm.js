@@ -1,18 +1,100 @@
 import Image from "next/image";
-import { Formik, Form, Field, ErrorMessage, useFormikContext } from "formik";
+import { Formik, Form, Field, useFormikContext } from "formik";
 import { useRouter } from "next/router";
 import { useSitterForm } from "@/hook/useSitterForm";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { supabase } from "@/utils/supabase";
+import axios from "axios";
+import * as Yup from "yup";
+
 import PhoneInput from "@/components/authentication/PhoneInput";
 import MultiSelect from "./MultiSelectPetType";
-import ImageChange from "./ImageChange";
 import userimage from "../../../public/assets/navbar/usermock.svg";
 import plus from "../../../public/assets/icon-plus.svg";
 import iconUpLoad from "../../../public/assets/sitters/icon-upload.svg";
 import iconClose from "../../../public/assets/sitters/icon-close.svg";
 import iconApproved from "../../../public/assets/sitters/icon-approved.svg";
-import axios from "axios";
+
+const ImageGallery = ({ gallery, setGallery, images, setImage }) => {
+  const { setFieldValue } = useFormikContext();
+
+  const handleGalleryChange = async (event) => {
+    const files = Array.from(event.target.files);
+    if (files.length + gallery.length > 10) {
+      alert("You can only upload a maximum of 10 images.");
+      return;
+    }
+
+    for (const file of files) {
+      if (file.size <= 2 * 1024 * 1024) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setGallery((prev) => [...prev, reader.result]);
+          const newImage = images;
+          newImage.push(file);
+          setImage(newImage);
+          console.log(images);
+          // setFieldValue("sitters_images", images);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        alert("File size should not exceed 2 MB.");
+      }
+    }
+  };
+
+  const handleRemoveImage = (index) => {
+    const newGallery = gallery.filter((_, i) => i !== index);
+    setGallery(newGallery);
+
+    const newImagesGallery = images.filter((_, i) => i !== index);
+    setImage(newImagesGallery);
+
+    // setFieldValue("sitters_images", newImagesGallery);
+  };
+
+  return (
+    <div className="flex flex-wrap gap-4">
+      {gallery.map((image, index) => (
+        <div key={index} className="relative w-[167px] h-[167px]">
+          <img
+            src={image}
+            alt={`Gallery image ${index}`}
+            className="object-cover w-full h-full rounded-lg"
+          />
+          <div
+            className="absolute w-[24px] h-[24px] top-0 right-0 translate-x-1 -translate-y-1 cursor-pointer rounded-full bg-ps-gray-400 flex items-center justify-center"
+            onClick={() => handleRemoveImage(index)}
+          >
+            <Image src={iconClose} alt="Remove Icon" width={8} height={8} />
+          </div>
+        </div>
+      ))}
+      {gallery.length < 10 && (
+        <div className="w-[167px] h-[167px] flex flex-col justify-center items-center bg-ps-orange-100 rounded-lg cursor-pointer">
+          <input
+            className="hidden"
+            type="file"
+            id="fileInput"
+            onChange={handleGalleryChange}
+            accept="image/*"
+            multiple
+          />
+          <label
+            htmlFor="fileInput"
+            className="flex flex-col items-center cursor-pointer"
+          >
+            <Image src={iconUpLoad} width={40} height={40} alt="Upload Icon" />
+            <p className="text-ps-orange-500 font-bold text-[16px] p-3">
+              Upload Image
+            </p>
+          </label>
+        </div>
+      )}
+    </div>
+  );
+};
 
 const SitterProfileForm = ({ profile = {} }) => {
   const router = useRouter();
@@ -24,22 +106,14 @@ const SitterProfileForm = ({ profile = {} }) => {
     ...profile,
   };
 
-  const ImageChange = () => {
-    const [preview, setPreview] = useState(profile.profile_image_url || null);
-    const [error, setError] = useState(null);
-    const { setFieldValue } = useFormikContext();
-    const fileInputRef = useRef(null);
+  const [preview, setPreview] = useState(profile?.profile_image_url || null);
+  const [gallery, setGallery] = useState([]);
+  const [images, setImage] = useState([]);
 
+  const ImageChange = ({ setPreview }) => {
+    const { setFieldValue } = useFormikContext();
     const handleImageChange = async (event) => {
       const file = event.currentTarget.files[0];
-
-      if (file && file.size > 2 * 1024 * 1024) {
-        // 2 MB
-        setError("File size should not exceed 2 MB.");
-        return;
-      }
-
-      setError(null);
       setFieldValue("profile_image_url", file);
 
       const reader = new FileReader();
@@ -52,178 +126,85 @@ const SitterProfileForm = ({ profile = {} }) => {
     };
 
     return (
-      <div className="relative w-[240px] h-[240px]">
-        {preview ? (
-          <Image
-            src={preview}
-            alt="userimage"
-            layout="fill"
-            objectFit="cover"
-            className="rounded-full"
-            priority
-          />
-        ) : (
-          <Image
-            src={userimage}
-            alt="userimage"
-            layout="fill"
-            objectFit="cover"
-            className="rounded-full"
-          />
-        )}
-        <input
-          className="absolute w-[60px] h-[60px] opacity-0 cursor-pointer"
-          type="file"
-          ref={fileInputRef}
-          name="image"
-          onChange={handleImageChange}
-          accept="image/*"
-          style={{ display: "none" }}
-        />
-        <div
-          onClick={() => fileInputRef.current.click()}
-          className="absolute z-10 bottom-0 right-0 cursor-pointer"
-        >
-          <Image src={plus} alt="upload" width={60} height={60} />
-        </div>
-      </div>
+      <input
+        className="w-[60px] h-[60px] opacity-0"
+        type="file"
+        name="profile_image_url"
+        onChange={handleImageChange}
+        accept="image/*"
+      />
     );
   };
 
-  const ImageGallery = () => {
-    const [gallery, setGallery] = useState([]);
-    const fileInputRef = useRef(null);
-
-    const handleGalleryChange = async (event) => {
-      const files = event.target.files;
-      if (files.length + gallery.length > 10) {
-        alert("You can only upload a maximum of 10 images.");
-        return;
-      }
-
-      const newImages = [];
-      for (const file of files) {
-        if (file.size <= 2 * 1024 * 1024) {
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            newImages.push(reader.result);
-            setGallery((prev) => [...prev, reader.result]);
-          };
-          reader.readAsDataURL(file);
-        } else {
-          alert("File size should not exceed 2 MB.");
-        }
-      }
-      console.log(newImages);
-    };
-
-    const handleRemoveImage = (index) => {
-      setGallery(gallery.filter((_, i) => i !== index));
-    };
-
-    return (
-      <div className="flex flex-wrap gap-4">
-        {gallery.map((image, index) => (
-          <div key={index} className="relative w-[167px] h-[167px]">
-            <Image
-              src={image}
-              alt={`Gallery image ${index}`}
-              layout="fill"
-              objectFit="cover"
-              className="rounded-lg"
-            />
-            <div
-              className="absolute w-[24px] h-[24px] top-0 right-0 translate-x-1 -translate-y-1 cursor-pointer rounded-full bg-ps-gray-400 flex items-center justify-center"
-              onClick={() => handleRemoveImage(index)}
-            >
-              <Image src={iconClose} alt="remove" width={8} height={8} />
-            </div>
-          </div>
-        ))}
-        {gallery.length < 10 && (
-          <div
-            className="w-[167px] h-[167px] flex flex-col justify-center items-center bg-ps-orange-100 rounded-lg cursor-pointer"
-            onClick={() => fileInputRef.current.click()}
-          >
-            <input
-              className="hidden"
-              type="file"
-              ref={fileInputRef}
-              onChange={handleGalleryChange}
-              accept="image/*"
-              multiple
-            />
-            <Image src={iconUpLoad} width={40} height={40} />
-            <p className="text-ps-orange-500 font-bold text-[16px] p-3">
-              Upload Image
-            </p>
-          </div>
-        )}
-      </div>
-    );
-  };
-
-  const updateProfile = async (formData) => {
+  const uploadImage = async (file, folder) => {
+    console.log("ww");
+    console.log(file);
     const fileName = uuidv4();
-
-    const { image_url, image_url_error } = await supabase.storage
+    const { data, error } = await supabase.storage
       .from("sitters")
-      .upload("profile_image/" + fileName, formData.image);
+      .upload(`${folder}/${fileName}`, file);
 
-    if (image_url_error) {
-      console.log(image_url_error);
-    }
-
-    const { image_gallery_url, image_gallery_url_error } =
-      await supabase.storage
-        .from("sitters")
-        .upload("gallery_image/" + fileName, formData.image);
-
-    if (image_url_error) {
-      console.log(image_gallery_url_error);
-    }
-
-    const publicAttachmentUrl = supabase.storage
-      .from("sitters/profile_image")
-      .getPublicUrl(fileName);
-
-    const publicAttachmentUrlGallry = supabase.storage
-      .from("sitters/gallery_image")
-      .getPublicUrl(fileName);
-
-    const { data, error } = await supabase
-      .from("sitters")
-      .update({
-        profile_image_url: publicAttachmentUrl.data.publicUrl,
-        full_name: formData.name,
-        email: userData?.email,
-        phone_number: formData.phone,
-        id_number: formData.id_number,
-        date_of_birth: formData.date_of_birth,
-        updated_at: new Date(),
-      })
-      .eq("id", id)
-      .select();
+    console.log(data);
     if (error) {
-      console.log(error);
+      console.error("Error uploading image:", error);
+      throw error;
+    } else {
+      const url = supabase.storage
+        .from("sitters")
+        .getPublicUrl(`${folder}/${fileName}`).data.publicUrl;
+      return url;
     }
-
-    console.log("Updated Successfully");
-    alert("Profile has been updated");
   };
 
-  const data = async (values) => {
-    await axios.put(`/api/sitters/${id}`, values);
-  };
+  const updateProfile = async (values) => {
+    console.log(values);
+    try {
+      // Upload profile image if it exists
+      let profileImageUrl = null;
+      if (
+        values.profile_image_url !== profile.profile_image_url ||
+        values.profile_image_url === null
+      ) {
+        profileImageUrl = await uploadImage(
+          values.profile_image_url,
+          "profile_image"
+        );
+      } else {
+        profileImageUrl = profile.profile_image_url;
+      }
 
+      // Upload gallery images
+      const galleryImageUrls = [];
+      for (const file of images) {
+        const url = await uploadImage(file, "gallery_images");
+        galleryImageUrls.push({ image_url: url });
+      }
+
+      // Update profile with uploaded image URLs
+      const updatedValues = {
+        ...values,
+        profile_image_url: profileImageUrl,
+        sitters_images: galleryImageUrls,
+      };
+
+      await axios.put(`/api/sitters/${id}`, updatedValues);
+      alert("Profile updated successfully!");
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      alert("Failed to update profile. Please try again.");
+    }
+  };
   return (
     <Formik
       initialValues={initialFormValues}
-      // validate={validate}
+      validate={validate}
+      validationSchema={Yup.object({
+        image: Yup.mixed(),
+      })}
       onSubmit={(values, { setSubmitting }) => {
-        setSubmitting(false);
         console.log(values);
-        data(values);
+        updateProfile(values);
+        setSubmitting(false);
       }}
       enableReinitialize
     >
@@ -233,7 +214,12 @@ const SitterProfileForm = ({ profile = {} }) => {
             <div className="flex items-center gap-6">
               <p>Pet Sitter Profile</p>
               <p className="text-[16px] text-ps-green-500 flex text-center gap-2">
-                <Image src={iconApproved} width={6} height={6} />
+                <Image
+                  src={iconApproved}
+                  width={6}
+                  height={6}
+                  alt="Approved Icon"
+                />
                 {profile.sitter_status &&
                   profile.sitter_status[0].toUpperCase() +
                     profile.sitter_status.slice(1)}
@@ -250,10 +236,36 @@ const SitterProfileForm = ({ profile = {} }) => {
           <div className="bg-ps-white rounded-2xl px-20 py-10 flex flex-col gap-6">
             <div className="flex flex-col gap-6">
               <p className="text-ps-gray-300 text-h3">Basic Information</p>
-              <label htmlFor="userimage" className="text-b2">
+              <label htmlFor="profile_image_url" className="text-b2">
                 Profile Image
               </label>
-              <ImageChange />
+              <div className="relative flex justify-center items-center w-[120px] h-[120px] lg:w-[220px] lg:h-[220px] bg-ps-gray-300 rounded-full">
+                {preview ? (
+                  <img
+                    src={preview}
+                    alt="Image Preview"
+                    className="w-full h-full object-cover rounded-full"
+                  />
+                ) : (
+                  <Image
+                    width={240}
+                    height={240}
+                    src={userimage}
+                    alt="profile icon"
+                  />
+                )}
+                <div className="absolute bottom-0 right-0 ">
+                  <Image
+                    className="absolute bottom-0 right-0 w-[30px] h-[30px] lg:w-[60px] lg:h-[60px]"
+                    src={plus}
+                    alt="import button"
+                  />
+                  <Field component={ImageChange} setPreview={setPreview} />
+                </div>
+              </div>
+              {errors.image && touched.image && (
+                <div className="text-ps-red">{errors.image}</div>
+              )}
             </div>
             <div className="flex w-full gap-10">
               <div className="flex flex-col w-full">
@@ -355,59 +367,34 @@ const SitterProfileForm = ({ profile = {} }) => {
                 )}
               </div>
             </div>
-            {/* <div className="flex w-full gap-10">
-              <div className="flex flex-col w-full">
-                <label htmlFor="pet_type" className="text-b2">
-                  Pet type
-                </label>
-                <Field
-                  as="select"
-                  name="pet_type"
-                  className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400 focus:outline-none focus:ring-0"
-                >
-                  <option value="" label="Select pet type" />
-                  <option value="dog" label="Dog" />
-                  <option value="cat" label="Cat" />
-                  <option value="Bird" label="Bird" />
-                  <option value="Rabbit" label="Rabbit" />
-                </Field>
-                {errors.pet_type && touched.pet_type && (
-                  <div className="text-ps-red">{errors.pet_type}</div>
-                )}
-              </div>
-            </div> */}
             <div className="flex w-full gap-10">
               <div className="flex flex-col w-full">
-                <label htmlFor="pet_type" className="text-b2">
+                <label htmlFor="pet_types" className="text-b2">
                   Pet type
                 </label>
                 <Field
                   component={MultiSelect}
-                  name="pet_type"
-                  options={["Dog", "Cat", "Bird", "Rabbit"]} // Add your options here
+                  name="pet_types"
+                  options={["Dog", "Cat", "Bird", "Rabbit"]}
                 />
-                {errors.pet_type && touched.pet_type && (
-                  <div className="text-ps-red">{errors.pet_type}</div>
+                {errors.pet_types && touched.pet_types && (
+                  <div className="text-ps-red">{errors.pet_types}</div>
                 )}
               </div>
             </div>
-
             <div className="flex w-full gap-10">
               <div className="flex flex-col w-full">
-                <label htmlFor="services_description" className="text-b2">
+                <label htmlFor="services" className="text-b2">
                   Services (Describe all of your service for pet sitting)
                 </label>
                 <Field
                   as="textarea"
-                  name="services_description"
+                  name="services"
                   className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400 h-[140px] focus:outline-none focus:ring-0"
                 />
-                {errors.services_description &&
-                  touched.services_description && (
-                    <div className="text-ps-red">
-                      {errors.services_description}
-                    </div>
-                  )}
+                {errors.services && touched.services && (
+                  <div className="text-ps-red">{errors.services}</div>
+                )}
               </div>
             </div>
             <div className="flex w-full gap-10">
@@ -427,10 +414,15 @@ const SitterProfileForm = ({ profile = {} }) => {
             </div>
             <div className="flex w-full gap-10">
               <div className="flex flex-col w-full gap-4">
-                <label htmlFor="introduction" className="text-b2">
+                <label htmlFor="gallery" className="text-b2">
                   Image Gallery (Maximum 10 images)
                 </label>
-                <ImageGallery />
+                <ImageGallery
+                  gallery={gallery}
+                  setGallery={setGallery}
+                  images={images}
+                  setImage={setImage}
+                />
               </div>
             </div>
           </div>

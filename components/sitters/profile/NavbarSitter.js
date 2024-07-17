@@ -6,13 +6,14 @@ const NavBarSitter = ({ profileImage, fullName }) => {
     <div className="w-full relative">
       <div className="flex px-[60px] items-center justify-between  py-4">
         <div className="flex items-center gap-2">
-          <Image
-            src={profileImage}
-            alt="profileImage"
-            width={40}
-            height={40}
-            className="rounded-full"
-          />
+          <div className="w-[40px] h-[40px] relative rounded-full overflow-hidden">
+            <Image
+              src={profileImage || ""}
+              alt="profileImage"
+              fill
+              style={{ objectFit: "cover" }}
+            />
+          </div>
           <p className="text-[16px]">{fullName}</p>
         </div>
         <div className="bg-ps-gray-200 rounded-full">
