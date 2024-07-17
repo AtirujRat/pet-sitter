@@ -8,7 +8,7 @@ import list_icon from "@/public/assets/account/list.svg";
 import list_icon_active from "@/public/assets/account/list-active.svg";
 
 function SideBarOwners() {
-  const [accountState, setAccountState] = useState("profile");
+  const [accountState, setAccountState] = useState("");
 
   return (
     <section className="w-fit h-fit sticky top-5">
