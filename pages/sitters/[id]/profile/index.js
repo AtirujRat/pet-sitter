@@ -38,8 +38,8 @@ export default function SitterManageProfile() {
       <SideBarSitter />
       <div className="w-full flex-col">
         <NavBarSitter
-          profileImage={profile.profile_image_url}
-          fullName={profile.full_name}
+          profileImage={profile?.profile_image_url}
+          fullName={profile?.full_name}
         />
         <div className="bg-ps-gray-200 h-full flex flex-col gap-6 p-10">
           <SitterProfileForm profile={{ ...profile }} />

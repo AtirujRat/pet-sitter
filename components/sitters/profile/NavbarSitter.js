@@ -8,7 +8,7 @@ const NavBarSitter = ({ profileImage, fullName }) => {
         <div className="flex items-center gap-2">
           <div className="w-[40px] h-[40px] relative rounded-full overflow-hidden">
             <Image
-              src={profileImage}
+              src={profileImage || ""}
               alt="profileImage"
               fill
               style={{ objectFit: "cover" }}

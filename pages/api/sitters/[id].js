@@ -25,17 +25,18 @@ export default async function handler(req, res) {
     const { id } = req.query;
     const reqBody = { ...req.body, updated_at: new Date() };
 
-    console.log(reqBody);
     try {
+      // ดึงข้อมูลปัจจุบันของ sitters
       const { data: existingData, error: selectError } = await supabase
         .from("sitters")
-        .select(`*, sitters_images(image_url)`)
+        .select("*")
         .eq("id", id);
 
       if (selectError) {
         throw selectError;
       }
 
+      // เตรียมข้อมูลสำหรับการอัปเดต
       const updateData = {
         email: reqBody.email,
         phone_number: reqBody.phone_number,
@@ -50,38 +51,61 @@ export default async function handler(req, res) {
         sitter_address_id: reqBody.sitter_address_id,
         updated_at: reqBody.updated_at,
         last_logged_in: reqBody.last_logged_in,
-        sitters_images: reqBody.sitters_images.image_url,
-        // sitters_images: reqBody.sitters_images.image_url
-        //   ? JSON.stringify(reqBody.sitters_images.image_url)
-        //   : JSON.stringify(existingData[0].sitters_images.image_url),
       };
 
+      // อัปเดตข้อมูลในตาราง sitters
+      let updateResult;
       if (existingData.length > 0) {
         const { data, error: updateError } = await supabase
           .from("sitters")
           .update(updateData)
           .eq("id", id)
           .select();
-        // console.log(updateError);
         if (updateError) {
           throw updateError;
         }
-
-        res.status(200).json(data);
+        updateResult = data;
       } else {
         const { data, error: upsertError } = await supabase
           .from("sitters")
           .upsert(updateData)
           .select();
-
-        // console.log(upsertError);
-
         if (upsertError) {
           throw upsertError;
         }
-
-        res.status(200).json(data);
+        updateResult = data;
       }
+
+      // อัปเดตข้อมูลในตาราง sitters_images
+      const sittersImages = reqBody.sitters_images;
+
+      // ลบข้อมูล sitters_images เก่าทั้งหมดที่เชื่อมโยงกับ sitter_id นี้
+      const { error: deleteError } = await supabase
+        .from("sitters_images")
+        .delete()
+        .eq("sitter_id", id);
+
+      if (deleteError) {
+        throw deleteError;
+      }
+
+      // เพิ่มข้อมูล sitters_images ใหม่
+      const newImages = sittersImages.map((img) => ({
+        sitter_id: id,
+        image_url: img.image_url,
+      }));
+
+      const { data: imageData, error: imageError } = await supabase
+        .from("sitters_images")
+        .insert(newImages);
+
+      if (imageError) {
+        throw imageError;
+      }
+
+      res
+        .status(200)
+        .json({ sitters: updateResult, sitters_images: imageData });
     } catch (error) {
       res.status(400).json({ error: error.message });
     }
