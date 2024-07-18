@@ -77,8 +77,8 @@ export default function YourPet() {
                 key={pet.id}
                 className={
                   select[pet.type]
-                    ? "w-[240px] h-[240px] border border-ps-orange-500 rounded-2xl flex flex-col justify-center items-center relative gap-4"
-                    : "w-[240px] h-[240px] border border-ps-gray-200 rounded-2xl flex flex-col justify-center items-center relative gap-4"
+                    ? "w-[30%] h-[240px] border border-ps-orange-500 rounded-2xl flex flex-col justify-center items-center relative gap-4"
+                    : "w-[30%] h-[240px] border border-ps-gray-200 rounded-2xl flex flex-col justify-center items-center relative gap-4"
                 }
               >
                 <div
@@ -108,7 +108,7 @@ export default function YourPet() {
             onClick={() => {
               router.push("/");
             }}
-            className="w-[240px] h-[240px] bg-ps-orange-100 border-none rounded-2xl flex flex-col justify-center items-center gap-2"
+            className="w-[30%] h-[50%] bg-ps-orange-100 border-none rounded-2xl flex flex-col justify-center items-center gap-2"
           >
             <Image src={plus} alt="plus" className="w-12 h-12" />
             <h4 className="text-b2 font-bold text-ps-orange-500">
@@ -118,7 +118,7 @@ export default function YourPet() {
 
           <button
             type="button"
-            className="w-[240px] h-[240px] bg-ps-orange-100 border-none rounded-2xl flex flex-col justify-center items-center gap-2"
+            className="w-[30%] h-[50%] bg-ps-orange-100 border-none rounded-2xl flex flex-col justify-center items-center gap-2"
           >
             <Image src={plus} alt="plus" className="w-12 h-12" />
             <h4 className="text-b2 font-bold text-ps-orange-500">
@@ -127,7 +127,7 @@ export default function YourPet() {
           </button>
           <button
             type="button"
-            className="w-[240px] h-[240px] bg-ps-orange-100 border-none rounded-2xl flex flex-col justify-center items-center gap-2"
+            className="w-[30%] h-[50%] bg-ps-orange-100 border-none rounded-2xl flex flex-col justify-center items-center gap-2"
           >
             <Image src={plus} alt="plus" className="w-12 h-12" />
             <h4 className="text-b2 font-bold text-ps-orange-500">
@@ -136,7 +136,7 @@ export default function YourPet() {
           </button>
           <button
             type="button"
-            className="w-[240px] h-[240px] bg-ps-orange-100 border-none rounded-2xl flex flex-col justify-center items-center gap-2"
+            className="w-[30%] h-[50%] bg-ps-orange-100 border-none rounded-2xl flex flex-col justify-center items-center gap-2"
           >
             <Image src={plus} alt="plus" className="w-12 h-12" />
             <h4 className="text-b2 font-bold text-ps-orange-500">
