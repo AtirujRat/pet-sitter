@@ -1,9 +1,9 @@
 import CheckBoxSitter from "./CheckBoxSitter";
 import RatingSitter from "./RatingSitter";
-import { useContext } from "react";
 import Image from "next/image";
 import search from "/public/assets/icons/icon-search.svg";
-import { sittersContext } from "@/pages/sitters";
+import { useSitters } from "@/pages/context/SittersProvider";
+
 
 const SearchBarSitter = () => {
   const {
@@ -16,7 +16,7 @@ const SearchBarSitter = () => {
     handleClearSearch,
     refresh,
     setRefresh,
-  } = useContext(sittersContext);
+  } = useSitters();
 
   return (
     <div className="search-box bg-ps-white flex-1 w-full h-fit sm:rounded-2xl lg:shadow-lg sm:p-6 lg:sticky top-5">

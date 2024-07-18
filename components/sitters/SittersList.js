@@ -4,17 +4,16 @@ import Image from "next/image";
 import pin from "/public/assets/icons/icon-location.svg";
 import goUp from "/public/assets/icons/icon-up.svg";
 import { DogBadge, CatBadge, BirdBadge, RabbitBadge } from "./PetBadges";
-import { sittersContext } from "@/pages/sitters";
-import { useContext } from "react";
 import { useMediaQuery } from "react-responsive";
 import Loading from "../Loading";
 import useCalculateRatingStars from "@/hook/useCalculateRatingStars";
+import { useSitters } from "@/pages/context/SittersProvider";
+
 
 const ITEMS_PER_PAGE = 5;
 
 export default function SittersList() {
-  const { sitters, filteredRating, currentPage, setTotalPages, loading } =
-    useContext(sittersContext);
+  const { sitters, filteredRating, currentPage, setTotalPages, loading } = useSitters()
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
   const petTypeComponents = {
     Dog: DogBadge,

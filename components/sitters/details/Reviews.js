@@ -21,7 +21,7 @@ export default function Reviews({ sitter, averageRating }) {
 
   return (
     <div className="reviews-container w-full h-fit bg-[#f6f6f9] sm:rounded-tl-[120px] rounded-bl-2xl rounded-r-2xl flex flex-col sm:gap-4 gap-6 sm:p-6 p-4 max-sm:pb-10">
-      <div className="reviews-bar w-full m h-fit bg-ps-white rounded-r-xl sm:rounded-l-[99px] max-sm:rounded-tl-[99px] max-sm:rounded-bl-xl p-6 gap-10 flex max-sm:flex-col">
+      <div className="reviews-bar w-full m h-fit bg-ps-white rounded-r-xl sm:rounded-l-[99px] max-sm:rounded-tl-[99px] max-sm:rounded-bl-xl p-6 sm:gap-10 gap-4 flex max-sm:flex-col">
         <div className="bg-ps-black w-[146px] h-[146px] min-w-[146px] max-h-[146px] rounded-full rounded-br-none flex flex-col justify-center items-center">
           <h2 className="text-h2 text-ps-white">{averageRating}</h2>
           <p className="text-b3 text-ps-white">
