@@ -67,7 +67,7 @@ export default function YourPet() {
   }
 
   return (
-    <div className="w-full h-full flex flex-col p-10 gap-10 shadow-[4px_4px_24px_0_rgba(0,0,0,0.04)] relative">
+    <div className="max-lg:hidden w-full h-full flex flex-col p-10 gap-10 shadow-[4px_4px_24px_0_rgba(0,0,0,0.04)] relative">
       <div className="w-full h-full flex flex-col gap-4">
         <p className="text-b2">Choose your pet</p>
         <div className="w-full h-[70%] flex flex-wrap gap-4">

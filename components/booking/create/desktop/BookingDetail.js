@@ -1,6 +1,6 @@
 export default function BookingDetail() {
   return (
-    <section className="w-[30%] h-fit flex flex-col border-none rounded-2xl shadow-[4px_4px_24px_0_rgba(0,0,0,0.04)]">
+    <section className="max-lg:hidden w-[30%] h-fit flex flex-col border-none rounded-2xl shadow-[4px_4px_24px_0_rgba(0,0,0,0.04)]">
       <h3 className="p-6 border-b-[1px] text-h3 text-ps-gray-600 border-ps-gray-200">
         Booking Detail
       </h3>

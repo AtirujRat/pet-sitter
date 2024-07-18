@@ -20,7 +20,7 @@ export default function Information() {
       }}
     >
       {({ errors, touched, isSubmitting, setFieldValue }) => (
-        <Form className="w-full h-full p-10 flex flex-col gap-10 max-sm:gap-6 relative">
+        <Form className="max-lg:hidden  w-full h-full p-10 flex flex-col gap-10 max-sm:gap-6 relative">
           <div className="flex flex-col gap-2 relative">
             <label htmlFor="name" className="text-b2">
               Your Name*

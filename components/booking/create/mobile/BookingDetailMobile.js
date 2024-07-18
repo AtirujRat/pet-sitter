@@ -1,6 +1,6 @@
-export default function BookingDetail() {
+export default function BookingDetailMobile() {
   return (
-    <section className="w-[30%] h-fit flex flex-col border-none rounded-2xl shadow-[4px_4px_24px_0_rgba(0,0,0,0.04)]">
+    <section className="lg:hidden w--full flex flex-col pb-[100px] shadow-[4px_4px_24px_0_rgba(0,0,0,0.04)]">
       <h3 className="p-6 border-b-[1px] text-h3 text-ps-gray-600 border-ps-gray-200">
         Booking Detail
       </h3>
@@ -30,7 +30,7 @@ export default function BookingDetail() {
           <p className="text-b2 text-ps-gray-600">-</p>
         </div>
       </div>
-      <div className="p-6 bg-ps-black border-none rounded-b-2xl flex justify-between">
+      <div className="p-6 bg-ps-black flex justify-between">
         <p className="text-b2 text-ps-white">Total</p>
         <p className="text-b1 text-ps-white">600.00 THB</p>
       </div>

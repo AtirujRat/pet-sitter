@@ -6,22 +6,29 @@ import Information from "@/components/booking/create/desktop/Information";
 import Payment from "@/components/booking/create/desktop/Payment";
 import { useSearch } from "@/context/Search";
 import StepMobile from "@/components/booking/create/mobile/StepMobile";
+import YourPetMobile from "@/components/booking/create/mobile/YourPetMobile";
+import BookingDetailMobile from "@/components/booking/create/mobile/BookingDetailMobile";
 
 export default function BookingCreate() {
   const { stepBooking } = useSearch();
   return (
     <>
       <Backgroud />
-      <section className="w-full h-screen absolute top-0 lg:p-20 pt-20 lg:pt-32 flex justify-center gap-9 z-1">
-        <div className="w-full lg:w-[65%]  h-[95%] flex justify-center gap-9">
+      <section className="w-full lg:h-screen absolute top-0 lg:p-20 pt-20 lg:pt-32 flex justify-center gap-9 z-1">
+        <div className="w-full lg:w-[65%] h-[95%] flex max-lg:flex-col justify-center gap-9">
           <div className="w-full lg:w-[70%] h-full">
             <Step />
             <StepMobile />
-            {/* {stepBooking == 1 ? <YourPet /> : null}
+            {stepBooking == 1 ? (
+              <>
+                <YourPet /> <YourPetMobile />
+              </>
+            ) : null}
             {stepBooking == 2 ? <Information /> : null}
-            {stepBooking == 3 ? <Payment /> : null} */}
+            {stepBooking == 3 ? <Payment /> : null}
           </div>
-          {/* <BookingDetail /> */}
+          <BookingDetail />
+          <BookingDetailMobile />
         </div>
       </section>
     </>

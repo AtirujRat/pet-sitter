@@ -4,7 +4,7 @@ import { useSearch } from "@/context/Search";
 export default function Payment() {
   const { payment, setPayment } = useSearch();
   return (
-    <section className="w-full h-full p-10 relative flex flex-col gap-12">
+    <section className="max-lg:hidden w-full h-full p-10 relative flex flex-col gap-12">
       <div className="w-full h-[13%] flex justify-between gap-4">
         <button
           type="button"
