@@ -1,12 +1,11 @@
 import Image from "next/image";
 import previous from "/public/assets/icons/icon-previous.svg";
 import next from "/public/assets/icons/icon-next.svg";
-import { sittersContext } from "@/pages/sitters";
-import { useContext } from "react";
+import { useSitters } from "@/pages/context/SittersList";
 
 export default function Pagination() {
   const { currentPage, setCurrentPage, totalPages } =
-    useContext(sittersContext);
+    useSitters()
 
   return (
     <div className="pagination max-lg:hidden flex h-10 gap-3 w-fit">

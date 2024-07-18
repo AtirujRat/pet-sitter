@@ -8,7 +8,8 @@ const SearchBar = () => {
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
   };
-
+  
+  //http://localhost:3000/sitters?pet=&rating=&exp=
   return (
     <div className="w-full max-w-[1064px] px-4 py-4 lg:px-0">
       {/* Checkbox */}
