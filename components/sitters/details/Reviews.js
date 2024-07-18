@@ -41,7 +41,7 @@ export default function Reviews({ sitter, averageRating }) {
           No reviews
         </p>
       ) : (
-        selectedReviews.map((review) => {
+        selectedReviews.map((review, index) => {
           let options = { year: "numeric", month: "short", day: "numeric" };
           const reviewDate = new Date(review.reviews[0].updated_at);
           const formattedReviewDate = reviewDate.toLocaleDateString(
@@ -50,7 +50,10 @@ export default function Reviews({ sitter, averageRating }) {
           );
 
           return (
-            <div className="review w-full h-fit flex max-xl:flex-col gap-4 sm:px-6 sm:pt-6 sm:pb-10 pb-6 border-b border-b-ps-gray-200">
+            <div
+              key={index}
+              className="review w-full h-fit flex max-xl:flex-col gap-4 sm:px-6 sm:pt-6 sm:pb-10 pb-6 border-b border-b-ps-gray-200"
+            >
               <div className="reviewer-profile flex max-xl:justify-between xl:w-[220px] w-full">
                 <div className="flex gap-4">
                   <img

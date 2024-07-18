@@ -1,4 +1,3 @@
-import { useContext, useState } from "react";
 import { useSitters } from "@/pages/context/SittersProvider";
 
 export default function CheckboxHome() {

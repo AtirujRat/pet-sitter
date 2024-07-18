@@ -9,6 +9,7 @@ import SitterDescriptions from "@/components/sitters/details/SitterDescriptions"
 import useCalculateRatingStars from "@/hook/useCalculateRatingStars";
 import Modal from "@/components/modal/Modal";
 import BookingModal from "@/components/booking/BookingModal";
+import { useSearch } from "@/context/Search";
 
 export default function SitterDetails() {
   const [sitter, setSitter] = useState({});
@@ -19,10 +20,23 @@ export default function SitterDetails() {
     sitter.bookings
   );
 
+  const { setAddress } = useSearch();
+
   const getSitter = async () => {
     try {
       const res = await axios.get(`http://localhost:3000/api/sitters/${id}`);
       setSitter(res.data.data[0]);
+      if (res.data.data[0].sitters_addresses) {
+        setAddress({
+          add: res.data.data[0].sitters_addresses.address_detail,
+          subDistrict: res.data.data[0].sitters_addresses.sub_district,
+          district: res.data.data[0].sitters_addresses.district,
+          province: res.data.data[0].sitters_addresses.province,
+          zip_code: res.data.data[0].sitters_addresses.post_code,
+        });
+      } else {
+        console.warn("No address data found for this sitter.");
+      }
       setLoading(false);
     } catch (error) {
       console.error("Error fetching sitter data:", error);
