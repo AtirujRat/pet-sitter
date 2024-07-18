@@ -1,7 +1,8 @@
-import { useSearch } from "@/context/Search";
+import { useContext } from "react";
+import { BookingContext } from "@/context/Booking";
 
 export default function Step() {
-  const { stepBooking } = useSearch();
+  const { stepBooking } = useContext(BookingContext);
   return (
     <div className="max-lg:hidden p-6 w-full flex justify-center gap-16 shadow-[4px_4px_24px_0_rgba(0,0,0,0.04)]">
       <div className="flex gap-3 items-center">

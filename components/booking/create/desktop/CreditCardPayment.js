@@ -1,4 +1,6 @@
 import { Formik, Form, Field } from "formik";
+import { useContext } from "react";
+import { BookingContext } from "@/context/Booking";
 import Image from "next/image";
 import alert from "@/public/assets/booking/create/alert.svg";
 import CheckCardNumber from "../validate/CheckCardNumber";
@@ -10,10 +12,9 @@ import {
   validateExpire,
   validateCvc,
 } from "../validate/validate";
-import { useSearch } from "@/context/Search";
 
 export default function CreditCardPayment() {
-  const { setStepBooking } = useSearch();
+  const { setStepBooking } = useContext(BookingContext);
   return (
     <Formik
       initialValues={{ number: "", name: "", expire: "", cvc: "" }}
@@ -128,13 +129,13 @@ export default function CreditCardPayment() {
             onClick={() => {
               setStepBooking(2);
             }}
-            className="btn hover:bg-ps-orange-200 py-3 px-12 bg-ps-orange-100 text-b2 text-ps-orange-500 border-none rounded-[99px] absolute bottom-14"
+            className="btn hover:bg-ps-orange-200 px-12 bg-ps-orange-100 text-b2 text-ps-orange-500 border-none rounded-[99px] absolute bottom-14"
           >
             Back
           </button>
           <button
             type="summit"
-            className="btn hover:bg-ps-orange-600 py-3 px-6 bg-ps-orange-500 text-ps-white rounded-[99px] absolute bottom-14 right-10"
+            className="btn hover:bg-ps-orange-600 px-6 bg-ps-orange-500 text-b2 text-ps-white rounded-[99px] absolute bottom-14 right-10"
           >
             Confirm Booking
           </button>

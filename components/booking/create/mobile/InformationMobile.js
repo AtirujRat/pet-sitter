@@ -7,10 +7,11 @@ import {
   validateEmail,
   validatePhone,
 } from "../validate/validate";
-import { useSearch } from "@/context/Search";
+import { useContext } from "react";
+import { BookingContext } from "@/context/Booking";
 
 export default function InformationMobile() {
-  const { setStepBooking } = useSearch();
+  const { setStepBooking } = useContext(BookingContext);
   return (
     <Formik
       initialValues={{ name: "", email: "", phone: "", message: "" }}

@@ -1,8 +1,9 @@
-import { useSearch } from "@/context/Search";
+import { useContext } from "react";
+import { BookingContext } from "@/context/Booking";
 import paw from "@/public/assets/booking/create/paw.svg";
 import Image from "next/image";
 export default function CashPayment() {
-  const { setStepBooking } = useSearch();
+  const { setStepBooking, confirm, setConfirm } = useContext(BookingContext);
   return (
     <section className="max-lg:hidden w-full h-full ">
       <div className="w-full h-[50%] bg-ps-gray-100 flex flex-col justify-center items-center gap-6">
@@ -18,13 +19,16 @@ export default function CashPayment() {
         onClick={() => {
           setStepBooking(2);
         }}
-        className="btn hover:bg-ps-orange-200 py-3 px-12 bg-ps-orange-100 text-b2 text-ps-orange-500 border-none rounded-[99px] absolute bottom-14"
+        className="btn hover:bg-ps-orange-200 px-12 bg-ps-orange-100 text-b2 text-ps-orange-500 border-none rounded-[99px] absolute bottom-14"
       >
         Back
       </button>
       <button
         type="button"
-        className="btn hover:bg-ps-orange-600 py-3 px-6 bg-ps-orange-500 text-ps-white rounded-[99px] absolute bottom-14 right-10"
+        onClick={() => {
+          setConfirm(1);
+        }}
+        className="btn hover:bg-ps-orange-600 px-6 bg-ps-orange-500 text-b2 text-ps-white rounded-[99px] absolute bottom-14 right-10"
       >
         Confirm Booking
       </button>

@@ -2,9 +2,10 @@ import CreditCardPayment from "./desktop/CreditCardPayment";
 import CashPayment from "./desktop/CashPayment";
 import CreditCardPaymentMobile from "./mobile/CreditCardPaymentMobile";
 import CashPaymentmobile from "./mobile/CashPaymentmobile";
-import { useSearch } from "@/context/Search";
+import { useContext } from "react";
+import { BookingContext } from "@/context/Booking";
 export default function Payment() {
-  const { payment, setPayment } = useSearch();
+  const { payment, setPayment } = useContext(BookingContext);
   return (
     <section className="w-full h-full py-10 px-4 lg:p-10 relative flex flex-col gap-12">
       <div className="w-full h-[15%] flex justify-between gap-4">

@@ -10,10 +10,11 @@ import {
   validateExpire,
   validateCvc,
 } from "../validate/validate";
-import { useSearch } from "@/context/Search";
+import { useContext } from "react";
+import { BookingContext } from "@/context/Booking";
 
 export default function CreditCardPaymentMobile() {
-  const { setStepBooking } = useSearch();
+  const { setStepBooking } = useContext(BookingContext);
   return (
     <Formik
       initialValues={{ number: "", name: "", expire: "", cvc: "" }}

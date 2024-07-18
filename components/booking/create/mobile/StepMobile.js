@@ -1,7 +1,8 @@
-import { useSearch } from "@/context/Search";
+import { useContext } from "react";
+import { BookingContext } from "@/context/Booking";
 
 export default function StepMobile() {
-  const { stepBooking } = useSearch();
+  const { stepBooking } = useContext(BookingContext);
   return (
     <div className="lg:hidden w-full p-4 flex justify-between shadow-[4px_4px_24px_0_rgba(0,0,0,0.04)]">
       <div className=" flex gap-1.5 items-center">

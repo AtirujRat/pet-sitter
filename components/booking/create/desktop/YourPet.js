@@ -7,11 +7,11 @@ import {
   BirdBadge,
   RabbitBadge,
 } from "../../../sitters/PetBadges";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { supabase } from "@/utils/supabase";
 import axios from "axios";
 import { useRouter } from "next/router";
-import { useSearch } from "@/context/Search";
+import { BookingContext } from "@/context/Booking";
 
 export default function YourPet() {
   const router = useRouter();
@@ -19,7 +19,8 @@ export default function YourPet() {
   const [petData, setPetData] = useState([]);
   const [select, setSelect] = useState({});
   const disabled = true;
-  const { setStepBooking } = useSearch();
+  const { setStepBooking } = useContext(BookingContext);
+  const id = router.query.id;
 
   const checkbox = Object.values(select).includes(true);
   const petTypeComponents = {
@@ -106,46 +107,7 @@ export default function YourPet() {
           <button
             type="button"
             onClick={() => {
-              router.push("/");
-            }}
-            className="hover:bg-ps-orange-200 active:scale-95 w-[30%] h-[50%] bg-ps-orange-100 border-none rounded-2xl flex flex-col justify-center items-center gap-2"
-          >
-            <Image src={plus} alt="plus" className="w-12 h-12" />
-            <h4 className="text-b2 font-bold text-ps-orange-500">
-              Create New Pet
-            </h4>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => {
-              router.push("/");
-            }}
-            className="hover:bg-ps-orange-200 active:scale-95 w-[30%] h-[50%] bg-ps-orange-100 border-none rounded-2xl flex flex-col justify-center items-center gap-2"
-          >
-            <Image src={plus} alt="plus" className="w-12 h-12" />
-            <h4 className="text-b2 font-bold text-ps-orange-500">
-              Create New Pet
-            </h4>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => {
-              router.push("/");
-            }}
-            className="hover:bg-ps-orange-200 active:scale-95 w-[30%] h-[50%] bg-ps-orange-100 border-none rounded-2xl flex flex-col justify-center items-center gap-2"
-          >
-            <Image src={plus} alt="plus" className="w-12 h-12" />
-            <h4 className="text-b2 font-bold text-ps-orange-500">
-              Create New Pet
-            </h4>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => {
-              router.push("/");
+              router.push(`/owners/${id}/yourpet/create`);
             }}
             className="hover:bg-ps-orange-200 active:scale-95 w-[30%] h-[50%] bg-ps-orange-100 border-none rounded-2xl flex flex-col justify-center items-center gap-2"
           >
@@ -159,7 +121,7 @@ export default function YourPet() {
 
       <button
         type="button"
-        className="btn hover:bg-ps-orange-200 py-3 px-12 bg-ps-orange-100 text-b2 text-ps-orange-500 border-none rounded-[99px] absolute bottom-14"
+        className="btn hover:bg-ps-orange-200 px-12 bg-ps-orange-100 text-b2 text-ps-orange-500 border-none rounded-[99px] absolute bottom-14"
       >
         Back
       </button>
@@ -170,7 +132,7 @@ export default function YourPet() {
         }}
         className={
           !checkbox
-            ? "btn hover:bg-ps-orange-600 py-3 px-12 bg-ps-orange-500 text-ps-white rounded-[99px] absolute bottom-14 right-10"
+            ? "btn hover:bg-ps-orange-600 px-12 bg-ps-orange-500 text-b2 text-ps-white rounded-[99px] absolute bottom-14 right-10"
             : " py-3 px-12 bg-ps-gray-200 text-b2 text-ps-gray-300 border-none rounded-[99px] absolute bottom-14 right-10"
         }
         disabled={checkbox}

@@ -1,8 +1,9 @@
-import { useSearch } from "@/context/Search";
+import { useContext } from "react";
+import { BookingContext } from "@/context/Booking";
 import paw from "@/public/assets/booking/create/paw.svg";
 import Image from "next/image";
 export default function CashPaymentmobile() {
-  const { setStepBooking } = useSearch();
+  const { setStepBooking } = useContext(BookingContext);
   return (
     <section className="lg:hidden w-full h-full">
       <div className="w-full bg-ps-gray-100 flex flex-col justify-center items-center gap-6">

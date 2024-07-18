@@ -11,7 +11,8 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/utils/supabase";
 import axios from "axios";
 import { useRouter } from "next/router";
-import { useSearch } from "@/context/Search";
+import { useContext } from "react";
+import { BookingContext } from "@/context/Booking";
 
 export default function YourPetMobile() {
   const router = useRouter();
@@ -19,7 +20,7 @@ export default function YourPetMobile() {
   const [petData, setPetData] = useState([]);
   const [select, setSelect] = useState({});
   const disabled = true;
-  const { setStepBooking } = useSearch();
+  const { setStepBooking } = useContext(BookingContext);
 
   const checkbox = Object.values(select).includes(true);
   const petTypeComponents = {
