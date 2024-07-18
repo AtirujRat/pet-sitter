@@ -1,7 +1,7 @@
 import Image from "next/image";
 import previous from "/public/assets/icons/icon-previous.svg";
 import next from "/public/assets/icons/icon-next.svg";
-import { useSitters } from "@/pages/context/SittersProvider";
+import { useSitters } from "@/context/SittersProvider";
 
 export default function Pagination() {
   const { currentPage, setCurrentPage, totalPages } =

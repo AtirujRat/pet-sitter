@@ -1,7 +1,7 @@
 import RatingHome from "./RatingHome";
 import CheckboxHome from "./CheckboxHome";
 import { useRouter } from "next/router";
-import { useSitters } from "@/pages/context/SittersProvider";
+import { useSitters } from "@/context/SittersProvider";
 
 const SearchBar = () => {
   const router = useRouter();

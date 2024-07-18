@@ -7,8 +7,7 @@ import { DogBadge, CatBadge, BirdBadge, RabbitBadge } from "./PetBadges";
 import { useMediaQuery } from "react-responsive";
 import Loading from "../Loading";
 import useCalculateRatingStars from "@/hook/useCalculateRatingStars";
-import { useSitters } from "@/pages/context/SittersProvider";
-
+import { useSitters } from "@/context/SittersProvider";
 
 const ITEMS_PER_PAGE = 5;
 

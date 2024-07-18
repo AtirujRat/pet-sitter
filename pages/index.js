@@ -1,7 +1,7 @@
 import HeaderHomes from "@/components/home/HeaderHome";
 import ContentHomePage from "@/components/home/ContentHomePage";
 import FindAPetSister from "@/components/home/FindAPetSister";
-import { useSitters } from "@/pages/context/SittersProvider";
+import { useSitters } from "@/context/SittersProvider";
 import { useEffect } from "react";
 
 export default function Home() {

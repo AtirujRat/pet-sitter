@@ -8,7 +8,7 @@ import Head from "next/head";
 import { SearchProvider } from "@/context/Search";
 import { BookingProvider } from "@/context/Booking";
 import { OnwerProvider } from "@/context/Owners";
-import { SittersProvider } from "@/pages/context/SittersProvider";
+import { SittersProvider } from "@/context/SittersProvider";
 
 export default function Layout({ children }) {
   const [openModal, setOpenModal] = useState(false);
