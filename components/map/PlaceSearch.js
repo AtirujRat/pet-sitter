@@ -1,5 +1,5 @@
 import { getGeocode, getLatLng } from "use-places-autocomplete";
-import { useSearch } from "@/pages/context/Search";
+import { useSearch } from "@/context/Search";
 import { useEffect } from "react";
 import Map from "@/components/map/Map";
 

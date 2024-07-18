@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import PlaceSearch from "./PlaceSearch";
-import { useSearch } from "@/pages/context/Search";
+import { useSearch } from "@/context/Search";
 import { DebounceInput } from "react-debounce-input";
 
 export default function AddressForm() {
