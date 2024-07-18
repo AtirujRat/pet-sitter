@@ -42,7 +42,7 @@ export const PrevButton = (props) => {
 
   return (
     <button
-      className="embla__button embla__button--prev w-[56px] h-[56px] bg-ps-white rounded-full flex justify-center items-center"
+      className="embla__button embla__button--prev w-[56px] h-[56px] bg-ps-white rounded-full flex justify-center items-center max-sm:opacity-50"
       type="button"
       {...restProps}
     >
@@ -57,7 +57,7 @@ export const NextButton = (props) => {
 
   return (
     <button
-      className="embla__button embla__button--next w-[56px] h-[56px] bg-ps-white rounded-full flex justify-center items-center"
+      className="embla__button embla__button--next w-[56px] h-[56px] bg-ps-white rounded-full flex justify-center items-center max-sm:opacity-50"
       type="button"
       {...restProps}
     >
