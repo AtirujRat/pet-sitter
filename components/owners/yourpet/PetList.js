@@ -51,7 +51,7 @@ export default function PetList() {
 
   return (
     <section className="w-full min-h-[824px]max-sm:min-h-fit h-fit shadow-lg rounded-xl bg-ps-white max-sm:bg-ps-gray-100">
-      <div className="flex flex-col justify-center p-10 gap-10">
+      <div className="flex flex-col justify-center p-10 max-sm:p-2 gap-10">
         <div className="flex justify-between items-center">
           <p className="text-h3">Your Pet</p>
           <Link href={`/owners/${id}/yourpet/create`}>

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { ButtonOrange, ButtonOrangeLight } from "../buttons/OrangeButtons";
 
-const DeletePetModal = ({ isOpen, onCancel, onDelete }) => {
+export default function DeletePetModal({ isOpen, onCancel, onDelete }) {
   if (!isOpen) return null;
 
   return (
@@ -10,7 +10,7 @@ const DeletePetModal = ({ isOpen, onCancel, onDelete }) => {
       <div className="absolute top-0 left-0 w-full h-full bg-ps-black opacity-70"></div>
 
       {/* Modal Box */}
-      <div className="relative w-[400px] h-[208px] bg-ps-white rounded-2xl z-40 flex flex-col justify-around py-2">
+      <div className="relative max-sm:w-[343px] w-[400px] h-[208px] bg-ps-white rounded-2xl z-40 flex flex-col justify-around py-2">
         <div className="flex justify-between w-full border-b-[1.5px] border-b-ps-gray-200 pb-4 item items-center px-6">
           <h4 className="text-h4">Delete Confirmation</h4>
           <Image
@@ -31,6 +31,4 @@ const DeletePetModal = ({ isOpen, onCancel, onDelete }) => {
       </div>
     </div>
   );
-};
-
-export default DeletePetModal;
+}

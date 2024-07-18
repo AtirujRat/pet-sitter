@@ -179,7 +179,7 @@ export default function CreatePetForm() {
                 name="name"
                 validate={validateRequired}
                 className="border-[#DCDFED] text-[#7B7E8F] rounded-lg"
-                placeholder="John Wick"
+                placeholder="Name of your pet"
               />
             </div>
             <div className="flex max-sm:flex-col  justify-between gap-2 max-sm:w-full max-sm:gap-4">
@@ -323,7 +323,7 @@ export default function CreatePetForm() {
                   validate={validateRequired}
                   className="border-[#DCDFED] text-[#7B7E8F] rounded-lg max-sm:w-full"
                   placeholder="Weight of your pet"
-                  min="1"
+                  min="0.1"
                   step="0.1"
                 />
               </div>
