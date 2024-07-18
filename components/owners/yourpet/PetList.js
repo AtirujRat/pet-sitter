@@ -18,6 +18,7 @@ export default function PetList() {
     const fetchPets = async () => {
       setLoading(true);
       setError(null);
+      await new Promise((resolve) => setTimeout(resolve, 500));
 
       try {
         if (id) {
@@ -37,7 +38,11 @@ export default function PetList() {
   }, [id]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="justify-center mx-auto">
+        <span className="loading loading-spinner text-primary"></span>
+      </div>
+    );
   }
 
   if (error) {
