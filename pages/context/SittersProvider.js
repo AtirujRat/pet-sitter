@@ -26,6 +26,7 @@ export function SittersProvider(props) {
     setExperience("");
     setSelectedRating(null);
     setFilteredRating(null);
+    setCurrentPage(1)
     setRefresh(!refresh);
   };
 

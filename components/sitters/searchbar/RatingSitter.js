@@ -1,6 +1,6 @@
 import Image from "next/image";
 import star from "/public/assets/star-rating.svg";
-import { useSitters } from "@/pages/context/SittersList";
+import { useSitters } from "@/pages/context/SittersProvider";
 
 export default function RatingSitter() {
   const rate = [1, 2, 3, 4, 5];

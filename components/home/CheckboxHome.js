@@ -1,8 +1,8 @@
 import { useContext, useState } from "react";
-import { sittersContext } from "@/pages/sitters";
+import { useSitters } from "@/pages/context/SittersProvider";
 
-export default function Checkbox() {
-  const [selectedPets, setSelectedPets] = useState([]);
+export default function CheckboxHome() {
+  const { setSelectedPets, setPetQuery } = useSitters();
 
   function handlePetSelect(event) {
     const { value, checked } = event.target;
@@ -14,6 +14,7 @@ export default function Checkbox() {
       } else {
         updatedSelectedPets = prevSelectedPets.filter((pet) => pet !== value);
       }
+      setPetQuery(updatedSelectedPets.join("&pet="));
       return updatedSelectedPets;
     });
   }

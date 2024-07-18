@@ -1,4 +1,5 @@
-import { useSitters } from "@/pages/context/SittersList";
+import { useSitters } from "@/pages/context/SittersProvider";
+
 
 export default function CheckBoxSitter() {
   const { selectedPets, setSelectedPets, setPetQuery } =
