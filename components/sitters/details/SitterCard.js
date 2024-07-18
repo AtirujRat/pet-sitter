@@ -32,7 +32,9 @@ export default function SitterCard({
           className="rounded-full object-cover sm:h-[160px] sm:w-[160px] h-[120px] w-[120px] bg-ps-gray-200"
         ></img>
         <div className="sister-info flex flex-col items-center sm:gap-2 gap-1">
-          <h2 className="sm:text-h2 text-h3 text-nowrap">{sitter.trade_name}</h2>
+          <h2 className="sm:text-h2 text-h3 text-nowrap">
+            {sitter.trade_name}
+          </h2>
           <div className="subtitle flex justify-center gap-2 max-sm:mb-1">
             <span className="sm:text-h4 text-b1">{sitter.full_name}</span>
             <span className="text-b2 text-ps-green-500">
@@ -40,16 +42,19 @@ export default function SitterCard({
             </span>
           </div>
           <ReviewRating ratingStars={ratingStars} />
-          <div className="location flex gap-1 sm:my-2 my-3 sm:mt-4">
-            <Image
-              src={pin}
-              alt="location"
-              className="sm:w-6 sm:h-6 w-4 h-4 self-center"
-            />
-            <p className="sm:text-b2 text-b3 text-ps-gray-400">
-              Senanikom, Bangkok
-            </p>
-          </div>
+          {sitter.sitters_addresses && (
+            <div className="location flex gap-1 sm:my-2 my-3 sm:mt-4">
+              <Image
+                src={pin}
+                alt="location"
+                className="sm:w-6 sm:h-6 w-4 h-4 self-center"
+              />
+              <p className="sm:text-b2 text-b3 text-ps-gray-400">
+                {sitter.sitters_addresses.district},{" "}
+                {sitter.sitters_addresses.province}
+              </p>
+            </div>
+          )}
           <div className="pet-type flex gap-2">
             {sitter.pet_types.map((pet, index) => {
               const BadgeComponent = petTypeComponents[pet];
@@ -60,7 +65,7 @@ export default function SitterCard({
       </div>
       <div className="buttons flex p-6 border-t-[1px] border-ps-gray-200 gap-4">
         <div className="max-md:hidden w-full">
-        <ButtonOrangeLight id="chat" text="Send Message" width="w-full" />
+          <ButtonOrangeLight id="chat" text="Send Message" width="w-full" />
         </div>
         <ButtonOrange
           id="booking"

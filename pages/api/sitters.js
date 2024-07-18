@@ -10,7 +10,7 @@ export default async function handler(req, res) {
       let supabaseQuery = supabase
         .from("sitters")
         .select(
-          "id, full_name, trade_name, profile_image_url, pet_types, sitters_images(image_url), bookings(reviews!inner(rating, status))"
+          "id, full_name, trade_name, profile_image_url, pet_types, sitters_images(image_url), bookings(reviews!inner(rating, status)),sitters_addresses(district, province)"
         )
         .eq("sitter_status", "approved")
         .order("id", { ascending: true })
