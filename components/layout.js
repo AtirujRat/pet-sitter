@@ -5,9 +5,9 @@ import { useEffect, useState } from "react";
 import LoginMobile from "./mobilenavbar/LoginMobile";
 import { usePathname } from "next/navigation";
 import Head from "next/head";
-import { SearchProvider } from "@/pages/context/Search";
-import { BookingProvider } from "@/pages/context/Booking";
-import { OnwerProvider } from "@/pages/context/Owners";
+import { SearchProvider } from "@/context/Search";
+import { BookingProvider } from "@/context/Booking";
+import { OnwerProvider } from "@/context/Owners";
 import { SittersProvider } from "@/pages/context/SittersProvider";
 
 export default function Layout({ children }) {
@@ -55,7 +55,8 @@ export default function Layout({ children }) {
                   </div>
                 )}
                 <div>{children}</div>
-                {!noLayoutRoutes.includes(router.pathname) && <Footer />}
+                {!noLayoutRoutes.includes(router.pathname) &&
+                  noFooterRoutes.includes(router.pathname) && <Footer />}
               </div>
             </SittersProvider>
           </SearchProvider>
