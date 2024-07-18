@@ -77,8 +77,8 @@ export default function YourPet() {
                 key={pet.id}
                 className={
                   select[pet.type]
-                    ? "w-[30%] h-[240px] border border-ps-orange-500 rounded-2xl flex flex-col justify-center items-center relative gap-4"
-                    : "w-[30%] h-[240px] border border-ps-gray-200 rounded-2xl flex flex-col justify-center items-center relative gap-4"
+                    ? "w-[30%] h-[50%] hover:bg-ps-orange-100 active:scale-95 border border-ps-orange-500 rounded-2xl flex flex-col justify-center items-center relative gap-4"
+                    : "w-[30%] h-[50%] hover:bg-ps-orange-100 active:scale-95 border border-ps-gray-200 rounded-2xl flex flex-col justify-center items-center relative gap-4"
                 }
               >
                 <div
@@ -108,7 +108,7 @@ export default function YourPet() {
             onClick={() => {
               router.push("/");
             }}
-            className="w-[30%] h-[50%] bg-ps-orange-100 border-none rounded-2xl flex flex-col justify-center items-center gap-2"
+            className="hover:bg-ps-orange-200 active:scale-95 w-[30%] h-[50%] bg-ps-orange-100 border-none rounded-2xl flex flex-col justify-center items-center gap-2"
           >
             <Image src={plus} alt="plus" className="w-12 h-12" />
             <h4 className="text-b2 font-bold text-ps-orange-500">
@@ -118,25 +118,36 @@ export default function YourPet() {
 
           <button
             type="button"
-            className="w-[30%] h-[50%] bg-ps-orange-100 border-none rounded-2xl flex flex-col justify-center items-center gap-2"
+            onClick={() => {
+              router.push("/");
+            }}
+            className="hover:bg-ps-orange-200 active:scale-95 w-[30%] h-[50%] bg-ps-orange-100 border-none rounded-2xl flex flex-col justify-center items-center gap-2"
           >
             <Image src={plus} alt="plus" className="w-12 h-12" />
             <h4 className="text-b2 font-bold text-ps-orange-500">
               Create New Pet
             </h4>
           </button>
+
           <button
             type="button"
-            className="w-[30%] h-[50%] bg-ps-orange-100 border-none rounded-2xl flex flex-col justify-center items-center gap-2"
+            onClick={() => {
+              router.push("/");
+            }}
+            className="hover:bg-ps-orange-200 active:scale-95 w-[30%] h-[50%] bg-ps-orange-100 border-none rounded-2xl flex flex-col justify-center items-center gap-2"
           >
             <Image src={plus} alt="plus" className="w-12 h-12" />
             <h4 className="text-b2 font-bold text-ps-orange-500">
               Create New Pet
             </h4>
           </button>
+
           <button
             type="button"
-            className="w-[30%] h-[50%] bg-ps-orange-100 border-none rounded-2xl flex flex-col justify-center items-center gap-2"
+            onClick={() => {
+              router.push("/");
+            }}
+            className="hover:bg-ps-orange-200 active:scale-95 w-[30%] h-[50%] bg-ps-orange-100 border-none rounded-2xl flex flex-col justify-center items-center gap-2"
           >
             <Image src={plus} alt="plus" className="w-12 h-12" />
             <h4 className="text-b2 font-bold text-ps-orange-500">
@@ -148,7 +159,7 @@ export default function YourPet() {
 
       <button
         type="button"
-        className="py-3 px-12 bg-ps-orange-100 text-b2 text-ps-orange-500 border-none rounded-[99px] absolute bottom-14"
+        className="btn hover:bg-ps-orange-200 py-3 px-12 bg-ps-orange-100 text-b2 text-ps-orange-500 border-none rounded-[99px] absolute bottom-14"
       >
         Back
       </button>
@@ -159,8 +170,8 @@ export default function YourPet() {
         }}
         className={
           !checkbox
-            ? "py-3 px-12 bg-ps-orange-500 text-ps-white rounded-[99px] absolute bottom-14 right-10"
-            : "py-3 px-12 bg-ps-gray-200 text-b2 text-ps-gray-300 border-none rounded-[99px] absolute bottom-14 right-10"
+            ? "btn hover:bg-ps-orange-600 py-3 px-12 bg-ps-orange-500 text-ps-white rounded-[99px] absolute bottom-14 right-10"
+            : " py-3 px-12 bg-ps-gray-200 text-b2 text-ps-gray-300 border-none rounded-[99px] absolute bottom-14 right-10"
         }
         disabled={checkbox}
       >

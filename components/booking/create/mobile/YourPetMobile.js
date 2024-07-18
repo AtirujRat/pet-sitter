@@ -77,8 +77,8 @@ export default function YourPetMobile() {
                 key={pet.id}
                 className={
                   select[pet.type]
-                    ? "w-full border border-ps-orange-500 rounded-2xl flex flex-col justify-center items-center relative gap-4"
-                    : "w-full h-[240px] border border-ps-gray-200 rounded-2xl flex flex-col justify-center items-center relative gap-4"
+                    ? "w-full hover:bg-ps-orange-100 active:scale-95 border border-ps-orange-500 rounded-2xl flex flex-col justify-center items-center relative gap-4"
+                    : "w-full h-[240px] hover:bg-ps-orange-100 active:scale-95 border border-ps-gray-200 rounded-2xl flex flex-col justify-center items-center relative gap-4"
                 }
               >
                 <div
@@ -108,7 +108,7 @@ export default function YourPetMobile() {
             onClick={() => {
               router.push("/");
             }}
-            className="w-full h-[240px] bg-ps-orange-100 border-none rounded-2xl flex flex-col justify-center items-center gap-2"
+            className="w-full h-[240px] hover:bg-ps-orange-200 active:scale-95 bg-ps-orange-100 border-none rounded-2xl flex flex-col justify-center items-center gap-2"
           >
             <Image src={plus} alt="plus" className="w-12 h-12" />
             <h4 className="text-b2 font-bold text-ps-orange-500">
@@ -121,7 +121,7 @@ export default function YourPetMobile() {
             onClick={() => {
               router.push("/");
             }}
-            className="w-full h-[240px] bg-ps-orange-100 border-none rounded-2xl flex flex-col justify-center items-center gap-2"
+            className="w-full h-[240px] hover:bg-ps-orange-200 active:scale-95 bg-ps-orange-100 border-none rounded-2xl flex flex-col justify-center items-center gap-2"
           >
             <Image src={plus} alt="plus" className="w-12 h-12" />
             <h4 className="text-b2 font-bold text-ps-orange-500">
@@ -133,7 +133,7 @@ export default function YourPetMobile() {
             onClick={() => {
               router.push("/");
             }}
-            className="w-full h-[240px] bg-ps-orange-100 border-none rounded-2xl flex flex-col justify-center items-center gap-2"
+            className="w-full h-[240px] hover:bg-ps-orange-200 active:scale-95 bg-ps-orange-100 border-none rounded-2xl flex flex-col justify-center items-center gap-2"
           >
             <Image src={plus} alt="plus" className="w-12 h-12" />
             <h4 className="text-b2 font-bold text-ps-orange-500">
@@ -145,7 +145,7 @@ export default function YourPetMobile() {
             onClick={() => {
               router.push("/");
             }}
-            className="w-full h-[240px] bg-ps-orange-100 border-none rounded-2xl flex flex-col justify-center items-center gap-2"
+            className="w-full h-[240px] hover:bg-ps-orange-200 active:scale-95 bg-ps-orange-100 border-none rounded-2xl flex flex-col justify-center items-center gap-2"
           >
             <Image src={plus} alt="plus" className="w-12 h-12" />
             <h4 className="text-b2 font-bold text-ps-orange-500">
@@ -157,7 +157,7 @@ export default function YourPetMobile() {
 
       <button
         type="button"
-        className="py-3 px-16 bg-ps-orange-100 text-b2 text-ps-orange-500 border-none rounded-[99px] absolute bottom-[-595px] left-4"
+        className="btn hover:bg-ps-orange-200 py-3 px-16 text-b2 bg-ps-orange-100 text-b2 text-ps-orange-500 border-none rounded-[99px] absolute bottom-[-595px] left-4"
       >
         Back
       </button>
@@ -168,8 +168,8 @@ export default function YourPetMobile() {
         }}
         className={
           !checkbox
-            ? "py-3 px-16 bg-ps-orange-500 text-ps-white rounded-[99px] absolute bottom-[-595px] right-4"
-            : "py-3 px-16 bg-ps-gray-200 text-b2 text-ps-gray-300 border-none rounded-[99px] absolute bottom-[-595px] right-4"
+            ? "btn hover:bg-ps-orange-600 w-[45%] py-3 bg-ps-orange-500 text-ps-white rounded-[99px] absolute bottom-[-595px] right-4"
+            : "w-[45%] py-3 bg-ps-gray-200 text-b2 text-ps-gray-300 border-none rounded-[99px] absolute bottom-[-595px] right-4"
         }
         disabled={checkbox}
       >

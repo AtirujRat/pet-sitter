@@ -1,11 +1,11 @@
 import { useSearch } from "@/context/Search";
 import paw from "@/public/assets/booking/create/paw.svg";
 import Image from "next/image";
-export default function CashPayment() {
+export default function CashPaymentmobile() {
   const { setStepBooking } = useSearch();
   return (
-    <section className="w-full h-full">
-      <div className="w-full h-[50%] bg-ps-gray-100 flex flex-col justify-center items-center gap-6">
+    <section className="lg:hidden w-full h-full">
+      <div className="w-full bg-ps-gray-100 flex flex-col justify-center items-center gap-6">
         <Image src={paw} alt={paw} />
         <p className="text-center">
           If you want to pay by cash,
@@ -18,13 +18,13 @@ export default function CashPayment() {
         onClick={() => {
           setStepBooking(2);
         }}
-        className="py-3 px-12 bg-ps-orange-100 text-b2 text-ps-orange-500 border-none rounded-[99px] absolute bottom-14"
+        className="btn hover:bg-ps-orange-200 w-[45%] py-3 bg-ps-orange-100 text-b2 text-ps-orange-500 border-none rounded-[99px] absolute bottom-[-595px] left-4"
       >
         Back
       </button>
       <button
         type="button"
-        className="py-3 px-6 bg-ps-orange-500 text-ps-white rounded-[99px] absolute bottom-14 right-10"
+        className="btn hover:bg-ps-orange-600 w-[45%] py-3 bg-ps-orange-500 text-ps-white rounded-[99px] absolute bottom-[-595px] right-4"
       >
         Confirm Booking
       </button>

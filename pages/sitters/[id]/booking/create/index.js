@@ -3,11 +3,12 @@ import BookingDetail from "@/components/booking/create/desktop/BookingDetail";
 import Step from "@/components/booking/create/desktop/Step";
 import YourPet from "@/components/booking/create/desktop/YourPet";
 import Information from "@/components/booking/create/desktop/Information";
-import Payment from "@/components/booking/create/desktop/Payment";
+import Payment from "@/components/booking/create/Payment";
 import { useSearch } from "@/context/Search";
 import StepMobile from "@/components/booking/create/mobile/StepMobile";
 import YourPetMobile from "@/components/booking/create/mobile/YourPetMobile";
 import BookingDetailMobile from "@/components/booking/create/mobile/BookingDetailMobile";
+import InformationMobile from "@/components/booking/create/mobile/InformationMobile";
 
 export default function BookingCreate() {
   const { stepBooking } = useSearch();
@@ -21,10 +22,16 @@ export default function BookingCreate() {
             <StepMobile />
             {stepBooking == 1 ? (
               <>
-                <YourPet /> <YourPetMobile />
+                <YourPet />
+                <YourPetMobile />
               </>
             ) : null}
-            {stepBooking == 2 ? <Information /> : null}
+            {stepBooking == 2 ? (
+              <>
+                <Information />
+                <InformationMobile />
+              </>
+            ) : null}
             {stepBooking == 3 ? <Payment /> : null}
           </div>
           <BookingDetail />

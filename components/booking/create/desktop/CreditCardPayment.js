@@ -1,9 +1,9 @@
 import { Formik, Form, Field } from "formik";
 import Image from "next/image";
 import alert from "@/public/assets/booking/create/alert.svg";
-import CheckCardNumber from "./CheckCardNumber";
-import CheckExpire from "./CheckExpire";
-import CheckCvc from "./CheckCvc";
+import CheckCardNumber from "../validate/CheckCardNumber";
+import CheckExpire from "../validate/CheckExpire";
+import CheckCvc from "../validate/CheckCvc";
 import {
   validateCardNumber,
   validateName,
@@ -24,7 +24,7 @@ export default function CreditCardPayment() {
       }}
     >
       {({ errors, touched, isSubmitting }) => (
-        <Form className="w-full h-full flex flex-col gap-10 max-sm:gap-6 ">
+        <Form className="max-lg:hidden w-full h-full flex flex-col gap-10 max-sm:gap-6 ">
           <div className="w-full flex justify-between gap-10 relative">
             <div className="w-[50%] flex flex-col gap-2 relative">
               <label htmlFor="number" className="text-b2">
@@ -128,13 +128,13 @@ export default function CreditCardPayment() {
             onClick={() => {
               setStepBooking(2);
             }}
-            className="py-3 px-12 bg-ps-orange-100 text-b2 text-ps-orange-500 border-none rounded-[99px] absolute bottom-14"
+            className="btn hover:bg-ps-orange-200 py-3 px-12 bg-ps-orange-100 text-b2 text-ps-orange-500 border-none rounded-[99px] absolute bottom-14"
           >
             Back
           </button>
           <button
             type="summit"
-            className="py-3 px-6 bg-ps-orange-500 text-ps-white rounded-[99px] absolute bottom-14 right-10"
+            className="btn hover:bg-ps-orange-600 py-3 px-6 bg-ps-orange-500 text-ps-white rounded-[99px] absolute bottom-14 right-10"
           >
             Confirm Booking
           </button>

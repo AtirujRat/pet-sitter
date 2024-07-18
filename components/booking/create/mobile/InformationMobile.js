@@ -9,7 +9,7 @@ import {
 } from "../validate/validate";
 import { useSearch } from "@/context/Search";
 
-export default function Information() {
+export default function InformationMobile() {
   const { setStepBooking } = useSearch();
   return (
     <Formik
@@ -20,7 +20,7 @@ export default function Information() {
       }}
     >
       {({ errors, touched, isSubmitting, setFieldValue }) => (
-        <Form className="w-full h-full p-10 flex flex-col gap-10 max-sm:gap-6 relative">
+        <Form className="lg:hidden w-full h-full py-10 px-4 flex flex-col gap-10 max-sm:gap-6 relative">
           <div className="flex flex-col gap-2 relative">
             <label htmlFor="name" className="text-b2">
               Your Name*
@@ -45,55 +45,53 @@ export default function Information() {
             ) : null}
           </div>
 
-          <div className="w-full flex justify-between gap-10 relative">
-            <div className="w-[50%] flex flex-col relative">
-              <label htmlFor="email" className="text-b2">
-                Email*
-              </label>
-              <Field
-                type="email"
-                name="email"
-                validate={validateEmail}
-                placeholder="youremail@company.com"
-                className={
-                  errors.email && touched.email
-                    ? "p-3 border-2 rounded-lg border-ps-red text-b2 font-normal text-ps-gray-400"
-                    : "p-3 border-2 rounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400"
-                }
+          <div className="w-full flex flex-col relative">
+            <label htmlFor="email" className="text-b2">
+              Email*
+            </label>
+            <Field
+              type="email"
+              name="email"
+              validate={validateEmail}
+              placeholder="youremail@company.com"
+              className={
+                errors.email && touched.email
+                  ? "p-3 border-2 rounded-lg border-ps-red text-b2 font-normal text-ps-gray-400"
+                  : "p-3 border-2 rounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400"
+              }
+            />
+            {errors.email && touched.email ? (
+              <Image
+                src={alert}
+                alt={alert}
+                className="absolute right-4 top-12"
               />
-              {errors.email && touched.email ? (
-                <Image
-                  src={alert}
-                  alt={alert}
-                  className="absolute right-4 top-12"
-                />
-              ) : null}
-            </div>
+            ) : null}
+          </div>
 
-            <div className="w-[50%] flex flex-col relative">
-              <label htmlFor="phone" className="text-b2">
-                Phone*
-              </label>
-              <Field
-                type="tel"
-                name="phone"
-                validate={validatePhone}
-                component={PhoneInput}
-                placeholder="xxx-xxx-xxxx"
-                className={
-                  errors.phone && touched.phone
-                    ? "p-3 border-2 rounded-lg border-ps-red text-b2 font-normal text-ps-gray-400"
-                    : "p-3 border-2 rounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400"
-                }
+          <div className="w-full pb-4 border-b-2 border-b-ps-gray-200 flex flex-col relative">
+            <label htmlFor="phone" className="text-b2">
+              Phone*
+            </label>
+            <Field
+              type="tel"
+              name="phone"
+              validate={validatePhone}
+              component={PhoneInput}
+              placeholder="xxx-xxx-xxxx"
+              className={
+                errors.phone && touched.phone
+                  ? "p-3 border-2 rounded-lg border-ps-red text-b2 font-normal text-ps-gray-400"
+                  : "p-3 border-2 rounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400"
+              }
+            />
+            {errors.phone && touched.phone ? (
+              <Image
+                src={alert}
+                alt={alert}
+                className="absolute right-4 top-12"
               />
-              {errors.phone && touched.phone ? (
-                <Image
-                  src={alert}
-                  alt={alert}
-                  className="absolute right-4 top-12"
-                />
-              ) : null}
-            </div>
+            ) : null}
           </div>
 
           <div className="flex flex-col gap-2 relative">
@@ -116,7 +114,7 @@ export default function Information() {
             onClick={() => {
               setStepBooking(1);
             }}
-            className="py-3 px-12 bg-ps-orange-100 text-b2 text-ps-orange-500 border-none rounded-[99px] absolute bottom-14"
+            className="btn hover:bg-ps-orange-200 w-[45%] py-3 bg-ps-orange-100 text-b2 text-ps-orange-500 border-none rounded-[99px] absolute bottom-[-595px] left-4"
           >
             Back
           </button>
@@ -125,7 +123,7 @@ export default function Information() {
             onClick={() => {
               setStepBooking(3);
             }}
-            className="py-3 px-12 bg-ps-orange-500 text-ps-white rounded-[99px] absolute bottom-14 right-10"
+            className="btn hover:bg-ps-orange-600 w-[45%] py-3 bg-ps-orange-500 text-ps-white rounded-[99px] absolute bottom-[-595px] right-4"
           >
             Next
           </button>

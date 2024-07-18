@@ -116,7 +116,7 @@ export default function Information() {
             onClick={() => {
               setStepBooking(1);
             }}
-            className="py-3 px-12 bg-ps-orange-100 text-b2 text-ps-orange-500 border-none rounded-[99px] absolute bottom-14"
+            className="btn hover:bg-ps-orange-200 py-3 px-12 bg-ps-orange-100 text-b2 text-ps-orange-500 border-none rounded-[99px] absolute bottom-14"
           >
             Back
           </button>
@@ -125,7 +125,7 @@ export default function Information() {
             onClick={() => {
               setStepBooking(3);
             }}
-            className="py-3 px-12 bg-ps-orange-500 text-ps-white rounded-[99px] absolute bottom-14 right-10"
+            className="btn hover:bg-ps-orange-600 py-3 px-12 bg-ps-orange-500 text-ps-white rounded-[99px] absolute bottom-14 right-10"
           >
             Next
           </button>
