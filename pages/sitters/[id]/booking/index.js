@@ -2,14 +2,14 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import SideBarSitter from "@/components/sitters/profile/SideBarSitter";
-import SitterProfileForm from "@/components/sitters/profile/SitterProfileForm";
 import NavBarSitter from "@/components/sitters/profile/NavbarSitter";
+import SideBarSitter from "@/components/sitters/profile/SideBarSitter";
 import Loading from "@/components/Loading";
 
-export default function SitterManageProfile() {
+export default function SitterManageBookingList() {
   const router = useRouter();
   const { id } = router.query;
+  console.log(id);
 
   const [profile, setProfile] = useState(null);
 
@@ -46,17 +46,9 @@ export default function SitterManageProfile() {
           fullName={profile?.full_name}
         />
         <div className="bg-ps-gray-100 h-full flex flex-col gap-6 p-10">
-          <SitterProfileForm profile={{ ...profile }} />
+          <p>wi</p>
         </div>
       </div>
     </div>
   );
 }
-
-// SitterManageProfile.getLayout = function getLayout(page) {
-//   return (
-//     <>
-//       <SitterManageProfile />
-//     </>
-//   );
-// };

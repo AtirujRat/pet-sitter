@@ -5,8 +5,9 @@ import { useSearch } from "@/pages/context/Search";
 export default function Map() {
   const { searchLat, searchLng } = useSearch();
   const containerStyle = {
-    width: "1000px",
-    height: "800px",
+    width: "100%",
+    height: "100%",
+    borderRadius: "8px",
   };
 
   const center = {
