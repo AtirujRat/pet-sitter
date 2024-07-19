@@ -13,9 +13,9 @@ import { useSitters } from "@/context/SittersProvider";
 import { useSearch } from "@/context/Search";
 
 export default function SitterDetails() {
-  const { sitter, setSitter } = useSitters();
+  const { sitter, setSitter, isBookingModalOpen, setIsBookingModalOpen } =
+    useSitters();
   const [loading, setLoading] = useState(true);
-  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const id = useRouter().query.id;
   const { ratingStars, averageRating } = useCalculateRatingStars(
     sitter.bookings

@@ -19,6 +19,7 @@ export function SittersProvider(props) {
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
   const [sitter, setSitter] = useState({});
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
   const handleClearSearch = () => {
     setSearchName("");
@@ -59,6 +60,8 @@ export function SittersProvider(props) {
         setLoading,
         sitter,
         setSitter,
+        isBookingModalOpen,
+        setIsBookingModalOpen,
       }}
     >
       {props.children}
