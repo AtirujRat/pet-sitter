@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import { supabase } from "@/utils/supabase";
 import axios from "axios";
 import * as Yup from "yup";
-import { useSearch } from "@/pages/context/Search";
+import { useSearch } from "@/context/Search";
 
 import AddressForm from "@/components/map/AddressForm";
 import PhoneInput from "@/components/authentication/PhoneInput";
