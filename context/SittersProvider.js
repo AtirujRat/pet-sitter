@@ -18,6 +18,7 @@ export function SittersProvider(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [sitter, setSitter] = useState({});
 
   const handleClearSearch = () => {
     setSearchName("");
@@ -26,7 +27,7 @@ export function SittersProvider(props) {
     setExperience("");
     setSelectedRating(null);
     setFilteredRating(null);
-    setCurrentPage(1)
+    setCurrentPage(1);
     setRefresh(!refresh);
   };
 
@@ -56,6 +57,8 @@ export function SittersProvider(props) {
         setTotalPages,
         loading,
         setLoading,
+        sitter,
+        setSitter,
       }}
     >
       {props.children}
