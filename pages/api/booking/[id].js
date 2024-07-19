@@ -2,31 +2,22 @@ import { supabase } from "@/utils/supabase";
 
 export default async function handler(req, res) {
   const { id } = req.query;
-  const ownerName = req.query.name;
-  const status = req.query.status;
 
   if (req.method === "GET") {
     try {
       let supabaseQuery = supabase
         .from("bookings")
-        .select(
-          "id, owners(full_name), bookings_pets(pet_id), start_time, end_time, status"
-        )
-        .eq("sitter_id", id)
-        .ilike("owners.full_name", `%${ownerName}%`);
+        .select("*, pets(name, type, pet_image_url)")
+        .eq("id", id);
 
-      if (status) {
-        supabaseQuery = supabaseQuery.eq("status", status);
-      }
-
-      let { data: bookings, error } = await supabaseQuery;
+      let { data: booking, error } = await supabaseQuery;
 
       if (error) {
         throw error;
       }
 
       return res.status(200).json({
-        data: bookings,
+        data: booking,
       });
     } catch (error) {
       return res.status(500).json({ error: error.message });

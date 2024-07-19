@@ -13,6 +13,16 @@ export default function SitterManageBookingList() {
 
   const [profile, setProfile] = useState(null);
 
+  //-- ตัวอย่าง endpoint --
+  // const getBooking = async () => {
+  //   const res = await axios.get(
+  //     `http://localhost:3000/api/sitters/${id}/booking?name=${searchName}&status=${selectedStatus}`
+  //   );
+
+  //   // setBooking(res.data.data);
+  //   // setLoading(false);
+  // };
+
   const GetProfile = async () => {
     try {
       if (id) {
