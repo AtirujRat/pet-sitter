@@ -9,17 +9,17 @@ import SitterDescriptions from "@/components/sitters/details/SitterDescriptions"
 import useCalculateRatingStars from "@/hook/useCalculateRatingStars";
 import Modal from "@/components/modal/Modal";
 import BookingModal from "@/components/booking/BookingModal";
+import { useSitters } from "@/context/SittersProvider";
 import { useSearch } from "@/context/Search";
 
 export default function SitterDetails() {
-  const [sitter, setSitter] = useState({});
+  const { sitter, setSitter, isBookingModalOpen, setIsBookingModalOpen } =
+    useSitters();
   const [loading, setLoading] = useState(true);
-  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const id = useRouter().query.id;
   const { ratingStars, averageRating } = useCalculateRatingStars(
     sitter.bookings
   );
-
   const { setAddress } = useSearch();
 
   const getSitter = async () => {
