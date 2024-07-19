@@ -11,7 +11,7 @@ export default function Map({ draggable }) {
   };
 
   const center = {
-    lat: searchLat,
+    lat: searchLat+0.0007,
     lng: searchLng,
   };
 
