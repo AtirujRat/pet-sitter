@@ -23,9 +23,11 @@ export default function Layout({ children }) {
     "/login/sitter",
     "/login/recovery",
     "/login/updatepassword",
+    "/sitters/profile",
+    "/sitters/booking",
   ];
 
-  const noFooterRoutes = ["/sitters/1/booking/create"];
+  const noFooterRoutes = ["/sitters/booking/create"];
 
   useEffect(() => {
     setOpenModal(false);
