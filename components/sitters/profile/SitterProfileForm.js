@@ -27,13 +27,13 @@ function validateName(value) {
   return error;
 }
 
-const validateRequired = (value) => {
+function validateRequired(value) {
   let error;
   if (!value || value === "") {
     error = "Required";
   }
   return error;
-};
+}
 
 function validatePhone(value) {
   let error;
