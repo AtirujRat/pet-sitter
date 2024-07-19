@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { ButtonOrange } from "@/components/buttons/OrangeButtons";
 
-const API_URL = "/api/owners";
+const API_URL = "/api/pets";
 
 export default function PetList() {
   const router = useRouter();
@@ -39,7 +39,7 @@ export default function PetList() {
 
   if (loading) {
     return (
-      <div className="justify-center mx-auto">
+      <div className="flex justify-center items-start mx-auto w-full">
         <span className="loading loading-spinner text-primary"></span>
       </div>
     );

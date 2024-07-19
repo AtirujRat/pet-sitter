@@ -10,7 +10,7 @@ import {
   ButtonOrangeLight,
 } from "@/components/buttons/OrangeButtons";
 
-const API_URL = "/api/owners";
+const API_URL = "/api/pets";
 
 export default function CreatePetForm() {
   const router = useRouter();

@@ -11,7 +11,7 @@ import {
   ButtonOrangeLight,
 } from "@/components/buttons/OrangeButtons";
 
-const API_URL = "/api/owners";
+const API_URL = "/api/pets";
 
 export default function UpdatePetForm() {
   const router = useRouter();
@@ -131,7 +131,7 @@ export default function UpdatePetForm() {
 
   if (!pet) {
     return (
-      <div className="justify-center mx-auto">
+      <div className="flex justify-center items-start mx-auto w-full">
         <span className="loading loading-spinner text-primary"></span>
       </div>
     );
