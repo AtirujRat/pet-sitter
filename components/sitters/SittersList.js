@@ -7,8 +7,7 @@ import { DogBadge, CatBadge, BirdBadge, RabbitBadge } from "./PetBadges";
 import { useMediaQuery } from "react-responsive";
 import Loading from "../Loading";
 import useCalculateRatingStars from "@/hook/useCalculateRatingStars";
-import { useSitters } from "@/pages/context/SittersProvider";
-
+import { useSitters } from "@/context/SittersProvider";
 
 const ITEMS_PER_PAGE = 5;
 
@@ -89,16 +88,19 @@ export default function SittersList() {
                           ratingStars={ratingStars}
                         />
                       </div>
-                      <div className="location flex gap-1 sm:my-6 my-2.5">
-                        <Image
-                          src={pin}
-                          alt="location"
-                          className="sm:w-6 sm:h-6 w-4 h-4 self-center"
-                        />
-                        <p className="sm:text-b2 text-b3 text-ps-gray-400">
-                          Senanikom, Bangkok
-                        </p>
-                      </div>
+                      {sitter.sitters_addresses && (
+                        <div className="location flex gap-1 sm:my-6 my-2.5">
+                          <Image
+                            src={pin}
+                            alt="location"
+                            className="sm:w-6 sm:h-6 w-4 h-4 self-center"
+                          />
+                          <p className="sm:text-b2 text-b3 text-ps-gray-400">
+                            {sitter.sitters_addresses.district},{" "}
+                            {sitter.sitters_addresses.province}
+                          </p>
+                        </div>
+                      )}
                       <div className="pet-type flex gap-2">
                         {sitter.pet_types.map((pet, index) => {
                           const BadgeComponent = petTypeComponents[pet];

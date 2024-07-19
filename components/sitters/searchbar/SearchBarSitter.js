@@ -2,7 +2,7 @@ import CheckBoxSitter from "./CheckBoxSitter";
 import RatingSitter from "./RatingSitter";
 import Image from "next/image";
 import search from "/public/assets/icons/icon-search.svg";
-import { useSitters } from "@/pages/context/SittersProvider";
+import { useSitters } from "@/context/SittersProvider";
 
 
 const SearchBarSitter = () => {

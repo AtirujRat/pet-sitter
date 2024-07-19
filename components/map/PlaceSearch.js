@@ -3,7 +3,7 @@ import { useSearch } from "@/context/Search";
 import { useEffect } from "react";
 import Map from "@/components/map/Map";
 
-export default function PlaceSearch() {
+export default function PlaceSearch({ draggable }) {
   const { location, address } = useSearch();
   let addresses = `${address.add} ${address.subDistrict} ${address.district} ${address.province} ${address.zip_code}`;
 
@@ -18,5 +18,5 @@ export default function PlaceSearch() {
     handleClick();
   }, [address]);
 
-  return <Map />;
+  return <Map draggable={draggable} />;
 }

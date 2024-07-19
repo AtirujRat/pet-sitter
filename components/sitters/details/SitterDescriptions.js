@@ -1,3 +1,5 @@
+import PlaceSearch from "@/components/map/PlaceSearch";
+
 export default function SitterDescriptions({ sitter }) {
   return (
     <div className="sitter-details w-full flex flex-col sm:gap-12 gap-6 sm:py-6 sm:px-20 px-4 max-sm:pb-10">
@@ -19,6 +21,9 @@ export default function SitterDescriptions({ sitter }) {
         <p className="sm:text-b2 text-b3 text-ps-gray-500 whitespace-pre-line">
           {sitter.place_description}
         </p>
+        <div className="map w-full h-[220px] rounded-lg mt-4 object-center">
+          <PlaceSearch draggable={false} />
+        </div>
       </div>
     </div>
   );

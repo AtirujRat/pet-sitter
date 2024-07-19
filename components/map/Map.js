@@ -2,7 +2,7 @@ import React from "react";
 import { GoogleMap, useJsApiLoader, MarkerF } from "@react-google-maps/api";
 import { useSearch } from "@/context/Search";
 
-export default function Map() {
+export default function Map({ draggable }) {
   const { searchLat, searchLng } = useSearch();
   const containerStyle = {
     width: "100%",
@@ -11,7 +11,7 @@ export default function Map() {
   };
 
   const center = {
-    lat: searchLat,
+    lat: searchLat+0.0007,
     lng: searchLng,
   };
 
@@ -32,7 +32,7 @@ export default function Map() {
 
   const pinIcon = {
     url: "/assets/map/pin@2x.png",
-    scaledSize: { width: 50, height: 50 },
+    scaledSize: { width: 75, height: 75 },
   };
 
   const markerClicked = (event) => {
@@ -58,7 +58,7 @@ export default function Map() {
       <MarkerF
         icon={pinIcon}
         position={{ lat: searchLat, lng: searchLng }}
-        draggable
+        draggable={draggable}
         onClick={markerClicked}
         onDragEnd={markerFinishDrag}
         // visible={false}

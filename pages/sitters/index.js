@@ -5,7 +5,7 @@ import PageTitleMobile from "@/components/sitters/PageTitleMobile";
 import Pagination from "@/components/sitters/Pagination";
 import axios from "axios";
 import { useEffect } from "react";
-import { useSitters } from "../context/SittersProvider";
+import { useSitters } from "@/context/SittersProvider";
 
 export default function Sitters() {
   const {
