@@ -5,11 +5,11 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { ButtonOrange } from "@/components/buttons/OrangeButtons";
 
-const API_URL = "/api/owners";
+const API_URL = "/api/owner";
 
 export default function PetList() {
   const router = useRouter();
-  const { id } = router.query;
+  const { id, petId } = router.query;
   const [pets, setPets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -22,7 +22,7 @@ export default function PetList() {
 
       try {
         if (id) {
-          const response = await axios.get(`${API_URL}/${id}`);
+          const response = await axios.get(`${API_URL}/${id}/pet/`);
           setPets(response.data);
         }
 
@@ -39,7 +39,7 @@ export default function PetList() {
 
   if (loading) {
     return (
-      <div className="justify-center mx-auto">
+      <div className="flex justify-center items-start mx-auto w-full">
         <span className="loading loading-spinner text-primary"></span>
       </div>
     );
@@ -51,7 +51,7 @@ export default function PetList() {
 
   return (
     <section className="w-full min-h-[824px]max-sm:min-h-fit h-fit shadow-lg rounded-xl bg-ps-white max-sm:bg-ps-gray-100">
-      <div className="flex flex-col justify-center p-10 gap-10">
+      <div className="flex flex-col justify-center p-10 max-sm:p-2 gap-10">
         <div className="flex justify-between items-center">
           <p className="text-h3">Your Pet</p>
           <Link href={`/owners/${id}/yourpet/create`}>
