@@ -45,7 +45,7 @@ export default function SitterManageProfile() {
           profileImage={profile?.profile_image_url}
           fullName={profile?.full_name}
         />
-        <div className="bg-ps-gray-100 h-full flex flex-col gap-6 p-10">
+        <div className="bg-[#F5F6F9] h-full flex flex-col gap-6 p-10">
           <SitterProfileForm profile={{ ...profile }} />
         </div>
       </div>
