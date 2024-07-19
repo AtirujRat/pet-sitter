@@ -5,11 +5,11 @@ import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { supabase } from "@/utils/supabase";
-import DeletePetModal from "@/components/modal/DeletePetModal";
 import {
   ButtonOrange,
   ButtonOrangeLight,
 } from "@/components/buttons/OrangeButtons";
+import { ConfirmModal } from "@/components/modal/ConfirmModal";
 
 const API_URL = "/api/owner";
 
@@ -21,7 +21,7 @@ export default function UpdatePetForm() {
   const [preview, setPreview] = useState(null);
   const [error, setError] = useState(null);
   const fileInputRef = useRef(null);
-  const [isModalOpen, setIsModalOpen] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchPet = async () => {
@@ -111,18 +111,14 @@ export default function UpdatePetForm() {
     }
   };
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
+  const toggleModal = (state) => {
+    setModalOpen(state);
   };
 
   const handleDelete = async () => {
     try {
       await axios.delete(`${API_URL}/${id}/pet/${petId}`);
-      closeModal();
+      toggleModal(false);
       router.push(`/owners/${id}/yourpet`);
     } catch (error) {
       console.error("Error deleting pet:", error);
@@ -388,7 +384,7 @@ export default function UpdatePetForm() {
               className="flex gap-2 items-center max-sm:justify-center max-sm:mx-auto max-sm:my-3 w-fit"
               onClick={(event) => {
                 event.preventDefault();
-                openModal();
+                toggleModal(true);
               }}
             >
               <Image
@@ -401,11 +397,14 @@ export default function UpdatePetForm() {
             </button>
 
             {/* Buttons */}
-            {isModalOpen && (
-              <DeletePetModal
-                isOpen={isModalOpen}
-                onCancel={closeModal}
-                onDelete={handleDelete}
+            {modalOpen && (
+              <ConfirmModal
+                isOpen={modalOpen}
+                onCancel={() => toggleModal(false)}
+                onClick={handleDelete}
+                title="Delete Confirmation"
+                description="Are you sure to delete this pet?"
+                buttonOrangeText="Delete"
               />
             )}
             <div className="flex flex-wrap gap-4 justify-between">
