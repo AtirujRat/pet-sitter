@@ -1,7 +1,7 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useContext } from "react";
 
 export const BookingContext = createContext();
-
+export const useBooking = () => useContext(BookingContext);
 export function BookingProvider(props) {
   const [booking, setBooking] = useState();
   const [stepBooking, setStepBooking] = useState(1);

@@ -58,10 +58,15 @@ export function SittersProvider(props) {
         setTotalPages,
         loading,
         setLoading,
+<<<<<<< HEAD
         sitter,
         setSitter,
         isBookingModalOpen,
         setIsBookingModalOpen,
+=======
+        sittetId,
+        setSitterId,
+>>>>>>> 6397dba (refactor: function)
       }}
     >
       {props.children}

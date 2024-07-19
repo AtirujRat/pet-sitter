@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Formik, Field, Form } from "formik";
 import { BookingContext } from "@/context/Booking";
 import { OnwerContext } from "@/context/Owners";
+import { useRouter } from "next/router";
 
 const timeSchedule = [
   "8:00 AM",
@@ -79,6 +80,8 @@ const BookingModal = ({ setIsBookingModalOpen }) => {
   const [toggleEndTime, setToggleEndTime] = useState(false);
   const [timeError, setTimeError] = useState(null);
 
+  const router = useRouter();
+  const id = router.query.id;
   const { addBookingHandle } = useContext(BookingContext);
   const { userId } = useContext(OnwerContext);
 
@@ -115,6 +118,7 @@ const BookingModal = ({ setIsBookingModalOpen }) => {
       initialValues={{ booking_date: "" }}
       onSubmit={(values, { setSubmitting }) => {
         createBooking(values);
+        router.push(`/sitters/${id}/booking/create`);
       }}
     >
       {({ errors, touched, isSubmitting, values }) => (

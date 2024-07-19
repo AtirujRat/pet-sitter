@@ -6,21 +6,21 @@ import {
   CatBadge,
   BirdBadge,
   RabbitBadge,
-} from "../../../sitters/PetBadges";
-import { useState, useEffect, useContext } from "react";
-import { supabase } from "@/utils/supabase";
+} from "@/components/sitters/PetBadges";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
-import { BookingContext } from "@/context/Booking";
+import { useBooking } from "@/context/Booking";
 import { useOwners } from "@/context/Owners";
+import { useSitters } from "@/context/SittersProvider";
 
 export default function YourPet() {
   const router = useRouter();
   const [selectedPets, setSelectedPets] = useState([]);
   const [select, setSelect] = useState({});
-  const disabled = false;
   const { userId, petData, setPetData } = useOwners();
-  const { setStepBooking } = useContext(BookingContext);
+  const { sittetId, setSitterId } = useSitters();
+  const { setStepBooking } = useBooking();
   const id = router.query.id;
 
   const checkbox = Object.values(select).includes(true);
@@ -41,7 +41,7 @@ export default function YourPet() {
         id: userId,
       });
       const getDataSittets = await axios.get(`/api/sitters/${id}`);
-      console.log(getDataSittets.data.data[0]);
+      setSitterId(getDataSittets.data.data[0]);
       setPetData(getDataOwners.data);
     } catch (e) {
       console.log(e);
@@ -65,9 +65,15 @@ export default function YourPet() {
       return updatedSelectedPets;
     });
   }
+  if (sittetId.pet_types) {
+    for (let i = 0; i < sittetId.pet_types.length; i++) {
+      sittetId.pet_types[i] = sittetId.pet_types[i].toLowerCase();
+    }
+  }
+  console.log(select);
 
   return (
-    <div className="max-lg:hidden w-full h-full flex flex-col p-10 gap-10 shadow-[4px_4px_24px_0_rgba(0,0,0,0.04)] relative">
+    <div className="w-full h-fit lg:h-full flex flex-col p-10 gap-10 shadow-[4px_4px_24px_0_rgba(0,0,0,0.04)] relative">
       <div className="w-full h-full flex flex-col gap-4">
         <p className="text-b2">Choose your pet</p>
         <div className="w-full h-[70%] flex flex-wrap gap-4">
@@ -77,18 +83,18 @@ export default function YourPet() {
                 key={pet.id}
                 className={
                   select[pet.type]
-                    ? "w-[30%] h-[50%] hover:bg-ps-orange-100 active:scale-95 border border-ps-orange-500 rounded-2xl flex flex-col justify-center items-center relative gap-4"
-                    : "w-[30%] h-[50%] hover:bg-ps-orange-100 active:scale-95 border border-ps-gray-200 rounded-2xl flex flex-col justify-center items-center relative gap-4"
+                    ? "w-full lg:w-[30%] h-[240px] lg:h-[50%] hover:bg-ps-orange-100 border border-ps-orange-500 rounded-2xl flex flex-col justify-center items-center relative gap-4"
+                    : "w-full lg:w-[30%] h-[240px] lg:h-[50%] hover:bg-ps-orange-100 border border-ps-gray-200 rounded-2xl flex flex-col justify-center items-center relative gap-4"
                 }
               >
                 <div
                   className={
-                    disabled
+                    !sittetId.pet_types.includes(pet.type)
                       ? "absolute w-full h-full bg-ps-gray-100 opacity-70 z-10"
                       : "absolute"
                   }
                 ></div>
-                {disabled ? null : (
+                {!sittetId.pet_types.includes(pet.type) ? null : (
                   <input
                     type="checkbox"
                     value={pet.type}
@@ -108,7 +114,7 @@ export default function YourPet() {
             onClick={() => {
               router.push(`/owners/${id}/yourpet/create`);
             }}
-            className="hover:bg-ps-orange-200 active:scale-95 w-[30%] h-[50%] bg-ps-orange-100 border-none rounded-2xl flex flex-col justify-center items-center gap-2"
+            className="w-full lg:w-[30%] h-[240px] lg:h-[50%] hover:bg-ps-orange-200 active:scale-95 bg-ps-orange-100 border-none rounded-2xl flex flex-col justify-center items-center gap-2"
           >
             <Image src={plus} alt="plus" className="w-12 h-12" />
             <h4 className="text-b2 font-bold text-ps-orange-500">
@@ -120,7 +126,10 @@ export default function YourPet() {
 
       <button
         type="button"
-        className="btn hover:bg-ps-orange-200 px-12 bg-ps-orange-100 text-b2 text-ps-orange-500 border-none rounded-[99px] absolute bottom-14"
+        onClick={() => {
+          router.push(`/sitters/${id}`);
+        }}
+        className="btn hover:bg-ps-orange-200 max-lg:w-[45%] lg:px-12 bg-ps-orange-100 text-b2 text-ps-orange-500 border-none rounded-[99px] absolute bottom-[-595px] max-lg:left-4 lg:bottom-14"
       >
         Back
       </button>
@@ -131,8 +140,8 @@ export default function YourPet() {
         }}
         className={
           checkbox
-            ? "btn hover:bg-ps-orange-600 px-12 bg-ps-orange-500 text-b2 text-ps-white rounded-[99px] absolute bottom-14 right-10"
-            : " py-3 px-12 bg-ps-gray-200 text-b2 text-ps-gray-300 border-none rounded-[99px] absolute bottom-14 right-10"
+            ? "btn hover:bg-ps-orange-600 max-lg:w-[45%] lg:px-12  bg-ps-orange-500 text-b2 text-ps-white rounded-[99px] absolute bottom-[-595px] right-4 lg:bottom-14 lg:right-10"
+            : "btn max-lg:w-[45%] lg:px-12 bg-ps-gray-200 text-b2 text-ps-gray-300 border-none rounded-[99px] absolute bottom-[-595px] right-4 lg:bottom-14 lg:right-10"
         }
         disabled={!checkbox}
       >

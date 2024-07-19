@@ -1,6 +1,15 @@
+import { useBooking } from "@/context/Booking";
+import { useSitters } from "@/context/SittersProvider";
+
 export default function BookingDetail() {
+  const { sittetId } = useSitters();
+  const { booking } = useBooking();
+  console.log(booking);
+  const date = new Date(booking.start_time.slice(0, 10));
+  console.log(booking.start_time.slice(0, 10));
+  console.log(date);
   return (
-    <section className="max-lg:hidden w-[30%] h-fit flex flex-col border-none rounded-2xl shadow-[4px_4px_24px_0_rgba(0,0,0,0.04)]">
+    <section className="w-full lg:w-[30%] lg:h-fit flex flex-col border-none rounded-2xl shadow-[4px_4px_24px_0_rgba(0,0,0,0.04)]">
       <h3 className="p-6 border-b-[1px] text-h3 text-ps-gray-600 border-ps-gray-200">
         Booking Detail
       </h3>
@@ -8,7 +17,7 @@ export default function BookingDetail() {
         <div>
           <p className="text-b3 text-ps-gray-400">Pet sitter:</p>
           <p className="text-b2 text-ps-gray-600">
-            Happy House! By Jane Maison
+            {sittetId.trade_name || null} By {sittetId.full_name || null}
           </p>
         </div>
 

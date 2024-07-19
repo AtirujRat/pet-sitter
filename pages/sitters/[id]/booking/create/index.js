@@ -7,8 +7,6 @@ import Payment from "@/components/booking/create/Payment";
 import { useContext } from "react";
 import { BookingContext } from "@/context/Booking";
 import StepMobile from "@/components/booking/create/mobile/StepMobile";
-import YourPetMobile from "@/components/booking/create/mobile/YourPetMobile";
-import BookingDetailMobile from "@/components/booking/create/mobile/BookingDetailMobile";
 import InformationMobile from "@/components/booking/create/mobile/InformationMobile";
 import Modal from "@/components/modal/Modal";
 import Confirm from "@/components/booking/create/Confirm";
@@ -31,7 +29,6 @@ export default function BookingCreate() {
                 {stepBooking == 1 ? (
                   <>
                     <YourPet />
-                    {/* <YourPetMobile /> */}
                   </>
                 ) : null}
                 {stepBooking == 2 ? (
@@ -43,7 +40,6 @@ export default function BookingCreate() {
                 {stepBooking == 3 ? <Payment /> : null}
               </div>
               <BookingDetail />
-              <BookingDetailMobile />
             </div>
             {confirm === 1 ? (
               <Modal>
