@@ -2,7 +2,7 @@ import Image from "next/image";
 import star from "../../public/assets/authentication/star.svg";
 import paw from "../../public/assets/authentication/paw.svg";
 
-function BackgroudAuth() {
+export default function BackgroudAuth() {
   return (
     <>
       <Image
@@ -18,5 +18,3 @@ function BackgroudAuth() {
     </>
   );
 }
-
-export default BackgroudAuth;

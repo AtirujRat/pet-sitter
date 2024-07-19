@@ -1,9 +1,9 @@
-import { useContext } from "react";
-import { sittersContext } from "@/pages/sitters";
+import { useSitters } from "@/pages/context/SittersProvider";
+
 
 export default function CheckBoxSitter() {
   const { selectedPets, setSelectedPets, setPetQuery } =
-    useContext(sittersContext);
+    useSitters()
 
   function handlePetSelect(event) {
     const { value, checked } = event.target;

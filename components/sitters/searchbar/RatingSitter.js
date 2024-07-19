@@ -1,11 +1,10 @@
-import { sittersContext } from "@/pages/sitters";
-import { useContext } from "react";
 import Image from "next/image";
 import star from "/public/assets/star-rating.svg";
+import { useSitters } from "@/pages/context/SittersProvider";
 
 export default function RatingSitter() {
   const rate = [1, 2, 3, 4, 5];
-  const { setSelectedRating, selectedRating } = useContext(sittersContext);
+  const { setSelectedRating, selectedRating } = useSitters()
 
   return (
     <div className="flex flex-wrap gap-2">

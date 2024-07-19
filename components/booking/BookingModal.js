@@ -4,9 +4,8 @@ import time_icon from "@/public/assets/booking/time.svg";
 import cross_icon from "@/public/assets/booking/cross.svg";
 import Image from "next/image";
 import { Formik, Field, Form } from "formik";
-import { BookingContext } from "@/pages/context/Booking";
-import { OnwerContext } from "@/pages/context/Owners";
-
+import { BookingContext } from "@/context/Booking";
+import { OnwerContext } from "@/context/Owners";
 
 const timeSchedule = [
   "8:00 AM",

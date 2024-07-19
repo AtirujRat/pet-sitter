@@ -1,12 +1,13 @@
 import React from "react";
 import { GoogleMap, useJsApiLoader, MarkerF } from "@react-google-maps/api";
-import { useSearch } from "@/pages/context/Search";
+import { useSearch } from "@/context/Search";
 
 export default function Map() {
   const { searchLat, searchLng } = useSearch();
   const containerStyle = {
-    width: "1000px",
-    height: "800px",
+    width: "100%",
+    height: "100%",
+    borderRadius: "8px",
   };
 
   const center = {
