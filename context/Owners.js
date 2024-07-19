@@ -1,11 +1,12 @@
 import { supabase } from "@/utils/supabase";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState, useContext } from "react";
 
 export const OnwerContext = createContext();
 
 export function OnwerProvider(props) {
   const [userData, setUserData] = useState();
   const [userId, setUserId] = useState();
+  const [petData, setPetData] = useState([]);
 
   async function getUser() {
     const {
@@ -37,8 +38,12 @@ export function OnwerProvider(props) {
   }, []);
 
   return (
-    <OnwerContext.Provider value={{ userId: userId, userData: userData }}>
+    <OnwerContext.Provider
+      value={{ userId, userData, getUser, petData, setPetData }}
+    >
       {props.children}
     </OnwerContext.Provider>
   );
 }
+
+export const useOwners = () => useContext(OnwerContext);

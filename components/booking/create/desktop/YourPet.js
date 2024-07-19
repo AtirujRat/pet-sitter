@@ -12,13 +12,14 @@ import { supabase } from "@/utils/supabase";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { BookingContext } from "@/context/Booking";
+import { useOwners } from "@/context/Owners";
 
 export default function YourPet() {
   const router = useRouter();
   const [selectedPets, setSelectedPets] = useState([]);
-  const [petData, setPetData] = useState([]);
   const [select, setSelect] = useState({});
-  const disabled = true;
+  const disabled = false;
+  const { userId, petData, setPetData } = useOwners();
   const { setStepBooking } = useContext(BookingContext);
   const id = router.query.id;
 
@@ -30,28 +31,26 @@ export default function YourPet() {
     rabbit: <RabbitBadge />,
   };
 
-  const getUser = async () => {
-    const {
-      data: { user },
-      error,
-    } = await supabase.auth.getUser();
+  const getData = async () => {
+    if (!userId) {
+      return;
+    }
+
     try {
-      const getData = await axios.post("/api/owner/booking", {
-        email: user.email,
+      const getDataOwners = await axios.post("/api/owner/booking", {
+        id: userId,
       });
-      setPetData(getData.data);
+      const getDataSittets = await axios.get(`/api/sitters/${id}`);
+      console.log(getDataSittets.data.data[0]);
+      setPetData(getDataOwners.data);
     } catch (e) {
       console.log(e);
-    }
-    if (error) {
-      console.log("error");
-      return;
     }
   };
 
   useEffect(() => {
-    getUser();
-  }, []);
+    getData();
+  }, [userId]);
 
   function handlePetSelect(event) {
     const { value, checked } = event.target;
@@ -131,11 +130,11 @@ export default function YourPet() {
           setStepBooking(2);
         }}
         className={
-          !checkbox
+          checkbox
             ? "btn hover:bg-ps-orange-600 px-12 bg-ps-orange-500 text-b2 text-ps-white rounded-[99px] absolute bottom-14 right-10"
             : " py-3 px-12 bg-ps-gray-200 text-b2 text-ps-gray-300 border-none rounded-[99px] absolute bottom-14 right-10"
         }
-        disabled={checkbox}
+        disabled={!checkbox}
       >
         Next
       </button>

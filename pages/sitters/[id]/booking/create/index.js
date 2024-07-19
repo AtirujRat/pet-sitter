@@ -31,7 +31,7 @@ export default function BookingCreate() {
                 {stepBooking == 1 ? (
                   <>
                     <YourPet />
-                    <YourPetMobile />
+                    {/* <YourPetMobile /> */}
                   </>
                 ) : null}
                 {stepBooking == 2 ? (
