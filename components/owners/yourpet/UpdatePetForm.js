@@ -6,6 +6,10 @@ import { useState, useEffect, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { supabase } from "@/utils/supabase";
 import DeletePetModal from "@/components/modal/DeletePetModal";
+import {
+  ButtonOrange,
+  ButtonOrangeLight,
+} from "@/components/buttons/OrangeButtons";
 
 const API_URL = "/api/owners";
 
@@ -21,6 +25,7 @@ export default function UpdatePetForm() {
 
   useEffect(() => {
     const fetchPet = async () => {
+      await new Promise((resolve) => setTimeout(resolve, 500));
       try {
         const response = await axios.get(`${API_URL}/${id}/${petId}`);
         setPet(response.data);
@@ -125,7 +130,11 @@ export default function UpdatePetForm() {
   };
 
   if (!pet) {
-    return <p>Loading...</p>;
+    return (
+      <div className="justify-center mx-auto">
+        <span className="loading loading-spinner text-primary"></span>
+      </div>
+    );
   }
 
   return (
@@ -152,7 +161,7 @@ export default function UpdatePetForm() {
                 <img
                   src={preview}
                   alt="pet_image"
-                  className="relative h-full rounded-full object-cover"
+                  className="relative h-full w-full rounded-full object-cover"
                   layout="fill"
                   priority
                 />
@@ -400,20 +409,16 @@ export default function UpdatePetForm() {
               />
             )}
             <div className="flex flex-wrap gap-4 justify-between">
-              <button
+              <ButtonOrangeLight
+                text="Cancel"
                 type="button"
-                className="w-[127px] bg-ps-orange-100 text-ps-orange-500 text-[16px] font-bold rounded-full tracking-wide h-[48px] max-sm:w-[163px]"
                 onClick={() => router.back()}
-              >
-                Cancel
-              </button>
-              <button
+              />
+              <ButtonOrange
+                text={isSubmitting ? "Updating..." : "Update Pet"}
                 type="submit"
-                className="w-[127px] bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide h-[48px] max-sm:w-[163px]"
                 disabled={isSubmitting}
-              >
-                {isSubmitting ? "Updating..." : "Update Pet"}
-              </button>
+              />
             </div>
           </div>
         </Form>

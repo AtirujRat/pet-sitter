@@ -5,6 +5,10 @@ import Image from "next/image";
 import { useState, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { supabase } from "@/utils/supabase";
+import {
+  ButtonOrange,
+  ButtonOrangeLight,
+} from "@/components/buttons/OrangeButtons";
 
 const API_URL = "/api/owners";
 
@@ -344,20 +348,16 @@ export default function CreatePetForm() {
 
             {/* Buttons */}
             <div className="flex flex-wrap gap-4 justify-between">
-              <button
+              <ButtonOrangeLight
+                text="Cancel"
                 type="button"
-                className="w-[127px] bg-ps-orange-100 text-ps-orange-500 text-[16px] font-bold rounded-full tracking-wide h-[48px] max-sm:w-[163px]"
                 onClick={() => router.back()}
-              >
-                Cancel
-              </button>
-              <button
+              />
+              <ButtonOrange
+                text={isSubmitting ? "Creating..." : "Create Pet"}
                 type="submit"
-                className="w-[127px] bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide h-[48px] max-sm:w-[163px]"
                 disabled={isSubmitting}
-              >
-                {isSubmitting ? "Creating..." : "Create Pet"}
-              </button>
+              />
             </div>
           </div>
         </Form>

@@ -112,7 +112,7 @@ const NavBar = ({ setOpenModal }) => {
                       </Link>
                     </li>
                     <li className="py-2 text-b2">
-                      <Link href={"#"}>
+                      <Link href={`owners/${userId}/yourpet`}>
                         <Image src={pet} alt="your pet" width={22} />
                         Your Pet
                       </Link>

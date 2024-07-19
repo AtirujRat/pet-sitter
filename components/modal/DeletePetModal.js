@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { ButtonOrange, ButtonOrangeLight } from "../buttons/OrangeButtons";
 
-const DeleteConfirmationModal = ({ isOpen, onCancel, onDelete }) => {
+const DeletePetModal = ({ isOpen, onCancel, onDelete }) => {
   if (!isOpen) return null;
 
   return (
@@ -26,13 +26,11 @@ const DeleteConfirmationModal = ({ isOpen, onCancel, onDelete }) => {
         </p>
         <div className="flex justify-between px-6">
           <ButtonOrangeLight text="Cancel" onClick={onCancel} />
-          <button onClick={onDelete}>
-            <ButtonOrange text="Delete" />
-          </button>
+          <ButtonOrange text="Delete" onClick={onDelete} />
         </div>
       </div>
     </div>
   );
 };
 
-export default DeleteConfirmationModal;
+export default DeletePetModal;
