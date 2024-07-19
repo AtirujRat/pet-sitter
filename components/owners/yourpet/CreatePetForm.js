@@ -10,7 +10,7 @@ import {
   ButtonOrangeLight,
 } from "@/components/buttons/OrangeButtons";
 
-const API_URL = "/api/pets";
+const API_URL = "/api/owner";
 
 export default function CreatePetForm() {
   const router = useRouter();
@@ -90,7 +90,7 @@ export default function CreatePetForm() {
         owner_id: id,
       };
 
-      const response = await axios.post(`${API_URL}/${id}`, updatedValues);
+      const response = await axios.post(`${API_URL}/${id}/pet`, updatedValues);
 
       router.push(`/owners/${id}/yourpet`);
     } catch (error) {

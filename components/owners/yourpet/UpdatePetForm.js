@@ -11,7 +11,7 @@ import {
   ButtonOrangeLight,
 } from "@/components/buttons/OrangeButtons";
 
-const API_URL = "/api/pets";
+const API_URL = "/api/owner";
 
 export default function UpdatePetForm() {
   const router = useRouter();
@@ -27,7 +27,7 @@ export default function UpdatePetForm() {
     const fetchPet = async () => {
       await new Promise((resolve) => setTimeout(resolve, 500));
       try {
-        const response = await axios.get(`${API_URL}/${id}/${petId}`);
+        const response = await axios.get(`${API_URL}/${id}/pet/${petId}`);
         setPet(response.data);
         setPreview(response.data.pet_image_url);
       } catch (error) {
@@ -102,7 +102,7 @@ export default function UpdatePetForm() {
         };
       }
 
-      await axios.put(`${API_URL}/${id}/${petId}`, updatedValues);
+      await axios.put(`${API_URL}/${id}/pet/${petId}`, updatedValues);
       router.push(`/owners/${id}/yourpet`);
     } catch (error) {
       console.error("Error updating pet:", error);
@@ -121,7 +121,7 @@ export default function UpdatePetForm() {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`${API_URL}/${id}/${petId}`);
+      await axios.delete(`${API_URL}/${id}/pet/${petId}`);
       closeModal();
       router.push(`/owners/${id}/yourpet`);
     } catch (error) {

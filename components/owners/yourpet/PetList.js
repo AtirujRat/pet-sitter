@@ -5,11 +5,11 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { ButtonOrange } from "@/components/buttons/OrangeButtons";
 
-const API_URL = "/api/pets";
+const API_URL = "/api/owner";
 
 export default function PetList() {
   const router = useRouter();
-  const { id } = router.query;
+  const { id, petId } = router.query;
   const [pets, setPets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -22,7 +22,7 @@ export default function PetList() {
 
       try {
         if (id) {
-          const response = await axios.get(`${API_URL}/${id}`);
+          const response = await axios.get(`${API_URL}/${id}/pet/`);
           setPets(response.data);
         }
 
