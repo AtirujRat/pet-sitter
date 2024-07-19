@@ -1,12 +1,50 @@
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useRouter } from "next/router";
+
 import sitterlogo from "../../../public/assets/sister-logo.svg";
 import profile from "../../../public/assets/sidebarsitter/profile-sidebar.svg";
 import booking from "../../../public/assets/sidebarsitter/booking.svg";
 import calendar from "../../../public/assets/sidebarsitter/calendar.svg";
 import payout from "../../../public/assets/sidebarsitter/payout.svg";
+import profileActive from "../../../public/assets/sidebarsitter/profile-sidebar-active.svg";
+import bookingActive from "../../../public/assets/sidebarsitter/booking-active.svg";
+import calendarActive from "../../../public/assets/sidebarsitter/calendar-active.svg";
+import payoutActive from "../../../public/assets/sidebarsitter/payout-active.svg";
 
 const SideBarSitter = () => {
+  const router = useRouter();
+  const { id } = router.query;
+  const location = usePathname();
+  const pathName = "/" + location.split("/")?.[3];
+  const menu = [
+    {
+      icon: profile,
+      iconActive: profileActive,
+      label: "Pet Sitter Profile",
+      pathUrl: "/profile",
+    },
+    {
+      icon: booking,
+      iconActive: bookingActive,
+      label: "Booking List",
+      pathUrl: "/booking",
+    },
+    {
+      icon: calendar,
+      iconActive: calendarActive,
+      label: "Calendar",
+      pathUrl: "/calendar",
+    },
+    {
+      icon: payout,
+      iconActive: payoutActive,
+      label: "Payout Option",
+      pathUrl: "/payout",
+    },
+  ];
+
   return (
     <div className="pt-4 w-full max-w-[240px] h-screen bg-ps-white border-r border-[#E5E7F2]">
       <div className="pl-6 pt-6 pb-10 bg-ps-white">
@@ -15,28 +53,26 @@ const SideBarSitter = () => {
         </Link>
       </div>
       <div className="bg-ps-white h-full">
-        <button className="flex py-4 px-6 w-full gap-4 text-[#5B5D6F] text-[16px] font-medium hover:bg-ps-orange-100 hover:text-ps-orange-500">
-          <Image
-            src={profile}
-            alt="sister-logo"
-            width={22}
-            height={22}
-            className=""
-          />
-          Pet Sitter Profile
-        </button>
-        <button className="flex py-4 px-6 w-full gap-4 text-[#5B5D6F] text-[16px] font-medium hover:bg-ps-orange-100 hover:text-ps-orange-500">
-          <Image src={booking} alt="sister-logo" width={24} height={24} />
-          Booking List
-        </button>
-        <button className="flex py-4 px-6 w-full gap-4 text-[#5B5D6F] text-[16px] font-medium hover:bg-ps-orange-100 hover:text-ps-orange-500">
-          <Image src={calendar} alt="sister-logo" width={24} height={24} />
-          Calendar
-        </button>
-        <button className="flex py-4 px-6 w-full gap-4 text-[#5B5D6F] text-[16px] font-medium hover:bg-ps-orange-100 hover:text-ps-orange-500">
-          <Image src={payout} alt="sister-logo" width={24} height={24} />
-          Payout Option
-        </button>
+        {menu.map((list, index) => (
+          <Link href={`/sitters/${id}${list.pathUrl}`} key={list.label}>
+            <button
+              className={`flex py-4 px-6 w-full gap-4  text-[16px] font-medium ${
+                list.pathUrl === pathName
+                  ? "text-ps-orange-500 bg-ps-orange-100"
+                  : "text-[#5B5D6F]"
+              }`}
+              key={list.label}
+            >
+              <Image
+                src={list.pathUrl === pathName ? list.iconActive : list.icon}
+                alt="sister-logo"
+                width={24}
+                height={24}
+              />
+              {list.label}
+            </button>
+          </Link>
+        ))}
       </div>
     </div>
   );

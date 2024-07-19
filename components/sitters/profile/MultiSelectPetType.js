@@ -28,7 +28,7 @@ const MultiSelect = ({ options, field, form }) => {
         className="w-full h-14 rounded-lg border-ps-gray-200 font-normal text-ps-gray-400"
       >
         <option value="" disabled>
-          Select pet type
+          {!options.length > 0 && "Select pet type"}
         </option>
         {options.map((option) => (
           <option key={option} value={option}>

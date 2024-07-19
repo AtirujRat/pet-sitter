@@ -7,9 +7,9 @@ export default async function handler(req, res) {
       let { data: sitters, error } = await supabase
         .from("sitters")
         .select(
-          "*, sitters_images(image_url), bookings(reviews!inner(rating, description, status, updated_at), owners(full_name, profile_image_url))"
+          "*, sitters_images(image_url), bookings(reviews!inner(rating, description, status, updated_at), owners(full_name, profile_image_url)), sitters_addresses(*)"
         )
-        .eq("id", id)
+        .eq("id", id);
 
       if (error) {
         throw error;
@@ -50,7 +50,6 @@ export default async function handler(req, res) {
         pet_types: reqBody.pet_types,
         services: reqBody.services,
         place_description: reqBody.place_description,
-        sitter_address_id: reqBody.sitter_address_id,
         updated_at: reqBody.updated_at,
         last_logged_in: reqBody.last_logged_in,
       };
@@ -77,6 +76,49 @@ export default async function handler(req, res) {
         }
         updateResult = data;
       }
+
+      // ข้อมูลที่อยู่ที่ต้องการอัปเดตหรือเพิ่มใหม่
+      const addressData = {
+        address_detail: reqBody.sitters_addresses?.address_detail || "",
+        district: reqBody.sitters_addresses?.district || "",
+        sub_district: reqBody.sitters_addresses?.subDistrict || "",
+        province: reqBody.sitters_addresses?.province || "",
+        post_code: reqBody.sitters_addresses?.zip_code || "",
+        sitter_id: id,
+      };
+
+      let addressResult;
+
+      // ลบที่อยู่เดิมที่มี sitter_id เดียวกันออก
+      const { error: deleteSitterIdError } = await supabase
+        .from("sitters_addresses")
+        .delete()
+        .eq("sitter_id", id);
+
+      if (deleteSitterIdError) {
+        throw deleteSitterIdError;
+      }
+
+      // แทรกที่อยู่ใหม่
+      const { data, error: addressInsertError } = await supabase
+        .from("sitters_addresses")
+        .insert(addressData)
+        .select();
+      if (addressInsertError) {
+        throw addressInsertError;
+      }
+      addressResult = data;
+
+      // อัปเดต sitter_address_id ในตาราง sitters ให้ชี้ไปยังที่อยู่ใหม่
+      const { data: updatedSitter, error: updateSitterError } = await supabase
+        .from("sitters")
+        .update({ sitter_address_id: addressResult[0].id })
+        .eq("id", id)
+        .select();
+      if (updateSitterError) {
+        throw updateSitterError;
+      }
+      updateResult = updatedSitter;
 
       // อัปเดตข้อมูลในตาราง sitters_images
       const sittersImages = reqBody.sitters_images;
