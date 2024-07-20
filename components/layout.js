@@ -52,11 +52,10 @@ export default function Layout({ children }) {
     "/owners/[id]/bookinghistory",
     "/owners/[id]/messages",
   ];
-  const dynamicRoutes = [
-    "/sitters/[id]/profile",
-    "/sitters/[id]/booking",
-    "/sitters/[id]/booking/create",
-  ];
+  const dynamicRoutes = ["/sitters/[id]/profile", "/sitters/[id]/booking"];
+
+  const dynamicRoutesFooter = ["/sitters/[id]/booking/create"];
+
   const dynamicRoutesRegex = dynamicRoutes.map(
     (route) => new RegExp(`^${route.replace("[id]", "[^/]+")}$`)
   );

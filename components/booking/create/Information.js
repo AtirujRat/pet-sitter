@@ -12,14 +12,24 @@ import { useOwners } from "@/context/Owners";
 
 export default function Information() {
   const { setStepBooking, addBookingHandle, booking } = useBooking();
+<<<<<<< HEAD
   const { user } = useOwners();
+=======
+  const { userId } = useOwners();
+>>>>>>> a24dc1d (feat: able to booking)
 
   return (
     <Formik
       initialValues={{
+<<<<<<< HEAD
         name: user.full_name,
         email: user.email,
         phone: user.phone_number,
+=======
+        name: userId.full_name,
+        email: userId.email,
+        phone: userId.phone_number,
+>>>>>>> a24dc1d (feat: able to booking)
         message: "",
       }}
       onSubmit={(values, { setSubmitting }) => {
