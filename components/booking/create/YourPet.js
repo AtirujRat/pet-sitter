@@ -45,7 +45,7 @@ export default function YourPet() {
     }
 
     try {
-      const getDataOwners = await axios.post("/api/owner/booking", {
+      const getDataOwners = await axios.post("/api/owner/getdata", {
         id: userId.id,
       });
       const getDataSittets = await axios.get(`/api/sitters/${id}`);

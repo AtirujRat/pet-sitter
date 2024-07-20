@@ -29,7 +29,7 @@ export function BookingProvider(props) {
   async function handleBooking(data) {
     console.log(data);
     try {
-      await axios.post("/api/owners/booking", data);
+      await axios.post("/api/owner/booking", data);
     } catch (error) {
       console.log("error");
     }
