@@ -13,14 +13,22 @@ import { useRouter } from "next/router";
 import { useBooking } from "@/context/Booking";
 import { useOwners } from "@/context/Owners";
 import { useSitters } from "@/context/SittersProvider";
+import Loading from "@/components/Loading";
 
 export default function YourPet() {
   const router = useRouter();
-  const [selectedPets, setSelectedPets] = useState([]);
-  const [select, setSelect] = useState({});
   const { userId, petData, setPetData } = useOwners();
-  const { sittetId, setSitterId } = useSitters();
-  const { setStepBooking } = useBooking();
+  const { sitter, setSitter } = useSitters();
+  const {
+    setStepBooking,
+    addBookingHandle,
+    booking,
+    handlePetSelect,
+    select,
+    setPetname,
+    setPetId,
+  } = useBooking();
+
   const id = router.query.id;
 
   const checkbox = Object.values(select).includes(true);
@@ -32,17 +40,18 @@ export default function YourPet() {
   };
 
   const getData = async () => {
-    if (!userId) {
+    if (!userId.id) {
       return;
     }
 
     try {
       const getDataOwners = await axios.post("/api/owner/booking", {
-        id: userId,
+        id: userId.id,
       });
       const getDataSittets = await axios.get(`/api/sitters/${id}`);
-      setSitterId(getDataSittets.data.data[0]);
+      setSitter(getDataSittets.data.data[0]);
       setPetData(getDataOwners.data);
+      addBookingHandle({ ...booking, sitter_id: id });
     } catch (e) {
       console.log(e);
     }
@@ -52,25 +61,32 @@ export default function YourPet() {
     getData();
   }, [userId]);
 
-  function handlePetSelect(event) {
-    const { value, checked } = event.target;
-    setSelectedPets((prevSelectedPets) => {
-      let updatedSelectedPets;
-      setSelect({ ...select, [value]: checked });
-      if (checked) {
-        updatedSelectedPets = [...prevSelectedPets, value];
-      } else {
-        updatedSelectedPets = prevSelectedPets.filter((pet) => pet !== value);
-      }
-      return updatedSelectedPets;
-    });
+  if (!petData) {
+    return <Loading />;
   }
-  if (sittetId.pet_types) {
-    for (let i = 0; i < sittetId.pet_types.length; i++) {
-      sittetId.pet_types[i] = sittetId.pet_types[i].toLowerCase();
+
+  function handleClick(pet, id) {
+    if (booking.owner_pet) {
+      let pets = booking.owner_pet;
+      let ids = booking.pet_id;
+      if (pets.includes(pet)) {
+        pets.splice(pets.indexOf(pet), 1);
+        ids.splice(ids.indexOf(id), 1);
+      } else {
+        pets.push(pet);
+        ids.push(id);
+      }
+      addBookingHandle({ ...booking, owner_pet: pets, pet_id: ids });
+      setPetname(pets);
+      setPetId(ids);
     }
   }
-  console.log(select);
+
+  if (sitter.pet_types) {
+    for (let i = 0; i < sitter.pet_types.length; i++) {
+      sitter.pet_types[i] = sitter.pet_types[i].toLowerCase();
+    }
+  }
 
   return (
     <div className="w-full h-fit lg:h-full flex flex-col p-10 gap-10 shadow-[4px_4px_24px_0_rgba(0,0,0,0.04)] relative">
@@ -78,6 +94,9 @@ export default function YourPet() {
         <p className="text-b2">Choose your pet</p>
         <div className="w-full h-[70%] flex flex-wrap gap-4">
           {petData.map((pet) => {
+            console.log(
+              !sitter.pet_types.includes(pet.type) && pet.status === "active"
+            );
             return (
               <div
                 key={pet.id}
@@ -89,16 +108,23 @@ export default function YourPet() {
               >
                 <div
                   className={
-                    !sittetId.pet_types.includes(pet.type)
+                    !sitter.pet_types.includes(pet.type)
+                      ? "absolute w-full h-full bg-ps-gray-100 opacity-70 z-10"
+                      : pet.status !== "active"
                       ? "absolute w-full h-full bg-ps-gray-100 opacity-70 z-10"
                       : "absolute"
                   }
                 ></div>
-                {!sittetId.pet_types.includes(pet.type) ? null : (
+                {!sitter.pet_types.includes(pet.type) ? null : pet.status !==
+                  "active" ? null : (
                   <input
                     type="checkbox"
                     value={pet.type}
                     onChange={handlePetSelect}
+                    checked={select[pet.type]}
+                    onClick={() => {
+                      handleClick(pet.name, pet.id);
+                    }}
                     className="checkbox checkbox-primary [--chkfg:white] border border-ps-gray-300 hover:border-ps-orange-300 focus:border-ps-orange-300 absolute top-2 right-2"
                   />
                 )}
@@ -136,7 +162,7 @@ export default function YourPet() {
       <button
         type="button"
         onClick={() => {
-          setStepBooking(2);
+          setStepBooking("information");
         }}
         className={
           checkbox

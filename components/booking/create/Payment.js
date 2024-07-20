@@ -1,7 +1,5 @@
-import CreditCardPayment from "./desktop/CreditCardPayment";
-import CashPayment from "./desktop/CashPayment";
-import CreditCardPaymentMobile from "./mobile/CreditCardPaymentMobile";
-import CashPaymentmobile from "./mobile/CashPaymentmobile";
+import CreditCardPayment from "./CreditCardPayment";
+import CashPayment from "./CashPayment";
 import { useContext } from "react";
 import { BookingContext } from "@/context/Booking";
 export default function Payment() {
@@ -36,17 +34,7 @@ export default function Payment() {
           Cash
         </button>
       </div>
-      {payment === "Credit Card" ? (
-        <>
-          <CreditCardPayment />
-          <CreditCardPaymentMobile />
-        </>
-      ) : (
-        <>
-          <CashPayment />
-          <CashPaymentmobile />
-        </>
-      )}
+      {payment === "Credit Card" ? <CreditCardPayment /> : <CashPayment />}
     </section>
   );
 }

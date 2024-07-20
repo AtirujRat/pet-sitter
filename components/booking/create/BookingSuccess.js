@@ -1,9 +1,11 @@
 import Image from "next/image";
 import viewmap from "@/public/assets/booking/create/viewmap.svg";
 import { useRouter } from "next/router";
+import { useBooking } from "@/context/Booking";
 
 export default function BookingSuccess() {
   const router = useRouter();
+  const { addBookingHandle, handleBookingSuccess } = useBooking();
   return (
     <section className="w-full lg:w-[50%] h-full pt-10 flex flex-col justify-center items-center gap-10 z-10">
       <div className="w-full lg:w-[80%] lg:min-w-[600px] min-h-[550px] bg-ps-white border-none lg:rounded-2xl shadow-[4px_4px_24px_0_rgba(0,0,0,0.4)] flex flex-col">
@@ -62,7 +64,11 @@ export default function BookingSuccess() {
       <div className="w-96 max-lg:pt-40 flex justify-between">
         <button
           type="button"
-          onClick={() => {}}
+          onClick={() => {
+            addBookingHandle({});
+            localStorage.removeItem("myState");
+            handleBookingSuccess();
+          }}
           className="btn hover:bg-ps-orange-200 max-lg:w-[45%] lg:px-10 bg-ps-orange-100 text-ps-orange-500 text-b2 border-none rounded-[99px] "
         >
           Booking Detail
@@ -71,6 +77,8 @@ export default function BookingSuccess() {
           type="button"
           onClick={() => {
             router.push("/");
+            localStorage.removeItem("myState");
+            handleBookingSuccess();
           }}
           className="btn hover:bg-ps-orange-600 max-lg:w-[45%] lg:px-6 bg-ps-orange-500 text-b2 text-ps-white rounded-[99px]"
         >

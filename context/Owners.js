@@ -1,3 +1,4 @@
+"use client";
 import { supabase } from "@/utils/supabase";
 import { createContext, useEffect, useState, useContext } from "react";
 
@@ -22,7 +23,7 @@ export function OnwerProvider(props) {
 
     const { data: owners_id, error: getIdError } = await supabase
       .from("owners")
-      .select("id")
+      .select("*")
       .eq("email", user.email);
 
     if (getIdError) {
@@ -30,7 +31,7 @@ export function OnwerProvider(props) {
       return;
     }
 
-    setUserId(owners_id[0].id);
+    setUserId(owners_id[0]);
   }
 
   useEffect(() => {

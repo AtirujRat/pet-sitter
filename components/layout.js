@@ -25,17 +25,20 @@ export default function Layout({ children }) {
     "/login/updatepassword",
     "/sitters/[id]/booking/[bookingId]",
   ];
-  const dynamicRoutes = [
-    "/sitters/[id]/profile",
-    "/sitters/[id]/booking",
-    "/sitters/[id]/booking/create",
-  ];
+  const dynamicRoutes = ["/sitters/[id]/profile", "/sitters/[id]/booking"];
+
+  const dynamicRoutesFooter = ["/sitters/[id]/booking/create"];
+
   const dynamicRoutesRegex = dynamicRoutes.map(
     (route) => new RegExp(`^${route.replace("[id]", "[^/]+")}$`)
   );
 
   const isNoLayoutRoute =
     noLayoutRoutes.includes(router.pathname) ||
+    dynamicRoutesRegex.some((regex) => regex.test(router.pathname));
+
+  const isNoFooterRoute =
+    dynamicRoutesFooter.includes(router.pathname) ||
     dynamicRoutesRegex.some((regex) => regex.test(router.pathname));
 
   useEffect(() => {
@@ -66,7 +69,7 @@ export default function Layout({ children }) {
                   </div>
                 )}
                 <div>{children}</div>
-                {!isNoLayoutRoute && <Footer />}
+                {!isNoLayoutRoute && !isNoFooterRoute && <Footer />}
               </div>
             </SittersProvider>
           </SearchProvider>
