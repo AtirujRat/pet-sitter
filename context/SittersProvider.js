@@ -61,7 +61,6 @@ export function SittersProvider(props) {
         setTotalPages,
         loading,
         setLoading,
-
         sitter,
         setSitter,
         isBookingModalOpen,
