@@ -1,11 +1,11 @@
-const CheckCvc = ({ field, form, ...props }) => {
-  const handleChange = (event) => {
+export default function CheckCvc({ field, form, ...props }) {
+  function handleChange(event) {
     const { value } = event.target;
     const formattedValue = formatCvc(value);
     form.setFieldValue(field.name, formattedValue);
-  };
+  }
 
-  const formatCvc = (value) => {
+  function formatCvc(value) {
     const cleaned = ("" + value).replace(/\D/g, "");
     let formattedValue = "";
 
@@ -14,11 +14,9 @@ const CheckCvc = ({ field, form, ...props }) => {
     }
 
     return formattedValue;
-  };
+  }
 
   return (
     <input {...field} {...props} value={field.value} onChange={handleChange} />
   );
-};
-
-export default CheckCvc;
+}

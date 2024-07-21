@@ -1,11 +1,11 @@
-const PhoneInput = ({ field, form, ...props }) => {
-  const handleChange = (event) => {
+export default function PhoneInput({ field, form, ...props }) {
+  function handleChange(event) {
     const { value } = event.target;
     const formattedValue = formatPhoneNumber(value);
     form.setFieldValue(field.name, formattedValue);
-  };
+  }
 
-  const formatPhoneNumber = (value) => {
+  function formatPhoneNumber(value) {
     const cleaned = ("" + value).replace(/\D/g, "");
     let formattedValue = "";
 
@@ -20,11 +20,9 @@ const PhoneInput = ({ field, form, ...props }) => {
     }
 
     return formattedValue;
-  };
+  }
 
   return (
     <input {...field} {...props} value={field.value} onChange={handleChange} />
   );
-};
-
-export default PhoneInput;
+}

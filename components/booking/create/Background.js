@@ -1,12 +1,11 @@
-import { useContext } from "react";
-import { BookingContext } from "@/context/Booking";
+import { useBooking } from "@/context/Booking";
 import star from "@/public/assets/booking/create/star.svg";
 import successup from "@/public/assets/booking/create/successup.svg";
 import successdown from "@/public/assets/booking/create/successdown.svg";
 import Image from "next/image";
 
 export default function Backgroud() {
-  const { confirm } = useContext(BookingContext);
+  const { confirm } = useBooking();
   return (
     <>
       {confirm === 2 ? (

@@ -33,10 +33,7 @@ export function OnwerProvider(props) {
 
     setUserId(owners_id[0]);
   }
-
-  useEffect(() => {
-    getUser();
-  }, []);
+  console.log(userId);
 
   return (
     <OnwerContext.Provider

@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import date_icon from "@/public/assets/booking/date-icon.svg";
 import time_icon from "@/public/assets/booking/time.svg";
 import cross_icon from "@/public/assets/booking/cross.svg";
 import Image from "next/image";
 import { Formik, Field, Form } from "formik";
-import { BookingContext } from "@/context/Booking";
-import { OnwerContext } from "@/context/Owners";
+import { useBooking } from "@/context/Booking";
+import { useOwners } from "@/context/Owners";
 import { useRouter } from "next/router";
 
 const timeSchedule = [
@@ -32,7 +32,7 @@ const timeSchedule = [
   "6:00 PM",
 ];
 
-const validateCalendar = (value) => {
+function validateCalendar(value) {
   let error;
   const selectedDate = new Date(value);
   const today = new Date();
@@ -43,9 +43,9 @@ const validateCalendar = (value) => {
   }
 
   return error;
-};
+}
 
-const convertToDate = (time) => {
+function convertToDate(time) {
   const [timeStr, modifier] = time.split(" ");
   let [hours, minutes] = timeStr.split(":").map(Number);
 
@@ -56,9 +56,9 @@ const convertToDate = (time) => {
   }
 
   return new Date(1970, 0, 1, hours, minutes);
-};
+}
 
-const validateTimeSchedule = (value1, value2) => {
+function validateTimeSchedule(value1, value2) {
   if (value1 === "" || value2 === "") {
     return "Require";
   }
@@ -71,9 +71,9 @@ const validateTimeSchedule = (value1, value2) => {
   }
 
   return "";
-};
+}
 
-const BookingModal = ({ setIsBookingModalOpen }) => {
+function BookingModal({ setIsBookingModalOpen }) {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [toggleStartTime, setToggleStartTime] = useState(false);
@@ -82,8 +82,8 @@ const BookingModal = ({ setIsBookingModalOpen }) => {
 
   const router = useRouter();
   const id = router.query.id;
-  const { addBookingHandle, setStepBooking } = useContext(BookingContext);
-  const { userId } = useContext(OnwerContext);
+  const { addBookingHandle, setStepBooking } = useBooking();
+  const { userId, getUser } = useOwners();
 
   useEffect(() => {
     if (startTime === "" || endTime === "") {
@@ -93,25 +93,29 @@ const BookingModal = ({ setIsBookingModalOpen }) => {
     }
   }, [startTime, endTime]);
 
-  const createBooking = async (formdata) => {
+  async function createBooking(formdata) {
     if (startTime === "" || endTime === "") {
       setTimeError("Require");
       return;
     } else if (timeError) {
       return;
     }
-
-    addBookingHandle({
-      owner_id: userId.id,
-      sitter_id: "",
-      start_time: formdata.booking_date + " " + startTime,
-      end_time: formdata.booking_date + " " + endTime,
-      status: "waiting for confirm",
-      creted_at: new Date(),
-      last_updated: new Date(),
-      price: "",
-    });
-  };
+    if (userId) {
+      addBookingHandle({
+        owner_id: userId.id,
+        sitter_id: "",
+        start_time: formdata.booking_date + " " + startTime,
+        end_time: formdata.booking_date + " " + endTime,
+        status: "waiting for confirm",
+        creted_at: new Date(),
+        last_updated: new Date(),
+        price: "",
+      });
+    }
+  }
+  useEffect(() => {
+    getUser();
+  }, []);
 
   return (
     <Formik
@@ -231,6 +235,6 @@ const BookingModal = ({ setIsBookingModalOpen }) => {
       )}
     </Formik>
   );
-};
+}
 
 export default BookingModal;

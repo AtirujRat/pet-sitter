@@ -15,7 +15,7 @@ import {
 export default function CreditCardPayment() {
   const { setStepBooking, booking, addBookingHandle, setConfirm } =
     useBooking();
-  console.log(booking);
+  // console.log(booking);
   return (
     <Formik
       initialValues={{ card_number: "", card_name: "", expire: "", cvc: "" }}

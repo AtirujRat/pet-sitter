@@ -1,8 +1,7 @@
-import { useContext } from "react";
-import { BookingContext } from "@/context/Booking";
+import { useBooking } from "@/context/Booking";
 
 export default function Step() {
-  const { stepBooking } = useContext(BookingContext);
+  const { stepBooking } = useBooking();
   return (
     <div className="p-4 lg:p-6 w-full flex justify-between lg:justify-center lg:gap-16 shadow-[4px_4px_24px_0_rgba(0,0,0,0.04)]">
       <div className="flex gap-1.5 lg:gap-3 items-center">

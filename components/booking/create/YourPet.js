@@ -7,7 +7,7 @@ import {
   BirdBadge,
   RabbitBadge,
 } from "@/components/sitters/PetBadges";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useBooking } from "@/context/Booking";
@@ -39,7 +39,7 @@ export default function YourPet() {
     rabbit: <RabbitBadge />,
   };
 
-  const getData = async () => {
+  async function getData() {
     if (!userId.id) {
       return;
     }
@@ -55,7 +55,7 @@ export default function YourPet() {
     } catch (e) {
       console.log(e);
     }
-  };
+  }
 
   useEffect(() => {
     getData();

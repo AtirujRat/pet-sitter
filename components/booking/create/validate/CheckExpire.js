@@ -1,11 +1,11 @@
-const CheckExpire = ({ field, form, ...props }) => {
-  const handleChange = (event) => {
+export default function CheckExpire({ field, form, ...props }) {
+  function handleChange(event) {
     const { value } = event.target;
     const formattedValue = formatExpire(value);
     form.setFieldValue(field.name, formattedValue);
-  };
+  }
 
-  const formatExpire = (value) => {
+  function formatExpire(value) {
     const cleaned = ("" + value).replace(/\D/g, "");
     let formattedValue = "";
 
@@ -17,11 +17,9 @@ const CheckExpire = ({ field, form, ...props }) => {
     }
 
     return formattedValue;
-  };
+  }
 
   return (
     <input {...field} {...props} value={field.value} onChange={handleChange} />
   );
-};
-
-export default CheckExpire;
+}

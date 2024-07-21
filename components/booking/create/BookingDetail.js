@@ -9,6 +9,10 @@ export default function BookingDetail() {
   const { sitter } = useSitters();
   const { booking, addBookingHandle } = useBooking();
 
+  if (!booking) {
+    return <Loading />;
+  }
+
   function handleDuration() {
     setDuration((end - start) / 3600000);
     let price = (duration / 3) * 600;
@@ -32,10 +36,6 @@ export default function BookingDetail() {
   useEffect(() => {
     handleDuration();
   }, [booking.owner_pet.length, total]);
-
-  if (!booking) {
-    return <Loading />;
-  }
 
   return (
     <section className="w-full lg:w-[30%] max-lg:pb-[100px] lg:h-fit flex flex-col border-none rounded-2xl shadow-[4px_4px_24px_0_rgba(0,0,0,0.04)]">

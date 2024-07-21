@@ -11,7 +11,7 @@ export default function Map({ draggable }) {
   };
 
   const center = {
-    lat: searchLat+0.0007,
+    lat: searchLat + 0.0007,
     lng: searchLng,
   };
 
@@ -35,15 +35,15 @@ export default function Map({ draggable }) {
     scaledSize: { width: 75, height: 75 },
   };
 
-  const markerClicked = (event) => {
+  function markerClicked(event) {
     console.log(event.latLng.lat());
     console.log(event.latLng.lng());
-  };
+  }
 
-  const markerFinishDrag = (event) => {
+  function markerFinishDrag(event) {
     console.log(event.latLng.lat());
     console.log(event.latLng.lng());
-  };
+  }
 
   return isLoaded ? (
     <GoogleMap
