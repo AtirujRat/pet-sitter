@@ -3,20 +3,24 @@ import { useSearch } from "@/context/Search";
 import { useEffect } from "react";
 import Map from "@/components/map/Map";
 
-export default function PlaceSearch({ draggable }) {
+export default function PlaceSearch() {
   const { location, address } = useSearch();
   let addresses = `${address.add} ${address.subDistrict} ${address.district} ${address.province} ${address.zip_code}`;
 
-  function handleClick() {
-    getGeocode({ address: addresses }).then((results) => {
-      const { lat, lng } = getLatLng(results[0]);
-      location({ lat, lng });
-    });
-  }
+  const handleClick = async () => {
+    try {
+      await getGeocode({ address: addresses }).then((results) => {
+        const { lat, lng } = getLatLng(results[0]);
+        location({ lat, lng });
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   useEffect(() => {
     handleClick();
   }, [address]);
 
-  return <Map draggable={draggable} />;
+  return <Map />;
 }

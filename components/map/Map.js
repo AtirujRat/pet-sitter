@@ -2,8 +2,8 @@ import React from "react";
 import { GoogleMap, useJsApiLoader, MarkerF } from "@react-google-maps/api";
 import { useSearch } from "@/context/Search";
 
-export default function Map({ draggable }) {
-  const { searchLat, searchLng } = useSearch();
+export default function Map() {
+  const { searchLat, searchLng, location } = useSearch();
   const containerStyle = {
     width: "100%",
     height: "100%",
@@ -41,8 +41,7 @@ export default function Map({ draggable }) {
   }
 
   function markerFinishDrag(event) {
-    console.log(event.latLng.lat());
-    console.log(event.latLng.lng());
+    location({ lat: event.latLng.lat(), lng: event.latLng.lng() });
   }
 
   return isLoaded ? (
@@ -58,12 +57,29 @@ export default function Map({ draggable }) {
       <MarkerF
         icon={pinIcon}
         position={{ lat: searchLat, lng: searchLng }}
-        draggable={draggable}
+        draggable={true}
         onClick={markerClicked}
         onDragEnd={markerFinishDrag}
         // visible={false}
       />
-      <></>
+
+      <MarkerF
+        icon={pinIcon}
+        position={{ lat: searchLat + 0.01, lng: searchLng + 0.01 }}
+        draggable={true}
+        onClick={markerClicked}
+        onDragEnd={markerFinishDrag}
+        // visible={false}
+      />
+
+      <MarkerF
+        icon={pinIcon}
+        position={{ lat: searchLat - 0.01, lng: searchLng + 0.01 }}
+        draggable={true}
+        onClick={markerClicked}
+        onDragEnd={markerFinishDrag}
+        // visible={false}
+      />
     </GoogleMap>
   ) : (
     <></>

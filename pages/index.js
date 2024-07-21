@@ -8,7 +8,7 @@ export default function Home() {
   const { handleClearSearch } = useSitters();
 
   useEffect(() => {
-    handleClearSearch()
+    handleClearSearch();
   }, []);
 
   return (
