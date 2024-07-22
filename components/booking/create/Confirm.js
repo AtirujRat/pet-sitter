@@ -6,8 +6,8 @@ export default function Confirm() {
   const { booking, setConfirm, handleBooking } = useBooking();
   function handleOnclick() {
     try {
-      // handleBooking(booking);
-      setConfirm(2);
+      handleBooking(booking);
+      setConfirm("booking detail");
     } catch (error) {
       console.log("error");
     }
@@ -20,7 +20,7 @@ export default function Confirm() {
         <button
           type="button"
           onClick={() => {
-            setConfirm(0);
+            setConfirm("booking");
           }}
         >
           <Image src={close} alt={close} />
@@ -35,7 +35,7 @@ export default function Confirm() {
           <button
             type="button"
             onClick={() => {
-              setConfirm(0);
+              setConfirm("booking");
             }}
             className="btn hover:bg-ps-orange-200 max-lg:w-[45%] lg:px-10 bg-ps-orange-100 text-ps-orange-500 text-b2 border-none rounded-[99px] "
           >

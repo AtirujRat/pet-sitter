@@ -5,7 +5,7 @@ import Loading from "@/components/Loading";
 
 export default function BookingDetail() {
   const [duration, setDuration] = useState();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [total, setTotal] = useState(0);
   const { sitter } = useSitters();
   const { booking, addBookingHandle, onselectPet } = useBooking();
@@ -26,24 +26,23 @@ export default function BookingDetail() {
     if (booking.owner_pet.length > 0) {
       price = (duration / 3) * 300 * (booking.owner_pet.length + 1);
     }
-    console.log(price);
-    console.log(onselectPet);
     setDate({ dateStart, start, end });
     setTotal(price);
     addBookingHandle({
       ...booking,
       duration: duration,
       price: total,
+      dateStart,
     });
-    setLoading(true);
+    setLoading(false);
   }
   useEffect(() => {
     handleDuration();
-  }, [onselectPet]);
+  }, [duration, onselectPet]);
 
   return (
     <>
-      {loading ? (
+      {!loading ? (
         date ? (
           <div className="w-full lg:w-[30%] max-lg:pb-[100px] lg:h-fit flex flex-col border-none rounded-2xl shadow-[4px_4px_24px_0_rgba(0,0,0,0.04)]">
             <p className="p-6 border-b-[1px] text-h3 text-ps-gray-600 border-ps-gray-200">

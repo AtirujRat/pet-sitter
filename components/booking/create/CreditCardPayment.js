@@ -27,7 +27,7 @@ export default function CreditCardPayment() {
         //   ...values,
         //   paymet_method: "credit card",
         // });
-        setConfirm(1);
+        setConfirm("confirm");
       }}
     >
       {({ errors, touched, isSubmitting }) => (

@@ -15,7 +15,7 @@ export default function BookingCreate() {
     <>
       <Backgroud />
       <div className="w-full lg:h-screen absolute top-0 lg:p-20 pt-20 lg:pt-32 flex justify-center gap-9 z-10">
-        {confirm === 2 ? (
+        {confirm === "booking detail" ? (
           <BookingSuccess />
         ) : (
           <>
@@ -36,7 +36,7 @@ export default function BookingCreate() {
               </div>
               <BookingDetail />
             </section>
-            {confirm === 1 ? (
+            {confirm === "confirm" ? (
               <Modal>
                 <Confirm />
               </Modal>

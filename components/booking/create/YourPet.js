@@ -17,7 +17,7 @@ import Loading from "@/components/Loading";
 
 export default function YourPet() {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const { userId, petData, setPetData } = useOwners();
   const { sitter, setSitter } = useSitters();
   const {
@@ -54,7 +54,7 @@ export default function YourPet() {
       setSitter(getDataSittets.data.data[0]);
       setPetData(getDataOwners.data);
       addBookingHandle({ ...booking, sitter_id: id });
-      setLoading(true);
+      setLoading(false);
     } catch (e) {
       console.log(e);
     }
@@ -90,7 +90,7 @@ export default function YourPet() {
 
   return (
     <>
-      {loading ? (
+      {!loading ? (
         <div className="w-full h-fit lg:h-full flex flex-col p-10 gap-10 shadow-[4px_4px_24px_0_rgba(0,0,0,0.04)] relative">
           <div className="w-full h-full flex flex-col gap-4">
             <p className="text-b2">Choose your pet</p>

@@ -20,12 +20,14 @@ export function BookingProvider(props) {
   const [onselectPet, setOnselectPet] = useState(false);
 
   function handleBookingSuccess() {
-    setStepBooking("your_pet");
-    setPayment("Credit Card");
-    setConfirm(0);
-    setSelect({});
-    setSelectedPets([]);
-    setPetname([]);
+    setTimeout(() => {
+      setStepBooking("your_pet");
+      setPayment("Credit Card");
+      setConfirm(0);
+      setSelect({});
+      setSelectedPets([]);
+      setPetname([]);
+    }, 2000);
   }
   async function handleBooking(data) {
     try {
