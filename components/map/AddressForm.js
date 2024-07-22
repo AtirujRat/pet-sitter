@@ -86,7 +86,7 @@ export default function AddressForm({ existingAddress, validate }) {
           onChange={handleInput}
           placeholder="Address"
           // validate={validate}
-          className="w-full p-3 border rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400 focus:outline-none focus:ring-0"
+          className="w-full p-3 border rounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400 focus:outline-none focus:ring-0"
         />
         {errors.address?.address_detail && touched.address?.address_detail && (
           <div className="text-ps-red">{errors.address.address_detail}</div>
@@ -98,7 +98,7 @@ export default function AddressForm({ existingAddress, validate }) {
             Province*
           </label>
           <select
-            className="select w-full border rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400 h-[54px] focus:outline-none focus:ring-0"
+            className="select w-full border rounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400 h-[54px] focus:outline-none focus:ring-0"
             onChange={handleProvince}
             value={address.province}
             // validate={validate}
@@ -123,7 +123,7 @@ export default function AddressForm({ existingAddress, validate }) {
             District*
           </label>
           <select
-            className="select w-full border rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400 h-[54px] focus:outline-none focus:ring-0"
+            className="select w-full border rounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400 h-[54px] focus:outline-none focus:ring-0"
             onChange={handleDistrict}
             value={address.district}
           >
@@ -149,7 +149,7 @@ export default function AddressForm({ existingAddress, validate }) {
             Sub-district*
           </label>
           <select
-            className="select w-full border rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400 h-[54px] focus:outline-none focus:ring-0"
+            className="select w-full border rounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400 h-[54px] focus:outline-none focus:ring-0"
             onChange={handleSubDistrict}
             value={address.subDistrict}
           >
@@ -175,7 +175,7 @@ export default function AddressForm({ existingAddress, validate }) {
           <input
             type="text"
             value={address.zip_code || ""}
-            className="w-full border rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400 h-[54px] focus:outline-none focus:ring-0"
+            className="w-full border rounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400 h-[54px] focus:outline-none focus:ring-0"
           />
           {errors.address?.zip_code && touched.address?.zip_code && (
             <div className="text-ps-red">{errors.address.zip_code}</div>

@@ -23,6 +23,7 @@ export default function Layout({ children }) {
     "/login/sitter",
     "/login/recovery",
     "/login/updatepassword",
+    "/sitters/[id]/booking/[bookingId]",
   ];
 
   const dynamicRoutes = [
@@ -66,7 +67,7 @@ export default function Layout({ children }) {
                   </div>
                 )}
                 <div>{children}</div>
-                {!isNoLayoutRoute && <Footer />}
+                {!isNoLayoutRoute && <NavBar />}
               </div>
             </SittersProvider>
           </SearchProvider>

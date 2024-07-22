@@ -1,11 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import elementhome4 from "../../public/assets/home/element-home-4.svg";
-import elementhome5 from "../../public/assets/home/element-home-5.svg";
-import elementhome6 from "../../public/assets/home/element-home-6.svg";
+import elementhome4 from "@/public/assets/home/element-home-4.svg";
+import elementhome5 from "@/public/assets/home/element-home-5.svg";
+import elementhome6 from "@/public/assets/home/element-home-6.svg";
 
-const FindAPetSister = () => {
+export default function FindAPetSister() {
   return (
     <div>
       <div className="w-full max-w-[1440px] mx-auto md:p-20 -z-10">
@@ -55,6 +55,4 @@ const FindAPetSister = () => {
       </div>
     </div>
   );
-};
-
-export default FindAPetSister;
+}

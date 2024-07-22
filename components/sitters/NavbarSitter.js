@@ -1,8 +1,8 @@
 import Image from "next/image";
-import message from "../../../public/assets/navbar/message.svg";
-import userImage from "../../../public/assets/account/profile_white.svg";
+import message from "@/public/assets/navbar/message.svg";
+import userImage from "@/public/assets/account/profile_white.svg";
 
-const NavBarSitter = ({ profileImage, fullName }) => {
+export default function NavBarSitter({ profileImage, fullName }) {
   return (
     <div className="w-full relative">
       <div className="flex px-[60px] items-center justify-between  py-4">
@@ -33,6 +33,4 @@ const NavBarSitter = ({ profileImage, fullName }) => {
       </div>
     </div>
   );
-};
-
-export default NavBarSitter;
+}

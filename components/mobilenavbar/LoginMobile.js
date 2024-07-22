@@ -4,12 +4,12 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/utils/supabase";
 import { useRouter } from "next/router";
 
-import profile from "../../public/assets/navbar/profile.svg";
-import pet from "../../public/assets/navbar/pet.svg";
-import history from "../../public/assets/navbar/history.svg";
-import logout from "../../public/assets/navbar/logout.svg";
+import profile from "@/public/assets/navbar/profile.svg";
+import pet from "@/public/assets/navbar/pet.svg";
+import history from "@/public/assets/navbar/history.svg";
+import logout from "@/public/assets/navbar/logout.svg";
 
-const LoginMobile = ({ setOpenModal }) => {
+export default function LoginMobile({ setOpenModal }) {
   const [userData, setUserData] = useState();
   const router = useRouter();
 
@@ -107,6 +107,4 @@ const LoginMobile = ({ setOpenModal }) => {
       )}
     </div>
   );
-};
-
-export default LoginMobile;
+}

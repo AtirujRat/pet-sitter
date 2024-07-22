@@ -14,7 +14,7 @@ import calendarActive from "@/public/assets/sidebarsitter/calendar-active.svg";
 import payoutActive from "@/public/assets/sidebarsitter/payout-active.svg";
 import logOut from "@/public/assets/icons/icon-logout-gray.svg";
 
-const SideBarSitter = () => {
+export default function SideBarSitter() {
   const router = useRouter();
   const { id } = router.query;
   const location = usePathname();
@@ -83,6 +83,4 @@ const SideBarSitter = () => {
       </div>
     </div>
   );
-};
-
-export default SideBarSitter;
+}

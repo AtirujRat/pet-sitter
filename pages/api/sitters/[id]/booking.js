@@ -10,7 +10,7 @@ export default async function handler(req, res) {
       let supabaseQuery = supabase
         .from("bookings")
         .select(
-          "id, owners(full_name), bookings_pets(pet_id), start_time, end_time, status"
+          "id, owners!inner(full_name), bookings_pets(pet_id), start_time, end_time, status"
         )
         .eq("sitter_id", id)
         .ilike("owners.full_name", `%${ownerName}%`);

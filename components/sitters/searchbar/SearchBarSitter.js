@@ -4,8 +4,7 @@ import Image from "next/image";
 import search from "/public/assets/icons/icon-search.svg";
 import { useSitters } from "@/context/SittersProvider";
 
-
-const SearchBarSitter = () => {
+export default function SearchBarSitter() {
   const {
     searchName,
     setSearchName,
@@ -85,6 +84,4 @@ const SearchBarSitter = () => {
       </div>
     </div>
   );
-};
-
-export default SearchBarSitter;
+}

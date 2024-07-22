@@ -2,9 +2,9 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import SideBarSitter from "@/components/sitters/profile/SideBarSitter";
+import SideBarSitter from "@/components/sitters/SideBarSitter";
 import SitterProfileForm from "@/components/sitters/profile/SitterProfileForm";
-import NavBarSitter from "@/components/sitters/profile/NavbarSitter";
+import NavBarSitter from "@/components/sitters/NavbarSitter";
 import Loading from "@/components/Loading";
 
 export default function SitterManageProfile() {
@@ -18,7 +18,6 @@ export default function SitterManageProfile() {
       if (id) {
         const response = await axios.get(`/api/sitters/${id}`);
         setProfile(response.data.data[0]);
-        console.log(response.data.data[0]);
       }
     } catch (error) {
       console.error("Error fetching profile data:", error);
@@ -52,11 +51,3 @@ export default function SitterManageProfile() {
     </div>
   );
 }
-
-// SitterManageProfile.getLayout = function getLayout(page) {
-//   return (
-//     <>
-//       <SitterManageProfile />
-//     </>
-//   );
-// };

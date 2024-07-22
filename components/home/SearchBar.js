@@ -3,7 +3,7 @@ import CheckboxHome from "./CheckboxHome";
 import { useRouter } from "next/router";
 import { useSitters } from "@/context/SittersProvider";
 
-const SearchBar = () => {
+export default function SearchBar() {
   const router = useRouter();
   const { experience, setExperience } = useSitters();
 
@@ -51,6 +51,4 @@ const SearchBar = () => {
       </div>
     </div>
   );
-};
-
-export default SearchBar;
+}
