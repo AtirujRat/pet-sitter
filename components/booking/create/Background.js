@@ -3,11 +3,15 @@ import star from "@/public/assets/booking/create/star.svg";
 import successup from "@/public/assets/booking/create/successup.svg";
 import successdown from "@/public/assets/booking/create/successdown.svg";
 import Image from "next/image";
+import { useEffect } from "react";
 
 export default function Backgroud() {
   const { confirm } = useBooking();
+  useEffect(() => {
+    console.log(120);
+  }, []);
   return (
-    <>
+    <div>
       {confirm === 2 ? (
         <>
           <Image
@@ -26,6 +30,6 @@ export default function Backgroud() {
           <Image src={star} alt={star} />
         </div>
       )}
-    </>
+    </div>
   );
 }

@@ -17,6 +17,7 @@ export function BookingProvider(props) {
   const [selectedPets, setSelectedPets] = useState([]);
   const [petname, setPetname] = useState([]);
   const [petId, setPetId] = useState([]);
+  const [onselectPet, setOnselectPet] = useState(false);
 
   function handleBookingSuccess() {
     setStepBooking("your_pet");
@@ -27,7 +28,6 @@ export function BookingProvider(props) {
     setPetname([]);
   }
   async function handleBooking(data) {
-    console.log(data);
     try {
       await axios.post("/api/owner/booking", data);
     } catch (error) {
@@ -77,6 +77,8 @@ export function BookingProvider(props) {
         setPetId,
         handleBooking,
         handleBookingSuccess,
+        onselectPet,
+        setOnselectPet,
       }}
     >
       {props.children}

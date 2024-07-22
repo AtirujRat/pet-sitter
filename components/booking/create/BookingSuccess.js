@@ -67,6 +67,7 @@ export default function BookingSuccess() {
           onClick={() => {
             addBookingHandle({});
             localStorage.removeItem("myState");
+            localStorage.removeItem("user");
             handleBookingSuccess();
           }}
           className="btn hover:bg-ps-orange-200 max-lg:w-[45%] lg:px-10 bg-ps-orange-100 text-ps-orange-500 text-b2 border-none rounded-[99px] "
@@ -78,6 +79,7 @@ export default function BookingSuccess() {
           onClick={() => {
             router.push("/");
             localStorage.removeItem("myState");
+            localStorage.removeItem("user");
             handleBookingSuccess();
           }}
           className="btn hover:bg-ps-orange-600 max-lg:w-[45%] lg:px-6 bg-ps-orange-500 text-b2 text-ps-white rounded-[99px]"

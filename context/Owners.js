@@ -6,7 +6,12 @@ export const OnwerContext = createContext();
 
 export function OnwerProvider(props) {
   const [userData, setUserData] = useState();
-  const [userId, setUserId] = useState();
+  const [userId, setUserId] = useState(() => {
+    if (typeof window !== "undefined") {
+      const savedState = localStorage.getItem("user");
+      return savedState ? JSON.parse(savedState) : {};
+    }
+  });
   const [petData, setPetData] = useState([]);
 
   async function getUser() {
@@ -34,6 +39,12 @@ export function OnwerProvider(props) {
     setUserId(owners_id[0]);
   }
   console.log(userId);
+
+  useEffect(() => {
+    if (userId) {
+      localStorage.setItem("user", JSON.stringify(userId));
+    }
+  }, [userId]);
 
   return (
     <OnwerContext.Provider
