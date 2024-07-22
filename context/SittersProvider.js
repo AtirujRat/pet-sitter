@@ -20,6 +20,9 @@ export function SittersProvider(props) {
   const [loading, setLoading] = useState(true);
   const [sitter, setSitter] = useState({});
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+  const [selectMap, setSelectMap] = useState("list");
+  const [clickPetSitter, setClickPetSitter] = useState({});
+  const [center, setCenter] = useState({});
 
   const handleClearSearch = () => {
     setSearchName("");
@@ -62,6 +65,12 @@ export function SittersProvider(props) {
         setSitter,
         isBookingModalOpen,
         setIsBookingModalOpen,
+        selectMap,
+        setSelectMap,
+        clickPetSitter,
+        setClickPetSitter,
+        setCenter,
+        center,
       }}
     >
       {props.children}

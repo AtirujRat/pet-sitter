@@ -6,6 +6,7 @@ import Pagination from "@/components/sitters/Pagination";
 import axios from "axios";
 import { useEffect } from "react";
 import { useSitters } from "@/context/SittersProvider";
+import ManyMap from "@/components/map/ManyMap";
 
 export default function Sitters() {
   const {
@@ -17,6 +18,7 @@ export default function Sitters() {
     setLoading,
     refresh,
     currentPage,
+    selectMap,
   } = useSitters();
 
   const getSitters = async () => {
@@ -37,14 +39,21 @@ export default function Sitters() {
 
   return (
     <section className="w-full flex justify-center bg-ps-gray-100 sm:py-8 pt-4 lg:pb-32">
-      <div className="page-container w-full sm:px-20 max-w-[1440px] flex flex-col items-center">
+      <div className="page-container w-full sm:px-20 max-w-[1440px] flex flex-col items-center h-screen">
         <PageTitleDesktop />
-        <div className="content-container flex gap-8 max-lg:flex-col lg:mb-11 w-full">
+        <div className="flex gap-8 max-lg:flex-col lg:mb-11 w-full h-full">
           <SearchBarSitter />
           <PageTitleMobile />
-          <SittersList sitters={sitters} />
+          {selectMap === "list" ? (
+            <SittersList sitters={sitters} />
+          ) : (
+            <div className="w-[70%] h-full relative">
+              <ManyMap />
+              <SittersList sitters={sitters} />
+            </div>
+          )}
         </div>
-        <Pagination />
+        {/* <Pagination /> */}
       </div>
     </section>
   );

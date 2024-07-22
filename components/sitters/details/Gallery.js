@@ -20,10 +20,7 @@ export default function Gallery(props) {
 
   return (
     <section className={`${styles.embla} sm:my-10 max-sm:mb-10`}>
-      <div
-        className={`${styles.embla__viewport} relative`}
-        ref={emblaRef}
-      >
+      <div className={`${styles.embla__viewport} relative`} ref={emblaRef}>
         <div className={`${styles.embla__container} md:h-[25vw] h-[280px]`}>
           {slides.map((image, index) => (
             <div className={`${styles.embla__slide}`} key={index}>
@@ -37,7 +34,9 @@ export default function Gallery(props) {
         <div
           className={`${styles.embla__controls} absolute top-[40%] w-full flex justify-center`}
         >
-          <div className={`${styles.embla__buttons} flex justify-between w-full sm:px-20 px-4`}>
+          <div
+            className={`${styles.embla__buttons} flex justify-between w-full sm:px-20 px-4`}
+          >
             <PrevButton
               onClick={onPrevButtonClick}
               disabled={prevBtnDisabled}

@@ -90,7 +90,9 @@ export default function BookingDetail() {
             </div>
           </div>
         ) : null
-      ) : null}
+      ) : (
+        <Loading />
+      )}
     </>
   );
 }

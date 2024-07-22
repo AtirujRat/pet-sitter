@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import LoginMobile from "./mobilenavbar/LoginMobile";
 import { usePathname } from "next/navigation";
-import Head from "next/head";
+import Script from "next/script";
 import { SearchProvider } from "@/context/Search";
 import { BookingProvider } from "@/context/Booking";
 import { OnwerProvider } from "@/context/Owners";
@@ -47,12 +47,11 @@ export default function Layout({ children }) {
 
   return (
     <>
-      <Head>
-        <script
-          defer
-          src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
-        />
-      </Head>
+      <Script
+        defer
+        src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
+      />
+
       <OnwerProvider>
         <BookingProvider>
           <SearchProvider>

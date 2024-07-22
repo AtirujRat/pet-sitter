@@ -62,24 +62,6 @@ export default function Map() {
         onDragEnd={markerFinishDrag}
         // visible={false}
       />
-
-      <MarkerF
-        icon={pinIcon}
-        position={{ lat: searchLat + 0.01, lng: searchLng + 0.01 }}
-        draggable={true}
-        onClick={markerClicked}
-        onDragEnd={markerFinishDrag}
-        // visible={false}
-      />
-
-      <MarkerF
-        icon={pinIcon}
-        position={{ lat: searchLat - 0.01, lng: searchLng + 0.01 }}
-        draggable={true}
-        onClick={markerClicked}
-        onDragEnd={markerFinishDrag}
-        // visible={false}
-      />
     </GoogleMap>
   ) : (
     <></>

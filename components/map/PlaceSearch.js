@@ -5,7 +5,7 @@ import Map from "@/components/map/Map";
 
 export default function PlaceSearch() {
   const { location, address } = useSearch();
-  let addresses = `${address.add} ${address.subDistrict} ${address.district} ${address.province} ${address.zip_code}`;
+  let addresses = `${address.address_detail} ${address.subDistrict} ${address.district} ${address.province} ${address.zip_code}`;
 
   const handleClick = async () => {
     try {
