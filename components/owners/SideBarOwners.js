@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import Image from "next/image";
 import profile_icon from "@/public/assets/account/profile_gray.svg";
 import profile_icon_active from "@/public/assets/account/profile-active.svg";
@@ -6,9 +5,10 @@ import yourPet_icon from "@/public/assets/account/your-pet.svg";
 import yourPet_icon_active from "@/public/assets/account/your-pet-active.svg";
 import list_icon from "@/public/assets/account/list.svg";
 import list_icon_active from "@/public/assets/account/list-active.svg";
+import { useOwnerAccount } from "@/pages/context/OwnersAccountState";
 
 function SideBarOwners() {
-  const [accountState, setAccountState] = useState("profile");
+  const { changeAccountStateHandle, accountState } = useOwnerAccount();
 
   return (
     <section className="w-fit h-fit sticky top-5">
@@ -16,7 +16,7 @@ function SideBarOwners() {
         <h1 className="text-h4 hidden lg:block px-[20px] py-[20px]">Account</h1>
         <div className="text-b1 flex justify-between min-w-max lg:min-w-full lg:flex-col">
           <button
-            onClick={() => setAccountState("profile")}
+            onClick={() => changeAccountStateHandle("profile")}
             className={`flex gap-5 ${
               accountState === "profile"
                 ? "bg-ps-orange-100 text-ps-orange-500"
@@ -33,7 +33,7 @@ function SideBarOwners() {
             Profile
           </button>
           <button
-            onClick={() => setAccountState("your-pet")}
+            onClick={() => changeAccountStateHandle("yourpet")}
             className={`flex gap-5 ${
               accountState === "your-pet"
                 ? "bg-ps-orange-100 text-ps-orange-500"
@@ -50,7 +50,7 @@ function SideBarOwners() {
             Your Pet
           </button>
           <button
-            onClick={() => setAccountState("booking-history")}
+            onClick={() => changeAccountStateHandle("bookinghistory")}
             className={`flex gap-5 ${
               accountState === "booking-history"
                 ? "bg-ps-orange-100 text-ps-orange-500"
@@ -69,7 +69,7 @@ function SideBarOwners() {
             Booking History
           </button>
           <button
-            onClick={() => setAccountState("change-password")}
+            onClick={() => changeAccountStateHandle("changepassword")}
             className={`flex gap-5 ${
               accountState === "change-password"
                 ? "bg-ps-orange-100 text-ps-orange-500"

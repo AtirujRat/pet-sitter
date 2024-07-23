@@ -73,7 +73,9 @@ function validateTimeSchedule(value1, value2) {
   return "";
 }
 
-function BookingModal({ setIsBookingModalOpen }) {
+
+export default function BookingModal() {
+
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [toggleStartTime, setToggleStartTime] = useState(false);
@@ -100,6 +102,8 @@ function BookingModal({ setIsBookingModalOpen }) {
     } else if (timeError) {
       return;
     }
+
+
     if (userId) {
       addBookingHandle({
         owner_id: userId.id,
@@ -116,6 +120,7 @@ function BookingModal({ setIsBookingModalOpen }) {
   useEffect(() => {
     getUser();
   }, []);
+
 
   return (
     <Formik
@@ -237,4 +242,3 @@ function BookingModal({ setIsBookingModalOpen }) {
   );
 }
 
-export default BookingModal;
