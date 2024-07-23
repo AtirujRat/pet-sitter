@@ -28,8 +28,6 @@ export default function PetList() {
 
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching pets:", error.message);
-        setError("Error fetching pets");
         setLoading(false);
       }
     };
@@ -50,28 +48,26 @@ export default function PetList() {
   }
 
   return (
-    <section className="w-full min-h-[824px]max-sm:min-h-fit h-fit shadow-lg rounded-xl bg-ps-white max-sm:bg-ps-gray-100">
+    <section className="w-full">
       <div className="flex flex-col justify-center p-10 max-sm:p-2 gap-10">
         <div className="flex justify-between items-center">
           <p className="text-h3">Your Pet</p>
           <Link href={`/owners/${id}/yourpet/create`}>
-            <ButtonOrange text="Create Pet" width="w-fit" />
+            <ButtonOrange text="Create Pet" width="w-fit" Onclick="" />
           </Link>
         </div>
-        <div className="flex flex-wrap gap-4 max-md:justify-around justify-stretch">
-          {pets.map((pet) => (
-            <Link key={pet.id} href={`/owners/${id}/yourpet/${pet.id}`}>
-              <PetCard
-                className="flex justify-center"
-                image={pet.pet_image_url}
-                key={pet.id}
-                name={pet.name}
-                type={pet.type}
-                styles="w-[207px] h-[240px] max-md:w-[343px]"
-              />
-            </Link>
-          ))}
-        </div>
+        {pets.map((pet) => (
+          <Link key={pet.id} href={`/owners/${id}/yourpet/${pet.id}`}>
+            <PetCard
+              className="flex justify-center"
+              image={pet.pet_image_url}
+              key={pet.id}
+              name={pet.name}
+              type={pet.type}
+              styles="w-[207px] h-[240px] max-md:w-[343px]"
+            />
+          </Link>
+        ))}
       </div>
     </section>
   );
