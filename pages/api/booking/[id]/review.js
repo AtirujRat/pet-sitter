@@ -63,8 +63,12 @@ export default async function handler(req, res) {
       const { rating, status, description } = req.body;
       const updateData = {};
 
-      if (!rating && !status && !description) {
-        return res.status(404).json({
+      if (
+        rating === undefined &&
+        status === undefined &&
+        description === undefined
+      ) {
+        return res.status(400).json({
           message: "Server could not find a requested review to update",
         });
       }
@@ -80,11 +84,16 @@ export default async function handler(req, res) {
         .eq("booking_id", id);
 
       if (error) {
-        console.error("Error updating review:", error);
         throw error;
       }
 
-      return res.status(200).json({ message: "Review updated successfully" });
+      if (!updatedReview || updatedReview.length === 0) {
+        return res.status(404).json({
+          message: "Server could not find a requested review to update",
+        });
+      }
+
+      return res.status(200).json(updatedReview);
     } catch {
       return res.status(500).json({
         message: "Server could not update review because database connection",
