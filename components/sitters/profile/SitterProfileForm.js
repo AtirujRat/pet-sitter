@@ -11,11 +11,11 @@ import { useSearch } from "@/context/Search";
 import AddressForm from "@/components/map/AddressForm";
 import PhoneInput from "@/components/authentication/PhoneInput";
 import MultiSelect from "./MultiSelectPetType";
-import userimage from "../../../public/assets/navbar/usermock.svg";
-import plus from "../../../public/assets/icon-plus.svg";
-import iconUpLoad from "../../../public/assets/sitters/icon-upload.svg";
-import iconClose from "../../../public/assets/sitters/icon-close.svg";
-import iconApproved from "../../../public/assets/sitters/icon-approved.svg";
+import userimage from "@/public/assets/navbar/usermock.svg";
+import plus from "@/public/assets/icon-plus.svg";
+import iconUpLoad from "@/public/assets/sitters/icon-upload.svg";
+import iconClose from "@/public/assets/sitters/icon-close.svg";
+import iconApproved from "@/public/assets/sitters/icon-approved.svg";
 
 function validateName(value) {
   let error;
@@ -27,13 +27,13 @@ function validateName(value) {
   return error;
 }
 
-const validateRequired = (value) => {
+function validateRequired(value) {
   let error;
   if (!value || value === "") {
     error = "Required";
   }
   return error;
-};
+}
 
 function validatePhone(value) {
   let error;
@@ -289,7 +289,7 @@ export default function SitterProfileForm({ profile = {} }) {
           <Form className="flex flex-col gap-6">
             <div className="text-h3 flex justify-between">
               <div className="flex items-center gap-6">
-                <p>Pet Sitter Profile</p>
+                <p className="text-h3">Pet Sitter Profile</p>
                 <p className="text-[16px] text-ps-green-500 flex text-center gap-2">
                   <Image
                     src={iconApproved}
@@ -310,6 +310,8 @@ export default function SitterProfileForm({ profile = {} }) {
                 {isSubmitting ? "Updating..." : "Update"}
               </button>
             </div>
+
+            {/* Basic Information */}
             <div className="bg-ps-white rounded-2xl px-20 py-10 flex flex-col gap-6">
               <div className="flex flex-col gap-6">
                 <p className="text-ps-gray-300 text-h3">Basic Information</p>
@@ -352,7 +354,7 @@ export default function SitterProfileForm({ profile = {} }) {
                   <Field
                     type="text"
                     name="full_name"
-                    className="p-3 border rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400 focus:outline-none focus:ring-0"
+                    className="p-3 border rounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400 focus:outline-none focus:ring-0"
                     validate={validateName}
                   />
                   {errors.full_name && touched.full_name && (
@@ -367,7 +369,7 @@ export default function SitterProfileForm({ profile = {} }) {
                     as="select"
                     name="experience"
                     validate={validateRequired}
-                    className="p-3 border rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400 focus:outline-none focus:ring-0"
+                    className="p-3 border rrounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400 focus:outline-none focus:ring-0"
                   >
                     <option value="" label="Select experience" />
                     <option value="0-2" label="0-2 year" />
@@ -389,7 +391,7 @@ export default function SitterProfileForm({ profile = {} }) {
                     name="phone_number"
                     component={PhoneInput}
                     validate={validatePhone}
-                    className="p-3 border rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400 focus:outline-none focus:ring-0"
+                    className="p-3 border rounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400 focus:outline-none focus:ring-0"
                   />
                   {errors.phone_number && touched.phone_number && (
                     <div className="text-ps-red">{errors.phone_number}</div>
@@ -403,7 +405,7 @@ export default function SitterProfileForm({ profile = {} }) {
                     type="email"
                     name="email"
                     disabled={true}
-                    className="p-3 border rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-300 focus:outline-none focus:ring-0"
+                    className="p-3 border rounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-300 focus:outline-none focus:ring-0"
                   />
                   {errors.email && touched.email && (
                     <div className="text-ps-red">{errors.email}</div>
@@ -418,7 +420,7 @@ export default function SitterProfileForm({ profile = {} }) {
                   <Field
                     as="textarea"
                     name="introduction"
-                    className="p-3 border rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400 h-[140px] focus:outline-none focus:ring-0"
+                    className="p-3 border rounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400 h-[140px] focus:outline-none focus:ring-0"
                   />
                   {errors.introduction && touched.introduction && (
                     <div className="text-ps-red">{errors.introduction}</div>
@@ -441,7 +443,7 @@ export default function SitterProfileForm({ profile = {} }) {
                     type="text"
                     name="trade_name"
                     validate={validateRequired}
-                    className="p-3 border rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400 focus:outline-none focus:ring-0"
+                    className="p-3 border rounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400 focus:outline-none focus:ring-0"
                   />
                   {errors.trade_name && touched.trade_name && (
                     <div className="text-ps-red">{errors.trade_name}</div>
@@ -472,7 +474,7 @@ export default function SitterProfileForm({ profile = {} }) {
                   <Field
                     as="textarea"
                     name="services"
-                    className="p-3 border rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400 h-[140px] focus:outline-none focus:ring-0"
+                    className="p-3 border rounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400 h-[140px] focus:outline-none focus:ring-0"
                   />
                   {errors.services && touched.services && (
                     <div className="text-ps-red">{errors.services}</div>
@@ -487,7 +489,7 @@ export default function SitterProfileForm({ profile = {} }) {
                   <Field
                     as="textarea"
                     name="place_description"
-                    className="p-3 border rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400 h-[140px] focus:outline-none focus:ring-0"
+                    className="p-3 border rounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400 h-[140px] focus:outline-none focus:ring-0"
                   />
                   {errors.place_description && touched.place_description && (
                     <div className="text-ps-red">

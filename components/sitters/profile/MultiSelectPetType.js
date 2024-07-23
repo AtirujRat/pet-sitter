@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const MultiSelect = ({ options, field, form }) => {
+export default function MultiSelect({ options, field, form }) {
   const [selectedOptions, setSelectedOptions] = useState(field.value || []);
 
   const handleSelect = (event) => {
@@ -55,6 +55,4 @@ const MultiSelect = ({ options, field, form }) => {
       </div>
     </div>
   );
-};
-
-export default MultiSelect;
+}

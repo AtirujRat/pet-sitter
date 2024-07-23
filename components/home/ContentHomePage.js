@@ -1,13 +1,13 @@
 import Image from "next/image";
 
-import elementhome3 from "../../public/assets/home/element-home-3.svg";
-import starbulletblue from "../../public/assets/home/star-bullet-blue.svg";
-import starbulletpink from "../../public/assets/home/star-bullet-pink.svg";
-import starbulletgreen from "../../public/assets/home/star-bullet-green.svg";
-import starbulletyellow from "../../public/assets/home/star-bullet-yellow.svg";
-import connect from "../../public/assets/home/connect.svg";
-import calling from "../../public/assets/home/calling.svg";
-import better from "../../public/assets/home/better.svg";
+import elementhome3 from "@/public/assets/home/element-home-3.svg";
+import starbulletblue from "@/public/assets/home/star-bullet-blue.svg";
+import starbulletpink from "@/public/assets/home/star-bullet-pink.svg";
+import starbulletgreen from "@/public/assets/home/star-bullet-green.svg";
+import starbulletyellow from "@/public/assets/home/star-bullet-yellow.svg";
+import connect from "@/public/assets/home/connect.svg";
+import calling from "@/public/assets/home/calling.svg";
+import better from "@/public/assets/home/better.svg";
 
 const ContentHomePage = () => {
   return (

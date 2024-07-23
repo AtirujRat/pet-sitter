@@ -5,11 +5,11 @@ import { useEffect, useState } from "react";
 import NavBarSitter from "@/components/sitters/NavbarSitter";
 import SideBarSitter from "@/components/sitters/SideBarSitter";
 import Loading from "@/components/Loading";
-import BookingList from "@/components/sitters/booking/BookingList";
+import BookingListDetail from "@/components/sitters/booking/BookingListDetail";
 
-export default function SitterManageBookingList() {
+export default function Detail() {
   const router = useRouter();
-  const { id } = router.query;
+  const { id, bookingId } = router.query;
 
   const [profile, setProfile] = useState(null);
 
@@ -45,7 +45,9 @@ export default function SitterManageBookingList() {
           fullName={profile?.full_name}
         />
         <div className="bg-ps-gray-100 h-full flex flex-col gap-6 p-10">
-          <BookingList id={id} />
+          <div>
+            <BookingListDetail bookingId={bookingId} />
+          </div>
         </div>
       </div>
     </div>

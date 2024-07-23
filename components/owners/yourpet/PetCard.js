@@ -13,7 +13,7 @@ export default function PetCard(props) {
           className="rounded-full w-[100px] h-[100px] object-cover"
           layout="fill"
         />
-        <p className="text-b1 text-center">{props.name}</p>
+        <p className="text-h4 text-center">{props.name}</p>
         <PetTag type={props.type} />
       </div>
     </section>

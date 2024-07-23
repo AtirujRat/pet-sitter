@@ -1,10 +1,10 @@
 import Image from "next/image";
 
 import SearchBar from "@/components/home/SearchBar";
-import elementhome1 from "../../public/assets/home/element-home-1.svg";
-import elementhome2 from "../../public/assets/home/element-home-2.svg";
+import elementhome1 from "@/public/assets/home/element-home-1.svg";
+import elementhome2 from "@/public/assets/home/element-home-2.svg";
 
-const HeaderHome = () => {
+export default function HeaderHome() {
   return (
     <div>
       <header className="max-w-[1440px] mx-auto w-full md:flex flex-col items-center justify-center md:h-[441px] h-[565] gap-5 relative">
@@ -46,6 +46,4 @@ const HeaderHome = () => {
       </div>
     </div>
   );
-};
-
-export default HeaderHome;
+}

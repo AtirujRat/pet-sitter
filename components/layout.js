@@ -23,11 +23,21 @@ export default function Layout({ children }) {
     "/login/sitter",
     "/login/recovery",
     "/login/updatepassword",
-    "/sitters/profile",
-    "/sitters/booking",
+    "/sitters/[id]/booking/[bookingId]",
   ];
 
-  const noFooterRoutes = ["/sitters/booking/create"];
+  const dynamicRoutes = [
+    "/sitters/[id]/profile",
+    "/sitters/[id]/booking",
+    "/sitters/[id]/booking/create",
+  ];
+  const dynamicRoutesRegex = dynamicRoutes.map(
+    (route) => new RegExp(`^${route.replace("[id]", "[^/]+")}$`)
+  );
+
+  const isNoLayoutRoute =
+    noLayoutRoutes.includes(router.pathname) ||
+    dynamicRoutesRegex.some((regex) => regex.test(router.pathname));
 
   useEffect(() => {
     setOpenModal(false);
@@ -46,7 +56,7 @@ export default function Layout({ children }) {
           <SearchProvider>
             <SittersProvider>
               <div className="w-full">
-                {!noLayoutRoutes.includes(router.pathname) && (
+                {!isNoLayoutRoute && (
                   <NavBar setOpenModal={() => setOpenModal((prev) => !prev)} />
                 )}
                 {openModal && (
@@ -57,8 +67,7 @@ export default function Layout({ children }) {
                   </div>
                 )}
                 <div>{children}</div>
-                {!noLayoutRoutes.includes(router.pathname) &&
-                  noFooterRoutes.includes(router.pathname) && <Footer />}
+                {!isNoLayoutRoute && <NavBar />}
               </div>
             </SittersProvider>
           </SearchProvider>

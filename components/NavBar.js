@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { supabase } from "@/utils/supabase";
-import bell from "../public/assets/navbar/bell.svg";
-import message from "../public/assets/navbar/message.svg";
-import usermock from "../public/assets/navbar/usermock.svg";
-import profile from "../public/assets/navbar/profile.svg";
-import pet from "../public/assets/navbar/pet.svg";
-import history from "../public/assets/navbar/history.svg";
-import logout from "../public/assets/navbar/logout.svg";
-import menu from "../public/assets/navbar/menu.svg";
-import sisterlogo from "../public/assets/sister-logo.svg";
+import bell from "@/public/assets/navbar/bell.svg";
+import message from "@/public/assets/navbar/message.svg";
+import usermock from "@/public/assets/navbar/usermock.svg";
+import profile from "@/public/assets/navbar/profile.svg";
+import pet from "@/public/assets/navbar/pet.svg";
+import history from "@/public/assets/navbar/history.svg";
+import logout from "@/public/assets/navbar/logout.svg";
+import menu from "@/public/assets/navbar/menu.svg";
+import sisterlogo from "@/public/assets/sister-logo.svg";
 import Link from "next/link";
 import axios from "axios";
 
-const NavBar = ({ setOpenModal }) => {
+export default function NavBar({ setOpenModal }) {
   const [userData, setUserData] = useState();
   const [userId, setUserId] = useState();
 
@@ -177,6 +177,4 @@ const NavBar = ({ setOpenModal }) => {
       </section>
     </nav>
   );
-};
-
-export default NavBar;
+}
