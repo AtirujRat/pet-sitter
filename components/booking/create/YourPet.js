@@ -132,7 +132,7 @@ export default function YourPet() {
                     <img
                       src={pet.pet_image_url}
                       alt="test"
-                      className="w-20 h-20"
+                      className="w-20 h-20 rounded-full"
                     />
                     <h4 className="text-h4">{pet.name}</h4>
                     <p>{petTypeComponents[pet.type]}</p>
