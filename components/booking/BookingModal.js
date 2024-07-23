@@ -31,7 +31,7 @@ const timeSchedule = [
   "18:00 PM",
 ];
 
-const validateCalendar = (value) => {
+function validateCalendar(value) {
   let error;
   const selectedDate = new Date(value);
   const today = new Date();
@@ -42,9 +42,9 @@ const validateCalendar = (value) => {
   }
 
   return error;
-};
+}
 
-const convertToDate = (time) => {
+function convertToDate(time) {
   const [timeStr, modifier] = time.split(" ");
   let [hours, minutes] = timeStr.split(":").map(Number);
 
@@ -55,9 +55,9 @@ const convertToDate = (time) => {
   }
 
   return new Date(1970, 0, 1, hours, minutes);
-};
+}
 
-const validateTimeSchedule = (value1, value2) => {
+function validateTimeSchedule(value1, value2) {
   if (value1 === "" || value2 === "") {
     return "Require";
   }
@@ -70,9 +70,9 @@ const validateTimeSchedule = (value1, value2) => {
   }
 
   return "";
-};
+}
 
-const BookingModal = ({ setIsBookingModalOpen }) => {
+export default function BookingModal() {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [toggleStartTime, setToggleStartTime] = useState(false);
@@ -90,7 +90,7 @@ const BookingModal = ({ setIsBookingModalOpen }) => {
     }
   }, [startTime, endTime]);
 
-  const createBooking = async (formdata) => {
+  async function createBooking(formdata) {
     if (startTime === "" || endTime === "") {
       setTimeError("Require");
       return;
@@ -108,7 +108,7 @@ const BookingModal = ({ setIsBookingModalOpen }) => {
       last_updated: new Date(),
       price: "",
     });
-  };
+  }
 
   return (
     <Formik
@@ -226,6 +226,4 @@ const BookingModal = ({ setIsBookingModalOpen }) => {
       )}
     </Formik>
   );
-};
-
-export default BookingModal;
+}

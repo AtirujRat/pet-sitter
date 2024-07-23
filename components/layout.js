@@ -51,12 +51,21 @@ export default function Layout({ children }) {
           src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
         />
       </Head>
+<<<<<<< HEAD
       <OnwerProvider>
         <BookingProvider>
           <SearchProvider>
             <SittersProvider>
               <div className="w-full">
                 {!isNoLayoutRoute && (
+=======
+      <OwnersAccountStateProvider>
+        <OwnerProvider>
+          <BookingProvider>
+            <SearchProvider>
+              <div className="w-full">
+                {!noLayoutRoutes.includes(router.pathname) && (
+>>>>>>> 666075e (feat:create booking history page)
                   <NavBar setOpenModal={() => setOpenModal((prev) => !prev)} />
                 )}
                 {openModal && (
@@ -67,12 +76,21 @@ export default function Layout({ children }) {
                   </div>
                 )}
                 <div>{children}</div>
+<<<<<<< HEAD
                 {!isNoLayoutRoute && <NavBar />}
               </div>
             </SittersProvider>
           </SearchProvider>
         </BookingProvider>
       </OnwerProvider>
+=======
+                {!noLayoutRoutes.includes(router.pathname) && <Footer />}
+              </div>
+            </SearchProvider>
+          </BookingProvider>
+        </OwnerProvider>
+      </OwnersAccountStateProvider>
+>>>>>>> 666075e (feat:create booking history page)
     </>
   );
 }

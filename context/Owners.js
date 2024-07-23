@@ -1,13 +1,10 @@
 import { supabase } from "@/utils/supabase";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext } from "react";
 
-export const OnwerContext = createContext();
+const OwnerContext = createContext();
 
-export function OnwerProvider(props) {
-  const [userData, setUserData] = useState();
-  const [userId, setUserId] = useState();
-
-  async function getUser() {
+function OwnerProvider(props) {
+  async function getUserAuth() {
     const {
       data: { user },
       error,
@@ -17,28 +14,33 @@ export function OnwerProvider(props) {
       console.error("error");
       return;
     }
-    setUserData(user);
-
-    const { data: owners_id, error: getIdError } = await supabase
-      .from("owners")
-      .select("id")
-      .eq("email", user.email);
-
-    if (getIdError) {
-      console.log(getIdError);
-      return;
-    }
-
-    setUserId(owners_id[0].id);
+    return user;
   }
 
-  useEffect(() => {
-    getUser();
-  }, []);
+  async function getUserData() {
+    const user_email = await getUserAuth();
+    if (user_email) {
+      const { data: owners, error } = await supabase
+        .from("owners")
+        .select("*")
+        .eq("email", user_email.email);
+      if (error) {
+        console.log(error);
+        return;
+      }
+      return owners;
+    } else {
+      return;
+    }
+  }
 
   return (
-    <OnwerContext.Provider value={{ userId: userId, userData: userData }}>
+    <OwnerContext.Provider value={{ getUserAuth, getUserData }}>
       {props.children}
-    </OnwerContext.Provider>
+    </OwnerContext.Provider>
   );
 }
+
+const useOwners = () => useContext(OwnerContext);
+
+export { OwnerProvider, useOwners };
