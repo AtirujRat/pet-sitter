@@ -16,9 +16,9 @@ import { useCalculateDutation } from "@/hook/useCalculatedDuration";
 import axios from "axios";
 import Loading from "@/components/Loading";
 import ReviewModal from "@/components/review/ReviewModal";
-import { useOwners } from "@/context/Owners";
 import YourReview from "@/components/review/YourReview";
 import SideBarOwners from "@/components/owners/SideBarOwners";
+import { useOwners } from "@/context/Owners";
 
 const BOOKING_STATUS = {
   Waiting_for_confirm: "ps-pink-500",
@@ -46,21 +46,22 @@ export default function BookingHistory() {
 
   async function getBookingHistory() {
     try {
-      const getOwnerEmail = await getUserAuth();
+      const ownerEmail = await getUserAuth();
 
-      const ownerEmail = await axios.post("/api/owners/ownerdata", {
-        email: getOwnerEmail.email,
+      const ownerData = await axios.post(`/api/owner/ownerdata`, {
+        email: ownerEmail.email,
       });
-      console.log(ownerEmail);
-      setOnwerData(ownerEmail.data);
+
+      setOnwerData(ownerData.data);
 
       const getBookingList = await axios.post("/api/booking/bookinglist", {
-        id: ownerEmail.data[0].id,
+        id: ownerData.data[0].id,
       });
       setBookingList(getBookingList.data);
     } catch (error) {
       setLoading(false);
       setError("Could not fetch Booking List");
+      console.log(error);
       return;
     }
 

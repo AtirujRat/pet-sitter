@@ -1,16 +1,18 @@
-import { useParams } from "next/navigation";
 import { useRouter } from "next/router";
 import { createContext, useContext, useState } from "react";
+
 const OwnersAccountStateContext = createContext();
 
 function OwnersAccountStateProvider(props) {
-  const [accountState, setAccountState] = useState("profile");
   const router = useRouter();
   const { id } = router.query;
 
+  const [accountState, setAccountState] = useState(() =>
+    router.pathname.split("/").pop()
+  );
+
   function changeAccountStateHandle(state) {
     setAccountState(state);
-
     router.push(`/owners/${id}/${state}`);
   }
 
