@@ -7,7 +7,6 @@ export const formatDateWithYear = (isoDate) => {
   return `${day} ${month} ${year}`;
 };
 
-// ฟังก์ชันที่เหลือยังคงอยู่เหมือนเดิม
 export const formatDateWithoutYear = (isoDate) => {
   const date = new Date(isoDate);
   const day = date.getDate();
