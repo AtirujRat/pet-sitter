@@ -10,12 +10,12 @@ export default function Reviews({ sitter, averageRating }) {
   const selectedReviews = reviews
     .filter((review) => {
       return (
-        selectedRating === null || review.reviews[0].rating === selectedRating
+        selectedRating === null || review.reviews.rating === selectedRating
       );
     })
     .sort((a, b) => {
-      const dateA = new Date(a.reviews[0].updated_at);
-      const dateB = new Date(b.reviews[0].updated_at);
+      const dateA = new Date(a.reviews.updated_at);
+      const dateB = new Date(b.reviews.updated_at);
       return dateB - dateA;
     });
 
@@ -43,7 +43,7 @@ export default function Reviews({ sitter, averageRating }) {
       ) : (
         selectedReviews.map((review, index) => {
           let options = { year: "numeric", month: "short", day: "numeric" };
-          const reviewDate = new Date(review.reviews[0].updated_at);
+          const reviewDate = new Date(review.reviews.updated_at);
           const formattedReviewDate = reviewDate.toLocaleDateString(
             "en-US",
             options
@@ -71,15 +71,15 @@ export default function Reviews({ sitter, averageRating }) {
                   </div>
                 </div>
                 <div className="xl:hidden h-3">
-                  <SmallReviewRating ratingStars={review.reviews[0].rating} />
+                  <SmallReviewRating ratingStars={review.reviews.rating} />
                 </div>
               </div>
               <div className="review-content w-full flex flex-col gap-4">
                 <div className="max-xl:hidden">
-                  <ReviewRating ratingStars={review.reviews[0].rating} />
+                  <ReviewRating ratingStars={review.reviews.rating} />
                 </div>
                 <p className="sm:text-b2 text-b3 text-ps-gray-500">
-                  {review.reviews[0].description}
+                  {review.reviews.description}
                 </p>
               </div>
             </div>

@@ -4,7 +4,7 @@ export default function useCalculateRatingStars(bookings) {
 
   if (bookings) {
     const approvedReviews = bookings.filter(
-      (booking) => booking.reviews[0].status === "approved"
+      (booking) => booking.reviews.status === "approved"
     );
 
     if (approvedReviews.length === 0) {
@@ -12,7 +12,7 @@ export default function useCalculateRatingStars(bookings) {
     }
 
     const totalRating = approvedReviews.reduce(
-      (acc, cur) => acc + cur.reviews[0].rating,
+      (acc, cur) => acc + cur.reviews.rating,
       0
     );
     averageRating = (totalRating / approvedReviews.length).toFixed(2)
