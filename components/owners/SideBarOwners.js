@@ -11,7 +11,7 @@ function SideBarOwners() {
   const { accountState, changeAccountStateHandle } = useOwnerAccount();
 
   return (
-    <section className="w-fit h-fit sticky top-5">
+    <section className="w-fit h-fit md:sticky top-5">
       <div className="flex flex-col items-start w-full lg:w-[292px] lg:h-[356px] lg:rounded-2xl bg-ps-white shadow-md overflow-x-scroll lg:overflow-hidden">
         <h1 className="text-h4 hidden lg:block px-[20px] py-[20px]">Account</h1>
         <div className="text-b1 flex justify-between min-w-max lg:min-w-full lg:flex-col">

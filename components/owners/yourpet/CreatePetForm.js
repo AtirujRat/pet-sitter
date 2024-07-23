@@ -105,18 +105,6 @@ export default function CreatePetForm() {
       {({ isSubmitting, setFieldValue }) => (
         <Form className="w-full">
           <div className="flex w-full flex-col gap-10 max-sm:gap-4">
-            <button
-              className="flex items-center gap-2 mb-3"
-              onClick={() => router.back()}
-            >
-              <Image
-                src="/assets/icons/icon-previous.svg"
-                alt="icon-previous"
-                width={24}
-                height={24}
-              />
-              <p className="flex text-h3 gap-2">Your Pet</p>
-            </button>
             {/* upload image */}
             <div className="relative w-[240px] h-[240px]">
               {preview ? (

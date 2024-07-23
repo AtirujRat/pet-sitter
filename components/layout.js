@@ -32,6 +32,8 @@ export default function Layout({ children }) {
   const dynamicRoutesFooter = [
     "/sitters/[id]/booking/create",
     "/owners/[id]/yourpet",
+    "/owners/[id]/yourpet/create",
+    "/owners/[id]/yourpet/[petId]",
   ];
 
   const dynamicRoutesRegex = dynamicRoutes.map(
