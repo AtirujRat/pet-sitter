@@ -81,6 +81,7 @@ export default function YourPet() {
       setOnselectPet(!onselectPet);
     }
   }
+  console.log(petData);
 
   if (sitter.pet_types) {
     for (let i = 0; i < sitter.pet_types.length; i++) {
@@ -119,7 +120,7 @@ export default function YourPet() {
                     ) ? null : pet.status !== "active" ? null : (
                       <input
                         type="checkbox"
-                        value={pet.type}
+                        value={pet.name}
                         onChange={handlePetSelect}
                         checked={select[pet.type]}
                         onClick={() => {
@@ -128,7 +129,11 @@ export default function YourPet() {
                         className="checkbox checkbox-primary [--chkfg:white] border border-ps-gray-300 hover:border-ps-orange-300 focus:border-ps-orange-300 absolute top-2 right-2"
                       />
                     )}
-                    <Image src={test} alt="test" className="w-20 h-20" />
+                    <img
+                      src={pet.pet_image_url}
+                      alt="test"
+                      className="w-20 h-20"
+                    />
                     <h4 className="text-h4">{pet.name}</h4>
                     <p>{petTypeComponents[pet.type]}</p>
                   </div>
