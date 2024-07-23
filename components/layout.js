@@ -7,8 +7,10 @@ import { usePathname } from "next/navigation";
 import Script from "next/script";
 import { SearchProvider } from "@/context/Search";
 import { BookingProvider } from "@/context/Booking";
-import { OnwerProvider } from "@/context/Owners";
+
 import { SittersProvider } from "@/context/SittersProvider";
+import { OwnerProvider } from "@/context/Owners";
+import { OwnersAccountStateProvider } from "@/context/OwnersAccountState";
 
 export default function Layout({ children }) {
   const [openModal, setOpenModal] = useState(false);
@@ -51,28 +53,32 @@ export default function Layout({ children }) {
         defer
         src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
       />
-      <OnwerProvider>
-        <BookingProvider>
-          <SearchProvider>
-            <SittersProvider>
-              <div className="w-full">
-                {!isNoLayoutRoute && (
-                  <NavBar setOpenModal={() => setOpenModal((prev) => !prev)} />
-                )}
-                {openModal && (
-                  <div className="absolute top-15 right-0 size-10 bg-ps-white w-full h-full z-10">
-                    <LoginMobile
+      <OwnersAccountStateProvider>
+        <OwnerProvider>
+          <BookingProvider>
+            <SearchProvider>
+              <SittersProvider>
+                <div className="w-full">
+                  {!isNoLayoutRoute && (
+                    <NavBar
                       setOpenModal={() => setOpenModal((prev) => !prev)}
                     />
-                  </div>
-                )}
-                <div>{children}</div>
-                {!isNoLayoutRoute && !isNoFooterRoute && <Footer />}
-              </div>
-            </SittersProvider>
-          </SearchProvider>
-        </BookingProvider>
-      </OnwerProvider>
+                  )}
+                  {openModal && (
+                    <div className="absolute top-15 right-0 size-10 bg-ps-white w-full h-full z-10">
+                      <LoginMobile
+                        setOpenModal={() => setOpenModal((prev) => !prev)}
+                      />
+                    </div>
+                  )}
+                  <div>{children}</div>
+                  {!isNoLayoutRoute && !isNoFooterRoute && <Footer />}
+                </div>
+              </SittersProvider>
+            </SearchProvider>
+          </BookingProvider>
+        </OwnerProvider>
+      </OwnersAccountStateProvider>
     </>
   );
 }

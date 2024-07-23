@@ -1,8 +1,8 @@
 import axios from "axios";
-import { createContext, useState, useContext, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 
 export const BookingContext = createContext();
-export const useBooking = () => useContext(BookingContext);
+
 export function BookingProvider(props) {
   const [booking, setBooking] = useState(() => {
     if (typeof window !== "undefined") {

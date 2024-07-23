@@ -5,10 +5,10 @@ import yourPet_icon from "@/public/assets/account/your-pet.svg";
 import yourPet_icon_active from "@/public/assets/account/your-pet-active.svg";
 import list_icon from "@/public/assets/account/list.svg";
 import list_icon_active from "@/public/assets/account/list-active.svg";
-import { useOwnerAccount } from "@/pages/context/OwnersAccountState";
+import { useOwnerAccount } from "@/context/OwnersAccountState";
 
 function SideBarOwners() {
-  const { changeAccountStateHandle, accountState } = useOwnerAccount();
+  const { accountState, changeAccountStateHandle } = useOwnerAccount();
 
   return (
     <section className="w-fit h-fit sticky top-5">
@@ -35,7 +35,7 @@ function SideBarOwners() {
           <button
             onClick={() => changeAccountStateHandle("yourpet")}
             className={`flex gap-5 ${
-              accountState === "your-pet"
+              accountState === "yourpet"
                 ? "bg-ps-orange-100 text-ps-orange-500"
                 : "text-ps-gray-500 hover:text-ps-orange-500"
             }  py-[20px] px-[20px] `}
@@ -43,7 +43,7 @@ function SideBarOwners() {
             <Image
               className="w-[25px] h-[24px] hover:text-ps-orange-500"
               src={
-                accountState === "your-pet" ? yourPet_icon_active : yourPet_icon
+                accountState === "yourpet" ? yourPet_icon_active : yourPet_icon
               }
               alt="your pet icon"
             />
@@ -52,7 +52,7 @@ function SideBarOwners() {
           <button
             onClick={() => changeAccountStateHandle("bookinghistory")}
             className={`flex gap-5 ${
-              accountState === "booking-history"
+              accountState === "bookinghistory"
                 ? "bg-ps-orange-100 text-ps-orange-500"
                 : "text-ps-gray-500"
             }  py-[20px] px-[20px] hover:text-ps-orange-500 `}
@@ -60,9 +60,7 @@ function SideBarOwners() {
             <Image
               className="w-[25px] h-[24px] hover:text-ps-orange-500"
               src={
-                accountState === "booking-history"
-                  ? list_icon_active
-                  : list_icon
+                accountState === "bookinghistory" ? list_icon_active : list_icon
               }
               alt="booking history icon"
             />
@@ -71,7 +69,7 @@ function SideBarOwners() {
           <button
             onClick={() => changeAccountStateHandle("changepassword")}
             className={`flex gap-5 ${
-              accountState === "change-password"
+              accountState === "changepassword"
                 ? "bg-ps-orange-100 text-ps-orange-500"
                 : "text-ps-gray-500"
             }  py-[20px] px-[20px] hover:text-ps-orange-500 `}
@@ -79,9 +77,7 @@ function SideBarOwners() {
             <Image
               className="w-[25px] h-[24px] hover:text-ps-orange-500"
               src={
-                accountState === "change-password"
-                  ? list_icon_active
-                  : list_icon
+                accountState === "changepassword" ? list_icon_active : list_icon
               }
               alt="change password icon"
             />

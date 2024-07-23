@@ -6,7 +6,7 @@ import {
   ButtonOrange,
   ButtonOrangeLight,
 } from "@/components/buttons/OrangeButtons";
-import SideBarOwners from "@/components/owners/SideBarOwners";
+
 import Modal from "@/components/modal/Modal";
 import ReportModal from "@/components/bookinghistory/ReportModal";
 import BookingDetailModal from "@/components/bookinghistory/BookingDetailModal";
@@ -16,10 +16,11 @@ import { useCalculateDutation } from "@/hook/useCalculatedDuration";
 import axios from "axios";
 import Loading from "@/components/Loading";
 import ReviewModal from "@/components/review/ReviewModal";
+import { useOwners } from "@/context/Owners";
 import YourReview from "@/components/review/YourReview";
-import { useOwners } from "@/pages/context/Owners";
+import SideBarOwners from "@/components/owners/SideBarOwners";
 
-export const BOOKING_STATUS = {
+const BOOKING_STATUS = {
   Waiting_for_confirm: "ps-pink-500",
   Waiting_for_service: "ps-yellow-200",
   In_service: "ps-blue-500",
@@ -50,6 +51,7 @@ export default function BookingHistory() {
       const ownerEmail = await axios.post("/api/owners/ownerdata", {
         email: getOwnerEmail.email,
       });
+      console.log(ownerEmail);
       setOnwerData(ownerEmail.data);
 
       const getBookingList = await axios.post("/api/booking/bookinglist", {

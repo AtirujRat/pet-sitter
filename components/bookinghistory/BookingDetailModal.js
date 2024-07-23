@@ -4,9 +4,15 @@ import Image from "next/image";
 import { useGetOnlyDate } from "@/hook/useGetOnlyDate";
 import { useGetOnlyTime } from "@/hook/useGetOnlyTime";
 import { useCalculateDutation } from "@/hook/useCalculatedDuration";
-import { BOOKING_STATUS } from "@/pages/owners/[id]/bookinghistory";
 
 export default function BookingDetailModal(props) {
+  const BOOKING_STATUS = {
+    Waiting_for_confirm: "ps-pink-500",
+    Waiting_for_service: "ps-yellow-200",
+    In_service: "ps-blue-500",
+    Success: "ps-green-500",
+    Canceled: "ps-red",
+  };
   return (
     <div className="w-[100vw] h-[100vh] lg:w-[632px] lg:h-[564px] bg-ps-white lg:rounded-2xl">
       <div className="flex justify-between py-[24px] px-[40px] border-b-[1px] border-ps-gray-200">

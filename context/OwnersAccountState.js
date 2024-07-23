@@ -6,17 +6,20 @@ const OwnersAccountStateContext = createContext();
 function OwnersAccountStateProvider(props) {
   const [accountState, setAccountState] = useState("profile");
   const router = useRouter();
-  const param = useParams();
+  const { id } = router.query;
 
   function changeAccountStateHandle(state) {
     setAccountState(state);
 
-    router.push(`/owners/${param.id}/${state}`);
+    router.push(`/owners/${id}/${state}`);
   }
 
   return (
     <OwnersAccountStateContext.Provider
-      value={{ accountState: accountState, changeAccountStateHandle }}
+      value={{
+        accountState: accountState,
+        changeAccountStateHandle,
+      }}
     >
       {props.children}
     </OwnersAccountStateContext.Provider>
