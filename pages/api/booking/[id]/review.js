@@ -44,17 +44,62 @@ export default async function handler(req, res) {
       ]);
 
       if (error) {
-        console.error("Error inserting review:", error);
         throw error;
       }
 
       return res.status(201).json({ message: "Review created successfully" });
-    } catch (error) {
-      console.error("Error creating Review:", error);
+    } catch {
       return res.status(500).json({ message: "Error creating Review" });
     }
+  } else if (req.method === "PUT") {
+    try {
+      const { rating, status, description } = req.body;
+      const updateData = {};
+
+      if (!rating && !status && !description) {
+        return res.status(400).json({ message: "Missing required fields" });
+      }
+
+      if (rating !== undefined) updateData.rating = rating;
+      if (status !== undefined) updateData.status = status;
+      if (description !== undefined) updateData.description = description;
+      updateData.updated_at = new Date();
+
+      if (Object.keys(updateData).length === 0) {
+        return res.status(400).json({ message: "No fields to update" });
+      }
+
+      const { data: updatedReview, error } = await supabase
+        .from("reviews")
+        .update(updateData)
+        .eq("booking_id", id);
+
+      if (error) {
+        console.error("Error updating review:", error);
+        throw error;
+      }
+
+      return res.status(200).json({ message: "Review updated successfully" });
+    } catch {
+      return res.status(500).json({ message: "Error updating review" });
+    }
+  } else if (req.method === "DELETE") {
+    try {
+      const { data: deletedReview, error } = await supabase
+        .from("reviews")
+        .delete()
+        .eq("booking_id", id);
+
+      if (error) {
+        throw error;
+      }
+
+      return res.status(200).json({ message: "Review deleted successfully" });
+    } catch {
+      return res.status(500).json({ message: "Error deleting review" });
+    }
   } else {
-    res.setHeader("Allow", ["GET", "POST"]);
+    res.setHeader("Allow", ["GET", "POST", "PUT", "DELETE"]);
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }
