@@ -17,6 +17,7 @@ export default function BookingSuccess() {
   async function getData() {
     try {
       const bookingData = await axios.get(`/api/sitters/${id}/booking`);
+      console.log(bookingData);
       setTransaction(bookingData.data.data);
     } catch (error) {
       console.log("error");

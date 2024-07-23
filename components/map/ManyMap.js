@@ -9,7 +9,7 @@ export default function ManyMap() {
   console.log(sitters);
   const containerStyle = {
     width: "100%",
-    height: "100%",
+    height: "750px",
     borderRadius: "8px",
   };
 

@@ -39,21 +39,21 @@ export default function Sitters() {
 
   return (
     <section className="w-full flex justify-center bg-ps-gray-100 sm:py-8 pt-4 lg:pb-32">
-      <div className="page-container w-full sm:px-20 max-w-[1440px] flex flex-col items-center h-screen">
+      <div className="page-container w-full sm:px-20 max-w-[1440px] flex flex-col items-center h-full">
         <PageTitleDesktop />
-        <div className="flex gap-8 max-lg:flex-col lg:mb-11 w-full h-full">
+        <div className="flex gap-8 max-lg:flex-col lg:mb-11 w-full">
           <SearchBarSitter />
           <PageTitleMobile />
           {selectMap === "list" ? (
             <SittersList sitters={sitters} />
           ) : (
-            <div className="w-[70%] h-full relative">
+            <div className="w-[70%] relative">
               <ManyMap />
               <SittersList sitters={sitters} />
             </div>
           )}
         </div>
-        {/* <Pagination /> */}
+        <Pagination />
       </div>
     </section>
   );
