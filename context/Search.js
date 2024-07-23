@@ -1,8 +1,11 @@
 import { createContext, useState, useContext } from "react";
 
 const SearchContext = createContext();
+export function useSearch() {
+  return useContext(SearchContext);
+}
 
-function SearchProvider(props) {
+export function SearchProvider(props) {
   const [searchLat, setSearchLat] = useState(13.7563309);
   const [searchLng, setSearchLng] = useState(100.5017651);
   const [address, setAddress] = useState({});
@@ -10,7 +13,7 @@ function SearchProvider(props) {
   const location = ({ lat, lng }) => {
     setSearchLat(lat);
     setSearchLng(lng);
-    console.log(searchLat, searchLng);
+    setAddress({ ...address, lat, lng });
   };
 
   return (
@@ -27,7 +30,3 @@ function SearchProvider(props) {
     </SearchContext.Provider>
   );
 }
-
-const useSearch = () => useContext(SearchContext);
-
-export { SearchProvider, useSearch };

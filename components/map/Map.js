@@ -3,7 +3,7 @@ import { GoogleMap, useJsApiLoader, MarkerF } from "@react-google-maps/api";
 import { useSearch } from "@/context/Search";
 
 export default function Map({ draggable }) {
-  const { searchLat, searchLng } = useSearch();
+  const { searchLat, searchLng, location } = useSearch();
   const containerStyle = {
     width: "100%",
     height: "100%",
@@ -11,7 +11,7 @@ export default function Map({ draggable }) {
   };
 
   const center = {
-    lat: searchLat+0.0007,
+    lat: searchLat + 0.0007,
     lng: searchLng,
   };
 
@@ -35,15 +35,14 @@ export default function Map({ draggable }) {
     scaledSize: { width: 75, height: 75 },
   };
 
-  const markerClicked = (event) => {
+  function markerClicked(event) {
     console.log(event.latLng.lat());
     console.log(event.latLng.lng());
-  };
+  }
 
-  const markerFinishDrag = (event) => {
-    console.log(event.latLng.lat());
-    console.log(event.latLng.lng());
-  };
+  function markerFinishDrag(event) {
+    location({ lat: event.latLng.lat(), lng: event.latLng.lng() });
+  }
 
   return isLoaded ? (
     <GoogleMap
@@ -63,7 +62,6 @@ export default function Map({ draggable }) {
         onDragEnd={markerFinishDrag}
         // visible={false}
       />
-      <></>
     </GoogleMap>
   ) : (
     <></>

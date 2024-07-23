@@ -40,14 +40,14 @@ export default function RegisterForm(props) {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
-  const getData = async (data) => {
+  async function getData(data) {
     try {
       await axios.post(props.api, data);
       alert("register successful");
     } catch (e) {
       alert("connection error");
     }
-  };
+  }
 
   return (
     <Formik
@@ -55,6 +55,7 @@ export default function RegisterForm(props) {
       onSubmit={(values, { setSubmitting }) => {
         setSubmitting(false);
         getData(values);
+        router.push(props.api);
       }}
     >
       {({ errors, touched, isSubmitting, values }) => (
