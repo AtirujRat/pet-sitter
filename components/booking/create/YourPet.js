@@ -143,7 +143,7 @@ export default function YourPet() {
               <button
                 type="button"
                 onClick={() => {
-                  router.push(`/owners/${id}/yourpet/create`);
+                  router.push(`/owners/${petData[0].owner_id}/yourpet/create`);
                 }}
                 className="w-full lg:w-[30%] h-[240px] lg:h-[50%] hover:bg-ps-orange-200 active:scale-95 bg-ps-orange-100 border-none rounded-2xl flex flex-col justify-center items-center gap-2"
               >
