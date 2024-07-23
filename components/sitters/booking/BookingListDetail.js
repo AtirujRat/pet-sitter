@@ -28,6 +28,7 @@ import {
 } from "@/components/buttons/OrangeButtons";
 import PetCard from "@/components/owners/yourpet/PetCard";
 import BookingModal from "./BookingModal";
+import Loading from "@/components/Loading";
 
 export default function BookingListDetail({ bookingId }) {
   const router = useRouter();
@@ -36,7 +37,7 @@ export default function BookingListDetail({ bookingId }) {
   newLocation.pop();
   const pathName = newLocation.join("/");
 
-  const { setLoading } = useSitters();
+  const { loading, setLoading, refresh, setRefresh } = useSitters();
 
   const [booking, setBooking] = useState([]);
   const [openModalProfile, setOpenModalProifle] = useState(false);
@@ -50,7 +51,6 @@ export default function BookingListDetail({ bookingId }) {
     inservice: InService,
     success: Success,
     canceled: Canceled,
-    cancelled: Canceled,
   };
 
   const getBooking = async () => {
@@ -64,7 +64,7 @@ export default function BookingListDetail({ bookingId }) {
 
   useEffect(() => {
     getBooking();
-  }, [bookingId]);
+  }, [bookingId, refresh]);
 
   const duration = calculateDurationInHours(
     booking?.start_time,
@@ -94,6 +94,17 @@ export default function BookingListDetail({ bookingId }) {
     return StatusComponent ? <StatusComponent /> : status;
   };
 
+  async function changeBookingStatus(updatedStatus) {
+    await axios.patch(`http://localhost:3000/api/booking/${bookingId}`, {
+      status: updatedStatus,
+    });
+    setRefresh(!refresh);
+  }
+
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <div className="flex flex-col gap-6">
       <div className="flex justify-between">
@@ -109,17 +120,38 @@ export default function BookingListDetail({ bookingId }) {
           <p>{getStatusComponent(booking?.status)}</p>
         </div>
         <div className="flex gap-2">
-          <ButtonOrangeLight
-            id="reject booking"
-            text="Reject Booking"
-            width="w-[175px]"
-            onClick={() => setOpenModalReject(true)}
-          />
-          <ButtonOrange
-            id="confirm booking"
-            text="Confirm Booking"
-            width="w-[160px]"
-          />
+          {booking.status === "Waiting for confirm" && (
+            <>
+              <ButtonOrangeLight
+                id="reject booking"
+                text="Reject Booking"
+                width="w-[175px]"
+                onClick={() => setOpenModalReject(true)}
+              />
+              <ButtonOrange
+                id="confirm booking"
+                text="Confirm Booking"
+                width="w-[160px]"
+                onClick={() => changeBookingStatus("Waiting for service")}
+              />
+            </>
+          )}
+          {booking.status === "Waiting for service" && (
+            <ButtonOrange
+              id="in service"
+              text="In service"
+              width="w-[160px]"
+              onClick={() => changeBookingStatus("In service")}
+            />
+          )}
+          {booking.status === "In service" && (
+            <ButtonOrange
+              id="Success"
+              text="Success"
+              width="w-[160px]"
+              onClick={() => changeBookingStatus("Success")}
+            />
+          )}
         </div>
       </div>
 
@@ -229,6 +261,10 @@ export default function BookingListDetail({ bookingId }) {
                 id="reject Confirm"
                 text="Reject Booking"
                 width="w-[160px]"
+                onClick={() => {
+                  changeBookingStatus("Canceled");
+                  setOpenModalReject(false);
+                }}
               />
             </div>
           </div>

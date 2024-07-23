@@ -24,6 +24,23 @@ export default async function handler(req, res) {
     } catch (error) {
       return res.status(500).json({ error: error.message });
     }
+  } else if (req.method === "PATCH") {
+    try {
+      const { id } = req.query;
+      const updatedStatus = req.body.status;
+
+      const { data, error } = await supabase
+        .from("bookings")
+        .update({ status: updatedStatus })
+        .eq("id", id)
+        .select();
+
+      return res.status(200).json({
+        message: "Booking status was updated successfully",
+      });
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
   } else {
     return res.status(405).json({ error: "Method Not Available" });
   }

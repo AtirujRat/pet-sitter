@@ -32,7 +32,6 @@ export default function BookingList({ id }) {
     inservice: InService,
     success: Success,
     canceled: Canceled,
-    cancelled: Canceled,
   };
 
   const debounce = (func, delay = 700) => {
