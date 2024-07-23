@@ -69,7 +69,8 @@ export default async function handler(req, res) {
         description === undefined
       ) {
         return res.status(400).json({
-          message: "Server could not find a requested review to update",
+          message:
+            "Server could not update review because because there are missing data from client",
         });
       }
 
