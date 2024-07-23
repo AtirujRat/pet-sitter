@@ -14,15 +14,20 @@ export default async function handler(req, res) {
 
       let { data: booking, error } = await supabaseQuery;
 
-      if (error) {
-        throw error;
+      if (!booking || booking.length === 0) {
+        return res.status(404).json({
+          message: "Server could not find the request booking",
+        });
       }
 
       return res.status(200).json({
         data: booking,
       });
     } catch (error) {
-      return res.status(500).json({ error: error.message });
+      return res.status(500).json({
+        message:
+          "Server could not read the booking because database connection",
+      });
     }
   } else if (req.method === "PATCH") {
     try {
@@ -35,11 +40,20 @@ export default async function handler(req, res) {
         .eq("id", id)
         .select();
 
+      if (!data || data.length === 0) {
+        return res.status(404).json({
+          message: "Server could not find a booking to update",
+        });
+      }
+
       return res.status(200).json({
         message: "Booking status was updated successfully",
       });
     } catch (error) {
-      return res.status(500).json({ error: error.message });
+      return res.status(500).json({
+        message:
+          "Server could not update the booking because database connection",
+      });
     }
   } else {
     return res.status(405).json({ error: "Method Not Available" });

@@ -11,15 +11,19 @@ export default async function handler(req, res) {
         )
         .eq("id", id);
 
-      if (error) {
-        throw error;
+      if (!sitters || sitters.length === 0) {
+        return res.status(404).json({
+          message: "Server could not find the requested sitter",
+        });
       }
 
       return res.status(200).json({
         data: sitters,
       });
     } catch (error) {
-      return res.status(500).json({ error: error.message });
+      return res.status(500).json({
+        message: "Server could not read the sitter because database connection",
+      });
     }
   }
 
