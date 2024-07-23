@@ -60,7 +60,7 @@ export default function Reviews({ sitter, averageRating }) {
                     className="sm:w-14 sm:h-14 w-9 h-9 rounded-full object-cover bg-ps-gray-200"
                     src={
                       review.owners.profile_image_url ??
-                      "/assets/account/profile_white.svg"
+                      "/assets/booking/owner-profile.svg"
                     }
                   ></img>
                   <div className="reviewer-name">
