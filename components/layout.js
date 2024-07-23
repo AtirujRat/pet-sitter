@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import LoginMobile from "./mobilenavbar/LoginMobile";
 import { usePathname } from "next/navigation";
-import Head from "next/head";
+import Script from "next/script";
 import { SearchProvider } from "@/context/Search";
 import { BookingProvider } from "@/context/Booking";
 import { OnwerProvider } from "@/context/Owners";
@@ -25,12 +25,10 @@ export default function Layout({ children }) {
     "/login/updatepassword",
     "/sitters/[id]/booking/[bookingId]",
   ];
+  const dynamicRoutes = ["/sitters/[id]/profile", "/sitters/[id]/booking"];
 
-  const dynamicRoutes = [
-    "/sitters/[id]/profile",
-    "/sitters/[id]/booking",
-    "/sitters/[id]/booking/create",
-  ];
+  const dynamicRoutesFooter = ["/sitters/[id]/booking/create"];
+
   const dynamicRoutesRegex = dynamicRoutes.map(
     (route) => new RegExp(`^${route.replace("[id]", "[^/]+")}$`)
   );
@@ -39,18 +37,21 @@ export default function Layout({ children }) {
     noLayoutRoutes.includes(router.pathname) ||
     dynamicRoutesRegex.some((regex) => regex.test(router.pathname));
 
+  const isNoFooterRoute =
+    dynamicRoutesFooter.includes(router.pathname) ||
+    dynamicRoutesRegex.some((regex) => regex.test(router.pathname));
+
   useEffect(() => {
     setOpenModal(false);
   }, [pathName]);
 
   return (
     <>
-      <Head>
-        <script
-          defer
-          src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
-        />
-      </Head>
+      <Script
+        defer
+        src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
+      />
+
       <OnwerProvider>
         <BookingProvider>
           <SearchProvider>
@@ -67,7 +68,7 @@ export default function Layout({ children }) {
                   </div>
                 )}
                 <div>{children}</div>
-                {!isNoLayoutRoute && <NavBar />}
+                {!isNoLayoutRoute && !isNoFooterRoute && <Footer />}
               </div>
             </SittersProvider>
           </SearchProvider>

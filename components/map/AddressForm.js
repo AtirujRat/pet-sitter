@@ -13,39 +13,39 @@ export default function AddressForm({ existingAddress, validate }) {
   const [subDistrict, setSubDistrict] = useState([]);
 
   const { address, setAddress } = useSearch();
-  const getData = async () => {
+  async function getData() {
     const data = await axios.get(
       "https://raw.githubusercontent.com/kongvut/thai-province-data/master/api_province_with_amphure_tambon.json"
     );
     setProvince(data.data);
-  };
+  }
 
-  const handleInput = (e) => {
+  function handleInput(e) {
     setInput(e.target.value);
     setAddress({ ...address, address_detail: e.target.value });
     setFieldValue("address.address_detail", e.target.value);
-  };
+  }
 
-  const handleProvince = (event) => {
+  function handleProvince(event) {
     const data = province.filter((item) => {
       return item.id == event.target.value;
     });
-    setAddress({ province: data[0].name_en });
+    setAddress({ ...address, province: data[0].name_en });
     setFieldValue("address.province", data[0].name_en);
     setSubDistrict([]);
     setDistrict(data[0].amphure);
-  };
+  }
 
-  const handleDistrict = (event) => {
+  function handleDistrict(event) {
     const data = district.filter((item) => {
       return item.id == event.target.value;
     });
     setSubDistrict(data[0].tambon);
     setAddress({ ...address, district: data[0].name_en, zip_code: "" });
     setFieldValue("address.district", data[0].name_en);
-  };
+  }
 
-  const handleSubDistrict = (event) => {
+  function handleSubDistrict(event) {
     const data = subDistrict.filter((item) => {
       return item.id == event.target.value;
     });
@@ -56,7 +56,7 @@ export default function AddressForm({ existingAddress, validate }) {
     });
     setFieldValue("address.subDistrict", data[0].name_en);
     setFieldValue("address.zip_code", data[0].zip_code);
-  };
+  }
 
   useEffect(() => {
     getData();

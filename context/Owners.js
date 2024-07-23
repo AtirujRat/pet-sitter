@@ -1,11 +1,18 @@
+"use client";
 import { supabase } from "@/utils/supabase";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState, useContext } from "react";
 
 export const OnwerContext = createContext();
 
 export function OnwerProvider(props) {
   const [userData, setUserData] = useState();
-  const [userId, setUserId] = useState();
+  const [userId, setUserId] = useState(() => {
+    if (typeof window !== "undefined") {
+      const savedState = localStorage.getItem("user");
+      return savedState ? JSON.parse(savedState) : {};
+    }
+  });
+  const [petData, setPetData] = useState([]);
 
   async function getUser() {
     const {
@@ -21,7 +28,7 @@ export function OnwerProvider(props) {
 
     const { data: owners_id, error: getIdError } = await supabase
       .from("owners")
-      .select("id")
+      .select("*")
       .eq("email", user.email);
 
     if (getIdError) {
@@ -29,16 +36,23 @@ export function OnwerProvider(props) {
       return;
     }
 
-    setUserId(owners_id[0].id);
+    setUserId(owners_id[0]);
   }
+  console.log(userId);
 
   useEffect(() => {
-    getUser();
-  }, []);
+    if (userId) {
+      localStorage.setItem("user", JSON.stringify(userId));
+    }
+  }, [userId]);
 
   return (
-    <OnwerContext.Provider value={{ userId: userId, userData: userData }}>
+    <OnwerContext.Provider
+      value={{ userId, userData, getUser, petData, setPetData }}
+    >
       {props.children}
     </OnwerContext.Provider>
   );
 }
+
+export const useOwners = () => useContext(OnwerContext);

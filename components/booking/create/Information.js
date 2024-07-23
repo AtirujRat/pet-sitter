@@ -6,22 +6,30 @@ import {
   validateName,
   validateEmail,
   validatePhone,
-} from "../validate/validate";
-import { useContext } from "react";
-import { BookingContext } from "@/context/Booking";
+} from "./validate/validate";
+import { useBooking } from "@/context/Booking";
+import { useOwners } from "@/context/Owners";
 
 export default function Information() {
-  const { setStepBooking } = useContext(BookingContext);
+  const { setStepBooking, addBookingHandle, booking } = useBooking();
+  const { userId } = useOwners();
+
   return (
     <Formik
-      initialValues={{ name: "", email: "", phone: "", message: "" }}
+      initialValues={{
+        name: userId.full_name,
+        email: userId.email,
+        phone: userId.phone_number,
+        message: "",
+      }}
       onSubmit={(values, { setSubmitting }) => {
         setSubmitting(false);
-        console.log(values);
+        addBookingHandle({ ...booking, message: values.message });
+        setStepBooking("payment");
       }}
     >
       {({ errors, touched, isSubmitting, setFieldValue }) => (
-        <Form className="max-lg:hidden  w-full h-full p-10 flex flex-col gap-10 max-sm:gap-6 relative">
+        <Form className=" w-full h-full p-10 flex flex-col gap-10 max-sm:gap-6 relative">
           <div className="flex flex-col gap-2 relative">
             <label htmlFor="name" className="text-b2">
               Your Name*
@@ -30,6 +38,7 @@ export default function Information() {
               type="text"
               name="name"
               validate={validateName}
+              disabled
               placeholder="Full name"
               className={
                 errors.name && touched.name
@@ -46,14 +55,15 @@ export default function Information() {
             ) : null}
           </div>
 
-          <div className="w-full flex justify-between gap-10 relative">
-            <div className="w-[50%] flex flex-col relative">
+          <div className="w-full flex max-lg:flex-col lg:justify-between gap-10 relative">
+            <div className="w-full lg:w-[50%] flex flex-col relative">
               <label htmlFor="email" className="text-b2">
                 Email*
               </label>
               <Field
                 type="email"
                 name="email"
+                disabled
                 validate={validateEmail}
                 placeholder="youremail@company.com"
                 className={
@@ -71,13 +81,14 @@ export default function Information() {
               ) : null}
             </div>
 
-            <div className="w-[50%] flex flex-col relative">
+            <div className="w-full lg:w-[50%] flex flex-col relative">
               <label htmlFor="phone" className="text-b2">
                 Phone*
               </label>
               <Field
                 type="tel"
                 name="phone"
+                disabled
                 validate={validatePhone}
                 component={PhoneInput}
                 placeholder="xxx-xxx-xxxx"
@@ -115,18 +126,15 @@ export default function Information() {
           <button
             type="button"
             onClick={() => {
-              setStepBooking(1);
+              setStepBooking("your_pet");
             }}
-            className="btn hover:bg-ps-orange-200 px-12 bg-ps-orange-100 text-b2 text-ps-orange-500 border-none rounded-[99px] absolute bottom-14"
+            className="btn hover:bg-ps-orange-200 max-lg:w-[45%] lg:px-12 bg-ps-orange-100 text-b2 text-ps-orange-500 border-none rounded-[99px] absolute bottom-[-595px] max-lg:left-4 lg:bottom-14"
           >
             Back
           </button>
           <button
             type="summit"
-            onClick={() => {
-              setStepBooking(3);
-            }}
-            className="btn hover:bg-ps-orange-600 px-12 bg-ps-orange-500 text-b2 text-ps-white rounded-[99px] absolute bottom-14 right-10"
+            className="btn hover:bg-ps-orange-600 max-lg:w-[45%] lg:px-12 bg-ps-orange-500 text-b2 text-ps-white rounded-[99px] absolute bottom-[-595px] right-4 lg:bottom-14 lg:right-10"
           >
             Next
           </button>

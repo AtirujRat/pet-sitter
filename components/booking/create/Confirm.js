@@ -1,10 +1,18 @@
 import close from "@/public/assets/booking/create/close.svg";
 import Image from "next/image";
-import { useContext } from "react";
-import { BookingContext } from "@/context/Booking";
+import { useBooking } from "@/context/Booking";
 
 export default function Confirm() {
-  const { confirm, setConfirm } = useContext(BookingContext);
+  const { booking, setConfirm, handleBooking } = useBooking();
+  function handleOnclick() {
+    try {
+      handleBooking(booking);
+      setConfirm("booking detail");
+    } catch (error) {
+      console.log("error");
+    }
+  }
+
   return (
     <section className="w-[90%] lg:w-[400px] h-[210px] bg-ps-white rounded-2xl ">
       <div className="py-4 px-6 border-b-2 border-b-ps-gray-100 flex justify-between">
@@ -12,7 +20,7 @@ export default function Confirm() {
         <button
           type="button"
           onClick={() => {
-            setConfirm(!confirm);
+            setConfirm("booking");
           }}
         >
           <Image src={close} alt={close} />
@@ -27,17 +35,15 @@ export default function Confirm() {
           <button
             type="button"
             onClick={() => {
-              setConfirm(0);
+              setConfirm("booking");
             }}
             className="btn hover:bg-ps-orange-200 max-lg:w-[45%] lg:px-10 bg-ps-orange-100 text-ps-orange-500 text-b2 border-none rounded-[99px] "
           >
             Cancel
           </button>
           <button
-            type="summit"
-            onClick={() => {
-              setConfirm(2);
-            }}
+            type="button"
+            onClick={handleOnclick}
             className="btn hover:bg-ps-orange-600 max-lg:w-[45%] lg:px-6 bg-ps-orange-500 text-b2 text-ps-white rounded-[99px]"
           >
             Yes, I’m sure
