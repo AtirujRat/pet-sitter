@@ -59,6 +59,7 @@ export default function YourPet() {
       console.log(e);
     }
   }
+  console.log(booking);
 
   useEffect(() => {
     getData();
@@ -81,7 +82,6 @@ export default function YourPet() {
       setOnselectPet(!onselectPet);
     }
   }
-  console.log(petData);
 
   if (sitter.pet_types) {
     for (let i = 0; i < sitter.pet_types.length; i++) {

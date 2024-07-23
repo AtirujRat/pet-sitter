@@ -27,6 +27,7 @@ export function BookingProvider(props) {
       setSelect({});
       setSelectedPets([]);
       setPetname([]);
+      setPetId([]);
     }, 2000);
   }
   async function handleBooking(data) {
