@@ -30,7 +30,7 @@ export default function AddressForm({ existingAddress, validate }) {
     const data = province.filter((item) => {
       return item.id == event.target.value;
     });
-    setAddress({ province: data[0].name_en });
+    setAddress({ ...address, province: data[0].name_en });
     setFieldValue("address.province", data[0].name_en);
     setSubDistrict([]);
     setDistrict(data[0].amphure);
