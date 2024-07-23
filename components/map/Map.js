@@ -2,7 +2,7 @@ import React from "react";
 import { GoogleMap, useJsApiLoader, MarkerF } from "@react-google-maps/api";
 import { useSearch } from "@/context/Search";
 
-export default function Map() {
+export default function Map({ draggable }) {
   const { searchLat, searchLng, location } = useSearch();
   const containerStyle = {
     width: "100%",
@@ -57,7 +57,7 @@ export default function Map() {
       <MarkerF
         icon={pinIcon}
         position={{ lat: searchLat, lng: searchLng }}
-        draggable={true}
+        draggable={draggable}
         onClick={markerClicked}
         onDragEnd={markerFinishDrag}
         // visible={false}
