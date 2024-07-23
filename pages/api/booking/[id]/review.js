@@ -22,14 +22,19 @@ export default async function handler(req, res) {
 
       return res.status(200).json(review);
     } catch {
-      return res.status(500).json({ message: "Error fetching review" });
+      return res.status(500).json({
+        message: "Server could not read review because database connection",
+      });
     }
   } else if (req.method === "POST") {
     try {
       const { rating, description } = req.body;
 
       if (!rating) {
-        return res.status(400).json({ message: "Missing required fields" });
+        return res.status(400).json({
+          message:
+            "Server could not create review because because there are missing data from client",
+        });
       }
 
       const { data: newReview, error } = await supabase.from("reviews").insert([
@@ -47,9 +52,11 @@ export default async function handler(req, res) {
         throw error;
       }
 
-      return res.status(201).json({ message: "Review created successfully" });
+      return res.status(201).json({ message: "Created review successfully" });
     } catch {
-      return res.status(500).json({ message: "Error creating Review" });
+      return res.status(500).json({
+        message: "Server could not create review because database connection",
+      });
     }
   } else if (req.method === "PUT") {
     try {
@@ -57,17 +64,15 @@ export default async function handler(req, res) {
       const updateData = {};
 
       if (!rating && !status && !description) {
-        return res.status(400).json({ message: "Missing required fields" });
+        return res.status(404).json({
+          message: "Server could not find a requested review to update",
+        });
       }
 
       if (rating !== undefined) updateData.rating = rating;
       if (status !== undefined) updateData.status = status;
       if (description !== undefined) updateData.description = description;
       updateData.updated_at = new Date();
-
-      if (Object.keys(updateData).length === 0) {
-        return res.status(400).json({ message: "No fields to update" });
-      }
 
       const { data: updatedReview, error } = await supabase
         .from("reviews")
@@ -81,7 +86,9 @@ export default async function handler(req, res) {
 
       return res.status(200).json({ message: "Review updated successfully" });
     } catch {
-      return res.status(500).json({ message: "Error updating review" });
+      return res.status(500).json({
+        message: "Server could not update review because database connection",
+      });
     }
   } else if (req.method === "DELETE") {
     try {
