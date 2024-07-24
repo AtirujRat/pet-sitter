@@ -9,7 +9,7 @@ import connect from "@/public/assets/home/connect.svg";
 import calling from "@/public/assets/home/calling.svg";
 import better from "@/public/assets/home/better.svg";
 
-const ContentHomePage = () => {
+export default function ContentHomePage() {
   return (
     <div>
       {/* section 1 */}
@@ -148,6 +148,4 @@ const ContentHomePage = () => {
       </div>
     </div>
   );
-};
-
-export default ContentHomePage;
+}

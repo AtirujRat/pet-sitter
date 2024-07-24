@@ -21,7 +21,7 @@ export default function Sitters() {
     selectMap,
   } = useSitters();
 
-  const getSitters = async () => {
+ async function getSitters () {
     const res = await axios.get(
       `http://localhost:3000/api/sitters?name=${searchName}&pet=${petQuery}&exp=${experience}`
     );

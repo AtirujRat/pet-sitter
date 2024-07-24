@@ -22,13 +22,13 @@ export default function SitterDetails() {
   );
   const { setAddress } = useSearch();
 
-  const getSitter = async () => {
+  async function getSitter() {
     try {
       const res = await axios.get(`http://localhost:3000/api/sitters/${id}`);
       setSitter(res.data.data[0]);
       if (res.data.data[0].sitters_addresses) {
         setAddress({
-          add: res.data.data[0].sitters_addresses.address_detail,
+          address_detail: res.data.data[0].sitters_addresses.address_detail,
           subDistrict: res.data.data[0].sitters_addresses.sub_district,
           district: res.data.data[0].sitters_addresses.district,
           province: res.data.data[0].sitters_addresses.province,
@@ -41,7 +41,7 @@ export default function SitterDetails() {
     } catch (error) {
       console.error("Error fetching sitter data:", error);
     }
-  };
+  }
 
   useEffect(() => {
     if (id) {
@@ -90,27 +90,3 @@ export default function SitterDetails() {
     </section>
   );
 }
-
-// export async function getStaticPaths() {
-//   const res = await fetch("http://localhost:3000/api/sitters"); //
-//   const sitters = await res.json();
-//   const paths = sitters.data.map((sitter) => ({
-//     params: { id: sitter.id.toString() },
-//   }));
-
-//   return {
-//     paths,
-//     fallback: false,
-//   };
-// }
-
-// export async function getStaticProps({ params }) {
-//   const { id } = params;
-//   const res = await fetch(`http://localhost:3000/api/sitters/${id}`);
-//   const data = await res.json();
-//   return {
-//     props: {
-//       data,
-//     },
-//   };
-// }

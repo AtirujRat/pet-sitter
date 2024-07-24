@@ -1,6 +1,5 @@
 import Image from "next/image";
 import star from "/public/assets/star-rating.svg";
-import { useState } from "react";
 
 export default function RatingFilter({ selectedRating, setSelectedRating }) {
   const rate = [1, 2, 3, 4, 5];
