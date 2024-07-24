@@ -89,16 +89,11 @@ export default async function handler(req, res) {
       const { data: updatedReview, error } = await supabase
         .from("reviews")
         .update(updateData)
-        .eq("booking_id", id);
+        .eq("booking_id", id)
+        .single();
 
       if (error) {
         throw error;
-      }
-
-      if (!updatedReview || updatedReview.length === 0) {
-        return res.status(404).json({
-          message: `Server could not find a requested review for booking id ${id} to update`,
-        });
       }
 
       return res.status(200).json(updatedReview);
@@ -112,16 +107,11 @@ export default async function handler(req, res) {
       const { data: deletedReview, error } = await supabase
         .from("reviews")
         .delete()
-        .eq("booking_id", id);
+        .eq("booking_id", id)
+        .single();
 
       if (error) {
         throw error;
-      }
-
-      if (!deletedReview || deletedReview.length === 0) {
-        return res.status(404).json({
-          message: `Server could not find a requested review for booking id ${id} to delete`,
-        });
       }
 
       return res.status(200).json({ message: "Review deleted successfully" });
