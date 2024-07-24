@@ -24,6 +24,5 @@ export function ButtonOrange(props) {
   );
 }
 
-// -- Usage example --
-// <ButtonOrange id="button-name" text="button text" width="your-tailwind-width-class" />
-// <ButtonOrangeLight id="button-name" text="button text" width="your-tailwind-width-class" />
+// -- ตอนเอาไปใช้ใส่ props แบบนี้ ---
+// <ButtonOrange id="button name" text="button text" width="your tailwind width เช่น w-fit" />
