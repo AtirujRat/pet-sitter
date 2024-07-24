@@ -21,20 +21,16 @@ export default function Sitters() {
     selectMap,
   } = useSitters();
 
-  const getSitters = async () => {
-    try {
-      const res = await axios.get(
-        `http://localhost:3000/api/sitters?name=${searchName}&pet=${petQuery}&exp=${experience}`
-      );
+async function getSitters () {
+    const res = await axios.get(
+      `http://localhost:3000/api/sitters?name=${searchName}&pet=${petQuery}&exp=${experience}`
+    );
 
-      if (res.statusText !== "OK") {
-        throw new Error(`HTTP error! status: ${res.status}`);
-      }
-      setSitters(res.data.data);
-      setLoading(false);
-    } catch (e) {
-      console.log(e);
+    if (res.statusText !== "OK") {
+      throw new Error(`HTTP error! status: ${res.status}`);
     }
+    setSitters(res.data.data);
+    setLoading(false);
   };
 
   useEffect(() => {
