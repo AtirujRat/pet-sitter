@@ -9,7 +9,8 @@ export default async function handler(req, res) {
         .from("pets")
         .select("*")
         .eq("owner_id", id)
-        .eq("id", petId);
+        .eq("id", petId)
+        .single();
 
       if (error) {
         throw error;
@@ -63,16 +64,11 @@ export default async function handler(req, res) {
           updated_at: new Date(),
         })
         .eq("owner_id", id)
-        .eq("id", petId);
+        .eq("id", petId)
+        .single();
 
       if (error) {
         throw error;
-      }
-
-      if (!updatedPet || updatedPet.length === 0) {
-        return res.status(404).json({
-          message: `Server could not find a requested pet id ${petId} with owner id ${id} to update`,
-        });
       }
 
       return res.status(200).json({
@@ -89,16 +85,11 @@ export default async function handler(req, res) {
         .from("pets")
         .delete()
         .eq("owner_id", id)
-        .eq("id", petId);
+        .eq("id", petId)
+        .single();
 
       if (error) {
         throw error;
-      }
-
-      if (!deletedPet || deletedPet.length === 0) {
-        return res.status(404).json({
-          message: `Server could not find a requested pet id ${petId} with owner id ${id} to delete`,
-        });
       }
 
       return res.status(200).json({

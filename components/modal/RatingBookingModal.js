@@ -1,10 +1,17 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import axios from "axios";
+import { useRouter } from "next/router";
+import { useState } from "react";
 import Image from "next/image";
 import { ButtonOrange, ButtonOrangeLight } from "../buttons/OrangeButtons";
-import { useState } from "react";
+
+const API_URL = "/api/booking";
 
 export default function RatingBookingModal({ isOpen, onCancel, onSubmit }) {
   if (!isOpen) return null;
+
+  const router = useRouter();
+  const { id } = router.query;
 
   const initialValues = {
     rating: 5,
@@ -32,17 +39,23 @@ export default function RatingBookingModal({ isOpen, onCancel, onSubmit }) {
     return errors;
   };
 
-  const handleSubmit = (values, { setSubmitting }) => {
+  const handleSubmit = async (values, { setSubmitting }) => {
     const formData = {
       ...values,
       rating: rating,
     };
 
-    console.log("Form Data:", formData);
+    try {
+      const response = await axios.post(`${API_URL}/${id}/review`, formData);
+      console.log("Response:", response.data);
 
-    onSubmit(formData);
-
-    setSubmitting(false);
+      onSubmit(formData);
+      setSubmitting(false);
+      onCancel();
+    } catch {
+      console.log("Error submitting review:");
+      setSubmitting(false);
+    }
   };
 
   return (
