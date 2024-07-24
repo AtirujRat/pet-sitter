@@ -1,7 +1,7 @@
 import { supabase } from "@/utils/supabase";
 
 export default async function handler(req, res) {
-  if (req.method === "POSt") {
+  if (req.method === "POST") {
     const {
       owner_id,
       sitter_id,
@@ -12,6 +12,7 @@ export default async function handler(req, res) {
       message,
       pet_id,
     } = req.body;
+
     try {
       const { data, error } = await supabase
         .from("bookings")
@@ -24,20 +25,37 @@ export default async function handler(req, res) {
             status: status,
             price: price,
             message: message,
+            created_at: new Date(),
+            last_updated: new Date(),
           },
         ])
         .select();
 
       pet_id.map(async (id) => {
-        let { data: bookings, errors } = await supabase
+        let bookings = supabase
           .from("bookings")
           .select("id")
           .eq("owner_id", owner_id);
+        if (sitter_id) {
+          bookings = bookings.eq("sitter_id", sitter_id);
+        }
+        if (status) {
+          bookings = bookings.eq("status", status);
+        }
+        const { data, error } = await bookings;
 
-        const { data, error } = await supabase
+        if (error) {
+          return res.status(400).json({ message: "Error from insert data" });
+        }
+
+        const { datas, errors } = await supabase
           .from("bookings_pets")
-          .insert([{ booking_id: bookings[0].id, pet_id: id }])
+          .insert([{ booking_id: data[0].id, pet_id: id }])
           .select();
+
+        if (errors) {
+          return res.status(400).json({ message: "Error from insert data" });
+        }
         return;
       });
 

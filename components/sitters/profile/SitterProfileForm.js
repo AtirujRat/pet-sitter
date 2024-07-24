@@ -147,7 +147,7 @@ const ImageGallery = ({ gallery, setGallery, images, setImage }) => {
 export default function SitterProfileForm({ profile = {} }) {
   const router = useRouter();
   const { id } = router.query;
-  const { address, setAddress } = useSearch();
+  const { address, searchLng, searchLat } = useSearch();
 
   console.log(address);
 
@@ -277,7 +277,10 @@ export default function SitterProfileForm({ profile = {} }) {
       })}
       onSubmit={(values, { setSubmitting }) => {
         // console.log(values);
-        const data = { ...values, sitters_addresses: address };
+        const data = {
+          ...values,
+          sitters_addresses: { ...address, lat: searchLat, lng: searchLng },
+        };
         console.log(data);
         updateProfile(data);
         setSubmitting(false);

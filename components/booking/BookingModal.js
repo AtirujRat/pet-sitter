@@ -110,7 +110,7 @@ export default function BookingModal() {
         sitter_id: "",
         start_time: formdata.booking_date + " " + startTime,
         end_time: formdata.booking_date + " " + endTime,
-        status: "waiting for confirm",
+        status: "Waiting for confirm",
         creted_at: new Date(),
         last_updated: new Date(),
         price: "",

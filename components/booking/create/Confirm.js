@@ -7,6 +7,7 @@ export default function Confirm() {
   function handleOnclick() {
     try {
       handleBooking(booking);
+      // console.log(booking);
       setConfirm("booking detail");
     } catch (error) {
       console.log("error");

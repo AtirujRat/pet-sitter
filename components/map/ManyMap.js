@@ -14,7 +14,7 @@ export default function ManyMap() {
   };
 
   const options = {
-    mapId: "d5dd20a527464be2",
+    mapId: "google-map-script",
     mapTypeControl: false,
     zoomControl: false,
     clickableIcons: false,
@@ -29,10 +29,12 @@ export default function ManyMap() {
 
   if (sitters && sitters.length > 0) {
     useEffect(() => {
-      setCenter({
-        lat: Number(sitters[0].sitters_addresses.lat),
-        lng: Number(sitters[0].sitters_addresses.lng),
-      });
+      setTimeout(() => {
+        setCenter({
+          lat: Number(sitters[0].sitters_addresses.lat),
+          lng: Number(sitters[0].sitters_addresses.lng),
+        });
+      }, 5000);
     }, []);
 
     const pinIconInActive = {

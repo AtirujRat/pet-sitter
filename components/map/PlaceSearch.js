@@ -19,7 +19,9 @@ export default function PlaceSearch({ draggable }) {
   };
 
   useEffect(() => {
-    handleClick();
+    setTimeout(() => {
+      handleClick();
+    }, 5000);
   }, [address]);
 
   return <Map draggable={draggable} />;
