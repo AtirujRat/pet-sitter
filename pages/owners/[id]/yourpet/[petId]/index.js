@@ -2,9 +2,16 @@ import SideBarOwners from "@/components/owners/SideBarOwners";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import UpdatePetForm from "@/components/owners/yourpet/UpdatePetForm";
+import { useOwnerAccount } from "@/context/OwnersAccountState";
+import { useEffect } from "react";
 
 export default function UpdatePetPage() {
   const router = useRouter();
+  const { accountState, changeAccountStateHandle } = useOwnerAccount();
+
+  useEffect(() => {
+    changeAccountStateHandle("yourpet");
+  }, []);
 
   return (
     <section className="w-full h-full bg-ps-gray-100 max-md:pt-0 pt-10 pb-20 max-sm:pb-4">

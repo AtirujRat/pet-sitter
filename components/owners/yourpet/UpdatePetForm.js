@@ -11,14 +11,12 @@ import {
 } from "@/components/buttons/OrangeButtons";
 import { ConfirmModal } from "@/components/modal/ConfirmModal";
 import Loading from "@/components/Loading";
-import { useOwnerAccount } from "@/context/OwnersAccountState";
 
 const API_URL = "/api/owner";
 
 export default function UpdatePetForm() {
   const router = useRouter();
   const { id, petId } = router.query;
-  const { accountState, changeAccountStateHandle } = useOwnerAccount();
 
   const [pet, setPet] = useState(null);
   const [preview, setPreview] = useState(null);
@@ -28,7 +26,6 @@ export default function UpdatePetForm() {
 
   useEffect(() => {
     const fetchPet = async () => {
-      await new Promise((resolve) => setTimeout(resolve, 500));
       try {
         const response = await axios.get(`${API_URL}/${id}/pet/${petId}`);
         setPet(response.data);
@@ -122,7 +119,6 @@ export default function UpdatePetForm() {
     try {
       await axios.delete(`${API_URL}/${id}/pet/${petId}`);
       toggleModal(false);
-      changeAccountStateHandle("yourpet");
       router.push(`/owners/${id}/yourpet/`);
     } catch (error) {
       console.error("Error deleting pet:", error);
@@ -368,7 +364,7 @@ export default function UpdatePetForm() {
 
             {/* delete pet */}
             <button
-              className="flex gap-2 items-center max-sm:justify-center max-sm:mx-auto max-sm:my-3 w-fit"
+              className="flex gap-2 items-center max-sm:justify-center max-sm:mx-auto max-sm:my-3 w-fit hover:scale-105 focus:scale-100 transition-transform ml-1"
               onClick={(event) => {
                 event.preventDefault();
                 toggleModal(true);

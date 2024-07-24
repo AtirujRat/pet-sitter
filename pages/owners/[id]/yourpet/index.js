@@ -12,9 +12,9 @@ export default function PetListPage() {
   const [isModalOpen, setIsModalOpen] = useState(true);
   const { accountState, changeAccountStateHandle } = useOwnerAccount();
 
-  // useEffect(() => {
-  //   changeAccountStateHandle("yourpet");
-  // }, []);
+  useEffect(() => {
+    changeAccountStateHandle("yourpet");
+  }, []);
 
   return (
     <section className="w-full h-full bg-ps-gray-100 max-md:pt-0 pt-10 pb-20 max-md:pb-0">

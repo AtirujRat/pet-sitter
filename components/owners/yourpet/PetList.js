@@ -21,9 +21,7 @@ export default function PetList() {
 
       try {
         if (id) {
-          const response = await axios.get(`${API_URL}/${id}/pet/`, {
-            timeout: 5000,
-          });
+          const response = await axios.get(`${API_URL}/${id}/pet/`);
           setPets(response.data);
         }
         setLoading(false);

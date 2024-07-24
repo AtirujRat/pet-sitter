@@ -3,11 +3,16 @@ import CreatePetForm from "@/components/owners/yourpet/CreatePetForm";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { useOwnerAccount } from "@/context/OwnersAccountState";
+import { useEffect } from "react";
 
 export default function CreatePetPage() {
   const router = useRouter();
   const { id } = router.query;
   const { accountState, changeAccountStateHandle } = useOwnerAccount();
+
+  useEffect(() => {
+    changeAccountStateHandle("yourpet");
+  }, []);
 
   return (
     <section className="w-full h-full bg-ps-gray-100 max-md:pt-0 pt-10 pb-20 max-sm:pb-4">
@@ -17,10 +22,7 @@ export default function CreatePetPage() {
           <div className="flex flex-col items-start gap-12">
             <button
               className="flex items-center gap-2 mb-3"
-              onClick={() => {
-                router.back();
-                changeAccountStateHandle("yourpet");
-              }}
+              onClick={() => router.back()}
             >
               <Image
                 src="/assets/icons/icon-previous.svg"
@@ -33,10 +35,7 @@ export default function CreatePetPage() {
             <CreatePetForm
               text="Create Pet"
               width="w-fit"
-              onClick={() => {
-                changeAccountStateHandle("yourpet");
-                router.push(`/owners/${id}/yourpet/create`);
-              }}
+              onClick={() => router.push(`/owners/${id}/yourpet/create`)}
             />
           </div>
         </div>
