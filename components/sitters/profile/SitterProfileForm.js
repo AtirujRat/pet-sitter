@@ -19,54 +19,13 @@ import iconClose from "@/public/assets/sitters/icon-close.svg";
 import iconExclamation from "@/public/assets/icons/icon-exclamation-circle.svg";
 
 import { Approved, WaitingForApproval, Rejected } from "./SittersStatus";
-
-function validateName(value) {
-  let error;
-  if (!value) {
-    error = "Required";
-  } else if (value.length < 6 || value.length > 20) {
-    error = "Name characters must be between 6-20";
-  }
-  return error;
-}
-
-function validateRequired(value) {
-  let error;
-  if (!value || value === "") {
-    error = "Required";
-  }
-  return error;
-}
-
-function validatePhone(value) {
-  let error;
-  if (!value) {
-    error = "Required";
-  } else if (value[0] != 0) {
-    error = "The first digit must be 0.";
-  } else if (value.length != 12) {
-    error = "Phone number must contain 10 digits.";
-  }
-  return error;
-}
-
-async function validateEmail(value) {
-  let error;
-  let { data: owner_email } = await supabase
-    .from("owners")
-    .select("*")
-    .eq("email", value);
-
-  if (!value) {
-    error = "Required";
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
-    error = "Invalid email address";
-  } else if (owner_email[0]) {
-    error = "This email already exist";
-  }
-
-  return error;
-}
+import {
+  validateName,
+  validateEmail,
+  validatePhone,
+  validateRequired,
+  validateRequiredAddress,
+} from "./validateProfileform";
 
 function ImageGallery({ gallery, setGallery, images, setImage }) {
   const { setFieldValue } = useFormikContext();
@@ -229,8 +188,14 @@ export default function SitterProfileForm({ profile = {} }) {
     }
   }
 
+  let error;
+
   async function updateProfile(values) {
+    error = validateRequiredAddress(values?.sitters_addresses);
     try {
+      if (Object.keys(error).length > 0) {
+        return;
+      }
       // Upload profile image if it exists
       let profileImageUrl = null;
       if (
@@ -284,7 +249,6 @@ export default function SitterProfileForm({ profile = {} }) {
       }}
     >
       {({ errors, touched, isSubmitting }) => {
-        console.log(errors);
         return (
           <Form className="flex flex-col gap-6">
             <div className="text-h3 flex justify-between">
@@ -528,8 +492,8 @@ export default function SitterProfileForm({ profile = {} }) {
               <Field
                 component={AddressForm}
                 name="sitters_addresses"
-                validate={validateRequired}
                 existingAddress={profile.sitters_addresses}
+                error={error}
               />
             </div>
           </Form>
