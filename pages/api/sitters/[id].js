@@ -31,6 +31,8 @@ export default async function handler(req, res) {
     const { id } = req.query;
     const reqBody = { ...req.body, updated_at: new Date() };
 
+    console.log(reqBody);
+
     try {
       // ดึงข้อมูลปัจจุบันของ sitters
       const { data: existingData, error: selectError } = await supabase
@@ -54,6 +56,10 @@ export default async function handler(req, res) {
         pet_types: reqBody.pet_types,
         services: reqBody.services,
         place_description: reqBody.place_description,
+        sitter_status:
+          reqBody.sitter_status === null || reqBody.sitter_status === "rejected"
+            ? "waiting for approval"
+            : reqBody.sitter_status,
         updated_at: reqBody.updated_at,
         last_logged_in: reqBody.last_logged_in,
       };
