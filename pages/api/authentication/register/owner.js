@@ -3,12 +3,12 @@ import bcrypt from "bcrypt";
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
-    const newOwner = req.body;
-    if (newOwner.id) {
+    const { id, email, password, phone } = req.body;
+    if (id) {
       let { data: owners, error } = await supabase
         .from("owners")
         .select("id_provider")
-        .eq("id_provider", newOwner.id);
+        .eq("id_provider", id);
       if (error) {
         return res
           .status(400)
@@ -19,8 +19,8 @@ export default async function handler(req, res) {
           .from("owners")
           .insert([
             {
-              id_provider: newOwner.id,
-              email: newOwner.email,
+              id_provider: id,
+              email: email,
             },
           ])
           .select();
@@ -31,21 +31,20 @@ export default async function handler(req, res) {
         }
         return res.status(200).json({ message: "register success" });
       }
-
       return res.status(201).json({ message: "User have already register" });
     }
 
-    if (!newOwner.email || !newOwner.password || !newOwner.phone) {
+    if (!email || !password || !phone) {
       return res.status(404).json({ message: "missing data from request" });
     }
 
     const salt = await bcrypt.genSalt(10);
-    newOwner.password = await bcrypt.hash(newOwner.password, salt);
+    password = await bcrypt.hash(password, salt);
 
     let { data, error } = await supabase.auth.signUp({
-      email: newOwner.email,
-      password: newOwner.password,
-      phone: newOwner.phone,
+      email: email,
+      password: password,
+      phone: phone,
     });
     if (error) {
       console.log(error);
@@ -58,9 +57,9 @@ export default async function handler(req, res) {
       .from("owners")
       .insert([
         {
-          email: newOwner.email,
-          password: newOwner.password,
-          phone_number: newOwner.phone,
+          email: email,
+          password: password,
+          phone_number: phone,
         },
       ])
       .select();
@@ -74,8 +73,8 @@ export default async function handler(req, res) {
       .from("email_supabase")
       .insert([
         {
-          email: newOwner.email,
-          password: newOwner.password,
+          email: email,
+          password: password,
         },
       ])
       .select();

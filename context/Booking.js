@@ -2,7 +2,6 @@ import axios from "axios";
 import { createContext, useState, useEffect, useContext } from "react";
 
 const BookingContext = createContext();
-
 export function useBooking() {
   return useContext(BookingContext);
 }

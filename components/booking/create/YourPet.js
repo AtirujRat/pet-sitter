@@ -51,7 +51,7 @@ export default function YourPet() {
         id: userId.id,
       });
       const getDataSittets = await axios.get(`/api/sitters/${id}`);
-      setSitter(getDataSittets.data.data[0]);
+      setSitter(getDataSittets.data.data[0].data);
       setPetData(getDataOwners.data);
       addBookingHandle({ ...booking, sitter_id: id });
       setLoading(false);
@@ -59,7 +59,6 @@ export default function YourPet() {
       console.log(e);
     }
   }
-  console.log(booking);
 
   useEffect(() => {
     getData();

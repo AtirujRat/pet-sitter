@@ -5,34 +5,41 @@ export default async function handler(req, res) {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return res.status(400).json({ message: "Email and password are required" });
+    return res.status(404).json({ message: "missing data from request" });
   }
+  try {
+    const { data, error } = await supabase
+      .from("sitters")
+      .select("email, password")
+      .eq("email", email)
+      .single();
 
-  let { data: sitter, error } = await supabase
-    .from("sitters")
-    .select("*")
-    .eq("email", email)
-    .single();
+    if (error) {
+      return res
+        .status(400)
+        .json({ message: "error connection from database" });
+    }
 
-  if (error || !sitter) {
-    return res.status(400).json({ message: "Invalid email or password" });
+    const match = await bcrypt.compare(password, data.password);
+
+    if (!match) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    let { data: email_supabase, errors } = await supabase
+      .from("email_supabase")
+      .select("*")
+      .eq("email", email);
+    if (errors) {
+      return res
+        .status(400)
+        .json({ message: "error connection from database" });
+    }
+
+    return res
+      .status(200)
+      .json({ message: "Sign in success", data: email_supabase });
+  } catch (e) {
+    return res.status(400).json({ message: "error connection from database" });
   }
-
-  const isPasswordValid = await bcrypt.compare(password, sitter.password);
-
-  if (!isPasswordValid) {
-    return res.status(400).json({ message: "Invalid email or password" });
-  }
-
-  let { data: email_supabase, errors } = await supabase
-    .from("email_supabase")
-    .select("*")
-    .eq("email", email);
-  if (errors) {
-    return res.status(401).json({ message: "Invalid credentials" });
-  }
-
-  return res
-    .status(200)
-    .json({ message: "Login success", data: email_supabase });
 }
