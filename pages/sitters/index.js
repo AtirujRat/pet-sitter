@@ -38,7 +38,9 @@ export default function Sitters() {
   };
 
   useEffect(() => {
-    getSitters();
+    setTimeout(() => {
+      getSitters();
+    }, 5000);
   }, [refresh, currentPage]);
 
   return (

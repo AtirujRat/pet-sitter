@@ -13,7 +13,6 @@ export function SearchProvider(props) {
   const location = ({ lat, lng }) => {
     setSearchLat(lat);
     setSearchLng(lng);
-    setAddress({ ...address, lat, lng });
   };
 
   return (
