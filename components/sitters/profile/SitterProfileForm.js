@@ -275,18 +275,16 @@ export default function SitterProfileForm({ profile = {} }) {
         profile_image_url: Yup.mixed(),
       })}
       onSubmit={(values, { setSubmitting }) => {
-        // console.log(values);
         const data = {
           ...values,
           sitters_addresses: { ...address, lat: searchLat, lng: searchLng },
         };
-        console.log(data);
         updateProfile(data);
         setSubmitting(false);
       }}
-      enableReinitialize
     >
       {({ errors, touched, isSubmitting }) => {
+        console.log(errors);
         return (
           <Form className="flex flex-col gap-6">
             <div className="text-h3 flex justify-between">
@@ -308,7 +306,7 @@ export default function SitterProfileForm({ profile = {} }) {
                   type="submit"
                   disabled={isSubmitting}
                   id="update"
-                  text="update"
+                  text="Update"
                   width="w-fit text-[16px]"
                 />
               ) : null}
@@ -381,9 +379,9 @@ export default function SitterProfileForm({ profile = {} }) {
                     className="p-3 border rrounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400 focus:outline-none focus:ring-0"
                   >
                     <option value="" label="Select experience" />
-                    <option value="0-2 year" label="0-2 year" />
-                    <option value="3-5 year" label="3-5 years" />
-                    <option value="5+ year" label="5+ years" />
+                    <option value="0-2 Years" label="0-2 Years" />
+                    <option value="3-5 Years" label="3-5 Years" />
+                    <option value="5+ Years" label="5+ Years" />
                   </Field>
                   {errors.experience && touched.experience && (
                     <div className="text-ps-red">{errors.experience}</div>
@@ -527,12 +525,12 @@ export default function SitterProfileForm({ profile = {} }) {
               <div className="flex flex-col gap-6">
                 <p className="text-ps-gray-300 text-h3">Address</p>
               </div>
-              {/* <Field
+              <Field
                 component={AddressForm}
-                name="address"
+                name="sitters_addresses"
                 validate={validateRequired}
                 existingAddress={profile.sitters_addresses}
-              /> */}
+              />
             </div>
           </Form>
         );

@@ -5,14 +5,6 @@ import PlaceSearch from "./PlaceSearch";
 import { useSearch } from "@/context/Search";
 import { DebounceInput } from "react-debounce-input";
 
-function validateRequired(value) {
-  let error;
-  if (!value || value === "") {
-    error = "Required";
-  }
-  return error;
-}
-
 export default function AddressForm({ existingAddress, validate }) {
   const { values, setFieldValue, errors, touched } = useFormikContext();
   const [input, setInput] = useState("");
@@ -69,13 +61,13 @@ export default function AddressForm({ existingAddress, validate }) {
   useEffect(() => {
     getData();
     if (existingAddress) {
-      // setAddress({
-      //   address_detail: existingAddress.address_detail,
-      //   province: existingAddress.province,
-      //   district: existingAddress.district,
-      //   subDistrict: existingAddress.sub_district,
-      //   zip_code: existingAddress.post_code,
-      // });
+      setAddress({
+        address_detail: existingAddress.address_detail,
+        province: existingAddress.province,
+        district: existingAddress.district,
+        subDistrict: existingAddress.sub_district,
+        zip_code: existingAddress.post_code,
+      });
     }
   }, []);
 
@@ -93,7 +85,7 @@ export default function AddressForm({ existingAddress, validate }) {
           debounceTimeout={1000}
           onChange={handleInput}
           placeholder="Address"
-          validate={validateRequired}
+          // validate={validate}
           className="w-full p-3 border rounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400 focus:outline-none focus:ring-0"
         />
         {errors.address?.address_detail && touched.address?.address_detail && (
@@ -109,7 +101,7 @@ export default function AddressForm({ existingAddress, validate }) {
             className="select w-full border rounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400 h-[54px] focus:outline-none focus:ring-0"
             onChange={handleProvince}
             value={address.province}
-            validate={validateRequired}
+            // validate={validate}
           >
             <option selected disabled>
               {address.province ? address.province : "Province"}
@@ -134,7 +126,7 @@ export default function AddressForm({ existingAddress, validate }) {
             className="select w-full border rounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400 h-[54px] focus:outline-none focus:ring-0"
             onChange={handleDistrict}
             value={address.district}
-            validate={validateRequired}
+            // validate={validate}
           >
             <option selected disabled>
               {address.district ? address.district : "Distrinct"}
@@ -161,7 +153,7 @@ export default function AddressForm({ existingAddress, validate }) {
             className="select w-full border rounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400 h-[54px] focus:outline-none focus:ring-0"
             onChange={handleSubDistrict}
             value={address.subDistrict}
-            validate={validateRequired}
+            // validate={validate}
           >
             <option selected disabled>
               {address.subDistrict ? address.subDistrict : "Sub-Distrinct"}
