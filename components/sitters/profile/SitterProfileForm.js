@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Formik, Form, Field, useFormikContext } from "formik";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { supabase } from "@/utils/supabase";
 import axios from "axios";
@@ -17,7 +17,8 @@ import plus from "@/public/assets/icon-plus.svg";
 import iconUpLoad from "@/public/assets/sitters/icon-upload.svg";
 import iconClose from "@/public/assets/sitters/icon-close.svg";
 import iconExclamation from "@/public/assets/icons/icon-exclamation-circle.svg";
-
+import ImageGallery from "./ImageGallery";
+import { SittersProfileContext } from "@/pages/sitters/[id]/profile";
 import { Approved, WaitingForApproval, Rejected } from "./SittersStatus";
 import {
   validateName,
@@ -27,89 +28,13 @@ import {
   validateRequiredAddress,
 } from "./validateProfileform";
 
-function ImageGallery({ gallery, setGallery, images, setImage }) {
-  const { setFieldValue } = useFormikContext();
-
-  const handleGalleryChange = async (event) => {
-    const files = Array.from(event.target.files);
-    if (files.length + gallery.length > 10) {
-      alert("You can only upload a maximum of 10 images.");
-      return;
-    }
-
-    for (const file of files) {
-      if (file.size <= 2 * 1024 * 1024) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setGallery((prev) => [...prev, reader.result]);
-          const newImage = images;
-          newImage.push(file);
-          setImage(newImage);
-          // setFieldValue("sitters_images", images);
-        };
-        reader.readAsDataURL(file);
-      } else {
-        alert("File size should not exceed 2 MB.");
-      }
-    }
-  };
-
-  function handleRemoveImage(index) {
-    const newGallery = gallery.filter((_, i) => i !== index);
-    setGallery(newGallery);
-
-    const newImagesGallery = images.filter((_, i) => i !== index);
-    setImage(newImagesGallery);
-
-    // setFieldValue("sitters_images", newImagesGallery);
-  }
-
-  return (
-    <div className="flex flex-wrap gap-4">
-      {gallery.map((image, index) => (
-        <div key={index} className="relative w-[167px] h-[167px]">
-          <img
-            src={image}
-            alt={`Gallery image ${index}`}
-            className="object-cover w-full h-full rounded-lg"
-          />
-          <div
-            className="absolute w-[24px] h-[24px] top-0 right-0 translate-x-1 -translate-y-1 cursor-pointer rounded-full bg-ps-gray-400 flex items-center justify-center"
-            onClick={() => handleRemoveImage(index)}
-          >
-            <Image src={iconClose} alt="Remove Icon" width={8} height={8} />
-          </div>
-        </div>
-      ))}
-      {gallery.length < 10 && (
-        <div className="w-[167px] h-[167px] flex flex-col justify-center items-center bg-ps-orange-100 rounded-lg cursor-pointer">
-          <input
-            className="hidden"
-            type="file"
-            id="fileInput"
-            onChange={handleGalleryChange}
-            accept="image/*"
-            multiple
-          />
-          <label
-            htmlFor="fileInput"
-            className="flex flex-col items-center cursor-pointer"
-          >
-            <Image src={iconUpLoad} width={40} height={40} alt="Upload Icon" />
-            <p className="text-ps-orange-500 font-bold text-[16px] p-3">
-              Upload Image
-            </p>
-          </label>
-        </div>
-      )}
-    </div>
-  );
-}
-
 export default function SitterProfileForm({ profile = {} }) {
   const router = useRouter();
   const { id } = router.query;
   const { address, searchLng, searchLat } = useSearch();
+  const { getImages, storageImages, CDNURL } = useContext(
+    SittersProfileContext
+  );
 
   const initialValues = {
     profile_image_url: null,
@@ -131,8 +56,8 @@ export default function SitterProfileForm({ profile = {} }) {
   };
 
   const [preview, setPreview] = useState(profile?.profile_image_url || null);
-  const [gallery, setGallery] = useState([]);
-  const [images, setImage] = useState([]);
+  // const [gallery, setGallery] = useState([]);
+  // const [images, setImage] = useState([]);
 
   const sitterStatus = {
     approved: Approved,
@@ -172,21 +97,25 @@ export default function SitterProfileForm({ profile = {} }) {
     );
   }
 
-  async function uploadImage(file, folder) {
-    const fileName = uuidv4();
-    const { data, error } = await supabase.storage
-      .from("sitters")
-      .upload(`${folder}/${fileName}`, file);
-    if (error) {
-      console.error("Error uploading image:", error);
-      throw error;
-    } else {
-      const url = supabase.storage
-        .from("sitters")
-        .getPublicUrl(`${folder}/${fileName}`).data.publicUrl;
-      return url;
+  async function uploadImage(e, folder) {
+    const files = e.target.files;
+    for (const file of files) {
+      const fileName = uuidv4();
+      const { data, error } = await supabase.storage
+        .from("sitters_gallery")
+        .upload(`${folder}/${fileName}`, file); // Upload each file individually
+
+      getImages();
+
+      if (error) {
+        console.error("Error uploading image:", error);
+        throw error;
+      }
     }
   }
+  // }
+
+  // console.log("url", selectedImages);
 
   let error;
 
@@ -212,10 +141,9 @@ export default function SitterProfileForm({ profile = {} }) {
 
       // Upload gallery images
       const galleryImageUrls = [];
-      for (const file of images) {
-        const url = await uploadImage(file, "gallery_images");
-        galleryImageUrls.push({ image_url: url });
-      }
+      storageImages.map((image) => {
+        return galleryImageUrls.push(CDNURL + profile.id + "/" + image.name);
+      });
 
       // Update profile with uploaded image URLs
       const updatedValues = {
@@ -475,10 +403,12 @@ export default function SitterProfileForm({ profile = {} }) {
                     Image Gallery (Maximum 10 images)
                   </label>
                   <ImageGallery
-                    gallery={gallery}
-                    setGallery={setGallery}
-                    images={images}
-                    setImage={setImage}
+                    // gallery={gallery}
+                    // setGallery={setGallery}
+                    // images={images}
+                    // setImage={setImage}
+                    profile={profile}
+                    uploadImage={uploadImage}
                   />
                 </div>
               </div>
