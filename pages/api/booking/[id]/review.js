@@ -15,9 +15,9 @@ export default async function handler(req, res) {
       }
 
       if (review.length === 0) {
-        return res
-          .status(404)
-          .json({ message: "No review found for this booking" });
+        return res.status(404).json({
+          message: `Server could not find a requested review to show for owner id ${id}`,
+        });
       }
 
       return res.status(200).json(review);
@@ -32,8 +32,7 @@ export default async function handler(req, res) {
 
       if (!rating) {
         return res.status(400).json({
-          message:
-            "Server could not create review because because there are missing data from client",
+          message: `Server could not create review for booking id ${id} because there are missing data from client`,
         });
       }
 
@@ -52,7 +51,15 @@ export default async function handler(req, res) {
         throw error;
       }
 
-      return res.status(201).json({ message: "Created review successfully" });
+      if (!newReview || newReview === 0) {
+        return res.status(404).json({
+          message: `Server could not find a requested booking id ${id} to create review`,
+        });
+      }
+
+      return res
+        .status(201)
+        .json({ message: `Created review for booking id ${id} successfully` });
     } catch {
       return res.status(500).json({
         message: "Server could not create review because database connection",
@@ -70,7 +77,7 @@ export default async function handler(req, res) {
       ) {
         return res.status(400).json({
           message:
-            "Server could not update review because because there are missing data from client",
+            "Server could not update review because there are missing data from client",
         });
       }
 
@@ -90,7 +97,7 @@ export default async function handler(req, res) {
 
       if (!updatedReview || updatedReview.length === 0) {
         return res.status(404).json({
-          message: "Server could not find a requested review to update",
+          message: `Server could not find a requested review for booking id ${id} to update`,
         });
       }
 
@@ -109,6 +116,12 @@ export default async function handler(req, res) {
 
       if (error) {
         throw error;
+      }
+
+      if (!deletedReview || deletedReview.length === 0) {
+        return res.status(404).json({
+          message: `Server could not find a requested review for booking id ${id} to delete`,
+        });
       }
 
       return res.status(200).json({ message: "Review deleted successfully" });
