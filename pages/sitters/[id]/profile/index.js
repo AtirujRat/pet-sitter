@@ -13,7 +13,7 @@ export default function SitterManageProfile() {
 
   const [profile, setProfile] = useState(null);
 
-  const GetProfile = async () => {
+  async function GetProfile() {
     try {
       if (id) {
         const response = await axios.get(`/api/sitters/${id}`);
@@ -22,7 +22,7 @@ export default function SitterManageProfile() {
     } catch (error) {
       console.error("Error fetching profile data:", error);
     }
-  };
+  }
 
   useEffect(() => {
     GetProfile();

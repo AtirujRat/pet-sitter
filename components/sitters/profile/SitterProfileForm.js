@@ -8,6 +8,7 @@ import axios from "axios";
 import * as Yup from "yup";
 import { useSearch } from "@/context/Search";
 
+import { ButtonOrange } from "@/components/buttons/OrangeButtons";
 import AddressForm from "@/components/map/AddressForm";
 import PhoneInput from "@/components/authentication/PhoneInput";
 import MultiSelect from "./MultiSelectPetType";
@@ -15,7 +16,9 @@ import userimage from "@/public/assets/navbar/usermock.svg";
 import plus from "@/public/assets/icon-plus.svg";
 import iconUpLoad from "@/public/assets/sitters/icon-upload.svg";
 import iconClose from "@/public/assets/sitters/icon-close.svg";
-import iconApproved from "@/public/assets/sitters/icon-approved.svg";
+import iconExclamation from "@/public/assets/icons/icon-exclamation-circle.svg";
+
+import { Approved, WaitingForApproval, Rejected } from "./SittersStatus";
 
 function validateName(value) {
   let error;
@@ -65,7 +68,7 @@ async function validateEmail(value) {
   return error;
 }
 
-const ImageGallery = ({ gallery, setGallery, images, setImage }) => {
+function ImageGallery({ gallery, setGallery, images, setImage }) {
   const { setFieldValue } = useFormikContext();
 
   const handleGalleryChange = async (event) => {
@@ -92,7 +95,7 @@ const ImageGallery = ({ gallery, setGallery, images, setImage }) => {
     }
   };
 
-  const handleRemoveImage = (index) => {
+  function handleRemoveImage(index) {
     const newGallery = gallery.filter((_, i) => i !== index);
     setGallery(newGallery);
 
@@ -100,7 +103,7 @@ const ImageGallery = ({ gallery, setGallery, images, setImage }) => {
     setImage(newImagesGallery);
 
     // setFieldValue("sitters_images", newImagesGallery);
-  };
+  }
 
   return (
     <div className="flex flex-wrap gap-4">
@@ -142,14 +145,12 @@ const ImageGallery = ({ gallery, setGallery, images, setImage }) => {
       )}
     </div>
   );
-};
+}
 
 export default function SitterProfileForm({ profile = {} }) {
   const router = useRouter();
   const { id } = router.query;
   const { address, searchLng, searchLat } = useSearch();
-
-  console.log(address);
 
   const initialValues = {
     profile_image_url: null,
@@ -159,17 +160,10 @@ export default function SitterProfileForm({ profile = {} }) {
     email: "",
     introduction: "",
     trade_name: "",
-    pet_type: "",
+    pet_types: "",
     services: "",
     sitters_image_url: null,
     place_description: "",
-    // address: {
-    //   add: "",
-    //   province: "",
-    //   district: "",
-    //   subDistrict: "",
-    //   zip_code: "",
-    // },
   };
 
   const initialFormValues = {
@@ -181,7 +175,19 @@ export default function SitterProfileForm({ profile = {} }) {
   const [gallery, setGallery] = useState([]);
   const [images, setImage] = useState([]);
 
-  const ImageChange = ({ setPreview }) => {
+  const sitterStatus = {
+    approved: Approved,
+    waitingforapproval: WaitingForApproval,
+    rejected: Rejected,
+  };
+
+  const getStatusComponent = (status) => {
+    const statusKey = status?.replace(/\s+/g, "").toLowerCase();
+    const StatusComponent = sitterStatus[statusKey];
+    return StatusComponent ? <StatusComponent /> : status;
+  };
+
+  function ImageChange({ setPreview }) {
     const { setFieldValue } = useFormikContext();
     const handleImageChange = async (event) => {
       const file = event.currentTarget.files[0];
@@ -205,9 +211,9 @@ export default function SitterProfileForm({ profile = {} }) {
         accept="image/*"
       />
     );
-  };
+  }
 
-  const uploadImage = async (file, folder) => {
+  async function uploadImage(file, folder) {
     const fileName = uuidv4();
     const { data, error } = await supabase.storage
       .from("sitters")
@@ -221,10 +227,9 @@ export default function SitterProfileForm({ profile = {} }) {
         .getPublicUrl(`${folder}/${fileName}`).data.publicUrl;
       return url;
     }
-  };
+  }
 
-  const updateProfile = async (values) => {
-    console.log(values);
+  async function updateProfile(values) {
     try {
       // Upload profile image if it exists
       let profileImageUrl = null;
@@ -261,19 +266,13 @@ export default function SitterProfileForm({ profile = {} }) {
       console.error("Error updating profile:", error);
       alert("Failed to update profile. Please try again.");
     }
-  };
+  }
+
   return (
     <Formik
       initialValues={initialFormValues}
       validationSchema={Yup.object({
         profile_image_url: Yup.mixed(),
-        // address: Yup.object({
-        //   add: Yup.string().required("Required"),
-        //   province: Yup.string().required("Required"),
-        //   district: Yup.string().required("Required"),
-        //   subDistrict: Yup.string().required("Required"),
-        //   zip_code: Yup.string().required("Required"),
-        // }).required("Required"),
       })}
       onSubmit={(values, { setSubmitting }) => {
         // console.log(values);
@@ -293,26 +292,33 @@ export default function SitterProfileForm({ profile = {} }) {
             <div className="text-h3 flex justify-between">
               <div className="flex items-center gap-6">
                 <p className="text-h3">Pet Sitter Profile</p>
-                <p className="text-[16px] text-ps-green-500 flex text-center gap-2">
-                  <Image
-                    src={iconApproved}
-                    width={6}
-                    height={6}
-                    alt="Approved Icon"
-                  />
-                  {profile.sitter_status &&
-                    profile.sitter_status[0].toUpperCase() +
-                      profile.sitter_status.slice(1)}
-                </p>
+                {getStatusComponent(profile?.sitter_status)}
               </div>
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="text-ps-white w-[120px] h-[48px] text-center text-[16px] font-bold bg-ps-orange-500 rounded-full"
-              >
-                {isSubmitting ? "Updating..." : "Update"}
-              </button>
+              {profile.sitter_status === null ||
+              profile.sitter_status === "rejected" ? (
+                <ButtonOrange
+                  type="submit"
+                  disabled={isSubmitting}
+                  id="Request for approval"
+                  text="Request for approval"
+                  width="w-fit text-[16px]"
+                />
+              ) : profile.sitter_status === "approved" ? (
+                <ButtonOrange
+                  type="submit"
+                  disabled={isSubmitting}
+                  id="update"
+                  text="update"
+                  width="w-fit text-[16px]"
+                />
+              ) : null}
             </div>
+            {profile.sitter_status === "rejected" ? (
+              <div className="w-full h-[52px] bg-ps-gray-200 text-ps-red rounded-lg flex items-center pl-3 gap-[10px]">
+                <Image src={iconExclamation} width={20} height={20} />
+                Your request has not been approved: ‘Admin’s suggestion here’
+              </div>
+            ) : null}
 
             {/* Basic Information */}
             <div className="bg-ps-white rounded-2xl px-20 py-10 flex flex-col gap-6">
@@ -375,9 +381,9 @@ export default function SitterProfileForm({ profile = {} }) {
                     className="p-3 border rrounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400 focus:outline-none focus:ring-0"
                   >
                     <option value="" label="Select experience" />
-                    <option value="0-2" label="0-2 year" />
-                    <option value="3-5" label="3-5 years" />
-                    <option value="5" label="5+ years" />
+                    <option value="0-2 year" label="0-2 year" />
+                    <option value="3-5 year" label="3-5 years" />
+                    <option value="5+ year" label="5+ years" />
                   </Field>
                   {errors.experience && touched.experience && (
                     <div className="text-ps-red">{errors.experience}</div>
@@ -521,12 +527,12 @@ export default function SitterProfileForm({ profile = {} }) {
               <div className="flex flex-col gap-6">
                 <p className="text-ps-gray-300 text-h3">Address</p>
               </div>
-              <Field
+              {/* <Field
                 component={AddressForm}
                 name="address"
                 validate={validateRequired}
                 existingAddress={profile.sitters_addresses}
-              />
+              /> */}
             </div>
           </Form>
         );
