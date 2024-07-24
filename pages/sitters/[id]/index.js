@@ -24,7 +24,7 @@ export default function SitterDetails() {
 
   async function getSitter() {
     try {
-      const res = await axios.get(`http://localhost:3000/api/sitters/${id}`);
+      const res = await axios.get(`/api/sitters/${id}`);
       setSitter(res.data.data[0]);
       if (res.data.data[0].sitters_addresses) {
         setAddress({
