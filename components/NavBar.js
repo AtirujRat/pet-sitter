@@ -106,13 +106,13 @@ export default function NavBar({ setOpenModal }) {
                     className="dropdown-content menu bg-base-100 rounded-lg z-[1] w-52 p-2 text-b2 drop-shadow-costom px-0"
                   >
                     <li className="py-2 text-b2">
-                      <Link href={`owners/${userId}/profile`}>
+                      <Link href={`/owners/${userId}/profile/`}>
                         <Image src={profile} alt="profile" width={20} />
                         Profile
                       </Link>
                     </li>
                     <li className="py-2 text-b2">
-                      <Link href={`owners/${userId}/yourpet`}>
+                      <Link href={`/owners/${userId}/yourpet/`}>
                         <Image src={pet} alt="your pet" width={22} />
                         Your Pet
                       </Link>

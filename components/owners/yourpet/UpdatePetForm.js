@@ -10,6 +10,7 @@ import {
   ButtonOrangeLight,
 } from "@/components/buttons/OrangeButtons";
 import { ConfirmModal } from "@/components/modal/ConfirmModal";
+import Loading from "@/components/Loading";
 
 const API_URL = "/api/owner";
 
@@ -25,7 +26,6 @@ export default function UpdatePetForm() {
 
   useEffect(() => {
     const fetchPet = async () => {
-      await new Promise((resolve) => setTimeout(resolve, 500));
       try {
         const response = await axios.get(`${API_URL}/${id}/pet/${petId}`);
         setPet(response.data);
@@ -119,38 +119,21 @@ export default function UpdatePetForm() {
     try {
       await axios.delete(`${API_URL}/${id}/pet/${petId}`);
       toggleModal(false);
-      router.push(`/owners/${id}/yourpet`);
+      router.push(`/owners/${id}/yourpet/`);
     } catch (error) {
       console.error("Error deleting pet:", error);
     }
   };
 
   if (!pet) {
-    return (
-      <div className="flex justify-center items-start mx-auto w-full">
-        <span className="loading loading-spinner text-primary"></span>
-      </div>
-    );
+    return <Loading />;
   }
 
   return (
     <Formik initialValues={initialValues} onSubmit={onSubmit}>
       {({ isSubmitting, setFieldValue }) => (
-        <Form className="w-full h-fit sm:shadow-lg rounded-xl bg-ps-white max-sm:bg-ps-gray-100 p-10">
+        <Form className="w-full">
           <div className="flex w-full flex-col gap-10 max-sm:gap-4">
-            <button
-              type="button"
-              className="flex items-center gap-2 mb-3"
-              onClick={() => router.back()}
-            >
-              <Image
-                src="/assets/icons/icon-previous.svg"
-                alt="icon-previous"
-                width={24}
-                height={24}
-              />
-              <p className="flex text-h3 gap-2">Your Pet</p>
-            </button>
             {/* Upload Image */}
             <div className="relative w-[240px] h-[240px]">
               {preview ? (
@@ -381,7 +364,7 @@ export default function UpdatePetForm() {
 
             {/* delete pet */}
             <button
-              className="flex gap-2 items-center max-sm:justify-center max-sm:mx-auto max-sm:my-3 w-fit"
+              className="flex gap-2 items-center max-sm:justify-center max-sm:mx-auto max-sm:my-3 w-fit hover:scale-105 focus:scale-100 transition-transform ml-1"
               onClick={(event) => {
                 event.preventDefault();
                 toggleModal(true);

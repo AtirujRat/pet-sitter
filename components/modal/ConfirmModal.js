@@ -15,7 +15,7 @@ export function ConfirmModal({
   return (
     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50">
       {/* Modal Backdrop */}
-      <div className="absolute top-0 left-0 w-full h-full bg-ps-black opacity-70"></div>
+      <div className="absolute top-0 left-0 w-full h-full bg-ps-black opacity-70" />
 
       {/* Modal Box */}
       <div className="relative max-sm:w-[343px] max-md:w-[55%] w-[400px] h-[208px] bg-ps-white rounded-2xl z-40 flex flex-col justify-around py-2">
@@ -23,7 +23,7 @@ export function ConfirmModal({
           <h4 className="text-h4">{title}</h4>
           <Image
             src="/assets/icons/icon-x.svg"
-            className="cursor-pointer"
+            className="cursor-pointer w-6 h-6 hover:scale-110 focus:scale-100 transition-transform"
             width={24}
             height={24}
             onClick={onCancel}

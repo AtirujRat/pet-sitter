@@ -6,17 +6,23 @@ import yourPet_icon_active from "@/public/assets/account/your-pet-active.svg";
 import list_icon from "@/public/assets/account/list.svg";
 import list_icon_active from "@/public/assets/account/list-active.svg";
 import { useOwnerAccount } from "@/context/OwnersAccountState";
+import { useRouter } from "next/router";
 
 function SideBarOwners() {
+  const router = useRouter();
+  const { id } = router.query;
   const { accountState, changeAccountStateHandle } = useOwnerAccount();
 
   return (
-    <section className="w-fit h-fit sticky top-5">
+    <section className="w-fit h-fit md:sticky top-5">
       <div className="flex flex-col items-start w-full lg:w-[292px] lg:h-[356px] lg:rounded-2xl bg-ps-white shadow-md overflow-x-scroll lg:overflow-hidden">
         <h1 className="text-h4 hidden lg:block px-[20px] py-[20px]">Account</h1>
         <div className="text-b1 flex justify-between min-w-max lg:min-w-full lg:flex-col">
           <button
-            onClick={() => changeAccountStateHandle("profile")}
+            onClick={() => {
+              changeAccountStateHandle("profile");
+              router.push(`/owners/${id}/profile/`);
+            }}
             className={`flex gap-5 ${
               accountState === "profile"
                 ? "bg-ps-orange-100 text-ps-orange-500"
@@ -33,7 +39,10 @@ function SideBarOwners() {
             Profile
           </button>
           <button
-            onClick={() => changeAccountStateHandle("yourpet")}
+            onClick={() => {
+              changeAccountStateHandle("yourpet");
+              router.push(`/owners/${id}/yourpet/`);
+            }}
             className={`flex gap-5 ${
               accountState === "yourpet"
                 ? "bg-ps-orange-100 text-ps-orange-500"
@@ -50,7 +59,10 @@ function SideBarOwners() {
             Your Pet
           </button>
           <button
-            onClick={() => changeAccountStateHandle("bookinghistory")}
+            onClick={() => {
+              changeAccountStateHandle("bookinghistory");
+              router.push(`/owners/${id}/bookinghistory/`);
+            }}
             className={`flex gap-5 ${
               accountState === "bookinghistory"
                 ? "bg-ps-orange-100 text-ps-orange-500"
@@ -67,7 +79,10 @@ function SideBarOwners() {
             Booking History
           </button>
           <button
-            onClick={() => changeAccountStateHandle("changepassword")}
+            onClick={() => {
+              changeAccountStateHandle("changepassword");
+              router.push(`/owners/${id}/changepassword/`);
+            }}
             className={`flex gap-5 ${
               accountState === "changepassword"
                 ? "bg-ps-orange-100 text-ps-orange-500"

@@ -13,7 +13,8 @@ function OwnersAccountStateProvider(props) {
 
   function changeAccountStateHandle(state) {
     setAccountState(state);
-    router.push(`/owners/${id}/${state}`);
+
+    // router.push(`/owners/${id}/${state}`);
   }
 
   return (

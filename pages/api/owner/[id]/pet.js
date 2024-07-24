@@ -16,15 +16,16 @@ export default async function handler(req, res) {
       }
 
       if (pets.length === 0) {
-        return res
-          .status(404)
-          .json({ message: "No pets found for this owner" });
+        return res.status(404).json({
+          message: `Server could not find a requested pets to show for owner id ${id}`,
+        });
       }
 
       return res.status(200).json(pets);
-    } catch (error) {
-      console.error("Error fetching pets:", error.message);
-      return res.status(500).json({ message: "Error fetching pets" });
+    } catch {
+      return res.status(500).json({
+        message: "Server could not read pets because database connection",
+      });
     }
   } else if (req.method === "POST") {
     try {
@@ -51,7 +52,10 @@ export default async function handler(req, res) {
         !color ||
         !weight
       ) {
-        return res.status(400).json({ message: "Missing required fields" });
+        return res.status(400).json({
+          message:
+            "Server could not create pet because there are missing data from client",
+        });
       }
 
       const { data: newPet, error } = await supabase.from("pets").insert([
@@ -76,12 +80,13 @@ export default async function handler(req, res) {
         throw error;
       }
 
-      return res
-        .status(201)
-        .json({ message: "Pet created successfully", newPet });
-    } catch (error) {
-      console.error("Error creating pet:", error.message);
-      return res.status(500).json({ message: "Error creating pet" });
+      return res.status(201).json({
+        message: "Created pet successfully",
+      });
+    } catch {
+      return res.status(500).json({
+        message: "Server could not create pets because database connection",
+      });
     }
   } else {
     res.setHeader("Allow", ["GET", "POST"]);
