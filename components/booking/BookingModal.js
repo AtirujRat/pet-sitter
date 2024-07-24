@@ -4,9 +4,11 @@ import time_icon from "@/public/assets/booking/time.svg";
 import cross_icon from "@/public/assets/booking/cross.svg";
 import Image from "next/image";
 import { Formik, Field, Form } from "formik";
+
 import { useBooking } from "@/context/Booking";
 import { useOwners } from "@/context/Owners";
 import { useRouter } from "next/router";
+import axios from "axios";
 
 const timeSchedule = [
   "8:00 AM",
@@ -73,9 +75,7 @@ function validateTimeSchedule(value1, value2) {
   return "";
 }
 
-
-export default function BookingModal() {
-
+export default function BookingModal(props) {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [toggleStartTime, setToggleStartTime] = useState(false);
@@ -85,7 +85,7 @@ export default function BookingModal() {
   const router = useRouter();
   const id = router.query.id;
   const { addBookingHandle, setStepBooking } = useBooking();
-  const { userId, getUser } = useOwners();
+  const { getUserAuth } = useOwners();
 
   useEffect(() => {
     if (startTime === "" || endTime === "") {
@@ -96,17 +96,21 @@ export default function BookingModal() {
   }, [startTime, endTime]);
 
   async function createBooking(formdata) {
+    const ownerEmail = await getUserAuth();
+
+    const ownerData = await axios.post(`/api/owner/queryowner`, {
+      email: ownerEmail.email,
+    });
+
     if (startTime === "" || endTime === "") {
       setTimeError("Require");
       return;
     } else if (timeError) {
       return;
     }
-
-
-    if (userId) {
+    if (ownerEmail) {
       addBookingHandle({
-        owner_id: userId.id,
+        owner_id: ownerData.data[0].id,
         sitter_id: "",
         start_time: formdata.booking_date + " " + startTime,
         end_time: formdata.booking_date + " " + endTime,
@@ -117,10 +121,6 @@ export default function BookingModal() {
       });
     }
   }
-  useEffect(() => {
-    getUser();
-  }, []);
-
 
   return (
     <Formik
@@ -139,6 +139,7 @@ export default function BookingModal() {
               className="cursor-pointer"
               src={cross_icon}
               alt="cross icon"
+              onClick={() => props.closeModal()}
             />
           </div>
 
@@ -241,4 +242,3 @@ export default function BookingModal() {
     </Formik>
   );
 }
-

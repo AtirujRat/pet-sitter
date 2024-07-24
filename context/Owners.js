@@ -3,7 +3,11 @@ import { createContext, useContext } from "react";
 
 const OwnerContext = createContext();
 
-function OwnerProvider(props) {
+export function useOwners() {
+  return useContext(OwnerContext);
+}
+
+export function OwnerProvider(props) {
   async function getUserAuth() {
     const {
       data: { user },
@@ -17,30 +21,9 @@ function OwnerProvider(props) {
     return user;
   }
 
-  async function getUserData() {
-    const user_email = await getUserAuth();
-    if (user_email) {
-      const { data: owners, error } = await supabase
-        .from("owners")
-        .select("*")
-        .eq("email", user_email.email);
-      if (error) {
-        console.log(error);
-        return;
-      }
-      return owners;
-    } else {
-      return;
-    }
-  }
-
   return (
-    <OwnerContext.Provider value={{ getUserAuth, getUserData }}>
+    <OwnerContext.Provider value={{ getUserAuth }}>
       {props.children}
     </OwnerContext.Provider>
   );
 }
-
-const useOwners = () => useContext(OwnerContext);
-
-export { OwnerProvider, useOwners };

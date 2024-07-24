@@ -3,7 +3,11 @@ import { createContext, useContext, useState } from "react";
 
 const OwnersAccountStateContext = createContext();
 
-function OwnersAccountStateProvider(props) {
+export function useOwnersAccountState() {
+  return useContext(OwnersAccountStateContext);
+}
+
+export function OwnersAccountStateProvider(props) {
   const router = useRouter();
   const { id } = router.query;
 
@@ -28,7 +32,3 @@ function OwnersAccountStateProvider(props) {
     </OwnersAccountStateContext.Provider>
   );
 }
-
-const useOwnerAccount = () => useContext(OwnersAccountStateContext);
-
-export { OwnersAccountStateProvider, useOwnerAccount };

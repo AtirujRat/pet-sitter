@@ -81,10 +81,7 @@ export default function SitterDetails() {
       </div>
       {isBookingModalOpen && (
         <Modal>
-          <BookingModal
-            setIsBookingModalOpen={setIsBookingModalOpen}
-            sitterId={id}
-          />
+          <BookingModal closeModal={setIsBookingModalOpen} sitterId={id} />
         </Modal>
       )}
     </section>

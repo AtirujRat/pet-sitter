@@ -1,7 +1,11 @@
 import axios from "axios";
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
 
-export const BookingContext = createContext();
+const BookingContext = createContext();
+
+export function useBooking() {
+  return useContext(BookingContext);
+}
 
 export function BookingProvider(props) {
   const [booking, setBooking] = useState(() => {
