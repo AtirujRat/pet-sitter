@@ -1,57 +1,39 @@
 import Image, { getImageProps } from "next/image";
 import iconUpLoad from "@/public/assets/sitters/icon-upload.svg";
 import iconClose from "@/public/assets/sitters/icon-close.svg";
-import { Formik, Form, Field, useFormikContext } from "formik";
-import { useState } from "react";
-import { supabase } from "@/utils/supabase";
+import { useFormikContext } from "formik";
 import { SittersProfileContext } from "@/pages/sitters/[id]/profile";
 import { useContext } from "react";
 
-export default function ImageGallery({
-  gallery,
-  setGallery,
-  images,
-  setImage,
-  profile,
-  uploadImage,
-}) {
-  const { storageImages, setstorageImages, removeStorageImage, CDNURL } =
-    useContext(SittersProfileContext);
+export default function ImageGallery({ profile, uploadGalleryImage }) {
+  const { storageImages, removeStorageImage, CDNURL } = useContext(
+    SittersProfileContext
+  );
   const { setFieldValue } = useFormikContext();
 
-  const handleGalleryChange = async (event) => {
-    const files = Array.from(event.target.files);
-    if (files.length + gallery.length > 10) {
-      alert("You can only upload a maximum of 10 images.");
-      return;
-    }
+  // const handleGalleryChange = async (event) => {
+  //   const files = Array.from(event.target.files);
+  //   if (files.length + gallery.length > 10) {
+  //     alert("You can only upload a maximum of 10 images.");
+  //     return;
+  //   }
 
-    for (const file of files) {
-      if (file.size <= 2 * 1024 * 1024) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setGallery((prev) => [...prev, reader.result]);
-          const newImage = images;
-          newImage.push(file);
-          setImage(newImage);
-          // setFieldValue("sitters_images", images);
-        };
-        reader.readAsDataURL(file);
-      } else {
-        alert("File size should not exceed 2 MB.");
-      }
-    }
-  };
-
-  function handleRemoveImage(index) {
-    const newGallery = gallery.filter((_, i) => i !== index);
-    setGallery(newGallery);
-
-    const newImagesGallery = images.filter((_, i) => i !== index);
-    setImage(newImagesGallery);
-
-    // setFieldValue("sitters_images", newImagesGallery);
-  }
+  //   for (const file of files) {
+  //     if (file.size <= 2 * 1024 * 1024) {
+  //       const reader = new FileReader();
+  //       reader.onloadend = () => {
+  //         setGallery((prev) => [...prev, reader.result]);
+  //         const newImage = images;
+  //         newImage.push(file);
+  //         setImage(newImage);
+  //         // setFieldValue("sitters_images", images);
+  //       };
+  //       reader.readAsDataURL(file);
+  //     } else {
+  //       alert("File size should not exceed 2 MB.");
+  //     }
+  //   }
+  // };
 
   return (
     <div className="flex flex-wrap gap-4">
@@ -76,8 +58,8 @@ export default function ImageGallery({
             className="hidden"
             type="file"
             id="fileInput"
-            onChange={(e) => uploadImage(e, profile.id)}
-            accept="image/jpeg, image/png"
+            onChange={(e) => uploadGalleryImage(e, profile.id)}
+            accept="image/jpeg, image/png, image/jpg"
             multiple
           />
           <label

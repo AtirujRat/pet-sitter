@@ -39,7 +39,6 @@ export default function SitterManageProfile() {
         throw error;
       }
       setstorageImages(data);
-      console.log(data);
     } catch (error) {
       alert("Error loading images");
     }

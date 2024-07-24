@@ -56,8 +56,6 @@ export default function SitterProfileForm({ profile = {} }) {
   };
 
   const [preview, setPreview] = useState(profile?.profile_image_url || null);
-  // const [gallery, setGallery] = useState([]);
-  // const [images, setImage] = useState([]);
 
   const sitterStatus = {
     approved: Approved,
@@ -92,35 +90,60 @@ export default function SitterProfileForm({ profile = {} }) {
         type="file"
         name="profile_image_url"
         onChange={handleImageChange}
-        accept="image/*"
+        accept="image/jpeg, image/png, image/jpg"
       />
     );
   }
 
-  async function uploadImage(e, folder) {
+  async function uploadGalleryImage(e, folder) {
     const files = e.target.files;
     for (const file of files) {
-      const fileName = uuidv4();
-      const { data, error } = await supabase.storage
-        .from("sitters_gallery")
-        .upload(`${folder}/${fileName}`, file); // Upload each file individually
+      if (file.size <= 2 * 1024 * 1024) {
+        const fileName = uuidv4();
+        const { data, error } = await supabase.storage
+          .from("sitters_gallery")
+          .upload(`${folder}/${fileName}`, file); // Upload each file individually
 
-      getImages();
+        getImages();
 
-      if (error) {
-        console.error("Error uploading image:", error);
-        throw error;
+        if (error) {
+          console.error("Error uploading image:", error);
+          throw error;
+        }
+      } else {
+        alert("File size should not exceed 2 MB.");
       }
     }
   }
-  // }
 
-  // console.log("url", selectedImages);
+  async function uploadProfileImage(file, folder) {
+    if (file.size > 2 * 1024 * 1024) {
+      return alert("File size should not exceed 2 MB.");
+    }
+
+    const fileName = uuidv4();
+    const { data, error } = await supabase.storage
+      .from("sitters")
+      .upload(`${folder}/${fileName}`, file);
+    if (error) {
+      console.error("Error uploading image:", error);
+      throw error;
+    } else {
+      const url = supabase.storage
+        .from("sitters")
+        .getPublicUrl(`${folder}/${fileName}`).data.publicUrl;
+      return url;
+    }
+  }
 
   let error;
 
   async function updateProfile(values) {
     error = validateRequiredAddress(values?.sitters_addresses);
+    if (storageImages.length > 10) {
+      return alert("You can upload a maximum of 10 gallery images.");
+    }
+
     try {
       if (Object.keys(error).length > 0) {
         return;
@@ -131,7 +154,7 @@ export default function SitterProfileForm({ profile = {} }) {
         values.profile_image_url !== profile.profile_image_url ||
         values.profile_image_url === null
       ) {
-        profileImageUrl = await uploadImage(
+        profileImageUrl = await uploadProfileImage(
           values.profile_image_url,
           "profile_image"
         );
@@ -408,7 +431,7 @@ export default function SitterProfileForm({ profile = {} }) {
                     // images={images}
                     // setImage={setImage}
                     profile={profile}
-                    uploadImage={uploadImage}
+                    uploadGalleryImage={uploadGalleryImage}
                   />
                 </div>
               </div>
