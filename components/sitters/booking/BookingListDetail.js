@@ -53,14 +53,14 @@ export default function BookingListDetail({ bookingId }) {
     cancelled: Canceled,
   };
 
-  const getBooking = async () => {
+  async function getBooking() {
     const res = await axios.get(
       `http://localhost:3000/api/booking/${bookingId}`
     );
 
     setBooking(res.data.data[0]);
     setLoading(false);
-  };
+  }
 
   useEffect(() => {
     getBooking();
@@ -82,11 +82,11 @@ export default function BookingListDetail({ bookingId }) {
       ? startDate
       : `${startDate} - ${endDate}`;
 
-  const handlerCloseModal = () => {
+  function handlerCloseModal() {
     setOpenModalProifle(false);
     setOpenModalPet(false);
     setOpenModalReject(false);
-  };
+  }
 
   const getStatusComponent = (status) => {
     const statusKey = status?.replace(/\s+/g, "").toLowerCase();
