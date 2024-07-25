@@ -13,6 +13,7 @@ export default function jwtInterceptor() {
         )}`,
       };
     }
+    console.log(1);
     return req;
   });
 
