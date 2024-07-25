@@ -92,7 +92,7 @@ export default function SittersList() {
                         <img
                           src={galleryImage}
                           alt={`first gallery image for ${sitter.full_name}`}
-                          className="h-[185px] w-[245px] rounded-lg object-cover object-center self-center max-xl:w-full max-sm:h-[100px]"
+                          className="h-[185px] w-[245px] xl:min-w-[245px] rounded-lg object-cover object-center self-center max-xl:w-full max-sm:h-[100px]"
                         ></img>
                         <div className="setter-info flex-col w-full">
                           <div className="profile flex gap-5 my-2">
