@@ -4,6 +4,7 @@ import { supabase } from "@/utils/supabase";
 import axios from "axios";
 import { useState } from "react";
 import Link from "next/link";
+import { useUser } from "@/context/User";
 
 function validateEmail(value) {
   let error;
@@ -26,6 +27,7 @@ function validatePassword(value) {
 export default function LoginForm(props) {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
+  const { getOwner, getSitter } = useUser();
 
   async function logIn(formData) {
     try {
@@ -34,11 +36,21 @@ export default function LoginForm(props) {
         email: checkUser.data.data[0].email,
         password: checkUser.data.data[0].password,
       });
+      if (props.api === "/api/authentication/login/owner") {
+        getOwner();
+        setTimeout(() => {
+          router.push("/");
+        }, 1000);
+      } else {
+        getSitter();
+        setTimeout(() => {
+          router.push(`/sitters/${checkUser.data.data[0].id}/profile`);
+        }, 1000);
+      }
       if (error) {
         console.log(error);
         return;
       }
-      router.push(`/sitters/${checkUser.data.data[0].id}/profile`);
     } catch (e) {
       alert("connection error");
     }
