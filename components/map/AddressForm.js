@@ -62,7 +62,7 @@ export default function AddressForm({ existingAddress, error }) {
     setFieldValue("address.subDistrict", data[0].name_en);
     setFieldValue("address.zip_code", data[0].zip_code);
   }
-  getData();
+
   useEffect(() => {
     getData();
     if (existingAddress) {
