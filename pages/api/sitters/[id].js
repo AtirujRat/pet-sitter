@@ -5,7 +5,6 @@ export default async function handler(req, res) {
   // protect(req, res);
   const { id } = req.query;
   if (req.method === "GET") {
-    // console.log(1);
     try {
       let { data: sitters, error } = await supabase
         .from("sitters")
@@ -14,11 +13,11 @@ export default async function handler(req, res) {
         )
         .eq("id", id);
 
-      // if (!sitters || sitters.length === 0) {
-      //   return res.status(404).json({
-      //     message: "Server could not find the requested sitter",
-      //   });
-      // }
+      if (!sitters || sitters.length === 0) {
+        return res.status(404).json({
+          message: "Server could not find the requested sitter",
+        });
+      }
       return res.status(200).json({
         data: sitters,
       });
@@ -130,35 +129,51 @@ export default async function handler(req, res) {
       updateResult = updatedSitter;
 
       // อัปเดตข้อมูลในตาราง sitters_images
-      // const sittersImages = reqBody.sitters_images;
 
-      // ลบข้อมูล sitters_images เก่าทั้งหมดที่เชื่อมโยงกับ sitter_id นี้
-      const { error: deleteError } = await supabase
+      const { data: existingImages, error: fetchError } = await supabase
         .from("sitters_images")
-        .delete()
+        .select("image_url")
         .eq("sitter_id", id);
 
-      if (deleteError) {
-        return res.status(405).json({ error: "Method Not Available" });
+      const newImageUrls = reqBody.sitters_images;
+      const existingImageUrls = existingImages.map((img) => img.image_url);
+
+      const imagesToDelete = existingImageUrls.filter(
+        (url) => !newImageUrls.includes(url)
+      );
+      for (const url of imagesToDelete) {
+        const { error: deleteError } = await supabase
+          .from("sitters_images")
+          .delete()
+          .eq("sitter_id", id)
+          .eq("image_url", url);
+
+        if (deleteError) {
+          throw deleteError;
+        }
       }
 
-      // เพิ่มข้อมูล sitters_images ใหม่
-      const newImages = reqBody.sitters_images.map((imgUrl) => ({
-        sitter_id: id,
-        image_url: imgUrl,
-      }));
+      const imagesToInsert = newImageUrls.filter(
+        (url) => !existingImageUrls.includes(url)
+      );
+      if (imagesToInsert.length > 0) {
+        const newImages = imagesToInsert.map((imgUrl) => ({
+          sitter_id: id,
+          image_url: imgUrl,
+        }));
 
-      const { data: imageData, error: imageError } = await supabase
-        .from("sitters_images")
-        .insert(newImages);
+        const { error: imageError } = await supabase
+          .from("sitters_images")
+          .insert(newImages);
 
-      if (imageError) {
-        return res.status(405).json({ error: "Method Not Available" });
+        if (imageError) {
+          throw imageError;
+        }
       }
 
       return res
         .status(200)
-        .json({ sitters: updateResult, sitters_images: imageData });
+        .json({ sitters: updateResult, sitters_images: newImageUrls });
     } catch (error) {
       return res.status(400).json({ error: error.message });
     }
