@@ -1,20 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useFormikContext, Field } from "formik";
+import { useFormikContext } from "formik";
 import PlaceSearch from "./PlaceSearch";
 import { useSearch } from "@/context/Search";
 import { DebounceInput } from "react-debounce-input";
 
-function validateRequired(value) {
-  let error;
-  if (!value || value === "") {
-    error = "Required";
-  }
-  return error;
-}
-
-export default function AddressForm({ existingAddress, validate }) {
-  const { values, setFieldValue, errors, touched } = useFormikContext();
+export default function AddressForm({ existingAddress, error }) {
+  const { setFieldValue } = useFormikContext();
   const [input, setInput] = useState("");
   const [province, setProvince] = useState([]);
   const [district, setDistrict] = useState([]);
@@ -69,17 +61,15 @@ export default function AddressForm({ existingAddress, validate }) {
   useEffect(() => {
     getData();
     if (existingAddress) {
-      // setAddress({
-      //   address_detail: existingAddress.address_detail,
-      //   province: existingAddress.province,
-      //   district: existingAddress.district,
-      //   subDistrict: existingAddress.sub_district,
-      //   zip_code: existingAddress.post_code,
-      // });
+      setAddress({
+        address_detail: existingAddress.address_detail,
+        province: existingAddress.province,
+        district: existingAddress.district,
+        subDistrict: existingAddress.sub_district,
+        zip_code: existingAddress.post_code,
+      });
     }
   }, []);
-
-  // console.log(existingAddress);
 
   return (
     <div className="flex flex-col gap-6">
@@ -88,17 +78,17 @@ export default function AddressForm({ existingAddress, validate }) {
           Address detail*
         </label>
         <DebounceInput
-          // value={input}
           value={address.address_detail}
           debounceTimeout={1000}
           onChange={handleInput}
           placeholder="Address"
-          validate={validateRequired}
-          className="w-full p-3 border rounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400 focus:outline-none focus:ring-0"
+          className="select w-full border rounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400 h-[54px] focus:outline-none focus:ring-0"
         />
-        {errors.address?.address_detail && touched.address?.address_detail && (
-          <div className="text-ps-red">{errors.address.address_detail}</div>
-        )}
+        {error
+          ? error.address_detail && (
+              <span className="text-ps-red">{error.address_detail}</span>
+            )
+          : null}
       </div>
       <div className="flex gap-10">
         <div className="w-full">
@@ -109,7 +99,6 @@ export default function AddressForm({ existingAddress, validate }) {
             className="select w-full border rounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400 h-[54px] focus:outline-none focus:ring-0"
             onChange={handleProvince}
             value={address.province}
-            validate={validateRequired}
           >
             <option selected disabled>
               {address.province ? address.province : "Province"}
@@ -122,9 +111,11 @@ export default function AddressForm({ existingAddress, validate }) {
               );
             })}
           </select>
-          {errors.address?.province && touched.address?.province && (
-            <div className="text-ps-red">{errors.address.province}</div>
-          )}
+          {error
+            ? error.province && (
+                <span className="text-ps-red">{error.province}</span>
+              )
+            : null}
         </div>
         <div className="w-full">
           <label htmlFor="distrinct" className="text-b2">
@@ -134,7 +125,6 @@ export default function AddressForm({ existingAddress, validate }) {
             className="select w-full border rounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400 h-[54px] focus:outline-none focus:ring-0"
             onChange={handleDistrict}
             value={address.district}
-            validate={validateRequired}
           >
             <option selected disabled>
               {address.district ? address.district : "Distrinct"}
@@ -147,9 +137,11 @@ export default function AddressForm({ existingAddress, validate }) {
               );
             })}
           </select>
-          {errors.address?.district && touched.address?.district && (
-            <div className="text-ps-red">{errors.address.district}</div>
-          )}
+          {error
+            ? error.district && (
+                <span className="text-ps-red">{error.district}</span>
+              )
+            : null}
         </div>
       </div>
       <div className="flex gap-10">
@@ -161,7 +153,6 @@ export default function AddressForm({ existingAddress, validate }) {
             className="select w-full border rounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400 h-[54px] focus:outline-none focus:ring-0"
             onChange={handleSubDistrict}
             value={address.subDistrict}
-            validate={validateRequired}
           >
             <option selected disabled>
               {address.subDistrict ? address.subDistrict : "Sub-Distrinct"}
@@ -174,11 +165,13 @@ export default function AddressForm({ existingAddress, validate }) {
               );
             })}
           </select>
-          {errors.address?.subDistrict && touched.address?.subDistrict && (
-            <div className="text-ps-red">{errors.address.subDistrict}</div>
-          )}
+          {error
+            ? error.subDistrict && (
+                <span className="text-ps-red">{error.subDistrict}</span>
+              )
+            : null}
         </div>
-        <div className="w-full">
+        <div className="w-full flex flex-col">
           <label htmlFor="post-code" className="text-b2">
             Post code*
           </label>
@@ -187,9 +180,11 @@ export default function AddressForm({ existingAddress, validate }) {
             value={address.zip_code || ""}
             className="w-full border rounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400 h-[54px] focus:outline-none focus:ring-0"
           />
-          {errors.address?.zip_code && touched.address?.zip_code && (
-            <div className="text-ps-red">{errors.address.zip_code}</div>
-          )}
+          {error
+            ? error.zip_code && (
+                <span className="text-ps-red">{error.zip_code}</span>
+              )
+            : null}
         </div>
       </div>
       <div className="w-full h-[400px]">

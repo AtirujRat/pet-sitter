@@ -19,54 +19,13 @@ import iconClose from "@/public/assets/sitters/icon-close.svg";
 import iconExclamation from "@/public/assets/icons/icon-exclamation-circle.svg";
 
 import { Approved, WaitingForApproval, Rejected } from "./SittersStatus";
-
-function validateName(value) {
-  let error;
-  if (!value) {
-    error = "Required";
-  } else if (value.length < 6 || value.length > 20) {
-    error = "Name characters must be between 6-20";
-  }
-  return error;
-}
-
-function validateRequired(value) {
-  let error;
-  if (!value || value === "") {
-    error = "Required";
-  }
-  return error;
-}
-
-function validatePhone(value) {
-  let error;
-  if (!value) {
-    error = "Required";
-  } else if (value[0] != 0) {
-    error = "The first digit must be 0.";
-  } else if (value.length != 12) {
-    error = "Phone number must contain 10 digits.";
-  }
-  return error;
-}
-
-async function validateEmail(value) {
-  let error;
-  let { data: owner_email } = await supabase
-    .from("owners")
-    .select("*")
-    .eq("email", value);
-
-  if (!value) {
-    error = "Required";
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
-    error = "Invalid email address";
-  } else if (owner_email[0]) {
-    error = "This email already exist";
-  }
-
-  return error;
-}
+import {
+  validateName,
+  validateEmail,
+  validatePhone,
+  validateRequired,
+  validateRequiredAddress,
+} from "./validateProfileform";
 
 function ImageGallery({ gallery, setGallery, images, setImage }) {
   const { setFieldValue } = useFormikContext();
@@ -229,8 +188,14 @@ export default function SitterProfileForm({ profile = {} }) {
     }
   }
 
+  let error;
+
   async function updateProfile(values) {
+    error = validateRequiredAddress(values?.sitters_addresses);
     try {
+      if (Object.keys(error).length > 0) {
+        return;
+      }
       // Upload profile image if it exists
       let profileImageUrl = null;
       if (
@@ -275,16 +240,13 @@ export default function SitterProfileForm({ profile = {} }) {
         profile_image_url: Yup.mixed(),
       })}
       onSubmit={(values, { setSubmitting }) => {
-        // console.log(values);
         const data = {
           ...values,
           sitters_addresses: { ...address, lat: searchLat, lng: searchLng },
         };
-        console.log(data);
         updateProfile(data);
         setSubmitting(false);
       }}
-      enableReinitialize
     >
       {({ errors, touched, isSubmitting }) => {
         return (
@@ -308,7 +270,7 @@ export default function SitterProfileForm({ profile = {} }) {
                   type="submit"
                   disabled={isSubmitting}
                   id="update"
-                  text="update"
+                  text="Update"
                   width="w-fit text-[16px]"
                 />
               ) : null}
@@ -381,9 +343,9 @@ export default function SitterProfileForm({ profile = {} }) {
                     className="p-3 border rrounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400 focus:outline-none focus:ring-0"
                   >
                     <option value="" label="Select experience" />
-                    <option value="0-2 year" label="0-2 year" />
-                    <option value="3-5 year" label="3-5 years" />
-                    <option value="5+ year" label="5+ years" />
+                    <option value="0-2 Years" label="0-2 Years" />
+                    <option value="3-5 Years" label="3-5 Years" />
+                    <option value="5+ Years" label="5+ Years" />
                   </Field>
                   {errors.experience && touched.experience && (
                     <div className="text-ps-red">{errors.experience}</div>
@@ -527,12 +489,12 @@ export default function SitterProfileForm({ profile = {} }) {
               <div className="flex flex-col gap-6">
                 <p className="text-ps-gray-300 text-h3">Address</p>
               </div>
-              {/* <Field
+              <Field
                 component={AddressForm}
-                name="address"
-                validate={validateRequired}
+                name="sitters_addresses"
                 existingAddress={profile.sitters_addresses}
-              /> */}
+                error={error}
+              />
             </div>
           </Form>
         );

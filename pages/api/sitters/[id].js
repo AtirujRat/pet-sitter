@@ -94,6 +94,8 @@ export default async function handler(req, res) {
         sub_district: reqBody.sitters_addresses?.subDistrict || "",
         province: reqBody.sitters_addresses?.province || "",
         post_code: reqBody.sitters_addresses?.zip_code || "",
+        lat: reqBody.sitters_addresses?.lat || "",
+        lng: reqBody.sitters_addresses?.lng || "",
         sitter_id: id,
       };
 
