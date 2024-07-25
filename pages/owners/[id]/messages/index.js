@@ -1,9 +1,18 @@
-import { useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import MessagesSidebar from "@/components/messages/MessagesSidebar";
 import ChatWindow from "@/components/messages/ChatWindow";
-import conversations from "@/components/messages/conversationsData";
+import { useRouter } from "next/router";
+import Loading from "@/components/Loading";
+import axios from "axios";
+
+export const ConversationContext = createContext();
+const API_URL = "/api/owner";
 
 export default function ConversationPage() {
+  const router = useRouter();
+  const { id } = router.query;
+  const [conversations, setConversations] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [selectedConversationId, setSelectedConversationId] = useState(null);
   const [isChatWindowOpen, setIsChatWindowOpen] = useState(true);
 
@@ -11,10 +20,27 @@ export default function ConversationPage() {
     (conversation) => conversation.id === selectedConversationId
   );
 
-  const unreadCount =
-    selectedConversation?.messages.filter(
-      (message) => message.status === "unread"
-    ).length || 0;
+  useEffect(() => {
+    const fetchConversations = async () => {
+      setLoading(true);
+
+      try {
+        if (id) {
+          const response = await axios.get(`${API_URL}/${id}/conversations`);
+          setConversations(response.data);
+        }
+        setLoading(false);
+      } catch {
+        setLoading(true);
+      }
+    };
+
+    fetchConversations();
+  }, [id]);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   const handleCardClick = (id) => {
     setSelectedConversationId(id);
@@ -27,19 +53,18 @@ export default function ConversationPage() {
   };
 
   return (
-    <section className="w-full h-[90.5vh] flex">
-      <MessagesSidebar
-        clickedCardId={selectedConversationId}
-        onCardClick={handleCardClick}
-        unreadCount={unreadCount}
-      />
-      {isChatWindowOpen && selectedConversation && (
-        <ChatWindow
-          conversation={selectedConversation}
-          onClose={handleCloseChatWindow}
-          messages={selectedConversation.messages}
-        />
-      )}
-    </section>
+    <ConversationContext.Provider
+      value={{ conversations, selectedConversationId, handleCardClick }}
+    >
+      <section className="w-full h-[91vh] flex">
+        <MessagesSidebar />
+        {isChatWindowOpen && selectedConversation && (
+          <ChatWindow
+            conversation={selectedConversation}
+            onClose={handleCloseChatWindow}
+          />
+        )}
+      </section>
+    </ConversationContext.Provider>
   );
 }

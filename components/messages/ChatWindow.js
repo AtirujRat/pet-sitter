@@ -1,6 +1,43 @@
+import { useContext } from "react";
 import Image from "next/image";
+import axios from "axios";
+import { useFormik } from "formik";
+import { ConversationContext } from "@/pages/owners/[id]/messages";
+import { useRouter } from "next/router";
 
-export default function ChatWindow({ conversation, onClose, messages }) {
+export default function ChatWindow({ conversation, onClose }) {
+  const router = useRouter();
+  const { id } = router.query;
+  const { messages = [] } = conversation || {};
+
+  const formik = useFormik({
+    initialValues: {
+      newMessage: "",
+    },
+    onSubmit: async (values, { resetForm }) => {
+      if (!values.newMessage.trim()) return;
+
+      try {
+        await axios.post(`/api/owner/${id}/message/${conversation.id}`, {
+          text: values.newMessage,
+          sender_role: "owner",
+        });
+
+        const updatedMessages = [
+          ...messages,
+          {
+            conversation_id: conversation.id,
+            text: values.newMessage,
+            sender_role: "owner",
+          },
+        ];
+        resetForm();
+      } catch (error) {
+        console.error("Failed to send message:", error);
+      }
+    },
+  });
+
   if (!conversation) {
     return (
       <div className="flex justify-center items-center h-[90vh] w-full">
@@ -11,7 +48,9 @@ export default function ChatWindow({ conversation, onClose, messages }) {
     );
   }
 
-  const orderedMessages = [...conversation.messages].reverse();
+  const orderedMessages = [...messages]
+    .sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
+    .reverse();
 
   return (
     <section className="w-full h-full flex flex-col justify-between">
@@ -20,12 +59,12 @@ export default function ChatWindow({ conversation, onClose, messages }) {
         <div className="flex gap-4 items-center">
           <img
             className="rounded-full bg-ps-orange-500 w-12 h-12"
-            src={conversation.imgUrl}
+            src={conversation.sitters?.profile_image_url}
             width={48}
             height={48}
             alt="Profile"
           />
-          <h3 className="text-h3">{conversation.nameInterlocutor}</h3>
+          <h3 className="text-h3">{conversation.sitters?.full_name}</h3>
         </div>
         <Image
           className="hover:scale-110 focus:scale-100 transition-transform cursor-pointer"
@@ -48,12 +87,14 @@ export default function ChatWindow({ conversation, onClose, messages }) {
             <div
               key={message.id}
               className={`flex ${
-                message.sender === "owner" ? "justify-end" : "justify-start"
+                message.sender_role === "owner"
+                  ? "justify-end"
+                  : "justify-start"
               } mb-4 items-end`}
             >
-              {message.sender === "sitter" && (
+              {message.sender_role === "sitter" && (
                 <img
-                  src={conversation.imgUrl}
+                  src={conversation.sitters?.profile_image_url}
                   alt="sitter"
                   className="w-10 h-10 rounded-full mr-2"
                   width={40}
@@ -61,13 +102,15 @@ export default function ChatWindow({ conversation, onClose, messages }) {
                 />
               )}
               <div
-                className={`px-6 py-4 border-ps-gray-200 border-[1px] rounded-3xl ${
-                  message.sender === "owner" ? "rounded-br" : "rounded-bl"
+                className={`px-6 py-4 border-ps-gray-200 border-[1px] hover:border-ps-orange-400 rounded-3xl ${
+                  message.sender_role === "owner"
+                    ? "rounded-br hover:translate-y-2"
+                    : "rounded-bl hover:translate-x-2"
                 } max-w-md ${
-                  message.sender === "owner"
+                  message.sender_role === "owner"
                     ? "bg-blue-500 text-white"
                     : "bg-gray-200 text-black"
-                }`}
+                } hover:scale-105 transition-transform duration-300`}
               >
                 {message.text}
               </div>
@@ -86,19 +129,30 @@ export default function ChatWindow({ conversation, onClose, messages }) {
             alt="Send Image"
           />
         </button>
-        <input
-          type="text"
-          placeholder="Message here..."
-          className="w-full text-ps-gray-600 rounded-lg border-none focus:border-ps-orange-300 outline-none"
-        />
-        <button className="bg-ps-orange-500 w-fit h-fit p-3 flex justify-center items-center rounded-full hover:scale-110 focus:scale-100 transition-transform shadow-md">
-          <Image
-            src="/assets/icons/icon-send.svg"
-            width={24}
-            height={24}
-            alt="Send Message"
+        <form
+          onSubmit={formik.handleSubmit}
+          className="w-full flex items-center"
+        >
+          <input
+            type="text"
+            name="newMessage"
+            value={formik.values.newMessage}
+            onChange={formik.handleChange}
+            placeholder="Message here..."
+            className="w-full text-ps-gray-600 rounded-lg border-none focus:border-ps-orange-300 outline-none"
           />
-        </button>
+          <button
+            type="submit"
+            className="bg-ps-orange-500 w-fit h-fit p-3 flex justify-center items-center rounded-full hover:scale-110 focus:scale-100 transition-transform shadow-md"
+          >
+            <Image
+              src="/assets/icons/icon-send.svg"
+              width={24}
+              height={24}
+              alt="Send Message"
+            />
+          </button>
+        </form>
       </div>
     </section>
   );
