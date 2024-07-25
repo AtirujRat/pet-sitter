@@ -114,7 +114,6 @@ export default function SitterProfileForm({ profile = {} }) {
   }
 
   async function uploadProfileImage(file, folder) {
-
     const fileName = uuidv4();
     const { data, error } = await supabase.storage
       .from("sitters")
@@ -123,17 +122,19 @@ export default function SitterProfileForm({ profile = {} }) {
       console.error("Error uploading image:", error);
       throw error;
     } else {
-      const existingProfileImage = profile.profile_image_url;
-      const urlParts = existingProfileImage.split("/");
-      const existingFileName = urlParts[urlParts.length - 1];
-      if (fileName !== existingFileName) {
-        const { data, error } = await supabase.storage
-          .from("sitters")
-          .remove([`profile_image/${existingFileName}`]);
+      if (profile.profile_image_url) {
+        const existingProfileImage = profile.profile_image_url;
+        const urlParts = existingProfileImage.split("/");
+        const existingFileName = urlParts[urlParts.length - 1];
+        if (fileName !== existingFileName) {
+          const { data, error } = await supabase.storage
+            .from("sitters")
+            .remove([`profile_image/${existingFileName}`]);
 
-        if (error) {
-          console.error("Error deleting old image:", error);
-          throw error;
+          if (error) {
+            console.error("Error deleting old image:", error);
+            throw error;
+          }
         }
       }
       const url = supabase.storage
