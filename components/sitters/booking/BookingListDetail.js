@@ -131,7 +131,7 @@ export default function BookingListDetail({ bookingId }) {
               <ButtonOrange
                 id="confirm booking"
                 text="Confirm Booking"
-                width="w-[160px]"
+                width="w-fit"
                 onClick={() => changeBookingStatus("Waiting for service")}
               />
             </>
