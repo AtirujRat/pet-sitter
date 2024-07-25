@@ -55,7 +55,7 @@ export default function RegisterForm(props) {
       onSubmit={(values, { setSubmitting }) => {
         setSubmitting(false);
         getData(values);
-        router.push(props.api);
+        router.push(props.route);
       }}
     >
       {({ errors, touched, isSubmitting, values }) => (

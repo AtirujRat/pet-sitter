@@ -21,7 +21,7 @@ export default function Sitters() {
     selectMap,
   } = useSitters();
 
-async function getSitters () {
+  async function getSitters() {
     const res = await axios.get(
       `/api/sitters?name=${searchName}&pet=${petQuery}&exp=${experience}`
     );
@@ -31,12 +31,12 @@ async function getSitters () {
     }
     setSitters(res.data.data);
     setLoading(false);
-  };
+  }
 
   useEffect(() => {
     setTimeout(() => {
       getSitters();
-    }, 5000);
+    }, 500);
   }, [refresh, currentPage]);
 
   return (

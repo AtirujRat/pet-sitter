@@ -7,11 +7,16 @@ import { usePathname } from "next/navigation";
 import Script from "next/script";
 import { SearchProvider } from "@/context/Search";
 import { BookingProvider } from "@/context/Booking";
+import { supabase } from "@/utils/supabase";
 
 import { SittersProvider } from "@/context/SittersProvider";
 import { OwnerProvider } from "@/context/Owners";
 import { OwnersAccountStateProvider } from "@/context/OwnersAccountState";
+import { AdminProvider } from "@/context/Admin";
+import jwtInterceptor from "@/utils/jwtinterceptor";
 
+// make sure you register this only once!
+jwtInterceptor();
 export default function Layout({ children }) {
   const [openModal, setOpenModal] = useState(false);
   const router = useRouter();
@@ -26,6 +31,7 @@ export default function Layout({ children }) {
     "/login/recovery",
     "/login/updatepassword",
     "/sitters/[id]/booking/[bookingId]",
+    "/admin",
   ];
   const dynamicRoutes = ["/sitters/[id]/profile", "/sitters/[id]/booking"];
 
@@ -52,38 +58,45 @@ export default function Layout({ children }) {
     setOpenModal(false);
   }, [pathName]);
 
+  const { data } = supabase.auth.onAuthStateChange((event, session) => {
+    if (event === "TOKEN_REFRESHED") {
+      localStorage.removeItem("sb-etraoduqrzijngbazoib-auth-token");
+    }
+  });
   return (
     <>
       {/* <Script
         defer
         src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
       /> */}
-      <OwnersAccountStateProvider>
-        <OwnerProvider>
-          <BookingProvider>
-            <SearchProvider>
-              <SittersProvider>
-                <div className="w-full">
-                  {!isNoLayoutRoute && (
-                    <NavBar
-                      setOpenModal={() => setOpenModal((prev) => !prev)}
-                    />
-                  )}
-                  {openModal && (
-                    <div className="absolute top-15 right-0 size-10 bg-ps-white w-full h-full z-10">
-                      <LoginMobile
+      <AdminProvider>
+        <OwnersAccountStateProvider>
+          <OwnerProvider>
+            <BookingProvider>
+              <SearchProvider>
+                <SittersProvider>
+                  <div className="w-full">
+                    {!isNoLayoutRoute && (
+                      <NavBar
                         setOpenModal={() => setOpenModal((prev) => !prev)}
                       />
-                    </div>
-                  )}
-                  <div>{children}</div>
-                  {!isNoLayoutRoute && !isNoFooterRoute && <Footer />}
-                </div>
-              </SittersProvider>
-            </SearchProvider>
-          </BookingProvider>
-        </OwnerProvider>
-      </OwnersAccountStateProvider>
+                    )}
+                    {openModal && (
+                      <div className="absolute top-15 right-0 size-10 bg-ps-white w-full h-full z-10">
+                        <LoginMobile
+                          setOpenModal={() => setOpenModal((prev) => !prev)}
+                        />
+                      </div>
+                    )}
+                    <div>{children}</div>
+                    {!isNoLayoutRoute && !isNoFooterRoute && <Footer />}
+                  </div>
+                </SittersProvider>
+              </SearchProvider>
+            </BookingProvider>
+          </OwnerProvider>
+        </OwnersAccountStateProvider>
+      </AdminProvider>
     </>
   );
 }

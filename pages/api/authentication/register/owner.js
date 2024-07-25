@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
-    const { id, email, password, phone } = req.body;
+    let { id, email, password, phone } = req.body;
     if (id) {
       let { data: owners, error } = await supabase
         .from("owners")

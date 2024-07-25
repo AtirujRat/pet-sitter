@@ -2,7 +2,7 @@ import { supabase } from "@/utils/supabase";
 import bcrypt from "bcrypt";
 
 export default async function handler(req, res) {
-  const { email, password, phone } = req.body;
+  let { email, password, phone } = req.body;
   if (!email || !password || !phone) {
     return res.status(404).json({ message: "missing data from request" });
   }
