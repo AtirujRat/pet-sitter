@@ -28,8 +28,8 @@ export default function UpdatePetForm() {
     const fetchPet = async () => {
       try {
         const response = await axios.get(`${API_URL}/${id}/pet/${petId}`);
-        setPet(response.data);
-        setPreview(response.data.pet_image_url);
+        setPet(response.data[0]);
+        setPreview(response.data[0].pet_image_url);
       } catch (error) {
         console.error("Error fetching pet:", error);
       }
