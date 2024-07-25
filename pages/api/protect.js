@@ -13,7 +13,10 @@ export default async function protect(req, res) {
     }
   };
   const token = req.headers.authorization?.split(" ")[1];
-  const access_token = JSON.parse(token).access_token;
+  let access_token;
+  if (token) {
+    access_token = JSON.parse(token).access_token;
+  }
 
   if (!token) {
     return res.status(401).json({ error: "Missing token" });
@@ -26,14 +29,4 @@ export default async function protect(req, res) {
   }
 
   // Token is valid, proceed with your API logic
-  const { data, error: supabaseError } = await supabase
-    .from("owners")
-    .select("*")
-    .eq("id", 43);
-
-  if (supabaseError) {
-    return res.status(500).json({ error: supabaseError.message });
-  }
-
-  return res.status(200).json(data);
 }
