@@ -11,30 +11,6 @@ export default function ImageGallery({ profile, uploadGalleryImage }) {
   );
   const { setFieldValue } = useFormikContext();
 
-  // const handleGalleryChange = async (event) => {
-  //   const files = Array.from(event.target.files);
-  //   if (files.length + gallery.length > 10) {
-  //     alert("You can only upload a maximum of 10 images.");
-  //     return;
-  //   }
-
-  //   for (const file of files) {
-  //     if (file.size <= 2 * 1024 * 1024) {
-  //       const reader = new FileReader();
-  //       reader.onloadend = () => {
-  //         setGallery((prev) => [...prev, reader.result]);
-  //         const newImage = images;
-  //         newImage.push(file);
-  //         setImage(newImage);
-  //         // setFieldValue("sitters_images", images);
-  //       };
-  //       reader.readAsDataURL(file);
-  //     } else {
-  //       alert("File size should not exceed 2 MB.");
-  //     }
-  //   }
-  // };
-
   return (
     <div className="flex flex-wrap gap-4">
       {storageImages.map((image, index) => (
