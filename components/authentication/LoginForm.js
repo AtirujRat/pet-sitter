@@ -38,7 +38,8 @@ export default function LoginForm(props) {
         console.log(error);
         return;
       }
-      router.push(`/sitters/${checkUser.data.data[0].id}/profile`);
+      console.log(checkUser.data.data[1].id);
+      // router.push(`/sitters/${checkUser.data.data[0].id}/profile`);
     } catch (e) {
       alert("connection error");
     }

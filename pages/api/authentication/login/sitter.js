@@ -35,6 +35,7 @@ export default async function handler(req, res) {
         .status(400)
         .json({ message: "error connection from database" });
     }
+    console.log(data.id);
 
     return res
       .status(200)
