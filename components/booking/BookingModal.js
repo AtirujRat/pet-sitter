@@ -129,8 +129,10 @@ export default function BookingModal(props) {
       initialValues={{ booking_date: "" }}
       onSubmit={(values, { setSubmitting }) => {
         createBooking(values);
-        setStepBooking("your_pet");
-        router.push(`/sitters/${id}/booking/create`);
+        setTimeout(() => {
+          setStepBooking("your_pet");
+          router.push(`/sitters/${id}/booking/create`);
+        }, 1000);
       }}
     >
       {({ errors, touched, isSubmitting, values }) => (

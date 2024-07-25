@@ -2,9 +2,10 @@ import { supabase } from "@/utils/supabase";
 import protect from "../protect";
 
 export default async function handler(req, res) {
-  protect(req, res);
+  // protect(req, res);
   const { id } = req.query;
   if (req.method === "GET") {
+    // console.log(1);
     try {
       let { data: sitters, error } = await supabase
         .from("sitters")
@@ -13,12 +14,11 @@ export default async function handler(req, res) {
         )
         .eq("id", id);
 
-      if (!sitters || sitters.length === 0) {
-        return res.status(404).json({
-          message: "Server could not find the requested sitter",
-        });
-      }
-
+      // if (!sitters || sitters.length === 0) {
+      //   return res.status(404).json({
+      //     message: "Server could not find the requested sitter",
+      //   });
+      // }
       return res.status(200).json({
         data: sitters,
       });
@@ -41,7 +41,7 @@ export default async function handler(req, res) {
         .eq("id", id);
 
       if (selectError) {
-        throw selectError;
+        return res.status(405).json({ error: "Method Not Available" });
       }
 
       // เตรียมข้อมูลสำหรับการอัปเดต
@@ -70,7 +70,7 @@ export default async function handler(req, res) {
           .eq("id", id)
           .select();
         if (updateError) {
-          throw updateError;
+          return res.status(405).json({ error: "Method Not Available" });
         }
         updateResult = data;
       } else {
@@ -79,7 +79,7 @@ export default async function handler(req, res) {
           .upsert(updateData)
           .select();
         if (upsertError) {
-          throw upsertError;
+          return res.status(405).json({ error: "Method Not Available" });
         }
         updateResult = data;
       }
@@ -105,7 +105,7 @@ export default async function handler(req, res) {
         .eq("sitter_id", id);
 
       if (deleteSitterIdError) {
-        throw deleteSitterIdError;
+        return res.status(405).json({ error: "Method Not Available" });
       }
 
       // แทรกที่อยู่ใหม่
@@ -114,7 +114,7 @@ export default async function handler(req, res) {
         .insert(addressData)
         .select();
       if (addressInsertError) {
-        throw addressInsertError;
+        return res.status(405).json({ error: "Method Not Available" });
       }
       addressResult = data;
 
@@ -125,7 +125,7 @@ export default async function handler(req, res) {
         .eq("id", id)
         .select();
       if (updateSitterError) {
-        throw updateSitterError;
+        return res.status(405).json({ error: "Method Not Available" });
       }
       updateResult = updatedSitter;
 
@@ -139,7 +139,7 @@ export default async function handler(req, res) {
         .eq("sitter_id", id);
 
       if (deleteError) {
-        throw deleteError;
+        return res.status(405).json({ error: "Method Not Available" });
       }
 
       // เพิ่มข้อมูล sitters_images ใหม่
@@ -153,14 +153,14 @@ export default async function handler(req, res) {
         .insert(newImages);
 
       if (imageError) {
-        throw imageError;
+        return res.status(405).json({ error: "Method Not Available" });
       }
 
-      res
+      return res
         .status(200)
         .json({ sitters: updateResult, sitters_images: imageData });
     } catch (error) {
-      res.status(400).json({ error: error.message });
+      return res.status(400).json({ error: error.message });
     }
   } else {
     return res.status(405).json({ error: "Method Not Available" });

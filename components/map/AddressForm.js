@@ -14,10 +14,15 @@ export default function AddressForm({ existingAddress, error }) {
 
   const { address, setAddress } = useSearch();
   async function getData() {
-    const data = await axios.get(
-      "https://raw.githubusercontent.com/kongvut/thai-province-data/master/api_province_with_amphure_tambon.json"
-    );
-    setProvince(data.data);
+    try {
+      const response = await fetch(
+        "https://raw.githubusercontent.com/kongvut/thai-province-data/master/api_province_with_amphure_tambon.json"
+      );
+      const data = await response.json();
+      setProvince(data);
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   function handleInput(e) {
@@ -57,7 +62,7 @@ export default function AddressForm({ existingAddress, error }) {
     setFieldValue("address.subDistrict", data[0].name_en);
     setFieldValue("address.zip_code", data[0].zip_code);
   }
-
+  getData();
   useEffect(() => {
     getData();
     if (existingAddress) {
@@ -187,9 +192,7 @@ export default function AddressForm({ existingAddress, error }) {
             : null}
         </div>
       </div>
-      <div className="w-full h-[400px]">
-        {/* <PlaceSearch /> */}
-      </div>
+      <div className="w-full h-[400px]">{/* <PlaceSearch /> */}</div>
     </div>
   );
 }
