@@ -47,7 +47,6 @@ export async function validateEmail(value) {
 }
 
 export function validateRequiredAddress(value) {
-  console.log("wi", value);
   let error = {};
   if (!value?.address_detail?.length > 0) {
     error.address_detail = "Required";
