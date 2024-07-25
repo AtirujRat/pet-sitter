@@ -22,6 +22,7 @@ export default async function handler(req, res) {
             trade_name,
             profile_image_url
           )
+            , pets(name)
         `
         )
         .eq("owner_id", id)

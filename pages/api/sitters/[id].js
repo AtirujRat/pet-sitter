@@ -133,7 +133,7 @@ export default async function handler(req, res) {
       updateResult = updatedSitter;
 
       // อัปเดตข้อมูลในตาราง sitters_images
-      const sittersImages = reqBody.sitters_images;
+      // const sittersImages = reqBody.sitters_images;
 
       // ลบข้อมูล sitters_images เก่าทั้งหมดที่เชื่อมโยงกับ sitter_id นี้
       const { error: deleteError } = await supabase
@@ -146,9 +146,9 @@ export default async function handler(req, res) {
       }
 
       // เพิ่มข้อมูล sitters_images ใหม่
-      const newImages = sittersImages.map((img) => ({
+      const newImages = reqBody.sitters_images.map((imgUrl) => ({
         sitter_id: id,
-        image_url: img.image_url,
+        image_url: imgUrl,
       }));
 
       const { data: imageData, error: imageError } = await supabase
