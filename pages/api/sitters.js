@@ -4,7 +4,7 @@ export default async function handler(req, res) {
   const tradeName = req.query.name;
   const petType = [req.query.pet];
   const experience = req.query.exp;
-  console.log(req.headers);
+  // console.log(req.headers);
   if (req.method === "GET") {
     try {
       let supabaseQuery = supabase
