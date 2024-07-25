@@ -30,14 +30,15 @@ export default function LoginForm(props) {
   async function logIn(formData) {
     try {
       const checkUser = await axios.post(props.api, formData);
-      const { data, error } = await supabase.auth.signInWithPassword(
-        checkUser.data.data[0]
-      );
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: checkUser.data.data[0].email,
+        password: checkUser.data.data[0].password,
+      });
       if (error) {
         console.log(error);
         return;
       }
-      router.push("/");
+      router.push(`/sitters/${checkUser.data.data[0].id}/profile`);
     } catch (e) {
       alert("connection error");
     }
