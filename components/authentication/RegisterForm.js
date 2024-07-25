@@ -109,6 +109,7 @@ export default function RegisterForm(props) {
               className="p-3 border-2 rounded-sm border-ps-gray-200 text-b2 font-normal text-ps-gray-400"
             />
             <button
+              type="button"
               className="absolute right-[5%] top-[55%]"
               onClick={() => {
                 setShowPassword(!showPassword);
