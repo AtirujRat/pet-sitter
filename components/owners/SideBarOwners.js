@@ -5,13 +5,14 @@ import yourPet_icon from "@/public/assets/account/your-pet.svg";
 import yourPet_icon_active from "@/public/assets/account/your-pet-active.svg";
 import list_icon from "@/public/assets/account/list.svg";
 import list_icon_active from "@/public/assets/account/list-active.svg";
-import { useOwnerAccount } from "@/context/OwnersAccountState";
+useOwnersAccountState;
 import { useRouter } from "next/router";
+import { useOwnersAccountState } from "@/context/OwnersAccountState";
 
 function SideBarOwners() {
   const router = useRouter();
   const { id } = router.query;
-  const { accountState, changeAccountStateHandle } = useOwnerAccount();
+  const { accountState, changeAccountStateHandle } = useOwnersAccountState();
 
   return (
     <section className="w-fit h-fit md:sticky top-5">

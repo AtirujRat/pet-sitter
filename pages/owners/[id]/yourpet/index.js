@@ -3,14 +3,14 @@ import SideBarOwners from "@/components/owners/SideBarOwners";
 import PetList from "@/components/owners/yourpet/PetList";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useOwnerAccount } from "@/context/OwnersAccountState";
+import { useOwnersAccountState } from "@/context/OwnersAccountState";
 
 export default function PetListPage() {
   const router = useRouter();
   const { id } = router.query;
 
   const [isModalOpen, setIsModalOpen] = useState(true);
-  const { accountState, changeAccountStateHandle } = useOwnerAccount();
+  const { accountState, changeAccountStateHandle } = useOwnersAccountState();
 
   useEffect(() => {
     changeAccountStateHandle("yourpet");
