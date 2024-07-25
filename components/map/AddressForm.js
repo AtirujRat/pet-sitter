@@ -188,7 +188,7 @@ export default function AddressForm({ existingAddress, error }) {
         </div>
       </div>
       <div className="w-full h-[400px]">
-        <PlaceSearch />
+        {/* <PlaceSearch /> */}
       </div>
     </div>
   );
