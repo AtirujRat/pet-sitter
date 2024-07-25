@@ -2,7 +2,6 @@ import axios from "axios";
 import { createContext, useState, useEffect, useContext } from "react";
 
 const BookingContext = createContext();
-
 export function useBooking() {
   return useContext(BookingContext);
 }
@@ -59,6 +58,7 @@ export function BookingProvider(props) {
       return updatedSelectedPets;
     });
   }
+  console.log(booking);
 
   useEffect(() => {
     if (booking) {

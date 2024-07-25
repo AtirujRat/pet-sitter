@@ -31,8 +31,6 @@ export default async function handler(req, res) {
     const { id } = req.query;
     const reqBody = { ...req.body, updated_at: new Date() };
 
-    console.log(reqBody);
-
     try {
       // ดึงข้อมูลปัจจุบันของ sitters
       const { data: existingData, error: selectError } = await supabase

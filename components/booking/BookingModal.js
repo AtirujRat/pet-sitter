@@ -85,7 +85,7 @@ export default function BookingModal(props) {
   const router = useRouter();
   const id = router.query.id;
   const { addBookingHandle, setStepBooking } = useBooking();
-  const { getUserAuth } = useOwners();
+  const { getUserAuth, setUser } = useOwners();
 
   useEffect(() => {
     if (startTime === "" || endTime === "") {
@@ -108,7 +108,9 @@ export default function BookingModal(props) {
     } else if (timeError) {
       return;
     }
+
     if (ownerEmail) {
+      setUser(ownerData.data[0]);
       addBookingHandle({
         owner_id: ownerData.data[0].id,
         sitter_id: "",

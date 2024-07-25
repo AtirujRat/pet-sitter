@@ -1,5 +1,5 @@
 import { supabase } from "@/utils/supabase";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const OwnerContext = createContext();
 
@@ -8,6 +8,13 @@ export function useOwners() {
 }
 
 export function OwnerProvider(props) {
+  const [petData, setPetData] = useState([]);
+  const [user, setUser] = useState(() => {
+    if (typeof window !== "undefined") {
+      const savedState = localStorage.getItem("user");
+      return savedState ? JSON.parse(savedState) : {};
+    }
+  });
   async function getUserAuth() {
     const {
       data: { user },
@@ -21,8 +28,16 @@ export function OwnerProvider(props) {
     return user;
   }
 
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem("user", JSON.stringify(user));
+    }
+  }, [user]);
+
   return (
-    <OwnerContext.Provider value={{ getUserAuth }}>
+    <OwnerContext.Provider
+      value={{ getUserAuth, petData, setPetData, user, setUser }}
+    >
       {props.children}
     </OwnerContext.Provider>
   );

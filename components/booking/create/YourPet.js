@@ -18,7 +18,7 @@ import Loading from "@/components/Loading";
 export default function YourPet() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const { userId, petData, setPetData } = useOwners();
+  const { petData, setPetData } = useOwners();
   const { sitter, setSitter } = useSitters();
   const {
     setStepBooking,
@@ -48,18 +48,17 @@ export default function YourPet() {
         return;
       }
       const getDataOwners = await axios.post("/api/owner/getdata", {
-        id: userId.id,
+        id: booking.owner_id,
       });
       const getDataSittets = await axios.get(`/api/sitters/${id}`);
       setSitter(getDataSittets.data.data[0]);
-      setPetData(getDataOwners.data);
+      setPetData(getDataOwners.data.data);
       addBookingHandle({ ...booking, sitter_id: id });
       setLoading(false);
     } catch (e) {
       console.log(e);
     }
   }
-  console.log(booking);
 
   useEffect(() => {
     getData();
@@ -158,7 +157,7 @@ export default function YourPet() {
           <button
             type="button"
             onClick={() => {
-              router.push(`/owners/${petData[0].owner_id}/yourpet/create`);
+              router.push(`/sitters/${id}`);
             }}
             className="btn hover:bg-ps-orange-200 max-lg:w-[45%] lg:px-12 bg-ps-orange-100 text-b2 text-ps-orange-500 border-none rounded-[99px] absolute bottom-[-595px] max-lg:left-4 lg:bottom-14"
           >
