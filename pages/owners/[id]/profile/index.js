@@ -10,6 +10,8 @@ import IdInput from "@/components/authentication/IdInput";
 import { supabase } from "@/utils/supabase";
 import { v4 as uuidv4 } from "uuid";
 import { useParams } from "next/navigation";
+import axios from "axios";
+import { useOwners } from "@/context/Owners";
 
 function validateName(value) {
   let error;
@@ -21,54 +23,23 @@ function validateName(value) {
   return error;
 }
 
-function validatePhone(value) {
-  let error;
-  if (!value) {
-    error = "Required";
-  } else if (value[0] != 0) {
-    error = "The first digit must be 0.";
-  } else if (value.length != 12) {
-    error = "Phone number must contain 10 digits.";
-  }
-  return error;
-}
+// async function validateEmail(value) {
+//   let error;
+//   let { data: owner_email } = await supabase
+//     .from("owners")
+//     .select("*")
+//     .eq("email", value);
 
-async function validateNumber(value) {
-  let error;
+//   if (!value) {
+//     error = "Required";
+//   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
+//     error = "Invalid email address";
+//   } else if (owner_email[0]) {
+//     error = "This email already exist";
+//   }
 
-  let { data: owner_id_number } = await supabase
-    .from("owners")
-    .select("*")
-    .eq("id_number)", value);
-
-  if (!value) {
-    error = "Required";
-  } else if (value.length !== 13) {
-    error = "Id number must have 13 digits";
-  } else if (owner_id_number[0]) {
-    error = "This Id number already exist";
-  }
-
-  return error;
-}
-
-async function validateEmail(value) {
-  let error;
-  let { data: owner_email } = await supabase
-    .from("owners")
-    .select("*")
-    .eq("email", value);
-
-  if (!value) {
-    error = "Required";
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
-    error = "Invalid email address";
-  } else if (owner_email[0]) {
-    error = "This email already exist";
-  }
-
-  return error;
-}
+//   return error;
+// }
 
 function validateCalendar(value) {
   let error;
@@ -114,62 +85,105 @@ const Account = () => {
   const [preview, setPreview] = useState(null);
   const [userData, setUser] = useState();
 
+  const { getUserAuth } = useOwners();
   const params = useParams();
 
   const getUser = async () => {
-    const {
-      data: { user, error },
-    } = await supabase.auth.getUser();
-    if (!user) {
-      console.log("error");
-      return;
-    }
+    const ownerEmail = await getUserAuth();
 
-    setUser(user);
+    const ownerData = await axios.post(`/api/owner/queryowner`, {
+      email: ownerEmail.email,
+    });
+
+    setUser(ownerData.data[0]);
   };
 
   useEffect(() => {
     getUser();
   }, []);
 
-  const updateProfile = async (formData) => {
-    const fileName = uuidv4();
+  async function validateNumber(value) {
+    let error;
 
-    const { image_url, image_url_error } = await supabase.storage
-      .from("owner")
-      .upload("profile_image/" + fileName, formData.image);
-    console.log(formData.image);
+    const owners = await axios.get(`/api/owner/getowners`);
 
-    if (image_url_error) {
-      console.log(image_url_error);
-      return;
+    const id_number = owners.data.map((item) => {
+      return item.id_number;
+    });
+
+    const isNumberExist = id_number.filter((item) => {
+      return item !== userData.id_number;
+    });
+
+    if (!value) {
+      error = "Required";
+    } else if (value.length !== 13) {
+      error = "Id number must have 13 digits";
+    } else if (isNumberExist.includes(value)) {
+      error = "Id number already exist";
     }
 
-    const publicAttachmentUrl = supabase.storage
-      .from("owner/profile_image")
-      .getPublicUrl(fileName);
+    return error;
+  }
 
-    const { data, error } = await supabase
-      .from("owners")
-      .update({
+  async function validatePhone(value) {
+    let error;
+
+    const owners = await axios.get(`/api/owner/getowners`);
+
+    const phone_number = owners.data.map((item) => {
+      return item.phone_number;
+    });
+
+    const isPhoneNumber = phone_number.filter((item) => {
+      return item !== userData.phone_number;
+    });
+
+    if (!value) {
+      error = "Required";
+    } else if (value[0] != 0) {
+      error = "The first digit must be 0.";
+    } else if (value.length != 12) {
+      error = "Phone number must contain 10 digits.";
+    } else if (isPhoneNumber.includes(value)) {
+      error = "Phone number already exist";
+    }
+    return error;
+  }
+
+  const updateProfile = async (formData) => {
+    const fileName = uuidv4();
+    try {
+      const { image_url, image_url_error } = await supabase.storage
+        .from("owner")
+        .upload("profile_image/" + fileName, formData.image);
+
+      if (image_url_error) {
+        console.log(image_url_error);
+        return;
+      }
+
+      const publicAttachmentUrl = supabase.storage
+        .from("owner/profile_image")
+        .getPublicUrl(fileName);
+
+      await axios.put("/api/owner/updateowner", {
+        id: params?.id,
         profile_image_url: publicAttachmentUrl.data.publicUrl,
         full_name: formData.name,
         email: userData?.email,
         phone_number: formData.phone,
         id_number: formData.id_number,
         date_of_birth: formData.date_of_birth,
-        updated_at: new Date(),
-      })
-      .eq("id", params?.id)
-      .select();
-    if (error) {
+      });
+    } catch (error) {
       console.log(error);
       return;
     }
 
-    console.log("Updated Successfully");
     alert("Profile has been updated");
   };
+
   return (
     <div className="flex gap-5 flex-col justify-center lg:flex-row  max-w-screen-xl mx-auto mt-4">
       <SideBarOwners />
@@ -197,14 +211,20 @@ const Account = () => {
               {preview ? (
                 <img
                   src={preview}
-                  alt="Image Preview"
+                  alt="image Preview"
                   className="absolute w-full h-full object-cover rounded-full"
                 />
-              ) : (
+              ) : userData?.profile_image_url === null ? (
                 <Image
                   className="absolute w-[86px] h-[86px]"
                   src={profile_icon}
                   alt="profile icon"
+                />
+              ) : (
+                <img
+                  src={userData?.profile_image_url}
+                  alt="owner profile"
+                  className="absolute w-full h-full object-cover rounded-full"
                 />
               )}
               <div className="absolute bottom-0 right-0 ">
@@ -224,6 +244,7 @@ const Account = () => {
               <Field
                 type="text"
                 name="name"
+                placeholder={userData?.full_name}
                 className="text-b2 rounded-lg border-2 border-ps-gray-200 focus:border-ps-gray-200 focus:ring-0"
                 validate={validateName}
               />
@@ -251,6 +272,7 @@ const Account = () => {
                 <Field
                   type="tel"
                   name="phone"
+                  placeholder={userData?.phone_number}
                   component={PhoneInput}
                   validate={validatePhone}
                   className="text-b2 rounded-lg border-2 border-ps-gray-200 focus:border-ps-gray-200 focus:ring-0"
@@ -268,6 +290,7 @@ const Account = () => {
                   name="id_number"
                   validate={validateNumber}
                   component={IdInput}
+                  placeholder={userData?.id_number}
                   className="text-b2 rounded-lg border-2 border-ps-gray-200 focus:border-ps-gray-200 focus:ring-0"
                 />
                 {errors.id_number && touched.id_number && (

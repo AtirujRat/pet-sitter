@@ -6,7 +6,6 @@ import {
   ButtonOrange,
   ButtonOrangeLight,
 } from "@/components/buttons/OrangeButtons";
-
 import Modal from "@/components/modal/Modal";
 import ReportModal from "@/components/bookinghistory/ReportModal";
 import BookingDetailModal from "@/components/bookinghistory/BookingDetailModal";
@@ -19,6 +18,8 @@ import ReviewModal from "@/components/review/ReviewModal";
 import YourReview from "@/components/review/YourReview";
 import SideBarOwners from "@/components/owners/SideBarOwners";
 import { useOwners } from "@/context/Owners";
+import { useRouter } from "next/router";
+import BookingModal from "@/components/booking/BookingModal";
 
 const BOOKING_STATUS = {
   Waiting_for_confirm: "ps-pink-500",
@@ -37,6 +38,7 @@ export default function BookingHistory() {
     useState(false);
   const [isReviewModalOpened, setIsReviewModalOpened] = useState(false);
   const [isYourReviewModalOpened, setIsYourReviewModalOpened] = useState(false);
+
   const [currentReview, setCurrentReview] = useState();
   const [currentIndex, setCurrentIndex] = useState();
   const [loading, setLoading] = useState(true);
@@ -44,29 +46,31 @@ export default function BookingHistory() {
 
   const { getUserAuth } = useOwners();
 
+  const router = useRouter();
+  const { id } = router.query;
+
   async function getBookingHistory() {
     try {
-      const ownerEmail = await getUserAuth();
+      if (id) {
+        const ownerEmail = await getUserAuth();
 
-      const ownerData = await axios.post(`/api/owner/ownerdata`, {
-        email: ownerEmail.email,
-      });
+        const ownerData = await axios.post(`/api/owner/queryowner`, {
+          email: ownerEmail.email,
+        });
+        setOnwerData(ownerData.data);
 
-      setOnwerData(ownerData.data);
+        const getBookingList = await axios.get(`/api/owner/${id}/booking`);
 
-      const getBookingList = await axios.post("/api/booking/bookinglist", {
-        id: ownerData.data[0].id,
-      });
-      setBookingList(getBookingList.data);
+        setBookingList(getBookingList.data);
+        setLoading(false);
+        setError(null);
+      }
     } catch (error) {
-      setLoading(false);
       setError("Could not fetch Booking List");
+      setLoading(false);
       console.log(error);
       return;
     }
-
-    setLoading(false);
-    setError(null);
   }
 
   async function getReviews() {
@@ -81,7 +85,7 @@ export default function BookingHistory() {
   useEffect(() => {
     getBookingHistory();
     getReviews();
-  }, [currentIndex]);
+  }, [currentIndex, id]);
 
   function toggleReportModal(index) {
     setCurrentIndex(index);
@@ -155,8 +159,8 @@ export default function BookingHistory() {
                 </div>
               </div>
 
-              <div className="flex flex-col   md:flex-row gap-[10px] sm:gap-[15px] items-center justify-between mt-[16px] ">
-                <div className=" w-full md:w-[50%]">
+              <div className="flex flex-col  md:flex-row gap-[10px] sm:gap-[15px] justify-between mt-[16px] ">
+                <div className=" w-full md:w-[60%]">
                   <h1 className="text-ps-gray-400 text-b3">Date & Time:</h1>
                   <div className="flex items-center gap-[12px]">
                     <span className="text-b3 2xl:text-b2 text-ps-gray-600">
@@ -179,10 +183,10 @@ export default function BookingHistory() {
                     )}
                   </div>
                 </div>
-                <div className="hidden md:block bg-ps-gray-200 w-[1px] h-[35px] mx-[36px]"></div>
 
-                <div className="flex flex-col sm:flex-row w-full md:w-[40%] gap-[10px]">
-                  <div className="flex items-center w-[50%]">
+                <div className="flex flex-col gap-[10px] sm:flex-row w-full md:w-[50%] sm:gap-[50px]">
+                  <div className="relative flex md:w-[50%]">
+                    <div className="hidden md:block relative md:top-[10%] bg-ps-gray-200 mt-[10px] w-[1px] h-[35px] mx-[36px]"></div>
                     <div>
                       <h1 className="text-ps-gray-400 text-b3">Duration:</h1>
                       <h1 className="text-ps-gray-600 text-b3 2xl:text-b2">
@@ -191,12 +195,17 @@ export default function BookingHistory() {
                     </div>
                   </div>
 
-                  <div className="flex items-center w-[50%]">
-                    <div className="hidden md:block bg-ps-gray-200 w-[1px] h-[35px] mr-10"></div>
+                  <div className="relative flex md:w-[50%]">
+                    <div className="hidden md:block relative md:top-[10%] bg-ps-gray-200 mt-[10px] w-[1px] h-[35px] mr-10"></div>
                     <div>
                       <h1 className="text-ps-gray-400 text-b3">Pet:</h1>
                       <p className="text-ps-gray-600 text-b3 2xl:text-b2">
-                        Bubba, Daisy
+                        {item.pets.map((pet, index) => (
+                          <span key={index}>
+                            {pet.name}
+                            {index < item.pets.length - 1 && ", "}
+                          </span>
+                        ))}
                       </p>
                     </div>
                   </div>
@@ -289,6 +298,11 @@ export default function BookingHistory() {
                     </>
                   ) : (
                     <>
+                      {item.status === "Waiting for confirm" && (
+                        <button className="text-b3 2xl:text-b2 font-[700] text-ps-orange-500 flex gap-1">
+                          cancel
+                        </button>
+                      )}
                       <ButtonOrange
                         text="Send Message"
                         width="w-[156px] h-[48px] text-b2 font-[700]"
