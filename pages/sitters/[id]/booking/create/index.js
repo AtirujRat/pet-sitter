@@ -14,7 +14,7 @@ export default function BookingCreate() {
   return (
     <>
       <Backgroud />
-      <div className="w-full lg:h-screen absolute top-0 lg:p-20 pt-20 lg:pt-32 flex justify-center gap-9 z-10">
+      <div className="w-full lg:h-screen absolute top-0 lg:p-20 pt-20 lg:pt-32 flex justify-center gap-9 z-1">
         {confirm === "booking detail" ? (
           <BookingSuccess />
         ) : (

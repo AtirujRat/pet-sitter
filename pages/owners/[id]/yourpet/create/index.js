@@ -2,13 +2,13 @@ import SideBarOwners from "@/components/owners/SideBarOwners";
 import CreatePetForm from "@/components/owners/yourpet/CreatePetForm";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { useOwnerAccount } from "@/context/OwnersAccountState";
 import { useEffect } from "react";
+import { useOwnersAccountState } from "@/context/OwnersAccountState";
 
 export default function CreatePetPage() {
   const router = useRouter();
   const { id } = router.query;
-  const { accountState, changeAccountStateHandle } = useOwnerAccount();
+  const { accountState, changeAccountStateHandle } = useOwnersAccountState();
 
   useEffect(() => {
     changeAccountStateHandle("yourpet");
