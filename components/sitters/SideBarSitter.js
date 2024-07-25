@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/router";
+import { supabase } from "@/utils/supabase";
 
 import sitterlogo from "@/public/assets/sister-logo.svg";
 import profile from "@/public/assets/sidebarsitter/profile-sidebar.svg";
@@ -19,6 +20,7 @@ export default function SideBarSitter() {
   const { id } = router.query;
   const location = usePathname();
   const pathName = "/" + location.split("/")?.[3];
+
   const menu = [
     {
       icon: profile,
@@ -46,8 +48,17 @@ export default function SideBarSitter() {
     },
   ];
 
+  const handleLogout = async () => {
+    let { error } = await supabase.auth.signOut();
+    if (error) return;
+    router.push("/login/sitter");
+  };
+
   return (
-    <div className="pt-4 w-full max-w-[240px] h-screen  bg-[#FAFAFB] border-r border-[#E5E7F2] sticky top-0 flex flex-col">
+    <div
+      className="pt-4 w-full max-w-[240px] h-screen  bg-[#FAFAFB] border-r border-[#E5E7F2] sticky top-0 flex flex-col"
+      onClick={handleLogout}
+    >
       <div className="pl-6 pt-6 pb-10 bg-[#FAFAFB]">
         <Link href={"/"}>
           <Image src={sitterlogo} alt="sister-logo" width={131} />
