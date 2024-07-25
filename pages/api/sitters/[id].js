@@ -54,10 +54,7 @@ export default async function handler(req, res) {
         pet_types: reqBody.pet_types,
         services: reqBody.services,
         place_description: reqBody.place_description,
-        sitter_status:
-          reqBody.sitter_status === null || reqBody.sitter_status === "rejected"
-            ? "waiting for approval"
-            : reqBody.sitter_status,
+        sitter_status: "waiting for approval",
         updated_at: reqBody.updated_at,
         last_logged_in: reqBody.last_logged_in,
       };

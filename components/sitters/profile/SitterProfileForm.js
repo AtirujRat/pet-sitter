@@ -7,15 +7,12 @@ import { supabase } from "@/utils/supabase";
 import axios from "axios";
 import * as Yup from "yup";
 import { useSearch } from "@/context/Search";
-
 import { ButtonOrange } from "@/components/buttons/OrangeButtons";
 import AddressForm from "@/components/map/AddressForm";
 import PhoneInput from "@/components/authentication/PhoneInput";
 import MultiSelect from "./MultiSelectPetType";
 import userimage from "@/public/assets/navbar/usermock.svg";
 import plus from "@/public/assets/icon-plus.svg";
-import iconUpLoad from "@/public/assets/sitters/icon-upload.svg";
-import iconClose from "@/public/assets/sitters/icon-close.svg";
 import iconExclamation from "@/public/assets/icons/icon-exclamation-circle.svg";
 import ImageGallery from "./ImageGallery";
 import { SittersProfileContext } from "@/pages/sitters/[id]/profile";
@@ -117,9 +114,6 @@ export default function SitterProfileForm({ profile = {} }) {
   }
 
   async function uploadProfileImage(file, folder) {
-    if (file.size > 2 * 1024 * 1024) {
-      return alert("File size should not exceed 2 MB.");
-    }
 
     const fileName = uuidv4();
     const { data, error } = await supabase.storage
@@ -129,9 +123,22 @@ export default function SitterProfileForm({ profile = {} }) {
       console.error("Error uploading image:", error);
       throw error;
     } else {
+      const existingProfileImage = profile.profile_image_url;
+      const urlParts = existingProfileImage.split("/");
+      const existingFileName = urlParts[urlParts.length - 1];
+      if (fileName !== existingFileName) {
+        const { data, error } = await supabase.storage
+          .from("sitters")
+          .remove([`profile_image/${existingFileName}`]);
+
+        if (error) {
+          console.error("Error deleting old image:", error);
+          throw error;
+        }
+      }
       const url = supabase.storage
         .from("sitters")
-        .getPublicUrl(`${folder}/${fileName}`).data.publicUrl;
+        .getPublicUrl(`profile_image/${fileName}`).data.publicUrl;
       return url;
     }
   }
@@ -142,6 +149,10 @@ export default function SitterProfileForm({ profile = {} }) {
     error = validateRequiredAddress(values?.sitters_addresses);
     if (storageImages.length > 10) {
       return alert("You can upload a maximum of 10 gallery images.");
+    }
+
+    if (values.profile_image_url.size > 2 * 1024 * 1024) {
+      return alert("Profile image should not exceed 2 MB.");
     }
 
     try {
@@ -216,11 +227,12 @@ export default function SitterProfileForm({ profile = {} }) {
                   text="Request for approval"
                   width="w-fit text-[16px]"
                 />
-              ) : profile.sitter_status === "approved" ? (
+              ) : profile.sitter_status === "approved" ||
+                profile.sitter_status === "waiting for approval" ? (
                 <ButtonOrange
                   type="submit"
                   disabled={isSubmitting}
-                  id="update"
+                  id="Update"
                   text="Update"
                   width="w-fit text-[16px]"
                 />
