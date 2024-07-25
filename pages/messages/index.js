@@ -11,6 +11,11 @@ export default function ConversationPage() {
     (conversation) => conversation.id === selectedConversationId
   );
 
+  const unreadCount =
+    selectedConversation?.messages.filter(
+      (message) => message.status === "unread"
+    ).length || 0;
+
   const handleCardClick = (id) => {
     setSelectedConversationId(id);
     setIsChatWindowOpen(true);
@@ -26,11 +31,13 @@ export default function ConversationPage() {
       <MessagesSidebar
         clickedCardId={selectedConversationId}
         onCardClick={handleCardClick}
+        unreadCount={unreadCount}
       />
-      {isChatWindowOpen && (
+      {isChatWindowOpen && selectedConversation && (
         <ChatWindow
           conversation={selectedConversation}
           onClose={handleCloseChatWindow}
+          messages={selectedConversation.messages}
         />
       )}
     </section>

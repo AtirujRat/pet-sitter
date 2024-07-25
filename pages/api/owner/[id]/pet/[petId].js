@@ -9,8 +9,7 @@ export default async function handler(req, res) {
         .from("pets")
         .select("*")
         .eq("owner_id", id)
-        .eq("id", petId)
-        .single();
+        .eq("id", petId);
 
       if (error) {
         throw error;
