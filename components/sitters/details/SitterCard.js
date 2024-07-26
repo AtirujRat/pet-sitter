@@ -76,7 +76,7 @@ export default function SitterCard({
           text="Booking"
           width="w-full"
           onClick={() => {
-            if (userInfo === "owner") {
+            if (userInfo.role === "owner") {
               setIsBookingModalOpen(true);
             } else {
               router.push("/login/owner");

@@ -13,12 +13,12 @@ export function UserProvider(props) {
     }
   });
 
-  function getOwner() {
-    setUserInfo("owner");
+  function getOwner(id) {
+    setUserInfo({ role: "owner", id: id });
   }
 
-  function getSitter() {
-    setUserInfo("sitter");
+  function getSitter(id) {
+    setUserInfo({ role: "sitter", id: id });
   }
 
   useEffect(() => {
