@@ -44,7 +44,7 @@ export default function SitterManageBookingList() {
           profileImage={profile?.profile_image_url}
           fullName={profile?.full_name}
         />
-        <div className="bg-ps-gray-100 h-full flex flex-col gap-6 p-10">
+        <div className="bg-ps-gray-100 flex flex-col gap-6 p-10">
           <BookingList id={id} />
         </div>
       </div>

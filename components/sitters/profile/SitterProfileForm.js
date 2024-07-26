@@ -308,7 +308,7 @@ export default function SitterProfileForm({ profile = {} }) {
                     as="select"
                     name="experience"
                     validate={validateRequired}
-                    className="p-3 border rrounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400 focus:outline-none focus:ring-0"
+                    className="p-3 border rounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400 focus:outline-none focus:ring-0"
                   >
                     <option value="" label="Select experience" />
                     <option value="0-2 Years" label="0-2 Years" />
