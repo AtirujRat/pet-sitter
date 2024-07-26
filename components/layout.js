@@ -15,7 +15,8 @@ import { OwnersAccountStateProvider } from "@/context/OwnersAccountState";
 import { AdminProvider } from "@/context/Admin";
 import { UserProvider } from "@/context/User";
 import jwtInterceptor from "@/utils/jwtinterceptor";
-import CheckUserOwner from "./CheckUser";
+import CheckUserOwner from "@/components/CheckUserOwner";
+import CheckUserSitter from "./CheckUserSitter";
 
 // make sure you register this only once!
 jwtInterceptor();
@@ -53,13 +54,19 @@ export default function Layout({ children }) {
     "/sitters/[id]/booking/create",
   ];
 
+  const SitterRoute = [
+    "/sitters/[id]/profile",
+    "/sitters/[id]/booking",
+    "/sitters/[id]/booking/[bookingId]",
+  ];
+
   const dynamicRoutesRegex = dynamicRoutes.map(
     (route) => new RegExp(`^${route.replace("[id]", "[^/]+")}$`)
   );
 
-  const isOwnerRoute =
-    OwnerRoute.includes(router.pathname) ||
-    dynamicRoutesRegex.some((regex) => regex.test(router.pathname));
+  const isOwnerRoute = OwnerRoute.includes(router.pathname);
+
+  const isSitterRoute = SitterRoute.includes(router.pathname);
 
   const isNoLayoutRoute =
     noLayoutRoutes.includes(router.pathname) ||
@@ -69,6 +76,7 @@ export default function Layout({ children }) {
     dynamicRoutesFooter.includes(router.pathname) ||
     dynamicRoutesRegex.some((regex) => regex.test(router.pathname));
 
+  console.log(isOwnerRoute);
   useEffect(() => {
     setOpenModal(false);
   }, [pathName]);
@@ -105,6 +113,7 @@ export default function Layout({ children }) {
                         </div>
                       )}
                       {isOwnerRoute && <CheckUserOwner />}
+                      {isSitterRoute && <CheckUserSitter />}
                       <div>{children}</div>
                       {!isNoLayoutRoute && !isNoFooterRoute && <Footer />}
                     </div>
