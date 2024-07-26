@@ -54,12 +54,14 @@ export default function BookingListDetail({ bookingId }) {
   };
 
   async function getBooking() {
-    const res = await axios.get(
-      `http://localhost:3000/api/booking/${bookingId}`
-    );
+    try {
+      const res = await axios.get(
+        `http://localhost:3000/api/booking/${bookingId}`
+      );
 
-    setBooking(res.data.data[0]);
-    setLoading(false);
+      setBooking(res.data.data[0]);
+      setLoading(false);
+    } catch (e) {}
   }
 
   useEffect(() => {

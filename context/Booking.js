@@ -58,7 +58,6 @@ export function BookingProvider(props) {
       return updatedSelectedPets;
     });
   }
-  console.log(booking);
 
   useEffect(() => {
     if (booking) {
