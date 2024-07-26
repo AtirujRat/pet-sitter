@@ -17,7 +17,7 @@ export default function PetOwner() {
     ownerError,
     ownerLoading,
     isBanUserModalOpened,
-    isPetOwnerDetailOpened,
+    isPetOwnerDetailModalOpened,
     toggleOwnerDetailHandle,
     getCurrentOwner,
   } = useAdminPetOwner();
@@ -111,8 +111,8 @@ export default function PetOwner() {
 
   return (
     <section className="w-full flex flex-col gap-[24px] p-10 pb-20 bg-ps-gray-100">
-      {isPetOwnerDetailOpened ? (
-        <PetOwnerDetail toggleOwnerDetailHandle={toggleOwnerDetailHandle} />
+      {isPetOwnerDetailModalOpened ? (
+        <PetOwnerDetail closeModal={toggleOwnerDetailHandle} />
       ) : (
         <>
           <div className="flex items-center justify-between">

@@ -7,7 +7,7 @@ export default async function handler(req, res) {
     try {
       const { data: owners, error } = await supabase
         .from("owners")
-        .select("*")
+        .select("*, pets(*)")
         .eq("email", id);
 
       if (error) {

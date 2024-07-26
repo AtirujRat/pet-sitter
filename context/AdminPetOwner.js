@@ -10,9 +10,14 @@ export function AdminPetOwnerProvider(props) {
   const [owners, setOwners] = useState([]);
   const [ownerError, setOwnerError] = useState(null);
   const [ownerLoading, setOwnerLoading] = useState(true);
-  const [currentOwner, setCurrentOwner] = useState();
-  const [isBanUserModalOpened, setIsBanUserModalOpened] = useState();
-  const [isPetOwnerDetailOpened, setIspetOwnerDetailOpened] = useState(false);
+  const [currentOwner, setCurrentOwner] = useState([]);
+  const [currentPet, setCurrentPet] = useState();
+  const [currentOwnerError, setCurrentOwnerError] = useState(null);
+  const [isPetOwnerDetailModalOpened, setIspetOwnerDetailModalOpened] =
+    useState(false);
+  const [isBanUserModalOpened, setIsBanUserModalOpened] = useState(false);
+  const [isPetsDetailModalOpened, setIsPetOwnerDetailModalOpened] =
+    useState(false);
 
   async function getOwners() {
     try {
@@ -28,18 +33,28 @@ export function AdminPetOwnerProvider(props) {
   }
 
   async function getCurrentOwner(email) {
-    const response = await axios.get(`/api/owner/${email}/queryowner`);
-    setCurrentOwner(response.data[0]);
+    try {
+      const response = await axios.get(`/api/owner/${email}/queryowner`);
+      setCurrentOwner(response.data[0]);
+      setCurrentOwnerError(null);
+    } catch {
+      setCurrentOwnerError("Could not get owner data");
+    }
   }
 
   function toggleOwnerDetailHandle(value) {
     getCurrentOwner(value?.email);
-    setIspetOwnerDetailOpened((prev) => !prev);
+    setIspetOwnerDetailModalOpened((prev) => !prev);
+  }
+
+  function togglePetDetailHandle(value) {
+    setCurrentPet(value);
+    setIsPetOwnerDetailModalOpened((prev) => !prev);
   }
 
   useEffect(() => {
     getOwners();
-  }, [isPetOwnerDetailOpened]);
+  }, [isPetOwnerDetailModalOpened]);
 
   return (
     <AdminPetOwnerContext.Provider
@@ -47,12 +62,17 @@ export function AdminPetOwnerProvider(props) {
         owners,
         currentOwner,
         setCurrentOwner,
+        currentPet,
+        setCurrentPet,
         ownerError,
+        currentOwnerError,
         ownerLoading,
         isBanUserModalOpened,
-        isPetOwnerDetailOpened,
         toggleBanUserModal,
+        isPetOwnerDetailModalOpened,
         toggleOwnerDetailHandle,
+        isPetsDetailModalOpened,
+        togglePetDetailHandle,
         getCurrentOwner,
       }}
     >
