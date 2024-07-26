@@ -7,7 +7,7 @@ export default function CheckUserSitter() {
   const { userInfo } = useUser();
 
   useEffect(() => {
-    if (userInfo !== "sitter") {
+    if (userInfo.role !== "sitter") {
       router.push("/login/sitter");
     }
   }, []);

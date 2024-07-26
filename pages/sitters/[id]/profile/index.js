@@ -18,7 +18,6 @@ export default function SitterManageProfile() {
   const [loading, setLoading] = useState(true);
   const CDNURL =
     "https://etraoduqrzijngbazoib.supabase.co/storage/v1/object/public/sitters_gallery/";
-  const { userInfo } = useUser();
 
   async function GetProfile() {
     try {
@@ -78,7 +77,7 @@ export default function SitterManageProfile() {
       </div>
     );
   }
-  console.log(userInfo);
+
   return (
     <SittersProfileContext.Provider
       value={{
@@ -89,22 +88,18 @@ export default function SitterManageProfile() {
         CDNURL,
       }}
     >
-      {userInfo === "sitter" ? (
-        <div className="flex">
-          <SideBarSitter />
-          <div className="w-full flex-col">
-            <NavBarSitter
-              profileImage={profile?.profile_image_url}
-              fullName={profile?.full_name}
-            />
-            <div className="bg-[#F5F6F9] h-full flex flex-col gap-6 p-10">
-              <SitterProfileForm profile={{ ...profile }} />
-            </div>
+      <div className="flex">
+        <SideBarSitter />
+        <div className="w-full flex-col">
+          <NavBarSitter
+            profileImage={profile?.profile_image_url}
+            fullName={profile?.full_name}
+          />
+          <div className="bg-[#F5F6F9] h-full flex flex-col gap-6 p-10">
+            <SitterProfileForm profile={{ ...profile }} />
           </div>
         </div>
-      ) : (
-        <Loading />
-      )}
+      </div>
     </SittersProfileContext.Provider>
   );
 }

@@ -26,8 +26,8 @@ export default async function handler(req, res) {
           .select();
         if (error) {
           return res
-            .status(400)
-            .json({ message: "error connection from database" });
+            .status(201)
+            .json({ message: "User have already register" });
         }
         return res.status(200).json({ message: "register success" });
       }

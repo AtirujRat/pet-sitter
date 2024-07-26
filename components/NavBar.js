@@ -12,10 +12,12 @@ import menu from "@/public/assets/navbar/menu.svg";
 import sisterlogo from "@/public/assets/sister-logo.svg";
 import Link from "next/link";
 import axios from "axios";
+import { useUser } from "@/context/User";
 
 export default function NavBar({ setOpenModal }) {
   const [userData, setUserData] = useState();
   const [userId, setUserId] = useState();
+  const { userInfo, setUserInfo } = useUser();
 
   async function getUser() {
     const {
@@ -35,6 +37,7 @@ export default function NavBar({ setOpenModal }) {
       console.error("error");
       return;
     }
+
     setUserData(user);
 
     const { data: owners_id, error: getIdError } = await supabase
@@ -45,8 +48,14 @@ export default function NavBar({ setOpenModal }) {
     if (getIdError) {
       console.log(getIdError);
     }
-
-    setUserId(owners_id[0].id);
+    if (user) {
+      if (user.app_metadata.provider !== "email") {
+        setTimeout(() => {
+          setUserInfo({ role: "owner", id: owners_id[0].id });
+        }, 500);
+      }
+      setUserId(owners_id[0].id);
+    }
   }
 
   const newUser = async (data) => {
@@ -54,7 +63,7 @@ export default function NavBar({ setOpenModal }) {
       await axios.post("/api/authentication/register/owner", data);
       console.log("success");
     } catch (e) {
-      console.log("errorss");
+      console.log(e);
     }
   };
   useEffect(() => {

@@ -7,7 +7,7 @@ export default function CheckUserOwner() {
   const { userInfo } = useUser();
 
   useEffect(() => {
-    if (userInfo !== "owner") {
+    if (userInfo.role !== "owner") {
       router.push("/login/owner");
     }
   }, []);

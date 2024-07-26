@@ -76,7 +76,6 @@ export default function Layout({ children }) {
     dynamicRoutesFooter.includes(router.pathname) ||
     dynamicRoutesRegex.some((regex) => regex.test(router.pathname));
 
-  console.log(isOwnerRoute);
   useEffect(() => {
     setOpenModal(false);
   }, [pathName]);

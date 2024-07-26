@@ -41,12 +41,12 @@ export default function LoginForm(props) {
         return;
       }
       if (props.api === "/api/authentication/login/owner") {
-        getOwner();
+        getOwner(checkUser.data.data[0].id);
         setTimeout(() => {
           router.push("/");
         }, 1000);
       } else {
-        getSitter();
+        getSitter(checkUser.data.data[0].id);
         setTimeout(() => {
           router.push(`/sitters/${checkUser.data.data[0].id}/profile`);
         }, 1000);
