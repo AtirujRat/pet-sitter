@@ -28,14 +28,26 @@ export default function ConversationPage() {
   useEffect(() => {
     const fetchConversations = async () => {
       setLoading(true);
+      let sortedConversations;
+
       try {
         if (user.id) {
           const response = await axios.get(
             `${API_URL}/${user.id}/conversations`
           );
-          setConversations(response.data);
+
+          sortedConversations = [...response.data].sort(
+            (a, b) => new Date(b.updated_at) - new Date(a.updated_at)
+          );
         }
+        setConversations(sortedConversations);
+        console.log(sortedConversations);
+
         setLoading(false);
+
+        if (!selectedConversationId) {
+          setSelectedConversationId(sortedConversations[0].id);
+        }
       } catch {
         setLoading(true);
       }
