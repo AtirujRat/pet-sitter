@@ -1,10 +1,15 @@
 import { useContext } from "react";
-import { ConversationContext } from "@/pages/owners/[id]/messages";
+import { ConversationOwnerContext } from "@/pages/owners/[id]/messages";
 import MessageCard from "./MessageCard";
 
-export default function MessagesSidebar({ onSend }) {
-  const { conversations, selectedConversationId, handleCardClick } =
-    useContext(ConversationContext);
+export default function MessagesSidebarOwner() {
+  const { conversations, selectedConversationId, handleCardClick } = useContext(
+    ConversationOwnerContext
+  );
+
+  const sortedConversations = [...conversations].sort(
+    (a, b) => new Date(b.updated_at) - new Date(a.updated_at)
+  );
 
   return (
     <section>
@@ -12,7 +17,7 @@ export default function MessagesSidebar({ onSend }) {
         <div className="w-full px-10 py-6">
           <h3 className="text-h3 text-ps-white">Messages</h3>
         </div>
-        {conversations.map((conversation) => (
+        {sortedConversations.map((conversation) => (
           <MessageCard
             key={conversation.id}
             imgUrl={conversation.sitters?.profile_image_url}
@@ -25,10 +30,7 @@ export default function MessagesSidebar({ onSend }) {
               conversation.messages[conversation.messages.length - 1]?.text
             }
             isClicked={selectedConversationId === conversation.id}
-            onClick={() => {
-              handleCardClick(conversation.id);
-              onSend();
-            }}
+            onClick={() => handleCardClick(conversation.id)}
           />
         ))}
       </div>

@@ -3,7 +3,7 @@ import { supabase } from "@/utils/supabase";
 import Image from "next/image";
 import { Formik, Form, Field } from "formik";
 
-export default function ChatWindow({ conversation, onClose, onSend }) {
+export default function ChatWindowOwner({ conversation, onClose, onSend }) {
   const [messages, setMessages] = useState(conversation.messages || []);
   const initialValues = {
     newMessage: "",
