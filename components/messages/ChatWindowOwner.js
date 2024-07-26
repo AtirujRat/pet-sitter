@@ -3,7 +3,7 @@ import { supabase } from "@/utils/supabase";
 import Image from "next/image";
 import { Formik, Form, Field } from "formik";
 
-export default function ChatWindow({ conversation, onClose, onSend }) {
+export default function ChatWindowOwner({ conversation, onClose, onSend }) {
   const [messages, setMessages] = useState(conversation.messages || []);
   const initialValues = {
     newMessage: "",
@@ -65,7 +65,7 @@ export default function ChatWindow({ conversation, onClose, onSend }) {
       <div className="w-full flex justify-between bg-ps-gray-100 px-10 py-6">
         <div className="flex gap-4 items-center">
           <img
-            className="rounded-full bg-ps-orange-500 w-12 h-12"
+            className="rounded-full bg-ps-orange-500 w-12 h-12 object-cover"
             src={conversation.sitters?.profile_image_url}
             width={48}
             height={48}
@@ -102,7 +102,7 @@ export default function ChatWindow({ conversation, onClose, onSend }) {
                 <img
                   src={conversation.sitters?.profile_image_url}
                   alt="sitter"
-                  className="w-10 h-10 rounded-full mr-2"
+                  className="w-10 h-10 rounded-full mr-2 object-cover"
                   width={40}
                   height={40}
                 />
