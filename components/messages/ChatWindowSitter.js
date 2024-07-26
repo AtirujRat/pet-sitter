@@ -65,7 +65,7 @@ export default function ChatWindowSitter({ conversation, onClose, onSend }) {
       <div className="w-full flex justify-between bg-ps-gray-100 px-10 py-6">
         <div className="flex gap-4 items-center">
           <img
-            className="rounded-full bg-ps-orange-500 w-12 h-12"
+            className="rounded-full bg-ps-orange-500 w-12 h-12 object-cover"
             src={conversation.owners?.profile_image_url}
             width={48}
             height={48}
@@ -101,8 +101,8 @@ export default function ChatWindowSitter({ conversation, onClose, onSend }) {
               {message.sender_role === "owner" && (
                 <img
                   src={conversation.owners?.profile_image_url}
-                  alt="sitter"
-                  className="w-10 h-10 rounded-full mr-2"
+                  alt="owner"
+                  className="w-10 h-10 rounded-full mr-2 cover object-cover"
                   width={40}
                   height={40}
                 />
