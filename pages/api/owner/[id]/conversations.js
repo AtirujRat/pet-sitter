@@ -1,30 +1,30 @@
 import { supabase } from "@/utils/supabase";
 
 export default async function handler(req, res) {
-  const { id, petId } = req.query;
+  const { id } = req.query;
 
   if (req.method === "GET") {
     try {
-      const { data: pet, error } = await supabase
-        .from("pets")
-        .select("*")
-        .eq("owner_id", id)
-        .eq("id", petId);
+      const { data: conversations, error } = await supabase
+        .from("conversations")
+        .select("*, messages(*), sitters(full_name, profile_image_url)),")
+        .eq("owner_id", id);
 
       if (error) {
         throw error;
       }
 
-      if (pet.length === 0) {
+      if (conversations.length === 0) {
         return res.status(404).json({
-          message: `Server could not find a requested pet id ${petId} to show for owner id ${id}`,
+          message: `Server could not find a requested conversations to show for owner id ${id}`,
         });
       }
 
-      return res.status(200).json(pet);
+      return res.status(200).json(conversations);
     } catch {
       return res.status(500).json({
-        message: "Server could not read a pet because database connection",
+        message:
+          "Server could not read conversations because database connection",
       });
     }
   } else if (req.method === "PUT") {

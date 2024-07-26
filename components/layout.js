@@ -43,6 +43,7 @@ export default function Layout({ children }) {
     "/owners/[id]/yourpet",
     "/owners/[id]/yourpet/create",
     "/owners/[id]/yourpet/[petId]",
+    "/owners/[id]/messages",
   ];
 
   const OwnerRoute = [

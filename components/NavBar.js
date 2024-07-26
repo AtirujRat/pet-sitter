@@ -93,12 +93,14 @@ export default function NavBar({ setOpenModal }) {
                 width={48}
                 className="w-[48px] h-[48px] bg-[#F6F6F9] rounded-full cursor-pointer "
               />
-              <Image
-                src={message}
-                alt="message"
-                width={48}
-                className="w-[48px] h-[48px] bg-[#F6F6F9] rounded-full cursor-pointer mr-1"
-              />
+              <Link href={`/owners/${userId}/messages/`}>
+                <Image
+                  src={message}
+                  alt="message"
+                  width={48}
+                  className="w-[48px] h-[48px] bg-[#F6F6F9] rounded-full cursor-pointer mr-1"
+                />
+              </Link>
 
               <div className="flex rounded-full w-[48px] h-[48px] dropdown dropdown-bottom">
                 <Image
