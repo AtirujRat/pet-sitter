@@ -70,7 +70,7 @@ export default function BookingList({ id }) {
   };
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 h-screen">
       {/* Search */}
       <div className="flex justify-between ">
         <p className="text-h3">Booking List</p>
