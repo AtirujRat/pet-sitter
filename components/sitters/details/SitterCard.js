@@ -11,6 +11,7 @@ import {
   BirdBadge,
   RabbitBadge,
 } from "@/components/sitters/PetBadges";
+import { useUser } from "@/context/User";
 
 export default function SitterCard({
   sitter,
@@ -23,11 +24,13 @@ export default function SitterCard({
     Bird: BirdBadge,
     Rabbit: RabbitBadge,
   };
+  const { userInfo } = useUser();
+  console.log(userInfo);
   return (
     <div className="sitter-card flex flex-col lg:w-[33%] w-full bg-ps-white sm:rounded-2xl h-fit min-w-[370px] lg:sticky top-5">
       <div className="sister-profile px-10 py-10 flex flex-col gap-6 items-center w-full">
         <img
-          src={sitter.profile_image_url ?? "/assets/account/profile_white.svg"}
+          src={sitter.profile_image_url ?? "/assets/booking/owner-profile.svg"}
           alt={`${sitter.full_name}-profile-image`}
           className="rounded-full object-cover sm:h-[160px] sm:w-[160px] h-[120px] w-[120px] bg-ps-gray-200"
         ></img>
@@ -72,7 +75,11 @@ export default function SitterCard({
           text="Booking"
           width="w-full"
           onClick={() => {
-            setIsBookingModalOpen(true);
+            if (userInfo === "owner") {
+              setIsBookingModalOpen(true);
+            } else {
+              alert("Can't booking, You are a pet-sitter");
+            }
           }}
         />
       </div>

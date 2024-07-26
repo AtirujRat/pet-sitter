@@ -13,6 +13,7 @@ import { SittersProvider } from "@/context/SittersProvider";
 import { OwnerProvider } from "@/context/Owners";
 import { OwnersAccountStateProvider } from "@/context/OwnersAccountState";
 import { AdminProvider } from "@/context/Admin";
+import { UserProvider } from "@/context/User";
 import jwtInterceptor from "@/utils/jwtinterceptor";
 
 // make sure you register this only once!
@@ -69,34 +70,36 @@ export default function Layout({ children }) {
         defer
         src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
       /> */}
-      <AdminProvider>
-        <OwnersAccountStateProvider>
-          <OwnerProvider>
-            <BookingProvider>
-              <SearchProvider>
-                <SittersProvider>
-                  <div className="w-full">
-                    {!isNoLayoutRoute && (
-                      <NavBar
-                        setOpenModal={() => setOpenModal((prev) => !prev)}
-                      />
-                    )}
-                    {openModal && (
-                      <div className="absolute top-15 right-0 size-10 bg-ps-white w-full h-full z-10">
-                        <LoginMobile
+      <UserProvider>
+        <AdminProvider>
+          <OwnersAccountStateProvider>
+            <OwnerProvider>
+              <BookingProvider>
+                <SearchProvider>
+                  <SittersProvider>
+                    <div className="w-full">
+                      {!isNoLayoutRoute && (
+                        <NavBar
                           setOpenModal={() => setOpenModal((prev) => !prev)}
                         />
-                      </div>
-                    )}
-                    <div>{children}</div>
-                    {!isNoLayoutRoute && !isNoFooterRoute && <Footer />}
-                  </div>
-                </SittersProvider>
-              </SearchProvider>
-            </BookingProvider>
-          </OwnerProvider>
-        </OwnersAccountStateProvider>
-      </AdminProvider>
+                      )}
+                      {openModal && (
+                        <div className="absolute top-15 right-0 size-10 bg-ps-white w-full h-full z-10">
+                          <LoginMobile
+                            setOpenModal={() => setOpenModal((prev) => !prev)}
+                          />
+                        </div>
+                      )}
+                      <div>{children}</div>
+                      {!isNoLayoutRoute && !isNoFooterRoute && <Footer />}
+                    </div>
+                  </SittersProvider>
+                </SearchProvider>
+              </BookingProvider>
+            </OwnerProvider>
+          </OwnersAccountStateProvider>
+        </AdminProvider>
+      </UserProvider>
     </>
   );
 }

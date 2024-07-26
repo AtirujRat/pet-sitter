@@ -13,7 +13,6 @@ export default async function handler(req, res) {
       .select("email, password, id")
       .eq("email", email)
       .single();
-
     if (error) {
       return res
         .status(400)
