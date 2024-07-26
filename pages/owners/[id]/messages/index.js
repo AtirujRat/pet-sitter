@@ -4,7 +4,7 @@ import ChatWindow from "@/components/messages/ChatWindow";
 import { useRouter } from "next/router";
 import Loading from "@/components/Loading";
 import axios from "axios";
-import { supabase } from "@/utils/supabase"; // Adjust the path if necessary
+import { supabase } from "@/utils/supabase";
 
 export const ConversationContext = createContext();
 const API_URL = "/api/owner";
@@ -41,17 +41,7 @@ export default function ConversationPage() {
   useEffect(() => {
     const handleMessageInserts = (payload) => {
       const newMessage = payload.new;
-      setConversations((prevConversations) =>
-        prevConversations.map((conversation) =>
-          conversation.id === newMessage.conversation_id
-            ? {
-                ...conversation,
-                messages: [...conversation.messages, newMessage],
-                updated_at: newMessage.created_at,
-              }
-            : conversation
-        )
-      );
+      handleSendMessage(newMessage);
     };
 
     const messageListener = supabase
@@ -84,7 +74,11 @@ export default function ConversationPage() {
 
   return (
     <ConversationContext.Provider
-      value={{ conversations, selectedConversationId, handleCardClick }}
+      value={{
+        conversations,
+        selectedConversationId,
+        handleCardClick,
+      }}
     >
       <section className="w-full h-[91vh] flex">
         <MessagesSidebar />

@@ -1,17 +1,18 @@
-import { useState, useEffect } from "react";
-import { supabase } from "@/utils/supabase"; // adjust the path if necessary
+import { useState, useEffect, useContext } from "react";
+import { supabase } from "@/utils/supabase";
 import Image from "next/image";
 import { Formik, Form, Field } from "formik";
-import { useRouter } from "next/router";
 
 export default function ChatWindow({ conversation, onClose }) {
-  const router = useRouter();
-  const { id } = router.query;
   const [messages, setMessages] = useState(conversation.messages || []);
 
   const initialValues = {
     newMessage: "",
   };
+
+  useEffect(() => {
+    setMessages(conversation.messages || []);
+  }, [conversation]);
 
   useEffect(() => {
     const handleInserts = (payload) => {
