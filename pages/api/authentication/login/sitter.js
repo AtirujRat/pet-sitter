@@ -10,11 +10,7 @@ export default async function handler(req, res) {
   try {
     const { data, error } = await supabase
       .from("sitters")
-<<<<<<< HEAD
       .select("email, password, id")
-=======
-      .select("email, password , id")
->>>>>>> e036a07 (feat: add prevent page)
       .eq("email", email)
       .single();
     if (error) {

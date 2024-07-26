@@ -1,5 +1,4 @@
-import axios from "axios";
-import { createContext, useState, useContext } from "react";
+import { createContext, useState, useContext, useEffect } from "react";
 
 const UserContext = createContext();
 export function useUser() {
@@ -7,7 +6,12 @@ export function useUser() {
 }
 
 export function UserProvider(props) {
-  const [userInfo, setUserInfo] = useState("");
+  const [userInfo, setUserInfo] = useState(() => {
+    if (typeof window !== "undefined") {
+      const savedState = localStorage.getItem("userInfo");
+      return savedState ? JSON.parse(savedState) : {};
+    }
+  });
 
   function getOwner() {
     setUserInfo("owner");
@@ -16,6 +20,12 @@ export function UserProvider(props) {
   function getSitter() {
     setUserInfo("sitter");
   }
+
+  useEffect(() => {
+    if (userInfo) {
+      localStorage.setItem("userInfo", JSON.stringify(userInfo));
+    }
+  }, [userInfo]);
 
   return (
     <UserContext.Provider
