@@ -32,9 +32,10 @@ export default function LoginForm(props) {
   async function logIn(formData) {
     try {
       const checkUser = await axios.post(props.api, formData);
+      console.log(checkUser.data.data);
       const { data, error } = await supabase.auth.signInWithPassword({
-        email: checkUser.data.data[0].email,
-        password: checkUser.data.data[0].password,
+        email: checkUser.data.data.email,
+        password: checkUser.data.data.password,
       });
       if (props.api === "/api/authentication/login/owner") {
         getOwner();
@@ -44,7 +45,7 @@ export default function LoginForm(props) {
       } else {
         getSitter();
         setTimeout(() => {
-          router.push(`/sitters/${checkUser.data.data[0].id}/profile`);
+          router.push(`/sitters/${checkUser.data.data.id}/profile`);
         }, 1000);
       }
       if (error) {
