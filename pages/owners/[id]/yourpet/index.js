@@ -4,7 +4,6 @@ import PetList from "@/components/owners/yourpet/PetList";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useOwnersAccountState } from "@/context/OwnersAccountState";
-import { useUser } from "@/context/User";
 
 export default function PetListPage() {
   const router = useRouter();
