@@ -114,8 +114,8 @@ export default function ChatWindowSitter({ conversation, onClose, onSend }) {
                     : "rounded-bl hover:translate-x-2"
                 } max-w-md ${
                   message.sender_role === "sitter"
-                    ? "bg-blue-500 text-white"
-                    : "bg-gray-200 text-black"
+                    ? "bg-ps-orange-600 text-ps-white text-b2"
+                    : "bg-ps-white text-b2"
                 } hover:scale-105 transition-transform duration-300`}
               >
                 {message.text}
