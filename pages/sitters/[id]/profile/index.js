@@ -30,6 +30,16 @@ export default function SitterManageProfile() {
     }
   }, [router]);
 
+  useEffect(() => {
+    const token = localStorage.getItem("sb-etraoduqrzijngbazoib-auth-token");
+    if (token) {
+      const access_token = JSON.parse(token).access_token;
+      setTokenSitter(access_token);
+    } else {
+      router.push("/login/sitter");
+    }
+  }, [router]);
+
   async function GetProfile() {
     try {
       if (id) {
