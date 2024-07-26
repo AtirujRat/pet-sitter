@@ -1,60 +1,68 @@
-import { useContext } from "react";
+import { useState, useEffect } from "react";
+import { supabase } from "@/utils/supabase"; // adjust the path if necessary
 import Image from "next/image";
-import axios from "axios";
-import { useFormik } from "formik";
-import { ConversationContext } from "@/pages/owners/[id]/messages";
+import { Formik, Form, Field } from "formik";
 import { useRouter } from "next/router";
 
 export default function ChatWindow({ conversation, onClose }) {
   const router = useRouter();
   const { id } = router.query;
-  const { messages = [] } = conversation || {};
+  const [messages, setMessages] = useState(conversation.messages || []);
 
-  const formik = useFormik({
-    initialValues: {
-      newMessage: "",
-    },
-    onSubmit: async (values, { resetForm }) => {
-      if (!values.newMessage.trim()) return;
+  const initialValues = {
+    newMessage: "",
+  };
 
-      try {
-        await axios.post(`/api/owner/${id}/message/${conversation.id}`, {
-          text: values.newMessage,
-          sender_role: "owner",
-        });
+  useEffect(() => {
+    const handleInserts = (payload) => {
+      setMessages((prevMessages) => [payload.new, ...prevMessages]);
+    };
 
-        const updatedMessages = [
-          ...messages,
-          {
-            conversation_id: conversation.id,
-            text: values.newMessage,
-            sender_role: "owner",
-          },
-        ];
-        resetForm();
-      } catch (error) {
-        console.error("Failed to send message:", error);
-      }
-    },
-  });
+    const messageListener = supabase
+      .channel("custom-all-channel")
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "messages",
+          filter: `conversation_id=eq.${conversation.id}`,
+        },
+        handleInserts
+      )
+      .subscribe();
 
-  if (!conversation) {
-    return (
-      <div className="flex justify-center items-center h-[90vh] w-full">
-        <p className="text-b1 text-ps-gray-300">
-          Select a conversation to start chatting
-        </p>
-      </div>
-    );
-  }
+    return () => {
+      supabase.removeChannel(messageListener);
+    };
+  }, [conversation.id]);
 
   const orderedMessages = [...messages]
     .sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
     .reverse();
 
+  const onSubmit = async (values, { setSubmitting, resetForm }) => {
+    try {
+      const { data, error } = await supabase.from("messages").insert([
+        {
+          conversation_id: conversation.id,
+          text: values.newMessage,
+          sender_role: "owner",
+        },
+      ]);
+
+      if (error) throw error;
+
+      resetForm();
+    } catch (error) {
+      console.error("Error sending message:", error);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
     <section className="w-full h-full flex flex-col justify-between">
-      {/* Header */}
       <div className="w-full flex justify-between bg-ps-gray-100 px-10 py-6">
         <div className="flex gap-4 items-center">
           <img
@@ -76,7 +84,6 @@ export default function ChatWindow({ conversation, onClose }) {
         />
       </div>
 
-      {/* Message Display Area */}
       <div className="w-full h-full bg-ps-white flex flex-col-reverse p-10 overflow-y-auto">
         {orderedMessages.length === 0 ? (
           <div className="flex justify-center items-center h-full">
@@ -119,40 +126,39 @@ export default function ChatWindow({ conversation, onClose }) {
         )}
       </div>
 
-      {/* Input Area */}
       <div className="w-full flex justify-between border-t-[1px] border-ps-gray-200 bg-ps-white px-10 py-4 gap-6">
-        <button className="bg-ps-gray-100 w-fit h-fit p-3 flex justify-center items-center rounded-full hover:scale-110 focus:scale-100 transition-transform">
-          <Image
-            src="/assets/icons/icon-image.svg"
-            width={24}
-            height={24}
-            alt="Send Image"
-          />
-        </button>
-        <form
-          onSubmit={formik.handleSubmit}
-          className="w-full flex items-center"
-        >
-          <input
-            type="text"
-            name="newMessage"
-            value={formik.values.newMessage}
-            onChange={formik.handleChange}
-            placeholder="Message here..."
-            className="w-full text-ps-gray-600 rounded-lg border-none focus:border-ps-orange-300 outline-none"
-          />
-          <button
-            type="submit"
-            className="bg-ps-orange-500 w-fit h-fit p-3 flex justify-center items-center rounded-full hover:scale-110 focus:scale-100 transition-transform shadow-md"
-          >
-            <Image
-              src="/assets/icons/icon-send.svg"
-              width={24}
-              height={24}
-              alt="Send Message"
-            />
-          </button>
-        </form>
+        <Formik initialValues={initialValues} onSubmit={onSubmit}>
+          {({ isSubmitting }) => (
+            <Form className="w-full flex items-center gap-6">
+              <button className="bg-ps-gray-100 w-fit h-fit p-3 flex justify-center items-center rounded-full hover:scale-110 focus:scale-100 transition-transform">
+                <Image
+                  src="/assets/icons/icon-image.svg"
+                  width={24}
+                  height={24}
+                  alt="Send Image"
+                />
+              </button>
+              <Field
+                type="text"
+                name="newMessage"
+                placeholder="Message here..."
+                className="w-full text-ps-gray-600 rounded-lg border-none focus:border-ps-orange-300 outline-none"
+              />
+              <button
+                type="submit"
+                className="bg-ps-orange-500 w-fit h-fit p-3 flex justify-center items-center rounded-full hover:scale-110 focus:scale-100 transition-transform shadow-md"
+                disabled={isSubmitting}
+              >
+                <Image
+                  src="/assets/icons/icon-send.svg"
+                  width={24}
+                  height={24}
+                  alt="Send Message"
+                />
+              </button>
+            </Form>
+          )}
+        </Formik>
       </div>
     </section>
   );

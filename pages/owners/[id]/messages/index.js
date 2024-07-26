@@ -4,6 +4,7 @@ import ChatWindow from "@/components/messages/ChatWindow";
 import { useRouter } from "next/router";
 import Loading from "@/components/Loading";
 import axios from "axios";
+import { supabase } from "@/utils/supabase"; // Adjust the path if necessary
 
 export const ConversationContext = createContext();
 const API_URL = "/api/owner";
@@ -23,7 +24,6 @@ export default function ConversationPage() {
   useEffect(() => {
     const fetchConversations = async () => {
       setLoading(true);
-
       try {
         if (id) {
           const response = await axios.get(`${API_URL}/${id}/conversations`);
@@ -37,6 +37,36 @@ export default function ConversationPage() {
 
     fetchConversations();
   }, [id]);
+
+  useEffect(() => {
+    const handleMessageInserts = (payload) => {
+      const newMessage = payload.new;
+      setConversations((prevConversations) =>
+        prevConversations.map((conversation) =>
+          conversation.id === newMessage.conversation_id
+            ? {
+                ...conversation,
+                messages: [...conversation.messages, newMessage],
+                updated_at: newMessage.created_at,
+              }
+            : conversation
+        )
+      );
+    };
+
+    const messageListener = supabase
+      .channel("custom-all-channel")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "messages" },
+        handleMessageInserts
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(messageListener);
+    };
+  }, []);
 
   if (loading) {
     return <Loading />;
