@@ -1,38 +1,31 @@
 import search from "@/public/assets/admin/search.svg";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import axios from "axios";
 import Loading from "@/components/Loading";
 import arrow_icon from "@/public/assets/icons/icon-next.svg";
-import PetOwnerDetail from "./PetOwnerDetail";
+import PetOwnerDetail from "@/components/admin/PetOwnerDetail";
+import { useAdminPetOwner } from "@/context/AdminPetOwner";
 
 export default function PetOwner() {
   const [input, setInput] = useState("");
-  const [owners, setOwners] = useState([]);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredOwner, setFilteredOwner] = useState([]);
-  const [isPetOwnerDetailOpened, setIspetOwnerDetailOpened] = useState(false);
+
+  const {
+    owners,
+    currentOwner,
+    ownerError,
+    ownerLoading,
+    isBanUserModalOpened,
+    isPetOwnerDetailOpened,
+    toggleOwnerDetailHandle,
+    getCurrentOwner,
+  } = useAdminPetOwner();
 
   const ownerPerPage = 8;
   const lastOwnerIndex = currentPage * ownerPerPage;
   const firstPostIndex = lastOwnerIndex - ownerPerPage;
-  const currentOwner = owners.slice(firstPostIndex, lastOwnerIndex);
-
-  async function getOwners() {
-    try {
-      const response = await axios.get("/api/owner/getowners");
-      setOwners(response.data);
-      setLoading(false);
-    } catch {
-      setError("Could not get the data");
-    }
-  }
-
-  useEffect(() => {
-    getOwners();
-  }, []);
+  const paginateOwner = owners.slice(firstPostIndex, lastOwnerIndex);
 
   function pagination(totalOwner, ownerPerPage) {
     let pages = [];
@@ -59,6 +52,7 @@ export default function PetOwner() {
           onClick={previousPageHandle}
           className="cursor-pointer rotate-180"
           src={arrow_icon}
+          alt="arrow icon"
         />
         <div className="flex gap-[12px]">
           {pages.map((page, index) => {
@@ -81,6 +75,7 @@ export default function PetOwner() {
           onClick={nextPageHandle}
           className="cursor-pointer"
           src={arrow_icon}
+          alt="arrow icon"
         />
       </div>
     );
@@ -110,9 +105,9 @@ export default function PetOwner() {
     filterOwnersHandle(input);
   }, [input]);
 
-  function toggleOwnerDetailHandle() {
-    setIspetOwnerDetailOpened((prev) => !prev);
-  }
+  useEffect(() => {
+    getCurrentOwner(currentOwner?.email);
+  }, [isBanUserModalOpened]);
 
   return (
     <section className="w-full flex flex-col gap-[24px] p-10 pb-20 bg-ps-gray-100">
@@ -159,17 +154,17 @@ export default function PetOwner() {
               </div>
             </div>
             <div>
-              {loading && <Loading />}
-              {error && <p>{error}</p>}
+              {ownerLoading && <Loading />}
+              {ownerError && <p>{ownerError}</p>}
               {input.length >= 1 ? (
                 <>
                   {filteredOwner.map((owner, index) => {
                     return (
                       <div
                         key={index}
-                        onClick={() => toggleOwnerDetailHandle()}
+                        onClick={() => toggleOwnerDetailHandle(owner)}
                         className={`flex items-center bg-ps-white border-b-[1px] border-ps-gray-200 py-[20px] px-[16px] cursor-pointer  ${
-                          index + 1 === currentOwner.length &&
+                          index + 1 === paginateOwner.length &&
                           "rounded-b-2xl border-none"
                         }`}
                       >
@@ -177,6 +172,7 @@ export default function PetOwner() {
                           <img
                             className="w-[44px] h-[44px] rounded-full object-cover"
                             src={owner.profile_image_url}
+                            alt="owner profile"
                           />
                           {owner.full_name}
                         </div>
@@ -206,13 +202,13 @@ export default function PetOwner() {
                 </>
               ) : (
                 <>
-                  {currentOwner.map((owner, index) => {
+                  {paginateOwner.map((owner, index) => {
                     return (
                       <div
                         key={index}
-                        onClick={() => toggleOwnerDetailHandle()}
+                        onClick={() => toggleOwnerDetailHandle(owner)}
                         className={`flex items-center bg-ps-white border-b-[1px] border-ps-gray-200 py-[20px] px-[16px] cursor-pointer  ${
-                          index + 1 === currentOwner.length &&
+                          index + 1 === paginateOwner.length &&
                           "rounded-b-2xl border-none"
                         }`}
                       >
@@ -220,6 +216,7 @@ export default function PetOwner() {
                           <img
                             className="w-[44px] h-[44px] rounded-full object-cover"
                             src={owner.profile_image_url}
+                            alt="owner profile"
                           />
                           {owner.full_name}
                         </div>

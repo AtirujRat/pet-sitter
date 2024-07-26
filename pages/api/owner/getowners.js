@@ -5,7 +5,8 @@ export default async function handler(req, res) {
     try {
       const { data: owners, error } = await supabase
         .from("owners")
-        .select("*, pets(name)");
+        .select("*, pets(*), bookings(id ,reviews(*))")
+        .order("full_name", { ascending: true });
 
       if (error) {
         return res.status(400).json({

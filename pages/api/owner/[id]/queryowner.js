@@ -1,14 +1,14 @@
 import { supabase } from "@/utils/supabase";
 
 export default async function handler(req, res) {
-  const { email } = req.body;
+  const { id } = req.query;
 
-  if (req.method === "POST") {
+  if (req.method === "GET") {
     try {
       const { data: owners, error } = await supabase
         .from("owners")
         .select("*")
-        .eq("email", email);
+        .eq("email", id);
 
       if (error) {
         return res.status(400).json({ message: "Owners not found" });
