@@ -11,6 +11,9 @@ export default function Home() {
     handleClearSearch();
   }, []);
 
+  // const token = localStorage.getItem("sb-etraoduqrzijngbazoib-auth-token");
+  // const user = JSON.parse(token).user;
+  // console.log(user);
   return (
     <section className="w-full flex-col items-center lg:pt-20 pt-10 overflow-hidden ">
       <HeaderHomes />
