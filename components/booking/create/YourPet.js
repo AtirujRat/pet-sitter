@@ -95,49 +95,51 @@ export default function YourPet() {
           <div className="w-full h-full flex flex-col gap-4">
             <p className="text-b2">Choose your pet</p>
             <div className="w-full h-[70%] flex flex-wrap gap-4">
-              {petData.map((pet) => {
-                return (
-                  <div
-                    key={pet.id}
-                    className={
-                      select[pet.type]
-                        ? "w-full lg:w-[30%] h-[240px] lg:h-[50%] hover:bg-ps-orange-100 border border-ps-orange-500 rounded-2xl flex flex-col justify-center items-center relative gap-4"
-                        : "w-full lg:w-[30%] h-[240px] lg:h-[50%] hover:bg-ps-orange-100 border border-ps-gray-200 rounded-2xl flex flex-col justify-center items-center relative gap-4"
-                    }
-                  >
-                    <div
-                      className={
-                        !sitter.pet_types.includes(pet.type)
-                          ? "absolute w-full h-full bg-ps-gray-100 opacity-70 z-10"
-                          : pet.status !== "active"
-                          ? "absolute w-full h-full bg-ps-gray-100 opacity-70 z-10"
-                          : "absolute"
-                      }
-                    ></div>
-                    {!sitter.pet_types.includes(
-                      pet.type
-                    ) ? null : pet.status !== "active" ? null : (
-                      <input
-                        type="checkbox"
-                        value={pet.name}
-                        onChange={handlePetSelect}
-                        checked={select[pet.type]}
-                        onClick={() => {
-                          handleClick(pet.name, pet.id);
-                        }}
-                        className="checkbox checkbox-primary [--chkfg:white] border border-ps-gray-300 hover:border-ps-orange-300 focus:border-ps-orange-300 absolute top-2 right-2"
-                      />
-                    )}
-                    <img
-                      src={pet.pet_image_url}
-                      alt="test"
-                      className="w-20 h-20 rounded-full"
-                    />
-                    <h4 className="text-h4">{pet.name}</h4>
-                    <p>{petTypeComponents[pet.type]}</p>
-                  </div>
-                );
-              })}
+              {petData
+                ? petData.map((pet) => {
+                    return (
+                      <div
+                        key={pet.id}
+                        className={
+                          select[pet.type]
+                            ? "w-full lg:w-[30%] h-[240px] lg:h-[50%] hover:bg-ps-orange-100 border border-ps-orange-500 rounded-2xl flex flex-col justify-center items-center relative gap-4"
+                            : "w-full lg:w-[30%] h-[240px] lg:h-[50%] hover:bg-ps-orange-100 border border-ps-gray-200 rounded-2xl flex flex-col justify-center items-center relative gap-4"
+                        }
+                      >
+                        <div
+                          className={
+                            !sitter.pet_types.includes(pet.type)
+                              ? "absolute w-full h-full bg-ps-gray-100 opacity-70 z-10"
+                              : pet.status !== "active"
+                              ? "absolute w-full h-full bg-ps-gray-100 opacity-70 z-10"
+                              : "absolute"
+                          }
+                        ></div>
+                        {!sitter.pet_types.includes(
+                          pet.type
+                        ) ? null : pet.status !== "active" ? null : (
+                          <input
+                            type="checkbox"
+                            value={pet.name}
+                            onChange={handlePetSelect}
+                            checked={select[pet.type]}
+                            onClick={() => {
+                              handleClick(pet.name, pet.id);
+                            }}
+                            className="checkbox checkbox-primary [--chkfg:white] border border-ps-gray-300 hover:border-ps-orange-300 focus:border-ps-orange-300 absolute top-2 right-2"
+                          />
+                        )}
+                        <img
+                          src={pet.pet_image_url}
+                          alt="test"
+                          className="w-20 h-20 rounded-full"
+                        />
+                        <h4 className="text-h4">{pet.name}</h4>
+                        <p>{petTypeComponents[pet.type]}</p>
+                      </div>
+                    );
+                  })
+                : null}
 
               <button
                 type="button"

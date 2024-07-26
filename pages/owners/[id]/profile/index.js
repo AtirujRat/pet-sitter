@@ -9,9 +9,10 @@ import PhoneInput from "@/components/authentication/PhoneInput";
 import IdInput from "@/components/authentication/IdInput";
 import { supabase } from "@/utils/supabase";
 import { v4 as uuidv4 } from "uuid";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
 import { useOwners } from "@/context/Owners";
+import { useUser } from "@/context/User";
 
 function validateName(value) {
   let error;
@@ -86,7 +87,9 @@ const Account = () => {
   const [userData, setUser] = useState();
 
   const { getUserAuth } = useOwners();
+  const { userInfo } = useUser();
   const params = useParams();
+  const router = useRouter();
 
   const getUser = async () => {
     const ownerEmail = await getUserAuth();
@@ -99,6 +102,9 @@ const Account = () => {
   };
 
   useEffect(() => {
+    if (userInfo !== "owner") {
+      router.push("/login/owner");
+    }
     getUser();
   }, []);
 

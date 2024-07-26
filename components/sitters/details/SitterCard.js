@@ -12,6 +12,7 @@ import {
   RabbitBadge,
 } from "@/components/sitters/PetBadges";
 import { useUser } from "@/context/User";
+import { useRouter } from "next/router";
 
 export default function SitterCard({
   sitter,
@@ -25,7 +26,7 @@ export default function SitterCard({
     Rabbit: RabbitBadge,
   };
   const { userInfo } = useUser();
-  console.log(userInfo);
+  const router = useRouter();
   return (
     <div className="sitter-card flex flex-col lg:w-[33%] w-full bg-ps-white sm:rounded-2xl h-fit min-w-[370px] lg:sticky top-5">
       <div className="sister-profile px-10 py-10 flex flex-col gap-6 items-center w-full">
@@ -78,7 +79,7 @@ export default function SitterCard({
             if (userInfo === "owner") {
               setIsBookingModalOpen(true);
             } else {
-              alert("Can't booking, You are a pet-sitter");
+              router.push("/login/owner");
             }
           }}
         />

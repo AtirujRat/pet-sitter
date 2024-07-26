@@ -37,7 +37,9 @@ export default function BookingDetail() {
     setLoading(false);
   }
   useEffect(() => {
-    handleDuration();
+    if (booking.owner_pet) {
+      handleDuration();
+    }
   }, [duration, onselectPet]);
 
   return (
@@ -52,19 +54,21 @@ export default function BookingDetail() {
               <div>
                 <p className="text-b3 text-ps-gray-400">Pet sitter:</p>
                 <p className="text-b2 text-ps-gray-600">
-                  {sitter.trade_name || null} By {sitter.full_name || null}
+                  {sitter.trade_name} By {sitter.full_name}
                 </p>
               </div>
 
               <div>
                 <p className="text-b3 text-ps-gray-400">Date & Time:</p>
                 <p className="text-b2 text-ps-gray-600">
-                  {date.dateStart.slice(8, 10) || null}{" "}
-                  {date.dateStart.slice(4, 7) || null},{" "}
-                  {date.dateStart.slice(11, 15) || null}{" "}
+                  {date.dateStart.slice(8, 10)} {date.dateStart.slice(4, 7)},{" "}
+                  {date.dateStart.slice(11, 15)}{" "}
                   <span className="text-ps-gray-400">|</span>{" "}
-                  {booking.start_time.slice(10).trim() || null} -{" "}
-                  {booking.end_time.slice(10).trim() || null}
+                  {booking.start_time
+                    ? booking.start_time.slice(10).trim()
+                    : null}{" "}
+                  -{" "}
+                  {booking.end_time ? booking.end_time.slice(10).trim() : null}
                 </p>
               </div>
 
