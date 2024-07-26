@@ -12,6 +12,17 @@ export default function SitterManageBookingList() {
   const { id } = router.query;
 
   const [profile, setProfile] = useState(null);
+  const [tokenSitter, setTokenSitter] = useState();
+
+  useEffect(() => {
+    const token = localStorage.getItem("sb-etraoduqrzijngbazoib-auth-token");
+    if (token) {
+      const access_token = JSON.parse(token).access_token;
+      setTokenSitter(access_token);
+    } else {
+      router.push("/login/sitter");
+    }
+  }, []);
 
   const GetProfile = async () => {
     try {
