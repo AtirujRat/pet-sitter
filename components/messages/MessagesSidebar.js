@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { ConversationContext } from "@/pages/owners/[id]/messages";
 import MessageCard from "./MessageCard";
 
-export default function MessagesSidebar() {
+export default function MessagesSidebar({ onSend }) {
   const { conversations, selectedConversationId, handleCardClick } =
     useContext(ConversationContext);
 
@@ -29,7 +29,10 @@ export default function MessagesSidebar() {
               conversation.messages[conversation.messages.length - 1]?.text
             }
             isClicked={selectedConversationId === conversation.id}
-            onClick={() => handleCardClick(conversation.id)}
+            onClick={() => {
+              handleCardClick(conversation.id);
+              onSend();
+            }}
           />
         ))}
       </div>

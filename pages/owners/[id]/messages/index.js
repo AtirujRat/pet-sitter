@@ -1,8 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import MessagesSidebar from "@/components/messages/MessagesSidebar";
 import ChatWindow from "@/components/messages/ChatWindow";
-import { useRouter } from "next/router";
-import Loading from "@/components/Loading";
 import axios from "axios";
 import { supabase } from "@/utils/supabase";
 
@@ -10,12 +8,18 @@ export const ConversationContext = createContext();
 const API_URL = "/api/owner";
 
 export default function ConversationPage() {
-  const router = useRouter();
-  const { id } = router.query;
   const [conversations, setConversations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedConversationId, setSelectedConversationId] = useState(null);
   const [isChatWindowOpen, setIsChatWindowOpen] = useState(true);
+  const [isSend, setIsSend] = useState(null);
+
+  const [user, setUser] = useState(() => {
+    if (typeof window !== "undefined") {
+      const savedState = localStorage.getItem("userInfo");
+      return savedState ? JSON.parse(savedState) : {};
+    }
+  });
 
   const selectedConversation = conversations.find(
     (conversation) => conversation.id === selectedConversationId
@@ -25,8 +29,10 @@ export default function ConversationPage() {
     const fetchConversations = async () => {
       setLoading(true);
       try {
-        if (id) {
-          const response = await axios.get(`${API_URL}/${id}/conversations`);
+        if (user.id) {
+          const response = await axios.get(
+            `${API_URL}/${user.id}/conversations`
+          );
           setConversations(response.data);
         }
         setLoading(false);
@@ -36,7 +42,7 @@ export default function ConversationPage() {
     };
 
     fetchConversations();
-  }, [id]);
+  }, [isSend]);
 
   useEffect(() => {
     const handleMessageInserts = (payload) => {
@@ -58,10 +64,6 @@ export default function ConversationPage() {
     };
   }, []);
 
-  if (loading) {
-    return <Loading />;
-  }
-
   const handleCardClick = (id) => {
     setSelectedConversationId(id);
     setIsChatWindowOpen(true);
@@ -70,6 +72,10 @@ export default function ConversationPage() {
   const handleCloseChatWindow = () => {
     setIsChatWindowOpen(false);
     setSelectedConversationId(null);
+  };
+
+  const handleOnSend = () => {
+    setIsSend(!isSend);
   };
 
   return (
@@ -81,11 +87,12 @@ export default function ConversationPage() {
       }}
     >
       <section className="w-full h-[91vh] flex">
-        <MessagesSidebar />
+        <MessagesSidebar onSend={handleOnSend} />
         {isChatWindowOpen && selectedConversation && (
           <ChatWindow
             conversation={selectedConversation}
             onClose={handleCloseChatWindow}
+            onSend={handleOnSend}
           />
         )}
       </section>

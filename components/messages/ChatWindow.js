@@ -3,18 +3,16 @@ import { supabase } from "@/utils/supabase";
 import Image from "next/image";
 import { Formik, Form, Field } from "formik";
 
-export default function ChatWindow({ conversation, onClose }) {
+export default function ChatWindow({ conversation, onClose, onSend }) {
   const [messages, setMessages] = useState(conversation.messages || []);
-
   const initialValues = {
     newMessage: "",
   };
 
-  useEffect(() => {
-    setMessages(conversation.messages || []);
-  }, [conversation]);
+  // useEffect(() => {}, [conversation]);
 
   useEffect(() => {
+    setMessages(conversation.messages || []);
     const handleInserts = (payload) => {
       setMessages((prevMessages) => [payload.new, ...prevMessages]);
     };
@@ -149,6 +147,7 @@ export default function ChatWindow({ conversation, onClose }) {
                 type="submit"
                 className="bg-ps-orange-500 w-fit h-fit p-3 flex justify-center items-center rounded-full hover:scale-110 focus:scale-100 transition-transform shadow-md"
                 disabled={isSubmitting}
+                onClick={onSend}
               >
                 <Image
                   src="/assets/icons/icon-send.svg"
