@@ -15,6 +15,7 @@ import { OwnersAccountStateProvider } from "@/context/OwnersAccountState";
 import { AdminProvider } from "@/context/Admin";
 import { UserProvider } from "@/context/User";
 import jwtInterceptor from "@/utils/jwtinterceptor";
+import CheckUserOwner from "./CheckUser";
 
 // make sure you register this only once!
 jwtInterceptor();
@@ -43,9 +44,22 @@ export default function Layout({ children }) {
     "/owners/[id]/yourpet/[petId]",
   ];
 
+  const OwnerRoute = [
+    "/owners/[id]/yourpet",
+    "/owners/[id]/yourpet/create",
+    "/owners/[id]/yourpet/[petId]",
+    "/owners/[id]/profile",
+    "/owners/[id]/bookinghistory",
+    "/sitters/[id]/booking/create",
+  ];
+
   const dynamicRoutesRegex = dynamicRoutes.map(
     (route) => new RegExp(`^${route.replace("[id]", "[^/]+")}$`)
   );
+
+  const isOwnerRoute =
+    OwnerRoute.includes(router.pathname) ||
+    dynamicRoutesRegex.some((regex) => regex.test(router.pathname));
 
   const isNoLayoutRoute =
     noLayoutRoutes.includes(router.pathname) ||
@@ -90,6 +104,7 @@ export default function Layout({ children }) {
                           />
                         </div>
                       )}
+                      {isOwnerRoute && <CheckUserOwner />}
                       <div>{children}</div>
                       {!isNoLayoutRoute && !isNoFooterRoute && <Footer />}
                     </div>

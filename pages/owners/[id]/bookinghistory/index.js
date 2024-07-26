@@ -20,6 +20,7 @@ import SideBarOwners from "@/components/owners/SideBarOwners";
 import { useOwners } from "@/context/Owners";
 import { useRouter } from "next/router";
 import BookingModal from "@/components/booking/BookingModal";
+import { useUser } from "@/context/User";
 
 const BOOKING_STATUS = {
   Waiting_for_confirm: "ps-pink-500",
@@ -45,6 +46,8 @@ export default function BookingHistory() {
   const [error, setError] = useState(null);
 
   const { getUserAuth } = useOwners();
+
+  const { userInfo } = useUser();
 
   const router = useRouter();
   const { id } = router.query;
@@ -83,6 +86,9 @@ export default function BookingHistory() {
   }
 
   useEffect(() => {
+    if (userInfo !== "owner") {
+      router.push("/login/owner");
+    }
     getBookingHistory();
     getReviews();
   }, [currentIndex, id]);
