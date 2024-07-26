@@ -30,5 +30,5 @@ export const calculateDurationInHours = (startTime, endTime) => {
   const end = new Date(endTime);
   const differenceInMilliseconds = end - start;
   const differenceInHours = differenceInMilliseconds / (1000 * 60 * 60);
-  return differenceInHours.toFixed(2); // Format to 2 decimal places
+  return differenceInHours.toFixed(1); // Format to 2 decimal places
 };

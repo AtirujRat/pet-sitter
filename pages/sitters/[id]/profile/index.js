@@ -16,8 +16,19 @@ export default function SitterManageProfile() {
   const [profile, setProfile] = useState(null);
   const [storageImages, setstorageImages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [tokenSitter, setTokenSitter] = useState();
   const CDNURL =
     "https://etraoduqrzijngbazoib.supabase.co/storage/v1/object/public/sitters_gallery/";
+
+  useEffect(() => {
+    const token = localStorage.getItem("sb-etraoduqrzijngbazoib-auth-token");
+    if (token) {
+      const access_token = JSON.parse(token).access_token;
+      setTokenSitter(access_token);
+    } else {
+      router.push("/login/sitter");
+    }
+  }, [router]);
 
   async function GetProfile() {
     try {
@@ -88,18 +99,22 @@ export default function SitterManageProfile() {
         CDNURL,
       }}
     >
-      <div className="flex">
-        <SideBarSitter />
-        <div className="w-full flex-col">
-          <NavBarSitter
-            profileImage={profile?.profile_image_url}
-            fullName={profile?.full_name}
-          />
-          <div className="bg-[#F5F6F9] h-full flex flex-col gap-6 p-10">
-            <SitterProfileForm profile={{ ...profile }} />
+      {userInfo === "sitter" ? (
+        <div className="flex">
+          <SideBarSitter />
+          <div className="w-full flex-col">
+            <NavBarSitter
+              profileImage={profile?.profile_image_url}
+              fullName={profile?.full_name}
+            />
+            <div className="bg-[#F5F6F9] flex flex-col gap-6 p-10">
+              <SitterProfileForm profile={{ ...profile }} />
+            </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <Loading />
+      )}
     </SittersProfileContext.Provider>
   );
 }
