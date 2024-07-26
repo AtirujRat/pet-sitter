@@ -4,7 +4,7 @@ import userImage from "@/public/assets/account/profile_white.svg";
 
 export default function NavBarSitter({ profileImage, fullName }) {
   return (
-    <div className="w-full bg-ps-white sticky top-0 z-10">
+    <div className="w-full bg-ps-white">
       <div className="flex px-[60px] items-center justify-between py-4">
         <div className="flex items-center gap-2">
           <div className="w-[40px] h-[40px] relative rounded-full overflow-hidden flex justify-center items-center bg-ps-gray-200">
