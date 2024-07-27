@@ -1,4 +1,5 @@
 import { createContext, useState, useContext } from "react";
+import { AdminPetOwnerProvider } from "./AdminPetOwner";
 
 const AdminContext = createContext();
 export function useAdmin() {
@@ -15,7 +16,7 @@ export function AdminProvider(props) {
         setState,
       }}
     >
-      {props.children}
+      <AdminPetOwnerProvider>{props.children}</AdminPetOwnerProvider>
     </AdminContext.Provider>
   );
 }

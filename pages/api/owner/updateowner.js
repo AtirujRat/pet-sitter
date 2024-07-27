@@ -9,7 +9,6 @@ export default async function handler(req, res) {
       updated_at: new Date(),
     };
 
-    console.log(updatedOwner);
     try {
       const { data, error } = await supabase
         .from("owners")

@@ -19,7 +19,6 @@ import YourReview from "@/components/review/YourReview";
 import SideBarOwners from "@/components/owners/SideBarOwners";
 import { useOwners } from "@/context/Owners";
 import { useRouter } from "next/router";
-import BookingModal from "@/components/booking/BookingModal";
 
 const BOOKING_STATUS = {
   Waiting_for_confirm: "ps-pink-500",
@@ -54,9 +53,9 @@ export default function BookingHistory() {
       if (id) {
         const ownerEmail = await getUserAuth();
 
-        const ownerData = await axios.post(`/api/owner/queryowner`, {
-          email: ownerEmail.email,
-        });
+        const ownerData = await axios.get(
+          `/api/owner/${ownerEmail.email}/queryowner`
+        );
         setOnwerData(ownerData.data);
 
         const getBookingList = await axios.get(`/api/owner/${id}/booking`);

@@ -3,7 +3,10 @@ import { supabase } from "@/utils/supabase";
 export default async function handler(req, res) {
   if (req.method === "GET") {
     try {
-      const { data: owners, error } = await supabase.from("owners").select();
+      const { data: owners, error } = await supabase
+        .from("owners")
+        .select("*, pets(*), bookings(id ,reviews(*))")
+        .order("full_name", { ascending: true });
 
       if (error) {
         return res.status(400).json({
