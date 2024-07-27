@@ -1,6 +1,7 @@
 import { supabase } from "@/utils/supabase";
 
 export default async function handler(req, res) {
+  protect(req, res);
   if (req.method === "GET") {
     try {
       const { data: owners, error } = await supabase

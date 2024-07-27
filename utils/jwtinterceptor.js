@@ -5,20 +5,15 @@ export default function jwtInterceptor() {
     const hasToken = Boolean(
       localStorage.getItem("sb-etraoduqrzijngbazoib-auth-token")
     );
-    const encodeToken = btoa(
-      unescape(
-        encodeURIComponent(
-          localStorage.getItem("sb-etraoduqrzijngbazoib-auth-token")
-        )
-      )
-    );
+    const token = localStorage.getItem("sb-etraoduqrzijngbazoib-auth-token");
+    const access_token = JSON.parse(token).access_token;
+
     if (hasToken) {
       req.headers = {
         ...req.headers,
-        Authorization: `Bearer ${encodeToken}`,
+        Authorization: `Bearer ${access_token}`,
       };
     }
-    // console.log(req);
     return req;
   });
 
@@ -27,7 +22,6 @@ export default function jwtInterceptor() {
       return req;
     },
     (error) => {
-      console.log(error);
       if (
         error.response.status === 401 &&
         error.response.statusText === "Unauthorized"
