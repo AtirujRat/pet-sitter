@@ -109,17 +109,21 @@ export default function BookingListDetail({ bookingId }) {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex justify-between">
-        <div className="flex items-center">
-          <Image
-            src={arrow}
-            width={24}
-            height={24}
-            onClick={() => router.push(`${pathName}`)}
-            className=" cursor-pointer"
-          />
-          <p className="text-h3 pl-1 pr-6">{booking?.owners?.full_name}</p>
-          <p>{getStatusComponent(booking?.status)}</p>
+      <div className="md:flex-row justify-between flex flex-col gap-4 md:gap-0">
+        <div className="sm:flex-row flex flex-col gap-2 sm:items-center">
+          <div className="flex">
+            <Image
+              src={arrow}
+              width={24}
+              height={24}
+              onClick={() => router.push(`${pathName}`)}
+              className="cursor-pointer"
+            />
+            <p className="md:text-h3 text-h4 pl-1 pr-6">
+              {booking?.owners?.full_name}
+            </p>
+          </div>
+          <p className="pl-2 sm:pl-0">{getStatusComponent(booking?.status)}</p>
         </div>
         <div className="flex gap-2">
           {booking.status === "Waiting for confirm" && (
@@ -157,9 +161,9 @@ export default function BookingListDetail({ bookingId }) {
         </div>
       </div>
 
-      <div className="bg-ps-white rounded-2xl overflow-x-auto px-20 py-10 flex flex-col gap-6">
+      <div className="bg-ps-white rounded-2xl overflow-x-auto px-4 md:px-10 lg:px-20 py-10 flex flex-col gap-6">
         <div className="flex flex-col gap-1">
-          <p className="text-ps-gray-300 text-h3">Pet Owner Name</p>
+          <p className="text-ps-gray-300 text-h4">Pet Owner Name</p>
           <div className="flex justify-between">
             <p className="text-b2">{booking?.owners?.full_name}</p>
             <p
@@ -179,14 +183,17 @@ export default function BookingListDetail({ bookingId }) {
 
         <div className="flex flex-col gap-2">
           <p className="text-ps-gray-300 text-h4">Pet Detail</p>
-          <div className="flex gap-3" onClick={() => setOpenModalPet(true)}>
+          <div
+            className="flex gap-3 flex-wrap justify-center md:justify-start"
+            onClick={() => setOpenModalPet(true)}
+          >
             {booking?.pets?.length === 0 ? (
               <p className="text-b2">No pets available</p>
             ) : (
               booking?.pets?.map((pet, index) => (
                 <div key={index} onClick={() => setSelectPet(pet)}>
                   <PetCard
-                    styles="w-[207px] h-[236px] border border-ps-gray-200 shadow-none hover:-translate-y-0"
+                    styles="lg:w-[207px] w-[280px] h-[236px] border border-ps-gray-200 shadow-none hover:-translate-y-0"
                     image={`${pet.pet_image_url}`}
                     name={`${pet.name}`}
                     type={`${pet.type}`}
@@ -234,40 +241,42 @@ export default function BookingListDetail({ bookingId }) {
         setOpenModal={setOpenModalReject}
         closeModal={handlerCloseModal}
       >
-        <div className="w-[400px] h-[208px] bg-ps-white rounded-2xl">
-          <div className="border-b border-ps-gray-200 py-4 px-6 text-h4 flex justify-between">
-            Reject Confirmation
-            <Image
-              src={close}
-              width={24}
-              height={24}
-              alt="close"
-              className="cursor-pointer"
-              onClick={() => setOpenModalReject(false)}
-            />
-          </div>
-
-          <div className="max-w[352px] w-full p-6 flex flex-col gap-6">
-            <p className="w-full text-b2 text-ps-gray-400">
-              Are you sure to reject this booking?
-            </p>
-
-            <div className="flex w-full justify-between">
-              <ButtonOrangeLight
-                id="cancel"
-                text="Cancel"
-                width="w-[120px]"
+        <div className="flex h-full w-full items-center justify-center">
+          <div className="max-w-[400px] w-full min-w-0 h-[208px] bg-ps-white rounded-2xl">
+            <div className="border-b border-ps-gray-200 py-4 px-6 text-h4 flex justify-between">
+              Reject Confirmation
+              <Image
+                src={close}
+                width={24}
+                height={24}
+                alt="close"
+                className="cursor-pointer"
                 onClick={() => setOpenModalReject(false)}
               />
-              <ButtonOrange
-                id="reject Confirm"
-                text="Reject Booking"
-                width="w-[160px]"
-                onClick={() => {
-                  changeBookingStatus("Canceled");
-                  setOpenModalReject(false);
-                }}
-              />
+            </div>
+
+            <div className="max-w[352px] w-full p-6 flex flex-col gap-6">
+              <p className="w-full text-b2 text-ps-gray-400">
+                Are you sure to reject this booking?
+              </p>
+
+              <div className="flex w-full justify-between">
+                <ButtonOrangeLight
+                  id="cancel"
+                  text="Cancel"
+                  width="w-[120px]"
+                  onClick={() => setOpenModalReject(false)}
+                />
+                <ButtonOrange
+                  id="reject Confirm"
+                  text="Reject Booking"
+                  width="w-[160px]"
+                  onClick={() => {
+                    changeBookingStatus("Canceled");
+                    setOpenModalReject(false);
+                  }}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -279,7 +288,7 @@ export default function BookingListDetail({ bookingId }) {
         setOpenModal={setOpenModalProifle}
         closeModal={handlerCloseModal}
       >
-        <div className="w-[800px] h-[648px] bg-ps-white rounded-2xl">
+        <div className="max-w-[800px] min-w-0 w-full grow lg:h-[648px] bg-ps-white rounded-2xl my-10 lg:my-0">
           <div className=" border-b border-ps-gray-200">
             <div className="px-10 py-6 text-h3 flex justify-between">
               {booking?.owners?.full_name}
@@ -293,7 +302,7 @@ export default function BookingListDetail({ bookingId }) {
               />
             </div>
           </div>
-          <div className="flex gap-10 p-10">
+          <div className="sm:flex-row flex flex-col gap-10 p-10">
             <div className="w-[240px] h-[240px] rounded-full">
               {booking.owners?.profile_image_url ? (
                 <img
@@ -352,7 +361,7 @@ export default function BookingListDetail({ bookingId }) {
         setOpenModal={setOpenModalPet}
         closeModal={handlerCloseModal}
       >
-        <div className="w-[800px] h-[552px] bg-ps-white rounded-2xl">
+        <div className="max-w-[800px] min-w-0 w-full grow lg:h-[552px] bg-ps-white rounded-2xl my-10 lg:my-0">
           <div className=" border-b border-ps-gray-200">
             <div className="px-10 py-6 text-h3 flex justify-between">
               {selectPet?.name}
@@ -366,9 +375,9 @@ export default function BookingListDetail({ bookingId }) {
               />
             </div>
           </div>
-          <div className="flex gap-10 p-10 w-full">
-            <div className="flex flex-col gap-4">
-              <div className="bg-ps-orange-500 w-[240px] h-[240px] rounded-full relative shrink-0">
+          <div className="sm:flex-row sm:justify-center sm:items-start flex flex-col items-center gap-10 p-10 w-full">
+            <div className="flex flex-col gap-4 w-fit">
+              <div className="w-[240px] h-[240px] rounded-full relative shrink-0 flex justify-center">
                 {selectPet?.pet_image_url ? (
                   <img
                     src={selectPet?.pet_image_url}
@@ -388,13 +397,13 @@ export default function BookingListDetail({ bookingId }) {
             </div>
             <div className="flex flex-col gap-10 p-6 w-full max-w-[440px]">
               <div className="flex gap-10">
-                <div className="flex flex-col gap-1 max-w-[176px] w-full">
+                <div className="flex flex-col gap-1 flex-1 w-full shrink-0">
                   <p className="text-ps-gray-300 text-h4 w-full">Pet Type</p>
                   <p className="text-[16px] font-normal">
                     {selectPet?.type || "-"}
                   </p>
                 </div>
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-1 flex-1">
                   <p className="text-ps-gray-300 text-h4">Breed</p>
                   <p className="text-[16px] font-normal">
                     {selectPet?.breed || "-"}
@@ -402,13 +411,13 @@ export default function BookingListDetail({ bookingId }) {
                 </div>
               </div>
               <div className="flex gap-10">
-                <div className="flex flex-col gap-1 max-w-[176px] w-full">
+                <div className="flex flex-col gap-1 flex-1 w-full">
                   <p className="text-ps-gray-300 text-h4 w-full">Sex</p>
                   <p className="text-[16px] font-normal">
                     {selectPet?.sex || "-"}
                   </p>
                 </div>
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-1 flex-1">
                   <p className="text-ps-gray-300 text-h4">Age</p>
                   <p className="text-[16px] font-normal">
                     {selectPet?.age || "-"}
@@ -416,20 +425,20 @@ export default function BookingListDetail({ bookingId }) {
                 </div>
               </div>
               <div className="flex gap-10">
-                <div className="flex flex-col gap-1 max-w-[176px] w-full">
+                <div className="flex flex-col gap-1 flex-1 w-full">
                   <p className="text-ps-gray-300 text-h4 w-full">Color</p>
                   <p className="text-[16px] font-normal">
                     {selectPet?.color || "-"}
                   </p>
                 </div>
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-1 flex-1">
                   <p className="text-ps-gray-300 text-h4">Weight</p>
                   <p className="text-[16px] font-normal">
                     {selectPet?.weight || "-"}
                   </p>
                 </div>
               </div>
-              <div className="flex flex-col gap-1 max-w-[176px] w-full">
+              <div className="flex flex-col gap-1 flex-1 w-full">
                 <p className="text-ps-gray-300 text-h4 w-full">About</p>
                 <p className="text-[16px] font-normal">
                   {selectPet?.description || "-"}

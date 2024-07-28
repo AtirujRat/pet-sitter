@@ -220,28 +220,30 @@ export default function SitterProfileForm({ profile = {} }) {
           <Form className="flex flex-col gap-6">
             <div className="text-h3 flex justify-between">
               <div className="flex items-center gap-6">
-                <p className="text-h3">Pet Sitter Profile</p>
+                <p className="md:text-h3 text-h4">Pet Sitter Profile</p>
                 {getStatusComponent(profile?.sitter_status)}
               </div>
-              {profile.sitter_status === null ||
-              profile.sitter_status === "rejected" ? (
-                <ButtonOrange
-                  type="submit"
-                  disabled={isSubmitting}
-                  id="Request for approval"
-                  text="Request for approval"
-                  width="w-fit text-[16px]"
-                />
-              ) : profile.sitter_status === "approved" ||
-                profile.sitter_status === "waiting for approval" ? (
-                <ButtonOrange
-                  type="submit"
-                  disabled={isSubmitting}
-                  id="Update"
-                  text="Update"
-                  width="w-fit text-[16px]"
-                />
-              ) : null}
+              <div className="hidden sm:flex">
+                {profile.sitter_status === null ||
+                profile.sitter_status === "rejected" ? (
+                  <ButtonOrange
+                    type="submit"
+                    disabled={isSubmitting}
+                    id="Request for approval"
+                    text="Request for approval"
+                    width="w-fit text-[16px]"
+                  />
+                ) : profile.sitter_status === "approved" ||
+                  profile.sitter_status === "waiting for approval" ? (
+                  <ButtonOrange
+                    type="submit"
+                    disabled={isSubmitting}
+                    id="Update"
+                    text="Update"
+                    width="w-fit text-[16px]"
+                  />
+                ) : null}
+              </div>
             </div>
             {profile.sitter_status === "rejected" ? (
               <div className="w-full h-[52px] bg-ps-gray-200 text-ps-red rounded-lg flex items-center pl-3 gap-[10px]">
@@ -251,13 +253,15 @@ export default function SitterProfileForm({ profile = {} }) {
             ) : null}
 
             {/* Basic Information */}
-            <div className="bg-ps-white rounded-2xl px-20 py-10 flex flex-col gap-6">
+            <div className="bg-ps-white rounded-2xl px-4 md:px-10 lg:px-20 py-10 flex flex-col sm:gap-6 gap-4">
               <div className="flex flex-col gap-6">
-                <p className="text-ps-gray-300 text-h3">Basic Information</p>
+                <p className="text-ps-gray-300 md:text-h3 text-h4">
+                  Basic Information
+                </p>
                 <label htmlFor="profile_image_url" className="text-b2">
                   Profile Image
                 </label>
-                <div className="relative flex justify-center items-center w-[120px] h-[120px] lg:w-[220px] lg:h-[220px] bg-ps-gray-300 rounded-full">
+                <div className="relative flex justify-center items-center w-[120px] h-[120px] md:w-[220px] md:h-[220px] bg-ps-gray-300 rounded-full">
                   {preview ? (
                     <img
                       src={preview}
@@ -274,7 +278,7 @@ export default function SitterProfileForm({ profile = {} }) {
                   )}
                   <div className="absolute bottom-0 right-0 ">
                     <Image
-                      className="absolute bottom-0 right-0 w-[30px] h-[30px] lg:w-[60px] lg:h-[60px]"
+                      className="absolute bottom-0 right-0 w-[30px] h-[30px] md:w-[60px] md:h-[60px]"
                       src={plus}
                       alt="import button"
                     />
@@ -285,7 +289,7 @@ export default function SitterProfileForm({ profile = {} }) {
                   <div className="text-ps-red">{errors.profile_image_url}</div>
                 )}
               </div>
-              <div className="flex w-full gap-10">
+              <div className="w-full sm:flex sm:gap-10">
                 <div className="flex flex-col w-full">
                   <label htmlFor="full_name" className="text-b2">
                     Your full name*
@@ -293,7 +297,7 @@ export default function SitterProfileForm({ profile = {} }) {
                   <Field
                     type="text"
                     name="full_name"
-                    className="p-3 border rounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400 focus:outline-none focus:ring-0"
+                    className="px-3 h-[48px] border rounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400 focus:outline-none focus:ring-0"
                     validate={validateName}
                   />
                   {errors.full_name && touched.full_name && (
@@ -308,7 +312,7 @@ export default function SitterProfileForm({ profile = {} }) {
                     as="select"
                     name="experience"
                     validate={validateRequired}
-                    className="p-3 border rounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400 focus:outline-none focus:ring-0"
+                    className="px-3 h-[48px] border rounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400 focus:outline-none focus:ring-0"
                   >
                     <option value="" label="Select experience" />
                     <option value="0-2 Years" label="0-2 Years" />
@@ -320,7 +324,7 @@ export default function SitterProfileForm({ profile = {} }) {
                   )}
                 </div>
               </div>
-              <div className="flex w-full gap-10">
+              <div className="sm:flex w-full sm:gap-10">
                 <div className="flex flex-col w-full">
                   <label htmlFor="phone_number" className="text-b2">
                     Phone Number*
@@ -330,7 +334,7 @@ export default function SitterProfileForm({ profile = {} }) {
                     name="phone_number"
                     component={PhoneInput}
                     validate={validatePhone}
-                    className="p-3 border rounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400 focus:outline-none focus:ring-0"
+                    className="px-3 h-[48px] border rounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-400 focus:outline-none focus:ring-0"
                   />
                   {errors.phone_number && touched.phone_number && (
                     <div className="text-ps-red">{errors.phone_number}</div>
@@ -344,7 +348,7 @@ export default function SitterProfileForm({ profile = {} }) {
                     type="email"
                     name="email"
                     disabled={true}
-                    className="p-3 border rounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-300 focus:outline-none focus:ring-0"
+                    className="px-3 h-[48px] border rounded-lg border-ps-gray-200 text-b2 font-normal text-ps-gray-300 focus:outline-none focus:ring-0"
                   />
                   {errors.email && touched.email && (
                     <div className="text-ps-red">{errors.email}</div>
@@ -369,12 +373,14 @@ export default function SitterProfileForm({ profile = {} }) {
             </div>
 
             {/* Pet Sitter */}
-            <div className="bg-ps-white rounded-2xl px-20 py-10 flex flex-col gap-6">
+            <div className="bg-ps-white rounded-2xl px-4 md:px-10 lg:px-20 py-10 flex flex-col sm:gap-6 gap-4">
               <div className="flex flex-col gap-6">
-                <p className="text-ps-gray-300 text-h3">Pet Sitter</p>
+                <p className="text-ps-gray-300 md:text-h3 text-h4">
+                  Pet Sitter
+                </p>
               </div>
               <div className="flex w-full gap-10">
-                <div className="flex flex-col w-1/2">
+                <div className="flex flex-col w-full sm:w-1/2">
                   <label htmlFor="trade_name" className="text-b2">
                     Pet sitter name (Trade Name)*
                   </label>
@@ -451,7 +457,7 @@ export default function SitterProfileForm({ profile = {} }) {
             </div>
 
             {/* Address */}
-            <div className="bg-ps-white rounded-2xl px-20 py-10 flex flex-col gap-6">
+            <div className="bg-ps-white rounded-2xl px-4 md:px-10 lg:px-20 py-10 flex flex-col gap-6">
               <div className="flex flex-col gap-6">
                 <p className="text-ps-gray-300 text-h3">Address</p>
               </div>
@@ -461,6 +467,28 @@ export default function SitterProfileForm({ profile = {} }) {
                 existingAddress={profile.sitters_addresses}
                 error={error}
               />
+            </div>
+            {/* mobile size */}
+            <div className="sm:hidden flex justify-end">
+              {profile.sitter_status === null ||
+              profile.sitter_status === "rejected" ? (
+                <ButtonOrange
+                  type="submit"
+                  disabled={isSubmitting}
+                  id="Request for approval"
+                  text="Request for approval"
+                  width="w-fit text-[16px]"
+                />
+              ) : profile.sitter_status === "approved" ||
+                profile.sitter_status === "waiting for approval" ? (
+                <ButtonOrange
+                  type="submit"
+                  disabled={isSubmitting}
+                  id="Update"
+                  text="Update"
+                  width="w-fit text-[16px]"
+                />
+              ) : null}
             </div>
           </Form>
         );
