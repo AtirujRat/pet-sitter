@@ -18,7 +18,7 @@ export default function jwtInterceptor() {
         Authorization: `Bearer ${encodeToken}`,
       };
     }
-    console.log(req);
+    // console.log(req);
     return req;
   });
 

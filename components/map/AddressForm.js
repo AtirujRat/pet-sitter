@@ -94,7 +94,7 @@ export default function AddressForm({ existingAddress, error }) {
             )
           : null}
       </div>
-      <div className="flex gap-10">
+      <div className="w-full sm:flex sm:gap-10">
         <div className="w-full">
           <label htmlFor="province" className="text-b2">
             Province*
@@ -148,7 +148,7 @@ export default function AddressForm({ existingAddress, error }) {
             : null}
         </div>
       </div>
-      <div className="flex gap-10">
+      <div className="w-full sm:flex sm:gap-10">
         <div className="w-full">
           <label htmlFor="sub-distrinct" className="text-b2">
             Sub-district*
@@ -191,7 +191,9 @@ export default function AddressForm({ existingAddress, error }) {
             : null}
         </div>
       </div>
-      <div className="w-full h-[400px]">{/* <PlaceSearch /> */}</div>
+      <div className="w-full h-[400px]">
+        <PlaceSearch />
+      </div>
     </div>
   );
 }
