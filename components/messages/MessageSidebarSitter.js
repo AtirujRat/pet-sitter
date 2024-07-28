@@ -23,8 +23,9 @@ export default function MessagesSidebarSitter() {
             imgUrl={conversation.sitters?.profile_image_url}
             nameSitter={conversation.sitters?.full_name}
             unreadCount={
-              conversation.messages.filter((msg) => msg.status === "unread")
-                .length
+              conversation.messages.filter(
+                (msg) => msg.sitter_status === "unread"
+              ).length
             }
             lastMessage={
               conversation.messages[conversation.messages.length - 1]?.text

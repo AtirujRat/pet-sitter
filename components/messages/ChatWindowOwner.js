@@ -9,8 +9,6 @@ export default function ChatWindowOwner({ conversation, onClose, onSend }) {
     newMessage: "",
   };
 
-  // useEffect(() => {}, [conversation]);
-
   useEffect(() => {
     setMessages(conversation.messages || []);
     const handleInserts = (payload) => {
@@ -41,12 +39,19 @@ export default function ChatWindowOwner({ conversation, onClose, onSend }) {
     .reverse();
 
   const onSubmit = async (values, { setSubmitting, resetForm }) => {
+    if (!values.newMessage.trim()) {
+      setSubmitting(false);
+      return;
+    }
+
     try {
-      const { data, error } = await supabase.from("messages").insert([
+      const { error } = await supabase.from("messages").insert([
         {
           conversation_id: conversation.id,
           text: values.newMessage,
           sender_role: "owner",
+          owner_status: "send",
+          sitter_status: "unread",
         },
       ]);
 
