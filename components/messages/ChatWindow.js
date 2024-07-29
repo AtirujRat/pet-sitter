@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "@/utils/supabase";
 import Image from "next/image";
 import { Formik, Form, Field } from "formik";
@@ -9,6 +9,19 @@ export default function ChatWindow({
   onClose,
   onSend,
 }) {
+  if (!conversation) {
+    return (
+      <div className="flex flex-col items-center justify-center gap-2 w-full h-full text-center bg-ps-gray-100">
+        <Image
+          src="/assets/messages/pink-cat-foot.svg"
+          width={82}
+          height={84}
+        />
+        <p className="text-ps-gray-300 text-b1">Start a conversation!</p>
+      </div>
+    );
+  }
+
   const [messages, setMessages] = useState(conversation.messages || []);
   const initialValues = {
     newMessage: "",
@@ -148,7 +161,7 @@ export default function ChatWindow({
                 <img
                   src={message.message_image_url}
                   alt="Message Image"
-                  className="w-[240px] h-[240px] rounded-lg object-cover hover:translate-x-2 hover:scale-105 transition-transform duration-300`"
+                  className="w-[240px] h-[240px] rounded-lg object-cover hover:translate-x-2 hover:scale-105 transition-transform duration-300"
                 />
               ) : null}
             </div>
