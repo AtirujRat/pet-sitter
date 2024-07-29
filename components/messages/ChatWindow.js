@@ -120,8 +120,8 @@ export default function ChatWindow({
                 <img
                   src={
                     userType === "owner"
-                      ? conversation.owners?.profile_image_url
-                      : conversation.sitters?.profile_image_url
+                      ? conversation.sitters?.profile_image_url
+                      : conversation.owners?.profile_image_url
                   }
                   alt={userType === "owner" ? "owner" : "sitter"}
                   className="w-10 h-10 rounded-full mr-2 object-cover"
@@ -129,19 +129,28 @@ export default function ChatWindow({
                   height={40}
                 />
               )}
-              <div
-                className={`px-6 py-4 border-ps-gray-200 border-[1px] hover:border-ps-orange-400 rounded-3xl ${
-                  message.sender_role === userType
-                    ? "rounded-br hover:translate-y-2"
-                    : "rounded-bl hover:translate-x-2"
-                } max-w-md ${
-                  message.sender_role === userType
-                    ? "bg-ps-orange-600 text-ps-white text-b2"
-                    : "bg-ps-white text-b2"
-                } hover:scale-105 transition-transform duration-300`}
-              >
-                {message.text}
-              </div>
+
+              {message.text ? (
+                <div
+                  className={`px-6 py-4 border-ps-gray-200 border-[1px] hover:border-ps-orange-400 rounded-3xl ${
+                    message.sender_role === userType
+                      ? "rounded-br hover:translate-y-2"
+                      : "rounded-bl hover:translate-x-2"
+                  } max-w-md ${
+                    message.sender_role === userType
+                      ? "bg-ps-orange-600 text-ps-white text-b2"
+                      : "bg-ps-white text-b2"
+                  } hover:scale-105 transition-transform duration-300`}
+                >
+                  {message.text}
+                </div>
+              ) : message.message_image_url ? (
+                <img
+                  src={message.message_image_url}
+                  alt="Message Image"
+                  className="w-[240px] h-[240px] rounded-lg object-cover hover:translate-x-2 hover:scale-105 transition-transform duration-300`"
+                />
+              ) : null}
             </div>
           ))
         )}
