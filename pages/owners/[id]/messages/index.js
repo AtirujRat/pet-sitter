@@ -1,8 +1,8 @@
 import { createContext, useEffect, useState } from "react";
-import ChatWindowOwner from "@/components/messages/ChatWindowOwner";
+import ChatWindow from "@/components/messages/ChatWindow";
 import axios from "axios";
 import { supabase } from "@/utils/supabase";
-import MessagesSidebarOwner from "@/components/messages/MessagesSidebarOwner";
+import MessageSidebar from "@/components/messages/MessageSidebar";
 
 export const ConversationOwnerContext = createContext();
 const API_URL = "/api/owner";
@@ -99,10 +99,11 @@ export default function ConversationOwnerPage() {
       }}
     >
       <section className="w-full h-[91vh] flex">
-        <MessagesSidebarOwner onSend={handleOnSend} />
+        <MessageSidebar onSend={handleOnSend} userType="owner" />
         {isChatWindowOpen && selectedConversation && (
-          <ChatWindowOwner
+          <ChatWindow
             conversation={selectedConversation}
+            userType="owner"
             onClose={handleCloseChatWindow}
             onSend={handleOnSend}
           />

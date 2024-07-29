@@ -1,20 +1,20 @@
 import { createContext, useEffect, useState } from "react";
-import MessagesSidebarSitter from "@/components/messages/MessageSidebarSitter";
+import ChatWindow from "@/components/messages/ChatWindow";
 import axios from "axios";
 import { supabase } from "@/utils/supabase";
-import ChatWindowSitter from "@/components/messages/ChatWindowSitter";
+import MessageSidebar from "@/components/messages/MessageSidebar";
 
-export const ConversationSitterContext = createContext();
-const API_URL = "/api/sitters";
+export const ConversationOwnerContext = createContext();
+const API_URL = "/api/sitter";
 
-export default function ConversationSitterPage() {
+export default function ConversationOwnerPage() {
   const [conversations, setConversations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedConversationId, setSelectedConversationId] = useState(null);
   const [isChatWindowOpen, setIsChatWindowOpen] = useState(true);
   const [isSend, setIsSend] = useState(null);
 
-  const [userSitter, setUserSitter] = useState(() => {
+  const [userOwner, setUserOwner] = useState(() => {
     if (typeof window !== "undefined") {
       const savedState = localStorage.getItem("userInfo");
       return savedState ? JSON.parse(savedState) : {};
@@ -31,9 +31,9 @@ export default function ConversationSitterPage() {
       let sortedConversations;
 
       try {
-        if (userSitter.id) {
+        if (userOwner.id) {
           const response = await axios.get(
-            `${API_URL}/${userSitter.id}/conversations`
+            `${API_URL}/${userOwner.id}/conversations`
           );
 
           sortedConversations = [...response.data].sort(
@@ -91,7 +91,7 @@ export default function ConversationSitterPage() {
   };
 
   return (
-    <ConversationSitterContext.Provider
+    <ConversationOwnerContext.Provider
       value={{
         conversations,
         selectedConversationId,
@@ -99,15 +99,16 @@ export default function ConversationSitterPage() {
       }}
     >
       <section className="w-full h-[91vh] flex">
-        <MessagesSidebarSitter onSend={handleOnSend} />
+        <MessageSidebar onSend={handleOnSend} userType="sitter" />
         {isChatWindowOpen && selectedConversation && (
-          <ChatWindowSitter
+          <ChatWindow
             conversation={selectedConversation}
+            userType="sitter"
             onClose={handleCloseChatWindow}
             onSend={handleOnSend}
           />
         )}
       </section>
-    </ConversationSitterContext.Provider>
+    </ConversationOwnerContext.Provider>
   );
 }
