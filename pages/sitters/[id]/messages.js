@@ -4,17 +4,17 @@ import axios from "axios";
 import { supabase } from "@/utils/supabase";
 import MessageSidebar from "@/components/messages/MessageSidebar";
 
-export const ConversationOwnerContext = createContext();
+export const ConversationSitterContext = createContext();
 const API_URL = "/api/sitter";
 
-export default function ConversationOwnerPage() {
+export default function ConversationSitterPage() {
   const [conversations, setConversations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedConversationId, setSelectedConversationId] = useState(null);
   const [isChatWindowOpen, setIsChatWindowOpen] = useState(true);
   const [isSend, setIsSend] = useState(null);
 
-  const [userOwner, setUserOwner] = useState(() => {
+  const [userSitter, setUserSitter] = useState(() => {
     if (typeof window !== "undefined") {
       const savedState = localStorage.getItem("userInfo");
       return savedState ? JSON.parse(savedState) : {};
@@ -31,9 +31,9 @@ export default function ConversationOwnerPage() {
       let sortedConversations;
 
       try {
-        if (userOwner.id) {
+        if (userSitter.id) {
           const response = await axios.get(
-            `${API_URL}/${userOwner.id}/conversations`
+            `${API_URL}/${userSitter.id}/conversations`
           );
 
           sortedConversations = [...response.data].sort(
@@ -91,7 +91,7 @@ export default function ConversationOwnerPage() {
   };
 
   return (
-    <ConversationOwnerContext.Provider
+    <ConversationSitterContext.Provider
       value={{
         conversations,
         selectedConversationId,
@@ -109,6 +109,6 @@ export default function ConversationOwnerPage() {
           />
         )}
       </section>
-    </ConversationOwnerContext.Provider>
+    </ConversationSitterContext.Provider>
   );
 }
