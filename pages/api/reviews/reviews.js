@@ -28,18 +28,19 @@ export default async function handler(req, res) {
 
   if (req.method === "GET") {
     try {
-      const { data, error } = await supabase.from("reviews").select();
+      const { data, error } = await supabase.from("reviews").select(`*,
+        bookings(owner_id, sitters:sitter_id (full_name,profile_image_url) )
+        `);
+
       if (error) {
-        return res.status(400).json({
-          message: "Could not get the data maybe wrong data incoming",
-        });
+        return res
+          .status(400)
+          .json("Could not get reports maybe wrong data incoming");
       }
 
       return res.status(200).json(data);
-    } catch (error) {
-      return res
-        .status(500)
-        .json({ message: "Could not get the data because database issue" });
+    } catch {
+      return res.status(500).json("error connection from database");
     }
   }
 }

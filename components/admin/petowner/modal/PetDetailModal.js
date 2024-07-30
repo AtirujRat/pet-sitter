@@ -3,7 +3,7 @@ import cross_icon from "@/public/assets/booking/cross.svg";
 import Image from "next/image";
 import { useAdminPetOwner } from "@/context/AdminPetOwner";
 import Modal from "@/components/modal/Modal";
-import SuspendPetModal from "@/components/admin/modal/SuspendPetModal";
+import SuspendPetModal from "@/components/admin/petowner/modal/SuspendPetModal";
 
 export default function PetDetailModal(props) {
   const { currentPet } = useAdminPetOwner();

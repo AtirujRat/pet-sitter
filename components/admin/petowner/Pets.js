@@ -7,7 +7,7 @@ import {
 } from "@/components/sitters/PetBadges";
 import React from "react";
 import Modal from "@/components/modal/Modal";
-import PetDetailModal from "@/components/admin/modal/PetDetailModal";
+import PetDetailModal from "@/components/admin/petowner/modal/PetDetailModal";
 
 export default function Pets() {
   const { currentOwner, isPetsDetailModalOpened, togglePetDetailHandle } =
