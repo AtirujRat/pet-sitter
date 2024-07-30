@@ -2,11 +2,7 @@ import SideBarOwners from "@/components/owners/SideBarOwners";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import UpdatePetForm from "@/components/owners/yourpet/UpdatePetForm";
-<<<<<<< HEAD
 import { useOwnersAccountState } from "@/context/OwnersAccountState";
-=======
-
->>>>>>> 7b471a0 (fix: change color checkbox and context)
 import { useEffect } from "react";
 import { useOwnersAccountState } from "@/context/OwnersAccountState";
 
