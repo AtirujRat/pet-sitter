@@ -52,7 +52,7 @@ export default async function handler(req, res) {
 
         const { datas, errors } = await supabase
           .from("bookings_pets")
-          .insert([{ booking_id: data[0].id, pet_id: id }])
+          .insert([{ booking_id: data[data.length - 1].id, pet_id: id }])
           .select();
 
         if (errors) {
