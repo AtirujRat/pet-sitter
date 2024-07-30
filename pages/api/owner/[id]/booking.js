@@ -21,6 +21,7 @@ export default async function handler(req, res) {
           message,
           sitters (
             full_name,
+            id,
             trade_name,
             profile_image_url
           )

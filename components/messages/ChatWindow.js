@@ -52,6 +52,11 @@ export default function ChatWindow({
     };
   }, [conversation.id]);
 
+  useEffect(() => {
+    onSend();
+    console.log("test");
+  }, [messages]);
+
   const orderedMessages = [...messages]
     .sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
     .reverse();

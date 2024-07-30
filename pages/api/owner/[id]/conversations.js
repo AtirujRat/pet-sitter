@@ -1,9 +1,9 @@
 import { supabase } from "@/utils/supabase";
-import protect from "../../protect";
+// import protect from "../../protect";
 
 export default async function handler(req, res) {
   const { id } = req.query;
-  protect(req, res);
+  // protect(req, res);
   if (req.method === "GET") {
     try {
       const { data: conversations, error } = await supabase
@@ -74,6 +74,24 @@ export default async function handler(req, res) {
         .status(400)
         .json({ message: "error connection from database" });
     }
+  }
+  if (req.method === "PUT") {
+    const { id } = req.body;
+    console.log(id);
+
+    const { data, error } = await supabase
+      .from("messages")
+      .update([{ owner_status: "read" }])
+      .eq("conversation_id", id)
+      .eq("sender_role", "sitter")
+      .select();
+
+    if (error) {
+      return res
+        .status(400)
+        .json({ message: "error connection from database" });
+    }
+    return res.status(200).json({ message: "create conversation success" });
   } else {
     res.setHeader("Allow", ["GET"]);
     return res.status(405).end(`Method ${req.method} Not Allowed`);

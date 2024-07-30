@@ -1,17 +1,34 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { ConversationOwnerContext } from "@/pages/owners/[id]/messages";
 import { ConversationSitterContext } from "@/pages/sitters/[id]/messages";
 import MessageCard from "./MessageCard";
+import axios from "axios";
 
-export default function MessagesSidebar({ userType }) {
+export default function MessagesSidebar({ userType, onSend }) {
   const isOwner = userType === "owner";
   const { conversations, selectedConversationId, handleCardClick } = useContext(
     isOwner ? ConversationOwnerContext : ConversationSitterContext
   );
 
+  const [userOwner, setUserOwner] = useState(() => {
+    if (typeof window !== "undefined") {
+      const savedState = localStorage.getItem("userInfo");
+      return savedState ? JSON.parse(savedState) : {};
+    }
+  });
+
   const sortedConversations = conversations.sort(
     (a, b) => new Date(b.updated_at) - new Date(a.updated_at)
   );
+
+  async function updateStatus(id) {
+    try {
+      await axios.put(`/api/owner/${userOwner.id}/conversations`, { id: id });
+      onSend();
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <section>
@@ -32,7 +49,7 @@ export default function MessagesSidebar({ userType }) {
               ? lastMessage.message_image_url
                 ? "Image file"
                 : lastMessage.text || "No message content"
-              : "No messages yet";
+              : "";
 
             return (
               <MessageCard
@@ -56,7 +73,10 @@ export default function MessagesSidebar({ userType }) {
                 }
                 lastMessage={displayContent}
                 isClicked={selectedConversationId === conversation.id}
-                onClick={() => handleCardClick(conversation.id)}
+                onClick={() => {
+                  handleCardClick(conversation.id);
+                  updateStatus(conversation.id);
+                }}
               />
             );
           })

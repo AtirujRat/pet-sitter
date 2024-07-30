@@ -14,6 +14,7 @@ export default function ConversationOwnerPage() {
   const [selectedConversationId, setSelectedConversationId] = useState(null);
   const [isChatWindowOpen, setIsChatWindowOpen] = useState(true);
   const [isSend, setIsSend] = useState(null);
+  const [messages, setMessages] = useState();
 
   const [userOwner, setUserOwner] = useState(() => {
     if (typeof window !== "undefined") {
@@ -57,29 +58,39 @@ export default function ConversationOwnerPage() {
     fetchConversations();
   }, [isSend]);
 
-  useEffect(() => {
-    const handleMessageInserts = (payload) => {
-      const newMessage = payload.new;
-      handleSendMessage(newMessage);
-    };
+  // useEffect(() => {
+  //   setMessages(conversation.messages || []);
+  //   const handleInserts = (payload) => {
+  //     setMessages((prevMessages) => [payload.new, ...prevMessages]);
+  //   };
 
-    const messageListener = supabase
-      .channel("custom-all-channel")
-      .on(
-        "postgres_changes",
-        { event: "INSERT", schema: "public", table: "messages" },
-        handleMessageInserts
-      )
-      .subscribe();
+  //   const messageListener = supabase
+  //     .channel("custom-all-channel")
+  //     .on(
+  //       "postgres_changes",
+  //       {
+  //         event: "INSERT",
+  //         schema: "public",
+  //         table: "messages",
+  //         filter: `conversation_id=eq.${conversation.id}`,
+  //       },
+  //       handleInserts
+  //     )
+  //     .subscribe();
 
-    return () => {
-      supabase.removeChannel(messageListener);
-    };
-  }, []);
+  //   return () => {
+  //     supabase.removeChannel(messageListener);
+  //   };
+  // }, []);
 
-  const handleCardClick = (id) => {
+  const handleCardClick = async (id) => {
     setSelectedConversationId(id);
     setIsChatWindowOpen(true);
+    // try {
+    //   await axios.put(`/api/owner/${userOwner.id}/conversations`, id);
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   const handleCloseChatWindow = () => {

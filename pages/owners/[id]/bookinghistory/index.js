@@ -56,6 +56,9 @@ export default function BookingHistory() {
   const router = useRouter();
   const { id } = router.query;
 
+  const { userInfo } = useUser();
+  const owner_id = userInfo.id;
+
   async function getBookingHistory() {
     try {
       if (id) {
@@ -88,6 +91,13 @@ export default function BookingHistory() {
     }
   }
 
+  async function handleSendMessage(data) {
+    await axios.post(`/api/owner/${userInfo.id}/conversations`, data);
+    setTimeout(() => {
+      router.push(`/owners/${userInfo.id}/messages`);
+    }, 1000);
+  }
+
   useEffect(() => {
     getBookingHistory();
   }, [isCancelModalOpened, id]);
@@ -114,6 +124,7 @@ export default function BookingHistory() {
     setCurrentReview(id);
     setIsYourReviewModalOpened((prev) => !prev);
   }
+  console.log(bookingList);
 
   function toggleCancelModal(index) {
     setCurrentIndex(index);
