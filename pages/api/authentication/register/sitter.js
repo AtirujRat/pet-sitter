@@ -20,7 +20,7 @@ export default async function handler(req, res) {
     return res.status(400).json({ message: "error connection from database" });
   }
 
-  const { datas, errors } = await supabase
+  const { data: datas, error: errors } = await supabase
     .from("sitters")
     .insert([
       {

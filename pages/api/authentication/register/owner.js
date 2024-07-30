@@ -5,6 +5,7 @@ export default async function handler(req, res) {
   if (req.method === "POST") {
     let { id, email, password, phone } = req.body;
     if (id) {
+      console.log(id);
       let { data: owners, error } = await supabase
         .from("owners")
         .select("id_provider")
@@ -53,7 +54,7 @@ export default async function handler(req, res) {
         .json({ message: "error connection from database" });
     }
 
-    const { datas, errors } = await supabase
+    let { data: datas, error: errors } = await supabase
       .from("owners")
       .insert([
         {
