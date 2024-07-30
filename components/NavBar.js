@@ -74,6 +74,7 @@ export default function NavBar({ setOpenModal }) {
     let { error } = await supabase.auth.signOut();
     if (error) return;
     else getUser();
+    localStorage.removeItem("userInfo");
     setUserData(undefined);
   };
 
