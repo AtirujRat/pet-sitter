@@ -1,6 +1,6 @@
 export default function MessageCard({
   imgUrl,
-  nameSitter,
+  name,
   lastMessage,
   isClicked,
   onClick,
@@ -18,7 +18,7 @@ export default function MessageCard({
         <img className="rounded-full w-12 h-12" src={imgUrl} alt="Profile" />
         <div className="w-[232px]">
           <div className="items-center flex justify-between w-full">
-            <p className="text-b2 text-ps-white">{nameSitter}</p>
+            <p className="text-b2 text-ps-white">{name}</p>
             {unreadCount > 0 && (
               <div className=" bg-ps-orange-500 text-ps-white text-b3 rounded-full w-6 h-6 flex items-center justify-center">
                 {unreadCount}
