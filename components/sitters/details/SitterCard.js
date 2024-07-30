@@ -31,7 +31,7 @@ export default function SitterCard({
   const sitter_id = router.query.id;
 
   async function handleSenmessage(data) {
-    await axios.post("/api/conversations", data);
+    await axios.post(`/api/owner/${userInfo.id}/conversations`, data);
     setTimeout(() => {
       router.push(`/owners/${userInfo.id}/messages`);
     }, 1000);
