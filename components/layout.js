@@ -84,6 +84,7 @@ export default function Layout({ children }) {
   const { data } = supabase.auth.onAuthStateChange((event, session) => {
     if (event === "TOKEN_REFRESHED") {
       localStorage.removeItem("sb-etraoduqrzijngbazoib-auth-token");
+      localStorage.removeItem("userInfo");
     }
   });
   return (

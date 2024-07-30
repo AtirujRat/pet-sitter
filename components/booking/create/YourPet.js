@@ -59,6 +59,7 @@ export default function YourPet() {
       console.log(e);
     }
   }
+  console.log(booking);
 
   useEffect(() => {
     getData();
@@ -126,7 +127,7 @@ export default function YourPet() {
                             onClick={() => {
                               handleClick(pet.name, pet.id);
                             }}
-                            className="checkbox checkbox-primary [--chkfg:white] border border-ps-gray-300 hover:border-ps-orange-300 focus:border-ps-orange-300 absolute top-2 right-2"
+                            className="checkbox checkbox-primary [--chkfg:white] border border-ps-gray-200 hover:border-ps-orange-300 focus:border-ps-orange-300 absolute top-2 right-2"
                           />
                         )}
                         <img

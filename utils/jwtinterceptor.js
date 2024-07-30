@@ -5,20 +5,15 @@ export default function jwtInterceptor() {
     const hasToken = Boolean(
       localStorage.getItem("sb-etraoduqrzijngbazoib-auth-token")
     );
-    const encodeToken = btoa(
-      unescape(
-        encodeURIComponent(
-          localStorage.getItem("sb-etraoduqrzijngbazoib-auth-token")
-        )
-      )
-    );
+
     if (hasToken) {
+      const token = localStorage.getItem("sb-etraoduqrzijngbazoib-auth-token");
+      const access_token = JSON.parse(token).access_token;
       req.headers = {
         ...req.headers,
-        Authorization: `Bearer ${encodeToken}`,
+        Authorization: `Bearer ${access_token}`,
       };
     }
-    // console.log(req);
     return req;
   });
 
