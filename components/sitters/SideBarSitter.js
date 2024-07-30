@@ -34,12 +34,12 @@ export default function SideBarSitter() {
       label: "Booking List",
       pathUrl: "/booking",
     },
-    {
-      icon: calendar,
-      iconActive: calendarActive,
-      label: "Calendar",
-      pathUrl: "/calendar",
-    },
+    // {
+    //   icon: calendar,
+    //   iconActive: calendarActive,
+    //   label: "Calendar",
+    //   pathUrl: "/calendar",
+    // },
     {
       icon: payout,
       iconActive: payoutActive,

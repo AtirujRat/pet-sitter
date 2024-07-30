@@ -8,7 +8,7 @@ export default async function handler(req, res) {
       let { data: sitters, error } = await supabase
         .from("sitters")
         .select(
-          "*, sitters_images(image_url), bookings(reviews!inner(rating, description, status, updated_at), owners(full_name, profile_image_url)), sitters_addresses(*)"
+          "*, sitters_images(image_url), bookings(reviews!inner(rating, description, status, updated_at), owners(full_name, profile_image_url)), sitters_addresses(*), banks(bank_name)"
         )
         .eq("id", id);
 
