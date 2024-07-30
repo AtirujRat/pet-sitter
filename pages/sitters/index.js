@@ -23,7 +23,7 @@ export default function Sitters() {
 
   async function getSitters() {
     const res = await axios.get(
-      `/api/sitters?name=${searchName}&pet=${petQuery}&exp=${experience}`
+      `/api/sitters?name=${searchName}&pet=${petQuery}&exp=${experience}&status=approved`
     );
 
     if (res.statusText !== "OK") {

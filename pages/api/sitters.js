@@ -4,18 +4,22 @@ export default async function handler(req, res) {
   const tradeName = req.query.name;
   const petType = [req.query.pet];
   const experience = req.query.exp;
-  // console.log(req.headers);
+  const status = req.query.status;
+
   if (req.method === "GET") {
     try {
       let supabaseQuery = supabase
         .from("sitters")
         .select(
-          "id, full_name, trade_name, profile_image_url, pet_types, sitters_images(image_url), bookings(reviews!inner(rating, status)),sitters_addresses(province, district, lat, lng)"
+          "id, full_name, trade_name, sitter_status, profile_image_url, pet_types, sitters_images(image_url), bookings(reviews!inner(rating, status)),sitters_addresses(province, district, lat, lng)"
         )
-        .eq("sitter_status", "approved")
-        .order("id", { ascending: true })
+        .order("sitter_status", { ascending: false })
         .ilike("trade_name", `%${tradeName}%`)
         .contains("pet_types", petType);
+
+      if (status) {
+        supabaseQuery = supabaseQuery.eq("sitter_status", status);
+      }
 
       if (experience) {
         supabaseQuery = supabaseQuery.eq("experience", experience);

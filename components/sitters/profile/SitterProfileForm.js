@@ -152,8 +152,8 @@ export default function SitterProfileForm({ profile = {} }) {
       return alert("You can upload a maximum of 10 gallery images.");
     }
 
-    if (storageImages.length < 3) {
-      return alert("Please upload a minimum of 3 gallery images.");
+    if (storageImages.length < 4) {
+      return alert("Please upload a minimum of 4 gallery images.");
     }
 
     if (values.profile_image_url.size > 2 * 1024 * 1024) {
