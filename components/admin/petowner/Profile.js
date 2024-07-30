@@ -1,6 +1,6 @@
 import Modal from "@/components/modal/Modal";
 
-import BanUserModal from "@/components/admin/modal/BanUserModal";
+import BanUserModal from "@/components/admin/petowner/modal/BanUserModal";
 import { useAdminPetOwner } from "@/context/AdminPetOwner";
 
 export default function Profile() {

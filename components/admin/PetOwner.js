@@ -2,9 +2,9 @@ import search from "@/public/assets/admin/search.svg";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Loading from "@/components/Loading";
-import arrow_icon from "@/public/assets/icons/icon-next.svg";
-import PetOwnerDetail from "@/components/admin/PetOwnerDetail";
+import PetOwnerDetail from "@/components/admin/petowner/PetOwnerDetail";
 import { useAdminPetOwner } from "@/context/AdminPetOwner";
+import { usePagination } from "@/hook/usePagination";
 
 export default function PetOwner() {
   const [input, setInput] = useState("");
@@ -26,60 +26,6 @@ export default function PetOwner() {
   const lastOwnerIndex = currentPage * ownerPerPage;
   const firstPostIndex = lastOwnerIndex - ownerPerPage;
   const paginateOwner = owners.slice(firstPostIndex, lastOwnerIndex);
-
-  function pagination(totalOwner, ownerPerPage) {
-    let pages = [];
-    for (let i = 1; i <= Math.ceil(totalOwner / ownerPerPage); i++) {
-      pages.push(i);
-    }
-
-    function nextPageHandle() {
-      if (currentPage === pages.length) {
-        return;
-      }
-      setCurrentPage((prev) => prev + 1);
-    }
-    function previousPageHandle() {
-      if (currentPage === 1) {
-        return;
-      }
-      setCurrentPage((prev) => prev - 1);
-    }
-
-    return (
-      <div className="flex items-center justify-center mt-[20px] gap-[15px]">
-        <Image
-          onClick={previousPageHandle}
-          className="cursor-pointer rotate-180"
-          src={arrow_icon}
-          alt="arrow icon"
-        />
-        <div className="flex gap-[12px]">
-          {pages.map((page, index) => {
-            return (
-              <button
-                onClick={() => setCurrentPage(page)}
-                className={`w-[40px] h-[40px] ${
-                  index + 1 === currentPage
-                    ? "bg-ps-orange-100 text-ps-orange-500"
-                    : "bg-ps-white text-ps-gray-300"
-                }   rounded-full text-[16px] font-[700]`}
-                key={index}
-              >
-                {page}
-              </button>
-            );
-          })}
-        </div>
-        <Image
-          onClick={nextPageHandle}
-          className="cursor-pointer"
-          src={arrow_icon}
-          alt="arrow icon"
-        />
-      </div>
-    );
-  }
 
   function removeWhiteSpace(value) {
     return value.replace(/\s/g, "").toLowerCase();
@@ -245,7 +191,15 @@ export default function PetOwner() {
                   })}
                 </>
               )}
-              {input.length <= 1 && pagination(owners.length, ownerPerPage)}
+              <div className="mt-[20px]">
+                {input.length <= 1 &&
+                  usePagination(
+                    owners,
+                    ownerPerPage,
+                    currentPage,
+                    setCurrentPage
+                  )}
+              </div>
             </div>
           </div>
         </>

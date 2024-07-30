@@ -11,16 +11,15 @@ export default function Reviews() {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
   const { currentOwner } = useAdminPetOwner();
   async function getReviews() {
     setLoading(true);
     try {
-      const response = await axios.get(`/api/reviews/queryreview`);
+      const response = await axios.get(`/api/reviews/reviews`);
 
       if (response) {
         const filteredReview = response.data.filter((item) => {
-          return item.owner_id === currentOwner.id;
+          return item.bookings.owner_id === currentOwner.id;
         });
 
         setReviews(filteredReview);
@@ -37,8 +36,6 @@ export default function Reviews() {
     getReviews();
   }, []);
 
-  console.log(reviews);
-
   return (
     <div>
       {!reviews[0] ? (
@@ -49,16 +46,21 @@ export default function Reviews() {
           {error && <h1 className="text-h3">{error}</h1>}
           {reviews.map((review, index) => {
             return (
-              <div className="flex items-center justify-between flex-col gap-[350px] ">
+              <div
+                key={index}
+                className="flex items-center justify-between flex-col gap-[350px] "
+              >
                 <div className="w-full  flex  justify-start gap-[16px] pb-[40px] pt-[24px] px-[24px] border-b-[1px] border-ps-gray-200">
                   <div className="w-[220px]   flex items-center gap-[16px] ">
                     <img
                       className="w-[56px] h-[56px] rounded-full object-cover"
-                      src={review.profile_image_url}
+                      src={review.bookings.sitters.profile_image_url}
                       alt="cross icon"
                     />
                     <div>
-                      <h1 className="text-b1">{review.full_name}</h1>
+                      <h1 className="text-b1">
+                        {review.bookings.sitters.full_name}
+                      </h1>
                       <h1 className="text-ps-gray-400 text-b3">
                         {useGetOnlyDate(review.created_at)}
                       </h1>
