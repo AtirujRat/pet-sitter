@@ -67,9 +67,11 @@ export default function SitterPayout({ id, profile }) {
               <Image src={wallet}></Image>
               <p className="text-b2">Bank Account</p>
             </div>
-            <div className="text-b2 text-ps-orange-500 w-fit text-nowrap">
-              {profile.banks.bank_name} *{profile.account_number.slice(-3)}
-            </div>
+            {profile.banks && profile.account_number && (
+              <div className="text-b2 text-ps-orange-500 w-fit text-nowrap">
+                {profile.banks.bank_name} *{profile.account_number.slice(-3)}
+              </div>
+            )}
             <Image src={next}></Image>
           </div>
         </div>
