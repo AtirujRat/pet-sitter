@@ -13,6 +13,7 @@ import {
 } from "@/components/sitters/PetBadges";
 import { useUser } from "@/context/User";
 import { useRouter } from "next/router";
+import axios from "axios";
 
 export default function SitterCard({
   sitter,
@@ -27,6 +28,14 @@ export default function SitterCard({
   };
   const { userInfo } = useUser();
   const router = useRouter();
+  const sitter_id = router.query.id;
+
+  async function handleSenmessage(data) {
+    await axios.post("/api/conversations", data);
+    setTimeout(() => {
+      router.push(`/owners/${userInfo.id}/messages`);
+    }, 1000);
+  }
   return (
     <div className="sitter-card flex flex-col lg:w-[33%] w-full bg-ps-white sm:rounded-2xl h-fit min-w-[370px] lg:sticky top-5">
       <div className="sister-profile px-10 py-10 flex flex-col gap-6 items-center w-full">
@@ -69,7 +78,14 @@ export default function SitterCard({
       </div>
       <div className="buttons flex p-6 border-t-[1px] border-ps-gray-200 gap-4">
         <div className="max-md:hidden w-full">
-          <ButtonOrangeLight id="chat" text="Send Message" width="w-full" />
+          <ButtonOrangeLight
+            id="chat"
+            text="Send Message"
+            width="w-full"
+            onClick={() => {
+              handleSenmessage({ sitter_id, owner_id: userInfo.id });
+            }}
+          />
         </div>
         <ButtonOrange
           id="booking"
