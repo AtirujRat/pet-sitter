@@ -305,6 +305,7 @@ export default function BookingHistory() {
                       <ButtonOrange
                         text="Send Message"
                         width="w-[156px] h-[48px] text-b2 font-[700]"
+                        onClick={() => router.push(`/owners/${id}/messages`)}
                       />
                       <Image
                         className="w-[48px] h-[48px] cursor-pointer"
