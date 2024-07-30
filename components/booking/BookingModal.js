@@ -98,9 +98,9 @@ export default function BookingModal(props) {
   async function createBooking(formdata) {
     const ownerEmail = await getUserAuth();
 
-    const ownerData = await axios.post(`/api/owner/queryowner`, {
-      email: ownerEmail.email,
-    });
+    const ownerData = await axios.get(
+      `/api/owner/${ownerEmail.email}/queryowner`
+    );
 
     if (startTime === "" || endTime === "") {
       setTimeError("Require");

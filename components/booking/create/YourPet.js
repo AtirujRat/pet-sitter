@@ -59,6 +59,7 @@ export default function YourPet() {
       console.log(e);
     }
   }
+  console.log(booking);
 
   useEffect(() => {
     getData();
