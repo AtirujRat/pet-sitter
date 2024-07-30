@@ -19,7 +19,7 @@ export default function Report() {
     loading,
     error,
     reports,
-    filtedReport,
+    filteredReport,
     isReportDetailOpened,
     reportDetailToggle,
     isDropdownOpened,
@@ -41,7 +41,7 @@ export default function Report() {
               } border-[1px] border-ps-gray-200 py-[12px] px-[16px] cursor-pointer  `}
             >
               <p className="text-ps-gray-400">
-                {filtedReport ? filtedReport : "All status"}
+                {filteredReport ? filteredReport : "All status"}
               </p>
               <Image
                 src={drop_down}
@@ -65,8 +65,8 @@ export default function Report() {
               {error && <h1 className="text-ps-red p-[24px]">{error}</h1>}
               {reports
                 .filter((item) => {
-                  if (filtedReport) {
-                    return item.status === filtedReport;
+                  if (filteredReport) {
+                    return item.status === filteredReport;
                   } else {
                     return item;
                   }

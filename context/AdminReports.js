@@ -9,7 +9,7 @@ export function useAdminReport() {
 
 export function AdminReportProvider(props) {
   const [reports, setReports] = useState([]);
-  const [filtedReport, setFiltedReport] = useState("All status");
+  const [filteredReport, setFilteredReport] = useState(null);
   const [currentReport, setCurrentReport] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -71,8 +71,8 @@ export function AdminReportProvider(props) {
         resolveToggle,
         isDropdownOpened,
         dropdownToggle,
-        filtedReport,
-        setFiltedReport,
+        filteredReport,
+        setFilteredReport,
       }}
     >
       {props.children}
