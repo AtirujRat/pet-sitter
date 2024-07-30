@@ -1,15 +1,31 @@
-import { useState, useEffect, useContext } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "@/utils/supabase";
 import Image from "next/image";
 import { Formik, Form, Field } from "formik";
 
-export default function ChatWindowOwner({ conversation, onClose, onSend }) {
+export default function ChatWindow({
+  conversation,
+  userType,
+  onClose,
+  onSend,
+}) {
+  if (!conversation) {
+    return (
+      <div className="flex flex-col items-center justify-center gap-2 w-full h-full text-center bg-ps-gray-100">
+        <Image
+          src="/assets/messages/pink-cat-foot.svg"
+          width={82}
+          height={84}
+        />
+        <p className="text-ps-gray-300 text-b1">Start a conversation!</p>
+      </div>
+    );
+  }
+
   const [messages, setMessages] = useState(conversation.messages || []);
   const initialValues = {
     newMessage: "",
   };
-
-  // useEffect(() => {}, [conversation]);
 
   useEffect(() => {
     setMessages(conversation.messages || []);
@@ -41,12 +57,19 @@ export default function ChatWindowOwner({ conversation, onClose, onSend }) {
     .reverse();
 
   const onSubmit = async (values, { setSubmitting, resetForm }) => {
+    if (!values.newMessage.trim()) {
+      setSubmitting(false);
+      return;
+    }
+
     try {
-      const { data, error } = await supabase.from("messages").insert([
+      const { error } = await supabase.from("messages").insert([
         {
           conversation_id: conversation.id,
           text: values.newMessage,
-          sender_role: "owner",
+          sender_role: userType,
+          [`${userType}_status`]: "send",
+          [`${userType === "owner" ? "sitter" : "owner"}_status`]: "unread",
         },
       ]);
 
@@ -66,12 +89,20 @@ export default function ChatWindowOwner({ conversation, onClose, onSend }) {
         <div className="flex gap-4 items-center">
           <img
             className="rounded-full bg-ps-orange-500 w-12 h-12 object-cover"
-            src={conversation.sitters?.profile_image_url}
+            src={
+              userType === "owner"
+                ? conversation.sitters?.profile_image_url
+                : conversation.owners?.profile_image_url
+            }
             width={48}
             height={48}
             alt="Profile"
           />
-          <h3 className="text-h3">{conversation.sitters?.full_name}</h3>
+          <h3 className="text-h3">
+            {userType === "owner"
+              ? conversation.sitters?.full_name
+              : conversation.owners?.full_name}
+          </h3>
         </div>
         <Image
           className="hover:scale-110 focus:scale-100 transition-transform cursor-pointer"
@@ -93,33 +124,46 @@ export default function ChatWindowOwner({ conversation, onClose, onSend }) {
             <div
               key={message.id}
               className={`flex ${
-                message.sender_role === "owner"
+                message.sender_role === userType
                   ? "justify-end"
                   : "justify-start"
               } mb-4 items-end`}
             >
-              {message.sender_role === "sitter" && (
+              {message.sender_role !== userType && (
                 <img
-                  src={conversation.sitters?.profile_image_url}
-                  alt="sitter"
+                  src={
+                    userType === "owner"
+                      ? conversation.sitters?.profile_image_url
+                      : conversation.owners?.profile_image_url
+                  }
+                  alt={userType === "owner" ? "owner" : "sitter"}
                   className="w-10 h-10 rounded-full mr-2 object-cover"
                   width={40}
                   height={40}
                 />
               )}
-              <div
-                className={`px-6 py-4 border-ps-gray-200 border-[1px] hover:border-ps-orange-400 rounded-3xl ${
-                  message.sender_role === "owner"
-                    ? "rounded-br hover:translate-y-2"
-                    : "rounded-bl hover:translate-x-2"
-                } max-w-md ${
-                  message.sender_role === "owner"
-                    ? "bg-blue-500 text-white"
-                    : "bg-gray-200 text-black"
-                } hover:scale-105 transition-transform duration-300`}
-              >
-                {message.text}
-              </div>
+
+              {message.text ? (
+                <div
+                  className={`px-6 py-4 border-ps-gray-200 border-[1px] hover:border-ps-orange-400 rounded-3xl ${
+                    message.sender_role === userType
+                      ? "rounded-br hover:translate-y-2"
+                      : "rounded-bl hover:translate-x-2"
+                  } max-w-md ${
+                    message.sender_role === userType
+                      ? "bg-ps-orange-600 text-ps-white text-b2"
+                      : "bg-ps-white text-b2"
+                  } hover:scale-105 transition-transform duration-300`}
+                >
+                  {message.text}
+                </div>
+              ) : message.message_image_url ? (
+                <img
+                  src={message.message_image_url}
+                  alt="Message Image"
+                  className="w-[240px] h-[240px] rounded-lg object-cover hover:translate-x-2 hover:scale-105 transition-transform duration-300"
+                />
+              ) : null}
             </div>
           ))
         )}

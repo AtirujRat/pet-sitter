@@ -1,11 +1,11 @@
 import { createContext, useEffect, useState } from "react";
-import MessagesSidebarSitter from "@/components/messages/MessageSidebarSitter";
+import ChatWindow from "@/components/messages/ChatWindow";
 import axios from "axios";
 import { supabase } from "@/utils/supabase";
-import ChatWindowSitter from "@/components/messages/ChatWindowSitter";
+import MessageSidebar from "@/components/messages/MessageSidebar";
 
 export const ConversationSitterContext = createContext();
-const API_URL = "/api/sitters";
+const API_URL = "/api/sitter";
 
 export default function ConversationSitterPage() {
   const [conversations, setConversations] = useState([]);
@@ -99,10 +99,11 @@ export default function ConversationSitterPage() {
       }}
     >
       <section className="w-full h-[91vh] flex">
-        <MessagesSidebarSitter onSend={handleOnSend} />
+        <MessageSidebar onSend={handleOnSend} userType="sitter" />
         {isChatWindowOpen && selectedConversation && (
-          <ChatWindowSitter
+          <ChatWindow
             conversation={selectedConversation}
+            userType="sitter"
             onClose={handleCloseChatWindow}
             onSend={handleOnSend}
           />

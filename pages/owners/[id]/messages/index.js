@@ -1,8 +1,9 @@
 import { createContext, useEffect, useState } from "react";
-import ChatWindowOwner from "@/components/messages/ChatWindowOwner";
+import ChatWindow from "@/components/messages/ChatWindow";
 import axios from "axios";
 import { supabase } from "@/utils/supabase";
-import MessagesSidebarOwner from "@/components/messages/MessagesSidebarOwner";
+import MessageSidebar from "@/components/messages/MessageSidebar";
+import Image from "next/image";
 
 export const ConversationOwnerContext = createContext();
 const API_URL = "/api/owner";
@@ -45,7 +46,7 @@ export default function ConversationOwnerPage() {
 
         setLoading(false);
 
-        if (!selectedConversationId) {
+        if (!selectedConversationId && sortedConversations.length > 0) {
           setSelectedConversationId(sortedConversations[0].id);
         }
       } catch {
@@ -99,13 +100,26 @@ export default function ConversationOwnerPage() {
       }}
     >
       <section className="w-full h-[91vh] flex">
-        <MessagesSidebarOwner onSend={handleOnSend} />
-        {isChatWindowOpen && selectedConversation && (
-          <ChatWindowOwner
-            conversation={selectedConversation}
-            onClose={handleCloseChatWindow}
-            onSend={handleOnSend}
-          />
+        <MessageSidebar onSend={handleOnSend} userType="owner" />
+        {!selectedConversation ? (
+          <div className="flex flex-col items-center justify-center gap-2 w-full h-full text-center bg-ps-gray-100">
+            <Image
+              src="/assets/messages/pink-cat-foot.svg"
+              width={82}
+              height={84}
+            />
+            <p className="text-ps-gray-300 text-b1">Select a conversation!</p>
+          </div>
+        ) : (
+          isChatWindowOpen &&
+          selectedConversation && (
+            <ChatWindow
+              conversation={selectedConversation}
+              userType="owner"
+              onClose={handleCloseChatWindow}
+              onSend={handleOnSend}
+            />
+          )
         )}
       </section>
     </ConversationOwnerContext.Provider>
