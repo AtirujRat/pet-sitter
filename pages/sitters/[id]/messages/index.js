@@ -5,7 +5,7 @@ import { supabase } from "@/utils/supabase";
 import MessageSidebar from "@/components/messages/MessageSidebar";
 
 export const ConversationSitterContext = createContext();
-const API_URL = "/api/sitter";
+const API_URL = "/api/sitters";
 
 export default function ConversationSitterPage() {
   const [conversations, setConversations] = useState([]);
