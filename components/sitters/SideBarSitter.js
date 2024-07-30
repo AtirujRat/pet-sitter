@@ -55,10 +55,7 @@ export default function SideBarSitter() {
   };
 
   return (
-    <div
-      className="pt-4 w-full max-w-[240px] h-screen  bg-[#FAFAFB] border-r border-[#E5E7F2] sticky top-0 flex flex-col"
-      onClick={handleLogout}
-    >
+    <div className="pt-4 w-full max-w-[240px] h-screen bg-[#FAFAFB] border-r border-[#E5E7F2] sticky top-0 lg:flex lg:flex-col hidden">
       <div className="pl-6 pt-6 pb-10 bg-[#FAFAFB]">
         <Link href={"/"}>
           <Image src={sitterlogo} alt="sister-logo" width={131} />
@@ -88,7 +85,10 @@ export default function SideBarSitter() {
           ))}
         </div>
       </div>
-      <button className="flex py-4 px-6 w-full gap-4  text-[16px] font-medium text-[#5B5D6F] border-t border-[#E5E7F2] border-r">
+      <button
+        className="flex py-4 px-6 w-full gap-4  text-[16px] font-medium text-[#5B5D6F] border-t border-[#E5E7F2] border-r"
+        onClick={handleLogout}
+      >
         <Image src={logOut} alt="sister-logOut" width={24} height={24} />
         Log Out
       </button>

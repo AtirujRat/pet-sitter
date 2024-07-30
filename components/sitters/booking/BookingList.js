@@ -72,9 +72,9 @@ export default function BookingList({ id }) {
   return (
     <div className="flex flex-col gap-6 h-screen">
       {/* Search */}
-      <div className="flex justify-between ">
-        <p className="text-h3">Booking List</p>
-        <div className="flex gap-6">
+      <div className="md:flex justify-between">
+        <p className="md:text-h3 text-h4 pb-2 md:pb-0">Booking List</p>
+        <div className="sm:flex-row flex flex-col sm:gap-6 gap-2">
           <div className="relative">
             <input
               value={searchName}
@@ -83,7 +83,7 @@ export default function BookingList({ id }) {
               }}
               type="text"
               placeholder="Search..."
-              className="w-[240px] h-[48px] outline-none ring-0 border-[#DCDFED] text-[#7B7E8F] font-normal text-[16px] rounded-lg"
+              className="w-full sm:w-[240px] h-[48px] outline-none ring-0 border-[#DCDFED] text-[#7B7E8F] font-normal text-[16px] rounded-lg"
             />
             <Image
               src={search}
@@ -97,7 +97,7 @@ export default function BookingList({ id }) {
               setSelectedStatus(e.target.value);
               setRefresh(!refresh);
             }}
-            className="w-[240px] h-[48px] outline-none ring-0 border-[#DCDFED] text-[#7B7E8F] font-normal text-[16px] rounded-lg"
+            className="w-full sm:w-[240px] h-[48px] outline-none ring-0 border-[#DCDFED] text-[#7B7E8F] font-normal text-[16px] rounded-lg"
           >
             <option selected value="">
               All status
@@ -112,16 +112,26 @@ export default function BookingList({ id }) {
       </div>
 
       {/* booking list */}
-      <div className="bg-ps-white rounded-2xl overflow-x-auto">
-        <table className="table">
+      <div className="bg-ps-white rounded-2xl overflow-x-auto mb-10 sm:mb-0">
+        <table className="table table-fixed">
           {/* head */}
-          <thead className="h-[48px] bg-ps-black">
+          <thead className="h-[48px] bg-ps-black sticky top-0">
             <tr className="w-full">
-              <th className="w-[22%] text-ps-white">Pet Owner Name</th>
-              <th className="w-[15%] text-b3  text-ps-white">Pet(s)</th>
-              <th className="w-[15%] text-b3  text-ps-white">Duration</th>
-              <th className="w-[30%] text-ps-white">Booked Date</th>
-              <th className="text-b3  text-ps-white">Status</th>
+              <th className="xl:w-[22%] w-[240px] text-ps-white shrink-0">
+                Pet Owner Name
+              </th>
+              <th className="xl:w-[15%] w-[120px] text-b3  text-ps-white shrink-0">
+                Pet(s)
+              </th>
+              <th className="xl:w-[15%] w-[120px] text-b3  text-ps-white shrink-0">
+                Duration
+              </th>
+              <th className="xl:w-[30%] w-[420px] text-ps-white shrink-0">
+                Booked Date
+              </th>
+              <th className="xl:w-[18%] text-b3 w-[220px]  text-ps-white shrink-0">
+                Status
+              </th>
             </tr>
           </thead>
 
