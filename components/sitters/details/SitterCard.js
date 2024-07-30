@@ -14,6 +14,7 @@ import {
 import { useUser } from "@/context/User";
 import { useRouter } from "next/router";
 import axios from "axios";
+import { useOwners } from "@/context/Owners";
 
 export default function SitterCard({
   sitter,
@@ -29,6 +30,7 @@ export default function SitterCard({
   const { userInfo } = useUser();
   const router = useRouter();
   const sitter_id = router.query.id;
+  const { getUserAuth } = useOwners();
 
   async function handleSendMessage(data) {
     await axios.post(`/api/owner/${userInfo.id}/conversations`, data);
@@ -36,6 +38,20 @@ export default function SitterCard({
       router.push(`/owners/${userInfo.id}/messages`);
     }, 1000);
   }
+
+  async function handleBookingClick() {
+    const ownerData = await getUserAuth();
+    if (userInfo.role !== "owner") {
+      router.push("/login/owner");
+      return;
+    }
+    if (ownerData.email === sitter.email) {
+      alert("You cannot book yourself");
+    } else {
+      setIsBookingModalOpen(true);
+    }
+  }
+
   return (
     <div className="sitter-card flex flex-col lg:w-[33%] w-full bg-ps-white sm:rounded-2xl h-fit min-w-[370px] lg:sticky top-5">
       <div className="sister-profile px-10 py-10 flex flex-col gap-6 items-center w-full">
@@ -91,13 +107,7 @@ export default function SitterCard({
           id="booking"
           text="Booking"
           width="w-full"
-          onClick={() => {
-            if (userInfo.role === "owner") {
-              setIsBookingModalOpen(true);
-            } else {
-              router.push("/login/owner");
-            }
-          }}
+          onClick={handleBookingClick}
         />
       </div>
     </div>
