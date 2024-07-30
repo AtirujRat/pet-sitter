@@ -13,6 +13,7 @@ import { SittersProvider } from "@/context/SittersProvider";
 import { OwnerProvider } from "@/context/Owners";
 import { OwnersAccountStateProvider } from "@/context/OwnersAccountState";
 import { AdminProvider } from "@/context/Admin";
+import { UserProvider } from "@/context/User";
 import jwtInterceptor from "@/utils/jwtinterceptor";
 import CheckUserOwner from "@/components/CheckUserOwner";
 import CheckUserSitter from "./CheckUserSitter";
@@ -92,24 +93,18 @@ export default function Layout({ children }) {
         defer
         src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
       /> */}
-      <AdminProvider>
-        <OwnersAccountStateProvider>
-          <OwnerProvider>
-            <BookingProvider>
-              <SearchProvider>
-                <SittersProvider>
-                  <div className="w-full">
-                    {!isNoLayoutRoute && (
-                      <NavBar
-                        setOpenModal={() => setOpenModal((prev) => !prev)}
-                      />
-                    )}
-                    {openModal && (
-                      <div className="absolute top-15 right-0 size-10 bg-ps-white w-full h-full z-10">
-                        <LoginMobile
+      <UserProvider>
+        <AdminProvider>
+          <OwnersAccountStateProvider>
+            <OwnerProvider>
+              <BookingProvider>
+                <SearchProvider>
+                  <SittersProvider>
+                    <div className="w-full">
+                      {!isNoLayoutRoute && (
+                        <NavBar
                           setOpenModal={() => setOpenModal((prev) => !prev)}
                         />
-<<<<<<< HEAD
                       )}
                       {openModal && (
                         <div className="absolute top-15 right-0 size-10 bg-ps-white w-full h-full z-10">
@@ -130,19 +125,6 @@ export default function Layout({ children }) {
           </OwnersAccountStateProvider>
         </AdminProvider>
       </UserProvider>
-=======
-                      </div>
-                    )}
-                    <div>{children}</div>
-                    {!isNoLayoutRoute && !isNoFooterRoute && <Footer />}
-                  </div>
-                </SittersProvider>
-              </SearchProvider>
-            </BookingProvider>
-          </OwnerProvider>
-        </OwnersAccountStateProvider>
-      </AdminProvider>
->>>>>>> 7b471a0 (fix: change color checkbox and context)
     </>
   );
 }
