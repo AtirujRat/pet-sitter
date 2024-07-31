@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createContext, useState, useEffect, useContext } from "react";
+import { useSitters } from "./SittersProvider";
 
 const BookingContext = createContext();
 export function useBooking() {
@@ -15,33 +16,28 @@ export function BookingProvider(props) {
   });
   const [stepBooking, setStepBooking] = useState("your_pet");
   const [payment, setPayment] = useState("Credit Card");
-  const [confirm, setConfirm] = useState(0);
+  const [confirm, setConfirm] = useState("booking");
   const [select, setSelect] = useState({});
   const [selectedPets, setSelectedPets] = useState([]);
   const [petname, setPetname] = useState([]);
   const [petId, setPetId] = useState([]);
   const [onselectPet, setOnselectPet] = useState(false);
+  const { setIsBookingModalOpen } = useSitters();
 
   function handleBookingSuccess() {
     setTimeout(() => {
       setStepBooking("your_pet");
       setPayment("Credit Card");
-      setConfirm(0);
       setSelect({});
       setSelectedPets([]);
       setPetname([]);
       setPetId([]);
+      setIsBookingModalOpen(false);
     }, 2000);
-  }
-  async function handleBooking(data) {
-    try {
-      await axios.post("/api/owner/booking", data);
-    } catch (error) {
-      console.log("error");
-    }
   }
 
   function addBookingHandle(booking) {
+    setConfirm("booking");
     setBooking({ ...booking, owner_pet: petname, pet_id: petId });
   }
 
@@ -81,7 +77,6 @@ export function BookingProvider(props) {
         setSelect,
         setPetname,
         setPetId,
-        handleBooking,
         handleBookingSuccess,
         onselectPet,
         setOnselectPet,

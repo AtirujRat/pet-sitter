@@ -8,8 +8,6 @@ import { useBooking } from "@/context/Booking";
 import Modal from "@/components/modal/Modal";
 import Confirm from "@/components/booking/create/Confirm";
 import BookingSuccess from "@/components/booking/create/BookingSuccess";
-import { useUser } from "@/context/User";
-import Loading from "@/components/Loading";
 
 export default function BookingCreate() {
   const { stepBooking, confirm } = useBooking();
