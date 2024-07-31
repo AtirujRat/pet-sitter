@@ -96,12 +96,12 @@ export default function Layout({ children }) {
         src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
       /> */}
       <UserProvider>
-        <AdminProvider>
-          <OwnersAccountStateProvider>
-            <OwnerProvider>
-              <SittersProvider>
+        <SearchProvider>
+          <AdminProvider>
+            <OwnersAccountStateProvider>
+              <OwnerProvider>
                 <BookingProvider>
-                  <SearchProvider>
+                  <SittersProvider>
                     <div className="w-full">
                       {!isNoLayoutRoute && (
                         <NavBar
@@ -120,12 +120,12 @@ export default function Layout({ children }) {
                       <div>{children}</div>
                       {!isNoLayoutRoute && !isNoFooterRoute && <Footer />}
                     </div>
-                  </SearchProvider>
+                  </SittersProvider>
                 </BookingProvider>
-              </SittersProvider>
-            </OwnerProvider>
-          </OwnersAccountStateProvider>
-        </AdminProvider>
+              </OwnerProvider>
+            </OwnersAccountStateProvider>
+          </AdminProvider>
+        </SearchProvider>
       </UserProvider>
     </>
   );
