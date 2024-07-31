@@ -29,7 +29,7 @@ export default function ReviewModal(props) {
 
   async function submitRatingAndReviewHandle(formData) {
     try {
-      await axios.post("/api/reviews/rating", {
+      await axios.post("/api/reviews/reviews", {
         booking_id: props.bookingList[props.index].id,
         rating: rating,
         description: formData.description,
@@ -39,12 +39,6 @@ export default function ReviewModal(props) {
       props.closeModal();
     } catch (error) {
       setError("Could not sent the report because database issue");
-      console.log({
-        booking_id: props.bookingList[props.index].id,
-        rating: rating,
-        description: formData.description,
-        status: "pending",
-      });
     }
   }
 

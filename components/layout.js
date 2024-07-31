@@ -40,9 +40,11 @@ export default function Layout({ children }) {
 
   const dynamicRoutesFooter = [
     "/sitters/[id]/booking/create",
+    "/owners/[id]/profile",
     "/owners/[id]/yourpet",
     "/owners/[id]/yourpet/create",
     "/owners/[id]/yourpet/[petId]",
+    "/owners/[id]/bookinghistory",
     "/owners/[id]/messages",
   ];
 

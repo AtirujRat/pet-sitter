@@ -30,7 +30,7 @@ export default function ReportModal(props) {
 
   async function sendReportHandle(formData) {
     try {
-      await axios.post("/api/owners/report", {
+      await axios.post("/api/reports/reports", {
         booking_id: props.bookingList[props.index].id,
         issue: formData.issue,
         description: formData.description,
