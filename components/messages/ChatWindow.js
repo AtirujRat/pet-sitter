@@ -72,7 +72,7 @@ export default function ChatWindow({
           [`${userType === "owner" ? "sitter" : "owner"}_status`]: "unread",
         },
       ]);
-
+      onSend();
       if (error) throw error;
 
       resetForm();
