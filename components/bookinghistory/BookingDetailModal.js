@@ -80,7 +80,9 @@ export default function BookingDetailModal(props) {
         </div>
         <div className="border-b-[1px] border-ps-gray-200 pb-[20px]">
           <h1 className="text-b3 text-ps-gray-400">Pet:</h1>
-          <span className="text-b2 text-ps-gray-600">Bubba, Daisy</span>
+          <span className="text-b2 text-ps-gray-600">
+            {props.bookingList[props.index].pets}
+          </span>
         </div>
         <div className="flex items-center justify-between">
           <h1 className="text-b2">Total</h1>

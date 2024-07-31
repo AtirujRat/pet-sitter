@@ -28,6 +28,31 @@ export default async function handler(req, res) {
     }
   }
 
+  if (req.method === "POST") {
+    const newReport = {
+      ...req.body,
+      created_at: new Date(),
+      updated_at: new Date(),
+    };
+    try {
+      const { data, error } = await supabase
+        .from("reports")
+        .insert(newReport)
+        .select();
+      if (error) {
+        return res.status(400).json({
+          message: "Could not create report maybe wrong data incoming",
+        });
+      }
+
+      return res.status(200).json({ message: "Report has been sent" });
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ message: "Could not create report becasue database issue" });
+    }
+  }
+
   if (req.method === "GET") {
     try {
       let { data: reports, error } = await supabase
