@@ -94,11 +94,11 @@ export default function Layout({ children }) {
         src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
       /> */}
       <UserProvider>
-        <AdminProvider>
-          <OwnersAccountStateProvider>
-            <OwnerProvider>
-              <BookingProvider>
-                <SearchProvider>
+        <SearchProvider>
+          <AdminProvider>
+            <OwnersAccountStateProvider>
+              <OwnerProvider>
+                <BookingProvider>
                   <SittersProvider>
                     <div className="w-full">
                       {!isNoLayoutRoute && (
@@ -119,11 +119,11 @@ export default function Layout({ children }) {
                       {!isNoLayoutRoute && !isNoFooterRoute && <Footer />}
                     </div>
                   </SittersProvider>
-                </SearchProvider>
-              </BookingProvider>
-            </OwnerProvider>
-          </OwnersAccountStateProvider>
-        </AdminProvider>
+                </BookingProvider>
+              </OwnerProvider>
+            </OwnersAccountStateProvider>
+          </AdminProvider>
+        </SearchProvider>
       </UserProvider>
     </>
   );
