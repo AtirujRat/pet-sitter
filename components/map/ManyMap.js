@@ -23,7 +23,7 @@ export default function ManyMap() {
   };
 
   const { isLoaded } = useJsApiLoader({
-    id: options.mapId,
+    id: "google-map-script",
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
   });
 
@@ -46,6 +46,8 @@ export default function ManyMap() {
       url: "/assets/map/pin@2x.png",
       scaledSize: { width: 75, height: 75 },
     };
+
+    console.log(sitters);
 
     return isLoaded ? (
       <GoogleMap

@@ -56,10 +56,9 @@ export default function YourPet() {
       addBookingHandle({ ...booking, sitter_id: id });
       setLoading(false);
     } catch (e) {
-      console.log(e);
+      console.log("error");
     }
   }
-  console.log(booking);
 
   useEffect(() => {
     getData();

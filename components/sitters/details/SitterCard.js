@@ -30,7 +30,7 @@ export default function SitterCard({
   const router = useRouter();
   const sitter_id = router.query.id;
 
-  async function handleSenmessage(data) {
+  async function handleSendMessage(data) {
     await axios.post(`/api/owner/${userInfo.id}/conversations`, data);
     setTimeout(() => {
       router.push(`/owners/${userInfo.id}/messages`);
@@ -83,7 +83,7 @@ export default function SitterCard({
             text="Send Message"
             width="w-full"
             onClick={() => {
-              handleSenmessage({ sitter_id, owner_id: userInfo.id });
+              handleSendMessage({ sitter_id, owner_id: userInfo.id });
             }}
           />
         </div>

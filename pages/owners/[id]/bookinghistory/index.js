@@ -59,7 +59,7 @@ export default function BookingHistory() {
         setOnwerData(ownerData.data);
 
         const getBookingList = await axios.get(`/api/owner/${id}/booking`);
-
+        console.log(getBookingList);
         setBookingList(getBookingList.data);
         setLoading(false);
         setError(null);
@@ -74,7 +74,7 @@ export default function BookingHistory() {
 
   async function getReviews() {
     try {
-      const getRating = await axios.get("/api/reviews/rating");
+      const getRating = await axios.get("/api/reviews/reviews");
       setReviews(getRating.data);
     } catch (error) {
       return;

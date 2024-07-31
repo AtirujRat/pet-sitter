@@ -1,8 +1,18 @@
 import { supabase } from "@/utils/supabase";
-import protect from "../protect";
+import protect from "@/pages/api/protect";
 
 export default async function handler(req, res) {
   protect(req, res);
+  if (req.method === "GET") {
+    const { id } = req.query;
+    let { data: bookings, error } = await supabase
+      .from("bookings")
+      .select(
+        "*, sitters(full_name, trade_name), bookings_pets(booking_id, pet_id), pets(name)"
+      )
+      .eq("owner_id", id);
+    return res.status(200).json({ data: bookings });
+  }
   if (req.method === "POST") {
     const {
       owner_id,
@@ -14,7 +24,6 @@ export default async function handler(req, res) {
       message,
       pet_id,
     } = req.body;
-
     try {
       const { data, error } = await supabase
         .from("bookings")
@@ -32,38 +41,31 @@ export default async function handler(req, res) {
           },
         ])
         .select();
+      if (error) {
+        return res.status(400).json({ message: "Error from insert data" });
+      }
 
+      const { data: datas, error: errors } = await supabase
+        .from("bookings")
+        .select("id")
+        .eq("owner_id", owner_id)
+        .eq("sitter_id", sitter_id)
+        .eq("status", status);
+
+      if (errors) {
+        return res.status(400).json({ message: "Error from insert data" });
+      }
       pet_id.map(async (id) => {
-        let bookings = supabase
-          .from("bookings")
-          .select("id")
-          .eq("owner_id", owner_id);
-        if (sitter_id) {
-          bookings = bookings.eq("sitter_id", sitter_id);
-        }
-        if (status) {
-          bookings = bookings.eq("status", status);
-        }
-        const { data, error } = await bookings;
+        const { data, error } = await supabase
+          .from("bookings_pets")
+          .insert([{ booking_id: datas[datas.length - 1].id, pet_id: id }])
+          .select();
 
         if (error) {
           return res.status(400).json({ message: "Error from insert data" });
         }
-
-        const { datas, errors } = await supabase
-          .from("bookings_pets")
-          .insert([{ booking_id: data[data.length - 1].id, pet_id: id }])
-          .select();
-
-        if (errors) {
-          return res.status(400).json({ message: "Error from insert data" });
-        }
         return;
       });
-
-      if (error) {
-        return res.status(400).json({ message: "Error from insert data" });
-      }
     } catch (error) {
       return res
         .status(404)
