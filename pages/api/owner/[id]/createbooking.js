@@ -23,7 +23,9 @@ export default async function handler(req, res) {
       price,
       message,
       pet_id,
+      payment_method,
     } = req.body;
+
     try {
       const { data, error } = await supabase
         .from("bookings")
@@ -38,6 +40,7 @@ export default async function handler(req, res) {
             message: message,
             created_at: new Date(),
             last_updated: new Date(),
+            payment_method: payment_method,
           },
         ])
         .select();

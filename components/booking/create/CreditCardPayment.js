@@ -15,18 +15,17 @@ import {
 export default function CreditCardPayment() {
   const { setStepBooking, booking, addBookingHandle, setConfirm } =
     useBooking();
-  // console.log(booking);
   return (
     <Formik
       initialValues={{ card_number: "", card_name: "", expire: "", cvc: "" }}
       className="w-full h-full"
       onSubmit={(values, { setSubmitting }) => {
         setSubmitting(false);
-        // addBookingHandle({
-        //   ...booking,
-        //   ...values,
-        //   paymet_method: "credit card",
-        // });
+        addBookingHandle({
+          ...booking,
+          // ...values,
+          payment_method: "Credit card",
+        });
         setConfirm("confirm");
       }}
     >
