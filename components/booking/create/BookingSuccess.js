@@ -8,6 +8,7 @@ import { useUser } from "@/context/User";
 
 export default function BookingSuccess() {
   const router = useRouter();
+  const { id } = router.query;
   const [loading, setLoading] = useState(true);
   const [transaction, setTransaction] = useState([]);
   const [pet, setPet] = useState([]);
@@ -77,7 +78,12 @@ export default function BookingSuccess() {
                     {transaction.sitters.trade_name} By{" "}
                     {transaction.sitters.full_name}
                   </p>
-                  <button type="button">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      router.push(`/sitters/${id}`);
+                    }}
+                  >
                     <Image src={viewmap} alt={viewmap} />
                   </button>
                 </div>
