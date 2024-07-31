@@ -23,7 +23,13 @@ export default function MessagesSidebar({ userType, onSend }) {
 
   async function updateStatus(id) {
     try {
-      await axios.put(`/api/owner/${userOwner.id}/conversations`, { id: id });
+      if (userOwner.role === "owner") {
+        await axios.put(`/api/owner/${userOwner.id}/conversations`, { id: id });
+      } else {
+        await axios.put(`/api/sitters/${userOwner.id}/conversations`, {
+          id: id,
+        });
+      }
       onSend();
     } catch (error) {
       console.log(error);
