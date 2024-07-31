@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ConversationOwnerContext } from "@/pages/owners/[id]/messages";
 import { ConversationSitterContext } from "@/pages/sitters/[id]/messages";
 import MessageCard from "./MessageCard";
@@ -35,7 +35,6 @@ export default function MessagesSidebar({ userType, onSend }) {
       console.log(error);
     }
   }
-
   return (
     <section>
       <div className="pt-4 w-[368px] h-full bg-ps-black">
@@ -56,10 +55,10 @@ export default function MessagesSidebar({ userType, onSend }) {
                 ? "Image file"
                 : lastMessage.text || "No message content"
               : "";
-
             return (
               <MessageCard
                 key={conversation.id}
+                id={conversation.id}
                 imgUrl={
                   isOwner
                     ? conversation.sitters?.profile_image_url
@@ -78,6 +77,8 @@ export default function MessagesSidebar({ userType, onSend }) {
                   ).length
                 }
                 lastMessage={displayContent}
+                userOwner={userOwner}
+                onSend={onSend}
                 isClicked={selectedConversationId === conversation.id}
                 onClick={() => {
                   handleCardClick(conversation.id);

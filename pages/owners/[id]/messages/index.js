@@ -43,7 +43,6 @@ export default function ConversationOwnerPage() {
           );
         }
         setConversations(sortedConversations);
-        console.log(sortedConversations);
 
         setLoading(false);
 
@@ -54,9 +53,10 @@ export default function ConversationOwnerPage() {
         setLoading(true);
       }
     };
-
-    fetchConversations();
-  }, [isSend]);
+    setTimeout(() => {
+      fetchConversations();
+    }, 2000);
+  }, [conversations]);
 
   // useEffect(() => {
   //   setMessages(conversation.messages || []);

@@ -54,7 +54,6 @@ export default function ChatWindow({
 
   useEffect(() => {
     onSend();
-    console.log("test");
   }, [messages]);
 
   const orderedMessages = [...messages]

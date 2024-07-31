@@ -53,8 +53,10 @@ export default function ConversationSitterPage() {
       }
     };
 
-    fetchConversations();
-  }, [isSend]);
+    setTimeout(() => {
+      fetchConversations();
+    }, 2000);
+  }, [conversations]);
 
   useEffect(() => {
     const handleMessageInserts = (payload) => {
