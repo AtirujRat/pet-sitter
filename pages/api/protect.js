@@ -12,16 +12,12 @@ export default async function protect(req, res) {
     }
   };
   const token = req.headers.authorization?.split(" ")[1];
-
   if (!token) {
     return res.status(401).json({ error: "Missing token" });
   }
-
   const { valid, decoded, error } = verifyToken(token);
-
   if (!valid) {
     return res.status(401).json({ error: "Invalid token", details: error });
   }
-
   // Token is valid, proceed with your API logic
 }

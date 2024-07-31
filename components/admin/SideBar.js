@@ -13,7 +13,7 @@ import SideBarButton from "./SideBarButton";
 export default function SideBar() {
   const { state, setState } = useAdmin();
   return (
-    <div className="min-w-[240px] h-screen py-4 bg-ps-black flex flex-col justify-between">
+    <div className="min-w-[240px] h-screen py-4 bg-ps-black flex flex-col justify-between sticky top-0">
       <div className="w-full">
         <div className="py-10 px-6">
           <Image src={logoSitter} alt="logoSitter" />
