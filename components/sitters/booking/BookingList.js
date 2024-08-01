@@ -2,8 +2,8 @@ import Image from "next/image";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSitters } from "@/context/SittersProvider";
-import { useRouter } from "next/router";
 
+import BookigTabel from "./BookingTabel";
 import {
   WaitingForConfirm,
   WaitingForService,
@@ -11,15 +11,9 @@ import {
   Success,
   Canceled,
 } from "./BookingStatus";
-import {
-  formatDateWithoutYear,
-  formatTime,
-  calculateDurationInHours,
-} from "./timeUtils";
 import search from "@/public/assets/icons/icon-search.svg";
 
 export default function BookingList({ id }) {
-  const router = useRouter();
   const { setLoading, refresh, setRefresh } = useSitters();
 
   const [bookings, setBookings] = useState([]);
@@ -62,7 +56,6 @@ export default function BookingList({ id }) {
     debouncedGetBooking();
   }, [searchName]);
 
-  // Function to get status component
   const getStatusComponent = (status) => {
     const statusKey = status.replace(/\s+/g, "").toLowerCase();
     const StatusComponent = statusTypeComponents[statusKey];
@@ -112,70 +105,11 @@ export default function BookingList({ id }) {
       </div>
 
       {/* booking list */}
-      <div className="bg-ps-white rounded-2xl overflow-x-auto mb-10 sm:mb-0">
-        <table className="table table-fixed">
-          {/* head */}
-          <thead className="h-[48px] bg-ps-black sticky top-0">
-            <tr className="w-full">
-              <th className="xl:w-[22%] w-[240px] text-ps-white shrink-0">
-                Pet Owner Name
-              </th>
-              <th className="xl:w-[15%] w-[120px] text-b3  text-ps-white shrink-0">
-                Pet(s)
-              </th>
-              <th className="xl:w-[15%] w-[120px] text-b3  text-ps-white shrink-0">
-                Duration
-              </th>
-              <th className="xl:w-[30%] w-[420px] text-ps-white shrink-0">
-                Booked Date
-              </th>
-              <th className="xl:w-[18%] text-b3 w-[220px]  text-ps-white shrink-0">
-                Status
-              </th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {bookings.map((booking, index) => {
-              const duration = calculateDurationInHours(
-                booking?.start_time,
-                booking?.end_time
-              );
-              const startDate = formatDateWithoutYear(booking?.start_time);
-              const endDate =
-                new Date(booking?.start_time).toLocaleDateString() ===
-                new Date(booking?.end_time).toLocaleDateString()
-                  ? formatTime(booking?.end_time)
-                  : formatDateWithoutYear(booking?.end_time);
-              return (
-                <tr
-                  key={index}
-                  className="hover:bg-ps-orange-100 cursor-pointer"
-                  onClick={() =>
-                    router.push(`/sitters/${id}/booking/${booking?.id}`)
-                  }
-                >
-                  <td className="text-b2 py-6 flex items-center gap-2">
-                    {booking?.status.toLowerCase() ===
-                      "waiting for confirm" && (
-                      <span className="w-2 h-2 bg-ps-orange-500 rounded-full"></span>
-                    )}
-                    {booking?.owners?.full_name}
-                  </td>
-                  <td className="text-b2 py-6">
-                    {booking?.bookings_pets.length}
-                  </td>
-                  <td className="text-b2 py-6">{duration} hours</td>
-                  <td className="text-b2 py-6">{`${startDate} - ${endDate}`}</td>
-                  <td className="text-b2 py-6">
-                    {getStatusComponent(booking?.status)}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+      <BookigTabel
+        bookings={bookings}
+        getStatusComponent={getStatusComponent}
+        id={id}
+      />
     </div>
   );
 }
