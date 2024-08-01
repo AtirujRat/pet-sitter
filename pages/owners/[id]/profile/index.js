@@ -96,7 +96,7 @@ const ImageChange = ({ setPreview }) => {
 
   return (
     <input
-      className="w-[60px] h-[60px] opacity-0"
+      className="w-[60px] h-[90px] cursor-pointer opacity-0"
       type="file"
       name="profile_image_url"
       onChange={handleImageChange}
@@ -201,7 +201,7 @@ export default function Account() {
   }
 
   return (
-    <div className="w-full h-full bg-ps-gray-100 max-md:pt-0 pt-10 pb-20 max-md:pb-0">
+    <div className="w-full h-full bg-ps-gray-100  lg:pt-10 lg:pb-20 ">
       <div className="max-w-[1440px] min-w-0 lg:flex lg:justify-between mx-auto max-lg:flex-col lg:items-start lg:px-20  gap-9">
         <SideBarOwners />
         <Formik
@@ -216,7 +216,7 @@ export default function Account() {
           }}
         >
           {({ errors, touched, isSubmitting }) => (
-            <Form className="w-full lg:w-[965px] bg-ps-white h-fit shadow-md md:rounded-2xl p-[10px] lg:p-[40px] flex flex-col items-start gap-[20px] lg:gap-[45px]">
+            <Form className="w-full lg:w-[965px] bg-ps-white h-fit shadow-md lg:rounded-2xl p-[10px] lg:p-[40px] flex flex-col items-start gap-[20px] lg:gap-[45px]">
               <h1 className="text-h3">Profile</h1>
               {error && <p>{error}</p>}
               <div className="relative flex justify-center items-center w-[120px] h-[120px] lg:w-[220px] lg:h-[220px] bg-ps-gray-300 rounded-full">
@@ -239,7 +239,7 @@ export default function Account() {
                     className="absolute w-full h-full object-cover rounded-full"
                   />
                 )}
-                <div className="absolute bottom-0 right-0 ">
+                <div className="absolute bottom-0 right-0">
                   <Image
                     className="absolute bottom-0 right-0 w-[30px] h-[30px] lg:w-[60px] lg:h-[60px]"
                     src={import_button}
