@@ -57,7 +57,7 @@ export default function PetOwner() {
             </div>
           </div>
 
-          <table className="table a table-fixed h-[790px] overflow-hidden ">
+          <table className="table table-fixed h-[790px] overflow-hidden ">
             <thead>
               <tr className="flex bg-ps-black rounded-t-xl">
                 <th className="text-ps-white text-b3 w-[25%]">Pet Owner</th>
