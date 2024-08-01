@@ -20,7 +20,7 @@ export default function ProfileSitter({ sitter }) {
   return (
     <div className="w-full flex flex-col gap-10">
       <div className="flex w-full gap-10">
-        <div className="relative w-[240px] h-[240px] overflow-hidden rounded-full bg-ps-gray-200 shrink-0">
+        <div className="relative w-[240px] h-[240px] overflow-hidden rounded-full bg-ps-gray-200 shrink-0 flex items-center justify-center">
           {sitter?.profile_image_url ? (
             <Image
               src={sitter?.profile_image_url || null}
@@ -32,8 +32,8 @@ export default function ProfileSitter({ sitter }) {
             <Image
               src={userImage}
               alt="userImage"
-              width={200}
-              height={200}
+              width={180}
+              height={180}
               style={{ objectFit: "cover" }}
             />
           )}
@@ -41,19 +41,19 @@ export default function ProfileSitter({ sitter }) {
         <div className="bg-[#FAFAFB] p-6 gap-10 grow rounded-lg flex flex-col">
           <div className="flex flex-col gap-1">
             <p className="text-h4 text-ps-gray-300">Full Name</p>
-            <p>{sitter.full_name}</p>
+            <p>{sitter?.full_name}</p>
           </div>
           <div className="flex flex-col gap-1">
             <p className="text-h4 text-ps-gray-300">Experience</p>
-            <p>{sitter.experience}</p>
+            <p>{sitter?.experience}</p>
           </div>
           <div className="flex flex-col gap-1">
             <p className="text-h4 text-ps-gray-300">Phone</p>
-            <p>{sitter.phone_number}</p>
+            <p>{sitter?.phone_number}</p>
           </div>
           <div className="flex flex-col gap-1">
             <p className="text-h4 text-ps-gray-300">Introduction</p>
-            <p>{sitter.introduction}</p>
+            <p>{sitter?.introduction || "-"}</p>
           </div>
         </div>
       </div>
@@ -64,24 +64,24 @@ export default function ProfileSitter({ sitter }) {
             <p className="text-h4 text-ps-gray-300">
               Pet sitter name (Trade Name)
             </p>
-            <p>{sitter.trade_name}</p>
+            <p>{sitter?.trade_name}</p>
           </div>
           <div className="flex flex-col gap-1">
             <p className="text-h4 text-ps-gray-300">Pet type</p>
             <div className="flex gap-2">
-              {sitter.pet_types.map((pet, index) => {
+              {sitter?.pet_types?.map((pet, index) => {
                 const BadgeComponent = petTypeComponents[pet];
-                return <BadgeComponent key={index} />;
+                return <BadgeComponent key={index} /> || "";
               })}
             </div>
           </div>
           <div className="flex flex-col gap-1">
             <p className="text-h4 text-ps-gray-300">Services</p>
-            <p>{sitter.services || "-"}</p>
+            <p>{sitter?.services || "-"}</p>
           </div>
           <div className="flex flex-col gap-1">
             <p className="text-h4 text-ps-gray-300">My Place</p>
-            <p>{sitter.place_description || "-"}</p>
+            <p>{sitter?.place_description || "-"}</p>
           </div>
           <div className="flex flex-col gap-1">
             <p className="text-h4 text-ps-gray-300">Image Gallery</p>
@@ -89,7 +89,7 @@ export default function ProfileSitter({ sitter }) {
               {sitter?.sitters_images?.map((image, index) => (
                 <div key={index} className="w-[246px] h-[185px] relative">
                   <Image
-                    src={image.image_url}
+                    src={image?.image_url}
                     fill
                     style={{ objectFit: "cover" }}
                   />

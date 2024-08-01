@@ -1,18 +1,21 @@
 import { supabase } from "@/utils/supabase";
 
 export default async function handler(req, res) {
-  const { id, name, tradeName, email, status } = req.query;
+  const { name, tradeName, email, status } = req.query;
 
   if (req.method === "GET") {
     try {
-      let supabaseQuery = supabase.from("sitters").select(
-        `
+      let supabaseQuery = supabase
+        .from("sitters")
+        .select(
+          `
           *,
-          bookings(reviews(rating, status)),
+          bookings(reviews!inner(rating, description, status, updated_at), owners(full_name, profile_image_url)),
           sitters_addresses(*),
           sitters_images(image_url)
         `
-      );
+        )
+        .order("sitter_status", { ascending: false });
 
       if (name || tradeName || email) {
         const filters = [];
@@ -42,6 +45,34 @@ export default async function handler(req, res) {
         message:
           "Server could not read sitters because of database connection issue.",
         error: error.message,
+      });
+    }
+  }
+  if (req.method === "PATCH") {
+    try {
+      const id = req.body.id;
+      const updatedStatus = req.body.sitter_status;
+      const rejectReason = req.body.reject_reason;
+
+      const { data, error } = await supabase
+        .from("sitters")
+        .update({ sitter_status: updatedStatus, reject_reason: rejectReason })
+        .eq("id", id)
+        .select();
+
+      if (!data || data.length === 0) {
+        return res.status(404).json({
+          message: "Server could not find a sitters to update",
+        });
+      }
+
+      return res.status(200).json({
+        message: "sitters status was updated successfully",
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message:
+          "Server could not update the sitters because database connection",
       });
     }
   } else {

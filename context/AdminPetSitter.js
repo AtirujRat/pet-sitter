@@ -14,13 +14,14 @@ export function useAdminPetSitter() {
 }
 
 export function AdminPetSitterProvider(props) {
-  const { location } = useSearch();
-
   const [sitters, setSitters] = useState([]);
   const [search, setSearch] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
   const [getCurrentSitter, setGetCurrentSitter] = useState([]);
   const [selectedSitter, setSelectedSitter] = useState(null);
+  const [refresh, setRefresh] = useState(false);
+
+  const { location } = useSearch();
 
   async function GetSitterProfile() {
     try {
@@ -28,6 +29,7 @@ export function AdminPetSitterProvider(props) {
         `/api/sitters/getsitters?name=${search}&tradeName=${search}&email=${search}&status=${selectedStatus}`
       );
       setSitters(response.data.data);
+
       if (response.data.data.sitters_addresses) {
         location({
           lat: Number(response.data.data.sitters_addresses.lat),
@@ -75,7 +77,7 @@ export function AdminPetSitterProvider(props) {
 
   useEffect(() => {
     GetSitterProfile();
-  }, []);
+  }, [selectedStatus, refresh]);
 
   return (
     <AdminPetSitterContext.Provider
@@ -91,6 +93,8 @@ export function AdminPetSitterProvider(props) {
         selectedSitter,
         setSelectedSitter,
         getStatusComponent,
+        refresh,
+        setRefresh,
       }}
     >
       {props.children}
