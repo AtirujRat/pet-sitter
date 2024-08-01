@@ -9,7 +9,7 @@ export function useAdminReport() {
 
 export function AdminReportProvider(props) {
   const [reports, setReports] = useState([]);
-  const [filteredReport, setFilteredReport] = useState(null);
+  const [filteredReport, setFilteredReport] = useState("");
   const [currentReport, setCurrentReport] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -22,7 +22,9 @@ export function AdminReportProvider(props) {
   async function getReports() {
     setLoading(true);
     try {
-      const response = await axios.get("/api/reports/reports");
+      const response = await axios.get(
+        `/api/reports/reports/?status=${filteredReport}`
+      );
       if (response) {
         setReports(response.data);
         setLoading(false);
@@ -53,7 +55,7 @@ export function AdminReportProvider(props) {
 
   useEffect(() => {
     getReports();
-  }, [isReportDetailOpened]);
+  }, [isReportDetailOpened, filteredReport]);
 
   return (
     <ReportContext.Provider

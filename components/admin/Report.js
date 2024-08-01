@@ -8,6 +8,7 @@ import ReportDetail from "@/components/admin/reports/ReportDetail";
 import FilterDropdown from "./reports/FilterDropdown";
 
 const REPORT_STATUS = {
+  Allstatus: "text-ps-gray-400",
   NewReport: "text-ps-pink-500",
   Pending: "text-ps-blue-500",
   Resolved: "text-ps-green-500",
@@ -40,8 +41,16 @@ export default function Report() {
                 isDropdownOpened ? "rounded-t-lg" : "rounded-lg"
               } border-[1px] border-ps-gray-200 py-[12px] px-[16px] cursor-pointer  `}
             >
-              <p className="text-ps-gray-400">
-                {filteredReport ? filteredReport : "All status"}
+              <p
+                className={`${
+                  REPORT_STATUS[String(filteredReport).replace(/\s/g, "")]
+                }`}
+              >
+                {filteredReport ? (
+                  filteredReport
+                ) : (
+                  <p className="text-ps-gray-400">All status</p>
+                )}
               </p>
               <Image
                 src={drop_down}
@@ -52,54 +61,59 @@ export default function Report() {
             </div>
           </div>
 
-          <div className="w-full rounded-2xl bg-ps-white overflow-hidden">
-            <div className=" flex items-center bg-ps-black py-[12px] px-[16px]">
-              <div className="text-ps-white w-[20%]">User</div>
-              <div className="text-ps-white w-[15%]">Reported Person</div>
-              <div className="text-ps-white w-[25%]">Issue</div>
-              <div className="text-ps-white w-[25%]">Date Submitted</div>
-              <div className="text-ps-white w-[15%]">Status</div>
-            </div>
-            <div>
+          <table className="table table-fixed rounded-2xl bg-ps-white overflow-hidden ">
+            <thead>
+              <tr className="flex items-center bg-ps-black">
+                <th className="text-ps-white py-[12px] px-[16px] text-b3 text-start w-[15%]">
+                  User
+                </th>
+                <th className="text-ps-white py-[12px] px-[16px] text-b3 text-start w-[15%]">
+                  Reported Person
+                </th>
+                <th className="text-ps-white py-[12px] px-[16px] text-b3 text-start w-[30%]">
+                  Issue
+                </th>
+                <th className="text-ps-white py-[12px] px-[16px] text-b3 text-start w-[20%]">
+                  Date Submitted
+                </th>
+                <th className="text-ps-white py-[12px] px-[16px] text-b3 text-start w-[20%]">
+                  Status
+                </th>
+              </tr>
+            </thead>
+
+            <tbody>
               {loading && <Loading />}
-              {error && <h1 className="text-ps-red p-[24px]">{error}</h1>}
-              {reports
-                .filter((item) => {
-                  if (filteredReport) {
-                    return item.status === filteredReport;
-                  } else {
-                    return item;
-                  }
-                })
-                .map((report, index) => {
-                  return (
-                    <div
-                      key={index}
-                      onClick={() => reportDetailToggle(report)}
-                      className=" flex items-center py-[24px] px-[16px] cursor-pointer gap-[24px]"
-                    >
-                      <div className="w-[20%]">
-                        {report.bookings.owners.full_name}
-                      </div>
-                      <div className="w-[15%]">
-                        {report.bookings.sitters.full_name}
-                      </div>
-                      <div className="w-[25%] truncate">{report.issue}</div>
-                      <div className="w-[25%]">
-                        {useGetOnlyDate(report.created_at)}
-                      </div>
-                      <li
-                        className={`${
-                          REPORT_STATUS[report.status.replace(/\s/g, "")]
-                        } w-[15%]`}
-                      >
-                        {report.status}
-                      </li>
-                    </div>
-                  );
-                })}
-            </div>
-          </div>
+              {error && <p className="text-ps-red p-[24px]">{error}</p>}
+              {reports.map((report, index) => (
+                <tr
+                  key={index}
+                  onClick={() => reportDetailToggle(report)}
+                  className="flex items-center cursor-pointer"
+                >
+                  <td className="py-[24px] px-[16px] text-b2 w-[15%] ">
+                    {report.bookings.owners.full_name}
+                  </td>
+                  <td className="py-[24px] px-[16px] text-b2 w-[15%]">
+                    {report.bookings.sitters.full_name}
+                  </td>
+                  <td className="py-[24px] px-[16px] truncate text-b2 w-[30%]">
+                    {report.issue}
+                  </td>
+                  <td className="py-[24px] px-[16px] text-b2 w-[20%]">
+                    {useGetOnlyDate(report.created_at)}
+                  </td>
+                  <td
+                    className={`${
+                      REPORT_STATUS[report.status.replace(/\s/g, "")]
+                    } py-[24px] px-[16px]  text-b2 w-[20%]`}
+                  >
+                    {report.status}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </>
       )}
     </section>

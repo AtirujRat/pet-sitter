@@ -1,7 +1,9 @@
 import Modal from "@/components/modal/Modal";
+import profile_icon from "@/public/assets/booking/owner-profile.svg";
 
 import BanUserModal from "@/components/admin/petowner/modal/BanUserModal";
 import { useAdminPetOwner } from "@/context/AdminPetOwner";
+import Image from "next/image";
 
 export default function Profile() {
   const { currentOwner, isBanUserModalOpened, toggleBanUserModal } =
@@ -20,12 +22,20 @@ export default function Profile() {
         </Modal>
       )}
       <div className="flex gap-[40px]">
-        <img
-          className="w-[240px] h-[240px] rounded-full object-cover"
-          src={currentOwner?.profile_image_url}
-          alt="owner profile"
-        />
-        <div className="flex flex-col gap-[40px] bg-ps-gray-100 p-[24px] w-[800px] rounded-lg">
+        {currentOwner?.profile_image_url === null ? (
+          <Image
+            className="w-[240px] h-[240px] rounded-full object-cover"
+            src={profile_icon}
+            alt={profile_icon}
+          />
+        ) : (
+          <img
+            className="w-[240px] h-[240px] rounded-full object-cover"
+            src={currentOwner?.profile_image_url}
+            alt="owner profile"
+          />
+        )}
+        <div className="flex flex-col gap-[40px] bg-ps-gray-100 p-[24px] w-full rounded-lg">
           <div className="flex flex-col gap-[4px]">
             <h1 className="text-h4 text-ps-gray-300">Pet Owner Name</h1>
             <p className="text-b2">{currentOwner?.full_name}</p>

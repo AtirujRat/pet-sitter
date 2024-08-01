@@ -7,6 +7,8 @@ export function useAdminPetOwner() {
 }
 
 export function AdminPetOwnerProvider(props) {
+  const [searchOwnerInput, setSearchOwnerInput] = useState("");
+
   const [owners, setOwners] = useState([]);
   const [ownerError, setOwnerError] = useState(null);
   const [ownerLoading, setOwnerLoading] = useState(true);
@@ -21,9 +23,13 @@ export function AdminPetOwnerProvider(props) {
 
   async function getOwners() {
     try {
-      const response = await axios.get("/api/owner/getowners");
+      const response = await axios.get(
+        `/api/owner/getowners/?name=${searchOwnerInput}&phone_number=${searchOwnerInput}&email=${searchOwnerInput}
+`
+      );
       setOwners(response.data);
       setOwnerLoading(false);
+      setOwnerError(null);
     } catch {
       setOwnerError("Could not get the data");
     }
@@ -52,6 +58,21 @@ export function AdminPetOwnerProvider(props) {
     setIsPetOwnerDetailModalOpened((prev) => !prev);
   }
 
+  const debounce = (func, delay = 500) => {
+    let timer;
+    return function (...args) {
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(() => {
+        func(...args);
+      }, delay);
+    };
+  };
+
+  useEffect(() => {
+    const debouncedGetOwner = debounce(getOwners, 500);
+    debouncedGetOwner();
+  }, [searchOwnerInput]);
+
   useEffect(() => {
     getOwners();
   }, [isPetOwnerDetailModalOpened]);
@@ -61,6 +82,8 @@ export function AdminPetOwnerProvider(props) {
       value={{
         owners,
         currentOwner,
+        searchOwnerInput,
+        setSearchOwnerInput,
         setCurrentOwner,
         currentPet,
         setCurrentPet,

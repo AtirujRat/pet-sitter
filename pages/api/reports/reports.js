@@ -1,7 +1,7 @@
 import { supabase } from "@/utils/supabase";
 
 export default async function handler(req, res) {
-  const { id } = req.query;
+  const { status, id } = req.query;
 
   if (req.method === "PUT") {
     const updatedReport = {
@@ -55,19 +55,39 @@ export default async function handler(req, res) {
 
   if (req.method === "GET") {
     try {
-      let { data: reports, error } = await supabase
-        .from("reports")
-        .select(
-          `* , bookings(owners:owner_id (full_name) , sitters:sitter_id (full_name) )`
-        );
+      if (status) {
+        let { data: reports, error } = await supabase
+          .from("reports")
+          .select(
+            `* , bookings(owners:owner_id (full_name) , sitters:sitter_id (full_name) )`
+          )
+          .eq("status", status);
 
-      if (error) {
-        return res
-          .status(400)
-          .json({ message: "Could not get reports maybe wrong data incoming" });
+        if (error) {
+          return res
+            .status(400)
+            .json({
+              message: "Could not get reports maybe wrong data incoming",
+            });
+        }
+
+        return res.status(200).json(reports);
+      } else {
+        let { data: reports, error } = await supabase
+          .from("reports")
+          .select(
+            `* , bookings(owners:owner_id (full_name) , sitters:sitter_id (full_name) )`
+          );
+        if (error) {
+          return res
+            .status(400)
+            .json({
+              message: "Could not get reports maybe wrong data incoming",
+            });
+        }
+
+        return res.status(200).json(reports);
       }
-
-      return res.status(200).json(reports);
     } catch {
       return res
         .status(500)

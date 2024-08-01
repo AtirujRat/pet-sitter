@@ -22,11 +22,11 @@ export default function PetOwnerDetail(props) {
         <p className="text-h3">{currentOwner?.full_name}</p>
       </div>
 
-      <div className="relative bg-ps-white max-w-[1120px] h-[640px] rounded-r-lg rounded-b-lg">
+      <div className="relative bg-ps-white max-w-full h-[640px] rounded-r-lg rounded-b-lg">
         <div className="relative bottom-[60px] flex items-center gap-[20px]">
           <div
             onClick={() => setCurrentDetails("profile")}
-            className={` py-[16px] px-[32px] text-h4 rounded-t-2xl ${
+            className={`py-[16px] px-[32px] text-h4 rounded-t-2xl ${
               currenDetails === "profile"
                 ? "bg-ps-white text-ps-orange-500"
                 : "bg-ps-gray-200 text-ps-gray-400"
