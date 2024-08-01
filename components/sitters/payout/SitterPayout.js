@@ -74,16 +74,19 @@ export default function SitterPayout({ id, profile }) {
           {/* head */}
           <thead className="h-[48px] bg-ps-black sticky top-0">
             <tr className="w-full">
-              <th className="xl:w-[25%] w-[240px] text-ps-white shrink-0">
+              <th className="xl:w-[20%] w-[240px] text-ps-white shrink-0">
                 Date
               </th>
-              <th className="xl:w-[30%] w-[120px] text-b3  text-ps-white shrink-0">
+              <th className="xl:w-[27%] w-[120px] text-b3  text-ps-white shrink-0">
                 From
               </th>
-              <th className="xl:w-[15%] w-[120px] text-b3  text-ps-white shrink-0">
+              <th className="xl:w-[20%] w-[120px] text-b3  text-ps-white shrink-0">
                 Transaction No.
               </th>
-              <th className="xl:w-[30%] w-[420px] text-ps-white shrink-0 text-right">
+              <th className="xl:w-[15%] w-[120px] text-b3  text-ps-white shrink-0">
+                Payment Method
+              </th>
+              <th className="xl:w-[18%] w-[420px] text-ps-white shrink-0 text-right">
                 Amount
               </th>
             </tr>
@@ -107,6 +110,7 @@ export default function SitterPayout({ id, profile }) {
                   <td className="text-b2 py-6">{formattedDate}</td>
                   <td className="text-b2 py-6">{booking.owners.full_name}</td>
                   <td className="text-b2 py-6">{booking.transaction_id}</td>
+                  <td className="text-b2 py-6">{booking.payment_method}</td>
                   <td className="text-b2 text-ps-green-500 text-right">
                     {booking.price.toLocaleString(undefined, {
                       minimumFractionDigits: 2,
