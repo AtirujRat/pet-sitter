@@ -1,9 +1,9 @@
 import { supabase } from "@/utils/supabase";
-// import protect from "../../protect";
+import protect from "@/pages/api/protect";
 
 export default async function handler(req, res) {
   const { id } = req.query;
-  // protect(req, res);
+  protect(req, res);
   if (req.method === "GET") {
     try {
       const { data: conversations, error } = await supabase
@@ -46,7 +46,7 @@ export default async function handler(req, res) {
           .insert([{ sitter_id: sitter_id, owner_id: owner_id }])
           .select();
 
-        if (errors) {
+        if (error) {
           return res
             .status(400)
             .json({ message: "error connection from database" });

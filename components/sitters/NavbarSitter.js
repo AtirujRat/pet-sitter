@@ -9,10 +9,12 @@ import userImage from "@/public/assets/account/profile_white.svg";
 import sitterlogo from "@/public/assets/sister-logo.svg";
 import menu from "@/public/assets/navbar/menu.svg";
 import logOut from "@/public/assets/icons/icon-logout-gray.svg";
+import { useUser } from "@/context/User";
 
 export default function NavBarSitter({ profileImage, fullName }) {
   const [openModal, setOpenModal] = useState(false);
   const router = useRouter();
+  const { userInfo } = useUser();
 
   const handleLogout = async () => {
     let { error } = await supabase.auth.signOut();
@@ -51,9 +53,15 @@ export default function NavBarSitter({ profileImage, fullName }) {
           <p className="text-[16px] hidden lg:flex">{fullName}</p>
         </div>
         <div className="flex gap-6">
-          <div className="bg-ps-gray-100 rounded-full flex">
+          <button
+            type="button"
+            onClick={() => {
+              router.push(`/sitters/${userInfo.id}/messages`);
+            }}
+            className="bg-ps-gray-100 rounded-full flex"
+          >
             <Image src={message} alt="profileImage" width={40} height={40} />
-          </div>
+          </button>
           <Image
             src={menu}
             alt="menu"
