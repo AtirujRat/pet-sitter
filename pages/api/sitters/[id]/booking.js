@@ -16,9 +16,12 @@ export default async function handler(req, res) {
         .ilike("owners.full_name", `%${ownerName}%`);
 
       if (status) {
-        supabaseQuery = supabaseQuery.eq("status", status);
+        if (Array.isArray(status)) {
+          supabaseQuery = supabaseQuery.in("status", status);
+        } else {
+          supabaseQuery = supabaseQuery.eq("status", status);
+        }
       }
-
       let { data: bookings, error } = await supabaseQuery;
 
       if (error) {
