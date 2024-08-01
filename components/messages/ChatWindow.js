@@ -11,6 +11,7 @@ export default function ChatWindow({
   onClose,
   onSend,
   user,
+  fetchConversations,
 }) {
   if (!conversation) {
     return (
@@ -34,15 +35,17 @@ export default function ChatWindow({
   useEffect(() => {
     setMessages(conversation.messages || []);
     const handleInserts = (payload) => {
-      setMessages((prevMessages) => [payload.new, ...prevMessages]);
+      if (payload.eventType === "INSERT") {
+        setMessages((prevMessages) => [payload.new, ...prevMessages]);
+      }
     };
 
     const messageListener = supabase
-      .channel("custom-all-channel")
+      .channel("Chat-window")
       .on(
         "postgres_changes",
         {
-          event: "INSERT",
+          event: "*",
           schema: "public",
           table: "messages",
           filter: `conversation_id=eq.${conversation.id}`,
@@ -80,7 +83,6 @@ export default function ChatWindow({
 
       profileImageUrl = await uploadProfileImage(file, "message_image");
       status = "image";
-      console.log(profileImageUrl);
       onSubmit(profileImageUrl);
 
       // await axios.put(`/api/sitters/${id}`, updatedValues);

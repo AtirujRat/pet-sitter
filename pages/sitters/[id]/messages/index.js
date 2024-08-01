@@ -25,58 +25,39 @@ export default function ConversationSitterPage() {
     (conversation) => conversation.id === selectedConversationId
   );
 
-  useEffect(() => {
-    const fetchConversations = async () => {
-      setLoading(true);
-      let sortedConversations;
+  const fetchConversations = async () => {
+    setLoading(true);
+    let sortedConversations;
 
-      try {
-        if (userSitter.id) {
-          const response = await axios.get(
-            `${API_URL}/${userSitter.id}/conversations`
-          );
+    try {
+      if (userSitter.id) {
+        const response = await axios.get(
+          `${API_URL}/${userSitter.id}/conversations`
+        );
 
-          sortedConversations = [...response.data].sort(
-            (a, b) => new Date(b.updated_at) - new Date(a.updated_at)
-          );
-        }
-        setConversations(sortedConversations);
-        console.log(sortedConversations);
-
-        setLoading(false);
-
-        if (!selectedConversationId) {
-          setSelectedConversationId(sortedConversations[0].id);
-        }
-      } catch {
-        setLoading(true);
+        sortedConversations = [...response.data].sort(
+          (a, b) => new Date(b.updated_at) - new Date(a.updated_at)
+        );
       }
-    };
+      setConversations(sortedConversations);
+      setLoading(false);
 
-    setTimeout(() => {
-      fetchConversations();
-    }, 5000);
-  }, [conversations]);
+      if (!selectedConversationId) {
+        setSelectedConversationId(sortedConversations[0].id);
+      }
+    } catch {
+      setLoading(true);
+    }
+  };
+
+  const handleOnSend = () => {
+    setIsSend(!isSend);
+  };
 
   useEffect(() => {
-    const handleMessageInserts = (payload) => {
-      const newMessage = payload.new;
-      handleSendMessage(newMessage);
-    };
-
-    const messageListener = supabase
-      .channel("custom-all-channel")
-      .on(
-        "postgres_changes",
-        { event: "INSERT", schema: "public", table: "messages" },
-        handleMessageInserts
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(messageListener);
-    };
-  }, []);
+    console.log("test");
+    fetchConversations();
+  }, [isSend]);
 
   const handleCardClick = (id) => {
     setSelectedConversationId(id);
@@ -88,10 +69,6 @@ export default function ConversationSitterPage() {
     setSelectedConversationId(null);
   };
 
-  const handleOnSend = () => {
-    setIsSend(!isSend);
-  };
-
   return (
     <ConversationSitterContext.Provider
       value={{
@@ -101,7 +78,11 @@ export default function ConversationSitterPage() {
       }}
     >
       <section className="w-full h-[91vh] flex">
-        <MessageSidebar onSend={handleOnSend} userType="sitter" />
+        <MessageSidebar
+          onSend={handleOnSend}
+          userType="sitter"
+          fetchConversations={fetchConversations}
+        />
         {isChatWindowOpen && selectedConversation && (
           <ChatWindow
             conversation={selectedConversation}
