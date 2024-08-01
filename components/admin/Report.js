@@ -28,7 +28,7 @@ export default function Report() {
   } = useAdminReport();
 
   return (
-    <section className="w-full  flex flex-col gap-[24px] p-10 pb-20 bg-ps-gray-100">
+    <div className="w-full flex flex-col gap-[24px] p-10 pb-20 bg-ps-gray-100">
       {isReportDetailOpened ? (
         <ReportDetail closeModal={reportDetailToggle} />
       ) : (
@@ -83,8 +83,18 @@ export default function Report() {
             </thead>
 
             <tbody>
-              {loading && <Loading />}
-              {error && <p className="text-ps-red p-[24px]">{error}</p>}
+              {loading && (
+                <tr>
+                  <td>
+                    <Loading />
+                  </td>
+                </tr>
+              )}
+              {error && (
+                <tr>
+                  <td>{error}</td>
+                </tr>
+              )}
               {reports.map((report, index) => (
                 <tr
                   key={index}
@@ -116,6 +126,6 @@ export default function Report() {
           </table>
         </>
       )}
-    </section>
+    </div>
   );
 }
