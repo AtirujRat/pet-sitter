@@ -12,7 +12,7 @@ export default function SitterPayout({ id, profile }) {
   const [bookings, setBookings] = useState([]);
   const [totalEarning, setTotalEarning] = useState(0);
 
-  const getBooking = async () => {
+  async function getBooking() {
     const res = await axios.get(
       `http://localhost:3000/api/sitters/${id}/booking?name=&status=Success`
     );
@@ -20,7 +20,7 @@ export default function SitterPayout({ id, profile }) {
     setBookings(res.data.data);
     setTotalEarning(res.data.data.reduce((res, cur) => res + cur.price, 0));
     setLoading(false);
-  };
+  }
 
   useEffect(() => {
     getBooking();
@@ -54,9 +54,11 @@ export default function SitterPayout({ id, profile }) {
                 <Image src={wallet} alt="wallet icon"></Image>
                 <p className="text-b2">Bank Account</p>
               </div>
-              {profile.banks && profile.account_number ? (
+              {profile.sitters_bank_accounts.banks.bank_name &&
+              profile.sitters_bank_accounts.account_number ? (
                 <span className="text-b2 text-ps-orange-500 w-fit text-nowrap">
-                  {profile.banks.bank_name} *{profile.account_number.slice(-3)}
+                  {profile.sitters_bank_accounts.banks.bank_name} *
+                  {profile.sitters_bank_accounts.account_number.slice(-3)}
                 </span>
               ) : (
                 <span className="text-b2 text-ps-gray-300">Select</span>
