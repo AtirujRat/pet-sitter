@@ -1,13 +1,15 @@
 import Image from "next/image";
 import { useAdminPetSitter } from "@/context/AdminPetSitter";
 import { useSitters } from "@/context/SittersProvider";
+import { useRouter } from "next/navigation";
 
 import searchIcon from "@/public/assets/icons/icon-search.svg";
 import userImage from "@/public/assets/account/profile_white.svg";
 import PetSitterDetail from "./petsitter/PetSitterDetail";
 
 export default function PetSitter() {
-  const { setLoading, refresh, setRefresh } = useSitters();
+  const { refresh, setRefresh } = useSitters();
+  const router = useRouter();
   const {
     sitters,
     search,
@@ -20,8 +22,13 @@ export default function PetSitter() {
     getStatusComponent,
   } = useAdminPetSitter();
 
+  const handleRowClick = (sitter) => {
+    handleSitterClick(sitter);
+    router.push("/admin", undefined, { scroll: false });
+  };
+
   return (
-    <div className="w-full p-10 flex flex-col gap-6">
+    <div className="w-full p-10 flex flex-col gap-6 overflow-hidden">
       {/* Search */}
       {!selectedSitter ? (
         <>
@@ -61,7 +68,6 @@ export default function PetSitter() {
           </div>
 
           {/* Pet Sitter Table */}
-
           <div className="bg-ps-white rounded-2xl overflow-x-auto">
             <table className="table table-fixed">
               {/* head */}
@@ -85,10 +91,10 @@ export default function PetSitter() {
                   <tr
                     key={index}
                     className="hover:bg-ps-orange-100 cursor-pointer"
-                    onClick={() => handleSitterClick(sitter)}
+                    onClick={() => handleRowClick(sitter)}
                   >
                     <td className="text-b2 py-6 w-full flex items-center gap-[10px]">
-                      <div className="relative w-[44px] h-[44px] overflow-hidden rounded-full bg-ps-gray-200">
+                      <div className="relative w-[44px] h-[44px] overflow-hidden rounded-full bg-ps-gray-200 flex items-center justify-center">
                         {sitter?.profile_image_url ? (
                           <Image
                             src={sitter?.profile_image_url || null}

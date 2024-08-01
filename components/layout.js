@@ -107,8 +107,8 @@ export default function Layout({ children }) {
           <AdminProvider>
             <OwnersAccountStateProvider>
               <OwnerProvider>
-                <BookingProvider>
-                  <SittersProvider>
+                <SittersProvider>
+                  <BookingProvider>
                     <div className="w-full">
                       {!isNoLayoutRoute && (
                         <NavBar
@@ -127,8 +127,8 @@ export default function Layout({ children }) {
                       <div>{children}</div>
                       {!isNoLayoutRoute && !isNoFooterRoute && <Footer />}
                     </div>
-                  </SittersProvider>
-                </BookingProvider>
+                  </BookingProvider>
+                </SittersProvider>
               </OwnerProvider>
             </OwnersAccountStateProvider>
           </AdminProvider>
