@@ -55,42 +55,12 @@ export default function ConversationOwnerPage() {
     };
     setTimeout(() => {
       fetchConversations();
-    }, 2000);
+    }, 5000);
   }, [conversations]);
-
-  // useEffect(() => {
-  //   setMessages(conversation.messages || []);
-  //   const handleInserts = (payload) => {
-  //     setMessages((prevMessages) => [payload.new, ...prevMessages]);
-  //   };
-
-  //   const messageListener = supabase
-  //     .channel("custom-all-channel")
-  //     .on(
-  //       "postgres_changes",
-  //       {
-  //         event: "INSERT",
-  //         schema: "public",
-  //         table: "messages",
-  //         filter: `conversation_id=eq.${conversation.id}`,
-  //       },
-  //       handleInserts
-  //     )
-  //     .subscribe();
-
-  //   return () => {
-  //     supabase.removeChannel(messageListener);
-  //   };
-  // }, []);
 
   const handleCardClick = async (id) => {
     setSelectedConversationId(id);
     setIsChatWindowOpen(true);
-    // try {
-    //   await axios.put(`/api/owner/${userOwner.id}/conversations`, id);
-    // } catch (error) {
-    //   console.log(error);
-    // }
   };
 
   const handleCloseChatWindow = () => {
@@ -129,6 +99,7 @@ export default function ConversationOwnerPage() {
               userType="owner"
               onClose={handleCloseChatWindow}
               onSend={handleOnSend}
+              user={userOwner.id}
             />
           )
         )}

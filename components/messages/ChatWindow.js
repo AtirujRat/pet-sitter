@@ -2,12 +2,15 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/utils/supabase";
 import Image from "next/image";
 import { Formik, Form, Field } from "formik";
+import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
 
 export default function ChatWindow({
   conversation,
   userType,
   onClose,
   onSend,
+  user,
 }) {
   if (!conversation) {
     return (
@@ -23,6 +26,7 @@ export default function ChatWindow({
   }
 
   const [messages, setMessages] = useState(conversation.messages || []);
+  let status = "text";
   const initialValues = {
     newMessage: "",
   };
@@ -60,30 +64,75 @@ export default function ChatWindow({
     .sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
     .reverse();
 
-  const onSubmit = async (values, { setSubmitting, resetForm }) => {
-    if (!values.newMessage.trim()) {
-      setSubmitting(false);
-      return;
+  const handleImageChange = async (event) => {
+    const file = event.currentTarget.files[0];
+    updateProfile(file);
+  };
+
+  async function updateProfile(file) {
+    if (file && file.size > 2 * 1024 * 1024) {
+      return alert("Profile image should not exceed 2 MB.");
     }
 
     try {
-      const { error } = await supabase.from("messages").insert([
-        {
-          conversation_id: conversation.id,
-          text: values.newMessage,
-          sender_role: userType,
-          [`${userType}_status`]: "send",
-          [`${userType === "owner" ? "sitter" : "owner"}_status`]: "unread",
-        },
-      ]);
+      // Upload profile image if it exists
+      let profileImageUrl = null;
+
+      profileImageUrl = await uploadProfileImage(file, "message_image");
+      status = "image";
+      console.log(profileImageUrl);
+      onSubmit(profileImageUrl);
+
+      // await axios.put(`/api/sitters/${id}`, updatedValues);
+      // alert("Profile updated successfully!");
+      // router.reload();
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      alert("Failed to update profile. Please try again.");
+    }
+  }
+  async function uploadProfileImage(file, folder) {
+    const fileName = uuidv4();
+    const { data, error } = await supabase.storage
+      .from("conversations")
+      .upload(`${folder}/${fileName}`, file);
+
+    if (error) {
+      console.error("Error uploading image:", error);
+      throw error;
+    }
+    const url = supabase.storage
+      .from("conversations/message_image")
+      .getPublicUrl(fileName).data.publicUrl;
+    return url;
+  }
+
+  const onSubmit = async (values) => {
+    let data;
+    if (values.newMessage) {
+      data = {
+        conversation_id: conversation.id,
+        text: values.newMessage,
+        sender_role: userType,
+      };
+    } else {
+      data = {
+        conversation_id: conversation.id,
+        sender_role: userType,
+        message_image_url: values,
+      };
+    }
+    try {
+      if (userType === "owner") {
+        await axios.post(`/api/owner/${user}/message`, data);
+      } else if (userType === "sitter") {
+        await axios.post(`/api/sitters/${user}/message`, data);
+      }
+
       onSend();
       if (error) throw error;
-
-      resetForm();
     } catch (error) {
       console.error("Error sending message:", error);
-    } finally {
-      setSubmitting(false);
     }
   };
 
@@ -174,15 +223,36 @@ export default function ChatWindow({
       </div>
 
       <div className="w-full flex justify-between border-t-[1px] border-ps-gray-200 bg-ps-white px-10 py-4 gap-6">
-        <Formik initialValues={initialValues} onSubmit={onSubmit}>
+        <Formik
+          initialValues={initialValues}
+          onSubmit={(values, { setSubmitting, resetForm }) => {
+            if (!values.newMessage.trim()) {
+              setSubmitting(false);
+              return;
+            }
+            onSubmit(values);
+            resetForm();
+            setSubmitting(false);
+          }}
+        >
           {({ isSubmitting }) => (
             <Form className="w-full flex items-center gap-6">
-              <button className="bg-ps-gray-100 w-fit h-fit p-3 flex justify-center items-center rounded-full hover:scale-110 focus:scale-100 transition-transform">
+              <button
+                type="button"
+                className="bg-ps-gray-100 w-fit h-fit p-3 flex justify-center items-center rounded-full hover:scale-110 focus:scale-100 transition-transform relative"
+              >
                 <Image
                   src="/assets/icons/icon-image.svg"
                   width={24}
                   height={24}
                   alt="Send Image"
+                />
+                <input
+                  className="w-full h-full cursor-pointer opacity-0 absolute"
+                  type="file"
+                  name="profile_image_url"
+                  onChange={handleImageChange}
+                  accept="image/jpeg, image/png, image/jpg"
                 />
               </button>
               <Field

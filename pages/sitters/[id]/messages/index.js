@@ -55,7 +55,7 @@ export default function ConversationSitterPage() {
 
     setTimeout(() => {
       fetchConversations();
-    }, 2000);
+    }, 5000);
   }, [conversations]);
 
   useEffect(() => {
@@ -108,6 +108,7 @@ export default function ConversationSitterPage() {
             userType="sitter"
             onClose={handleCloseChatWindow}
             onSend={handleOnSend}
+            user={userSitter.id}
           />
         )}
       </section>
