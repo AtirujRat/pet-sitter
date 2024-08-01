@@ -1,29 +1,24 @@
 import Image from "next/image";
-import { Formik, Form, Field, useFormikContext } from "formik";
 import { useRouter } from "next/router";
-import { useState, useContext } from "react";
+import { Formik, Form, Field } from "formik";
 import { v4 as uuidv4 } from "uuid";
 import { supabase } from "@/utils/supabase";
 import axios from "axios";
-import * as Yup from "yup";
-import { useSearch } from "@/context/Search";
 import { ButtonOrange } from "@/components/buttons/OrangeButtons";
 import back from "/public/assets/icons/icon-previous.svg";
 import Link from "next/link";
 import Loading from "@/components/Loading";
 import plus from "@/public/assets/icon-plus.svg";
-import AddImage from "./AddImage";
+import ImageInput from "./ImageInput";
 
 export default function PayoutBankAccount({
-  profile = {},
   id,
   loading,
   preview,
   setPreview,
   bankAccount,
-  setBankAccount,
-  setLoading
 }) {
+  const router = useRouter();
   const initialValues = bankAccount
     ? {
         book_bank_image: bankAccount.book_bank_image_url,
@@ -38,22 +33,9 @@ export default function PayoutBankAccount({
         bank_id: "",
       };
 
-  async function handleImageChange(event, setFieldValue) {
-    const file = event.currentTarget.files[0];
-    setFieldValue("book_bank_image", file);
-
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setPreview(reader.result);
-    };
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-  }
-
-  async function handleSubmittingForm(values) {
+  async function handleSubmittingForm(values, actions) {
     try {
-      let imageUrl = bankAccount?.book_bank_image_url || null;
+      let imageUrl = values.book_bank_image || null;
 
       // Upload image
       if (
@@ -68,24 +50,27 @@ export default function PayoutBankAccount({
           console.error("Error uploading image:", error);
           throw error;
         }
+        // Get new URL
+        imageUrl = supabase.storage
+          .from("sitters")
+          .getPublicUrl(`book_bank_image/${fileName}`).data.publicUrl;
+
         // Delete old image if exists
         if (bankAccount?.book_bank_image_url) {
           const existingProfileImage = bankAccount.book_bank_image_url;
           const urlParts = existingProfileImage.split("/");
           const existingFileName = urlParts[urlParts.length - 1];
-          console.log(existingFileName)
-          const { data, error } = await supabase.storage
-            .from("sitters")
-            .remove([`book_bank_image/${existingFileName}`]);
-          if (error) {
-            console.error("Error deleting old image:", error);
-            throw error;
+          console.log("old file", existingFileName);
+          if (fileName !== existingFileName) {
+            const { data, error } = await supabase.storage
+              .from("sitters")
+              .remove([`book_bank_image/${existingFileName}`]);
+            if (error) {
+              console.error("Error deleting old image:", error);
+              throw error;
+            }
           }
         }
-        // Get new URL
-        imageUrl = supabase.storage
-          .from("sitters")
-          .getPublicUrl(`book_bank_image/${fileName}`).data.publicUrl;
       }
 
       // PUT data
@@ -98,7 +83,8 @@ export default function PayoutBankAccount({
       );
       if (res.status === 200) {
         alert("Bank account was updated");
-        setBankAccount(res.data[0])
+        actions.setSubmitting(false);
+        router.push(`/sitters/${id}/payout`);
       }
     } catch (error) {
       console.error("An error occurred:", error);
@@ -108,7 +94,7 @@ export default function PayoutBankAccount({
     }
   }
 
-  const validate = (values) => {
+  function validate(values) {
     const errors = {};
 
     if (!values.account_name) {
@@ -132,7 +118,7 @@ export default function PayoutBankAccount({
     }
 
     return errors;
-  };
+  }
 
   if (loading) {
     return (
@@ -146,26 +132,22 @@ export default function PayoutBankAccount({
     <Formik
       initialValues={initialValues}
       validate={validate}
-      onSubmit={(values, { setSubmitting }) => {
-        setSubmitting(true);
-        handleSubmittingForm(values);
-        setSubmitting(false);
-      }}
+      onSubmit={handleSubmittingForm}
     >
-      {({ errors, touched, isSubmitting, setFieldValue }) => {
+      {({ errors, touched, isSubmitting, setFieldValue, dirty }) => {
         return (
           <Form className="flex flex-col gap-6">
             <div className="text-h3 flex justify-between">
               <div className="flex items-center gap-6">
                 <Link href={`/sitters/${id}/payout`}>
-                  <Image src={back}></Image>
+                  <Image src={back} alt="go back"></Image>
                 </Link>
                 <p className="md:text-h3 text-h4">Payout Option</p>
               </div>
               <div className="hidden sm:flex">
                 <ButtonOrange
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || !dirty}
                   id="Update"
                   text={isSubmitting ? "Updating..." : "Update"}
                   width="w-fit text-[16px]"
@@ -194,17 +176,13 @@ export default function PayoutBankAccount({
                     <Image
                       className="w-[30px] h-[30px] md:w-[60px] md:h-[60px]"
                       src={plus}
-                      alt="import button"
+                      alt="upload image"
                     />
-                    <input
-                      className="w-[60px] h-[60px] opacity-0 absolute bottom-0"
-                      type="file"
+                    <Field
+                      component={ImageInput}
+                      setFieldValue={setFieldValue}
+                      setPreview={setPreview}
                       name="book_bank_image"
-                      id="book_bank_image"
-                      onChange={(event) =>
-                        handleImageChange(event, setFieldValue)
-                      }
-                      accept="image/jpeg, image/png, image/jpg"
                     />
                   </div>
                 </div>

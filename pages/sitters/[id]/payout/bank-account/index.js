@@ -77,8 +77,6 @@ export default function SitterPayout() {
                 preview={preview}
                 setPreview={setPreview}
                 bankAccount={bankAccount}
-                setBankAccount={setBankAccount}
-                setLoading={setLoading}
               />
             </div>
           </div>

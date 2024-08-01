@@ -230,7 +230,7 @@ export default function SitterProfileForm({ profile = {} }) {
                     type="submit"
                     disabled={isSubmitting}
                     id="Request for approval"
-                    text={isSubmitting ? "Submitting" : "Request for approval"}
+                    text={isSubmitting ? "Submitting..." : "Request for approval"}
                     width="w-fit text-[16px]"
                   />
                 ) : profile.sitter_status === "approved" ||

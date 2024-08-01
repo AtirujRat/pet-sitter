@@ -34,7 +34,7 @@ export default function SitterPayout({ id, profile }) {
         <div className="summary-bar flex w-full gap-6 h-[76px]">
           <div className="total flex-1 flex align-middle justify-between bg-ps-white rounded-2xl p-6 gap-4">
             <div className="text flex gap-2">
-              <Image src={dollar}></Image>
+              <Image src={dollar} alt="dollar icon"></Image>
               <p className="text-b2">Total Earning</p>
             </div>
             <div className="text-b2">
@@ -51,7 +51,7 @@ export default function SitterPayout({ id, profile }) {
           >
             <div className="flex align-middle justify-between bg-ps-white rounded-2xl p-6 gap-4 cursor-pointer hover:shadow-md transition-transform active:scale-95">
               <div className="text flex gap-2 w-full">
-                <Image src={wallet}></Image>
+                <Image src={wallet} alt="wallet icon"></Image>
                 <p className="text-b2">Bank Account</p>
               </div>
               {profile.banks && profile.account_number ? (
@@ -61,7 +61,7 @@ export default function SitterPayout({ id, profile }) {
               ) : (
                 <span className="text-b2 text-ps-gray-300">Select</span>
               )}
-              <Image src={next}></Image>
+              <Image src={next} alt="add bank account"></Image>
             </div>
           </Link>
         </div>

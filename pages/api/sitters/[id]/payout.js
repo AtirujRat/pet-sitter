@@ -6,7 +6,6 @@ export default async function handler(req, res) {
   const { id } = req.query;
 
   if (req.method === "PUT") {
-    console.log(req.body);
     try {
       const { data, error } = await supabase
         .from("sitters_bank_accounts")
