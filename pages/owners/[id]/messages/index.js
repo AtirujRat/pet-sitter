@@ -27,36 +27,36 @@ export default function ConversationOwnerPage() {
     (conversation) => conversation.id === selectedConversationId
   );
 
-  useEffect(() => {
-    const fetchConversations = async () => {
-      setLoading(true);
-      let sortedConversations;
+  const fetchConversations = async () => {
+    setLoading(true);
+    let sortedConversations;
 
-      try {
-        if (userOwner.id) {
-          const response = await axios.get(
-            `${API_URL}/${userOwner.id}/conversations`
-          );
+    try {
+      if (userOwner.id) {
+        const response = await axios.get(
+          `${API_URL}/${userOwner.id}/conversations`
+        );
 
-          sortedConversations = [...response.data].sort(
-            (a, b) => new Date(b.updated_at) - new Date(a.updated_at)
-          );
-        }
-        setConversations(sortedConversations);
-
-        setLoading(false);
-
-        if (!selectedConversationId && sortedConversations.length > 0) {
-          setSelectedConversationId(sortedConversations[0].id);
-        }
-      } catch {
-        setLoading(true);
+        sortedConversations = [...response.data].sort(
+          (a, b) => new Date(b.updated_at) - new Date(a.updated_at)
+        );
       }
-    };
-    setTimeout(() => {
-      fetchConversations();
-    }, 5000);
-  }, [conversations]);
+      setConversations(sortedConversations);
+
+      setLoading(false);
+
+      if (!selectedConversationId && sortedConversations.length > 0) {
+        setSelectedConversationId(sortedConversations[0].id);
+      }
+    } catch {
+      setLoading(true);
+    }
+  };
+
+  useEffect(() => {
+    console.log("test");
+    fetchConversations();
+  }, [isSend]);
 
   const handleCardClick = async (id) => {
     setSelectedConversationId(id);
@@ -81,7 +81,11 @@ export default function ConversationOwnerPage() {
       }}
     >
       <section className="w-full h-[91vh] flex">
-        <MessageSidebar onSend={handleOnSend} userType="owner" />
+        <MessageSidebar
+          onSend={handleOnSend}
+          userType="owner"
+          fetchConversations={fetchConversations}
+        />
         {!selectedConversation ? (
           <div className="flex flex-col items-center justify-center gap-2 w-full h-full text-center bg-ps-gray-100">
             <Image
