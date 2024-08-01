@@ -27,16 +27,16 @@ export default function Detail() {
     }
   };
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem("sb-etraoduqrzijngbazoib-auth-token");
-  //   if (!token) {
-  //     router.push("/login/sitter");
-  //   }
+  useEffect(() => {
+    const token = localStorage.getItem("sb-etraoduqrzijngbazoib-auth-token");
+    if (!token) {
+      router.push("/login/sitter");
+    }
 
-  //   if (+id !== userInfo.id) {
-  //     router.push(`/sitters/${userInfo.id}/profile`);
-  //   }
-  // }, []);
+    if (+id !== userInfo.id) {
+      router.push(`/sitters/${userInfo.id}/profile`);
+    }
+  }, []);
 
   useEffect(() => {
     GetProfile();
