@@ -14,6 +14,7 @@ export default function ConversationOwnerPage() {
   const [selectedConversationId, setSelectedConversationId] = useState(null);
   const [isChatWindowOpen, setIsChatWindowOpen] = useState(true);
   const [isSend, setIsSend] = useState(null);
+  const [messages, setMessages] = useState();
 
   const [userOwner, setUserOwner] = useState(() => {
     if (typeof window !== "undefined") {
@@ -42,7 +43,6 @@ export default function ConversationOwnerPage() {
           );
         }
         setConversations(sortedConversations);
-        console.log(sortedConversations);
 
         setLoading(false);
 
@@ -53,31 +53,12 @@ export default function ConversationOwnerPage() {
         setLoading(true);
       }
     };
+    setTimeout(() => {
+      fetchConversations();
+    }, 5000);
+  }, [conversations]);
 
-    fetchConversations();
-  }, [isSend]);
-
-  useEffect(() => {
-    const handleMessageInserts = (payload) => {
-      const newMessage = payload.new;
-      handleSendMessage(newMessage);
-    };
-
-    const messageListener = supabase
-      .channel("custom-all-channel")
-      .on(
-        "postgres_changes",
-        { event: "INSERT", schema: "public", table: "messages" },
-        handleMessageInserts
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(messageListener);
-    };
-  }, []);
-
-  const handleCardClick = (id) => {
+  const handleCardClick = async (id) => {
     setSelectedConversationId(id);
     setIsChatWindowOpen(true);
   };
@@ -118,6 +99,7 @@ export default function ConversationOwnerPage() {
               userType="owner"
               onClose={handleCloseChatWindow}
               onSend={handleOnSend}
+              user={userOwner.id}
             />
           )
         )}

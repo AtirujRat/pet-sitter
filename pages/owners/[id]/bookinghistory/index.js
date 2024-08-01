@@ -20,6 +20,7 @@ import SideBarOwners from "@/components/owners/SideBarOwners";
 import { useOwners } from "@/context/Owners";
 import { useRouter } from "next/router";
 import CancelModal from "@/components/bookinghistory/CancelModal";
+import { useUser } from "@/context/User";
 
 const BOOKING_STATUS = {
   Waiting_for_confirm: "ps-pink-500",
@@ -56,6 +57,8 @@ export default function BookingHistory() {
   const router = useRouter();
   const { id } = router.query;
 
+  const { userInfo } = useUser();
+
   async function getBookingHistory() {
     try {
       if (id) {
@@ -88,6 +91,13 @@ export default function BookingHistory() {
     }
   }
 
+  async function handleSendMessage(data) {
+    await axios.post(`/api/owner/${userInfo.id}/conversations`, data);
+    setTimeout(() => {
+      router.push(`/owners/${userInfo.id}/messages`);
+    }, 1000);
+  }
+
   useEffect(() => {
     getBookingHistory();
   }, [isCancelModalOpened, id]);
@@ -114,6 +124,7 @@ export default function BookingHistory() {
     setCurrentReview(id);
     setIsYourReviewModalOpened((prev) => !prev);
   }
+  console.log(bookingList);
 
   function toggleCancelModal(index) {
     setCurrentIndex(index);
@@ -130,6 +141,7 @@ export default function BookingHistory() {
           {error && <h1 className="text-ps-red">{error}</h1>}
 
           {bookingList.map((item, index) => {
+            console.log(item);
             return (
               <div
                 key={index}
@@ -333,7 +345,12 @@ export default function BookingHistory() {
                         <ButtonOrange
                           text="Send Message"
                           width="w-[156px] h-[48px] text-b2 font-[700]"
-                          onClick={() => router.push(`/owners/${id}/messages`)}
+                          onClick={() => {
+                            handleSendMessage({
+                              owner_id: userInfo.id,
+                              sitter_id: item.sitters.id,
+                            });
+                          }}
                         />
                         <Image
                           className="w-[48px] h-[48px] cursor-pointer"

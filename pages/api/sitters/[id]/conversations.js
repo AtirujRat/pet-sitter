@@ -29,6 +29,23 @@ export default async function handler(req, res) {
           "Server could not read conversations because of a database connection error",
       });
     }
+  }
+  if (req.method === "PUT") {
+    const { id } = req.body;
+
+    const { data, error } = await supabase
+      .from("messages")
+      .update([{ sitter_status: "read" }])
+      .eq("conversation_id", id)
+      .eq("sender_role", "owner")
+      .select();
+
+    if (error) {
+      return res
+        .status(400)
+        .json({ message: "error connection from database" });
+    }
+    return res.status(200).json({ message: "create conversation success" });
   } else {
     res.setHeader("Allow", ["GET"]);
     return res.status(405).end(`Method ${req.method} Not Allowed`);

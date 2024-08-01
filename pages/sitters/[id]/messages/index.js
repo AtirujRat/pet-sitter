@@ -53,8 +53,10 @@ export default function ConversationSitterPage() {
       }
     };
 
-    fetchConversations();
-  }, [isSend]);
+    setTimeout(() => {
+      fetchConversations();
+    }, 5000);
+  }, [conversations]);
 
   useEffect(() => {
     const handleMessageInserts = (payload) => {
@@ -106,6 +108,7 @@ export default function ConversationSitterPage() {
             userType="sitter"
             onClose={handleCloseChatWindow}
             onSend={handleOnSend}
+            user={userSitter.id}
           />
         )}
       </section>

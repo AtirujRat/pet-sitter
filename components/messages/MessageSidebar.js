@@ -1,18 +1,40 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ConversationOwnerContext } from "@/pages/owners/[id]/messages";
 import { ConversationSitterContext } from "@/pages/sitters/[id]/messages";
 import MessageCard from "./MessageCard";
+import axios from "axios";
 
-export default function MessagesSidebar({ userType }) {
+export default function MessagesSidebar({ userType, onSend }) {
   const isOwner = userType === "owner";
   const { conversations, selectedConversationId, handleCardClick } = useContext(
     isOwner ? ConversationOwnerContext : ConversationSitterContext
   );
 
+  const [userOwner, setUserOwner] = useState(() => {
+    if (typeof window !== "undefined") {
+      const savedState = localStorage.getItem("userInfo");
+      return savedState ? JSON.parse(savedState) : {};
+    }
+  });
+
   const sortedConversations = conversations.sort(
     (a, b) => new Date(b.updated_at) - new Date(a.updated_at)
   );
 
+  async function updateStatus(id) {
+    try {
+      if (userOwner.role === "owner") {
+        await axios.put(`/api/owner/${userOwner.id}/conversations`, { id: id });
+      } else {
+        await axios.put(`/api/sitters/${userOwner.id}/conversations`, {
+          id: id,
+        });
+      }
+      onSend();
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <section>
       <div className="pt-4 w-[368px] h-full bg-ps-black">
@@ -32,11 +54,11 @@ export default function MessagesSidebar({ userType }) {
               ? lastMessage.message_image_url
                 ? "Image file"
                 : lastMessage.text || "No message content"
-              : "No messages yet";
-
+              : "";
             return (
               <MessageCard
                 key={conversation.id}
+                id={conversation.id}
                 imgUrl={
                   isOwner
                     ? conversation.sitters?.profile_image_url
@@ -55,8 +77,13 @@ export default function MessagesSidebar({ userType }) {
                   ).length
                 }
                 lastMessage={displayContent}
+                userOwner={userOwner}
+                onSend={onSend}
                 isClicked={selectedConversationId === conversation.id}
-                onClick={() => handleCardClick(conversation.id)}
+                onClick={() => {
+                  handleCardClick(conversation.id);
+                  updateStatus(conversation.id);
+                }}
               />
             );
           })
