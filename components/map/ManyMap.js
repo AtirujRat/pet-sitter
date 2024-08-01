@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { GoogleMap, useJsApiLoader, MarkerF } from "@react-google-maps/api";
 import { useSitters } from "@/context/SittersProvider";
+import useCalculateRatingStars from "@/hook/useCalculateRatingStars";
 
 export default function ManyMap() {
-  const { sitters, clickPetSitter, setClickPetSitter, center, setCenter } =
-    useSitters();
+  const {
+    sitters,
+    clickPetSitter,
+    setClickPetSitter,
+    center,
+    setCenter,
+    filteredRating,
+  } = useSitters();
 
-  console.log(sitters);
   const containerStyle = {
     width: "100%",
     height: "750px",
@@ -26,8 +32,12 @@ export default function ManyMap() {
     id: "google-map-script",
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
   });
+  const filteredSitters = sitters.filter((sitter) => {
+    const { ratingStars } = useCalculateRatingStars(sitter.bookings);
+    return filteredRating === null || ratingStars === filteredRating;
+  });
 
-  if (sitters && sitters.length > 0) {
+  if (filteredSitters && filteredSitters.length > 0) {
     useEffect(() => {
       setTimeout(() => {
         setCenter({
@@ -57,7 +67,7 @@ export default function ManyMap() {
         center={center}
         zoom={11}
       >
-        {sitters.map((item, index) => {
+        {filteredSitters.map((item, index) => {
           return (
             <MarkerF
               key={index}
@@ -71,6 +81,9 @@ export default function ManyMap() {
                 const newClick = {};
                 newClick[item.id] = 1;
                 setClickPetSitter(newClick);
+                const newSitter = filteredSitters[index];
+                filteredSitters.splice(index, 1);
+                filteredSitters.unshift(newSitter);
                 setCenter({
                   lat: Number(item.sitters_addresses.lat),
                   lng: Number(item.sitters_addresses.lng),
