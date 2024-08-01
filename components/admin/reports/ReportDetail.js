@@ -80,7 +80,9 @@ export default function ReportDetail(props) {
                 alt="arrow_icon"
                 onClick={() => props.closeModal()}
               />
-              <p className="text-h3 truncate w-[20%]">{report[0]?.issue}</p>
+              <p className="text-h3 truncate max-w-[220px]">
+                {report[0]?.issue}
+              </p>
               <li className={`${REPORT_STATUS[report[0]?.status]} text-b2`}>
                 {report[0]?.status}
               </li>
