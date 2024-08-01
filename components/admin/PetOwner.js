@@ -31,8 +31,6 @@ export default function PetOwner() {
     getCurrentOwner(currentOwner?.email);
   }, [isBanUserModalOpened]);
 
-  console.log(owners);
-
   return (
     <section className="w-full flex flex-col gap-[24px] p-10 pb-20 bg-ps-gray-100">
       {isPetOwnerDetailModalOpened ? (
@@ -59,7 +57,7 @@ export default function PetOwner() {
             </div>
           </div>
 
-          <table className="table table-fixed h-[790px] overflow-hidden ">
+          <table className="table a table-fixed h-[790px] overflow-hidden ">
             <thead>
               <tr className="flex bg-ps-black rounded-t-xl">
                 <th className="text-ps-white text-b3 w-[25%]">Pet Owner</th>
@@ -71,8 +69,18 @@ export default function PetOwner() {
             </thead>
 
             <tbody>
-              {ownerLoading && <Loading />}
-              {ownerError && <p>{ownerError}</p>}
+              {ownerLoading && (
+                <tr>
+                  <td>
+                    <Loading />
+                  </td>
+                </tr>
+              )}
+              {ownerError && (
+                <tr>
+                  <td>{ownerError}</td>
+                </tr>
+              )}
               {searchOwnerInput.length >= 1 ? (
                 <>
                   {owners.map((owner, index) => {
@@ -80,7 +88,7 @@ export default function PetOwner() {
                       <tr
                         key={index}
                         onClick={() => toggleOwnerDetailHandle(owner)}
-                        className={`flex items-center bg-ps-white border-b-[1px] border-ps-gray-200 py-[8px] px-[16px] cursor-pointer ${
+                        className={`flex items-center bg-ps-white border-b-[1px] border-ps-gray-200 py-[6px] cursor-pointer ${
                           index + 1 === paginateOwner.length &&
                           "rounded-b-2xl border-none"
                         }`}
@@ -124,7 +132,7 @@ export default function PetOwner() {
                       <tr
                         key={index}
                         onClick={() => toggleOwnerDetailHandle(owner)}
-                        className={`flex items-center bg-ps-white border-b-[1px] border-ps-gray-200 py-[8px] px-[16px] cursor-pointer  ${
+                        className={`flex items-center bg-ps-white border-b-[1px] border-ps-gray-200 py-[8px]  cursor-pointer  ${
                           index + 1 === paginateOwner.length &&
                           "rounded-b-2xl border-none"
                         }`}
@@ -171,15 +179,17 @@ export default function PetOwner() {
                   })}
                 </>
               )}
-              <div className="mt-[20px]">
-                {searchOwnerInput.length <= 1 &&
-                  usePagination(
-                    owners,
-                    ownerPerPage,
-                    currentPage,
-                    setCurrentPage
-                  )}
-              </div>
+              <tr>
+                <td className="mt-[20px]">
+                  {searchOwnerInput.length <= 1 &&
+                    usePagination(
+                      owners,
+                      ownerPerPage,
+                      currentPage,
+                      setCurrentPage
+                    )}
+                </td>
+              </tr>
             </tbody>
           </table>
         </>
