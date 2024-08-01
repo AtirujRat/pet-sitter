@@ -132,7 +132,7 @@ export default function BookingHistory() {
   }
 
   return (
-    <div className="w-full h-full bg-ps-gray-100 max-md:pt-0 pt-10 pb-20 max-md:pb-0">
+    <div className="w-full h-full bg-ps-gray-100 lg:pt-10 lg:pb-20">
       <div className="max-w-[1440px] min-w-0 lg:flex lg:justify-between mx-auto max-lg:flex-col lg:items-start lg:px-20  gap-9">
         <SideBarOwners />
         <div className="w-full lg:w-[965px] bg-ps-white h-fit shadow-md lg:rounded-2xl p-[10px] lg:p-[40px] flex flex-col items-start gap-[40px] lg:gap-[45px]">
