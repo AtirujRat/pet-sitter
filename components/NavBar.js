@@ -141,7 +141,7 @@ export default function NavBar({ setOpenModal }) {
                       </Link>
                     </li>
                     <li className="py-2 text-b2">
-                      <Link href={"#"}>
+                      <Link href={`/owners/${userId}/bookinghistory/`}>
                         <Image src={history} alt="history" width={20} />
                         History
                       </Link>

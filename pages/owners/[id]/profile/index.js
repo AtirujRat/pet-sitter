@@ -11,6 +11,7 @@ import { supabase } from "@/utils/supabase";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import { useOwners } from "@/context/Owners";
+import { useOwnersAccountState } from "@/context/OwnersAccountState";
 
 function validateName(value) {
   let error;
@@ -110,6 +111,11 @@ export default function Account() {
   const [preview, setPreview] = useState();
   const { getUserAuth } = useOwners();
   const [error, setError] = useState(null);
+  const { accountState, changeAccountStateHandle } = useOwnersAccountState();
+
+  useEffect(() => {
+    changeAccountStateHandle("profile");
+  }, []);
 
   async function getUser() {
     try {
