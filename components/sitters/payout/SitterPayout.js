@@ -2,27 +2,15 @@ import Image from "next/image";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSitters } from "@/context/SittersProvider";
-import { useRouter } from "next/router";
 import dollar from "@/public/assets/icons/icon-dollar.svg";
 import wallet from "@/public/assets/icons/icon-wallet.svg";
 import next from "@/public/assets/icons/icon-next.svg";
+import Link from "next/link";
 
 export default function SitterPayout({ id, profile }) {
-  const router = useRouter();
-  const { setLoading, refresh, setRefresh } = useSitters();
+  const { setLoading, refresh } = useSitters();
   const [bookings, setBookings] = useState([]);
-  const [searchName, setSearchName] = useState("");
   const [totalEarning, setTotalEarning] = useState(0);
-
-  // const debounce = (func, delay = 700) => {
-  //   let timer;
-  //   return function (...args) {
-  //     if (timer) clearTimeout(timer);
-  //     timer = setTimeout(() => {
-  //       func(...args);
-  //     }, delay);
-  //   };
-  // };
 
   const getBooking = async () => {
     const res = await axios.get(
@@ -37,11 +25,6 @@ export default function SitterPayout({ id, profile }) {
   useEffect(() => {
     getBooking();
   }, [id, refresh]);
-
-  // useEffect(() => {
-  //   const debouncedGetBooking = debounce(getBooking, 700);
-  //   debouncedGetBooking();
-  // }, [searchName]);
 
   return (
     <div className="flex flex-col gap-6 h-screen">
@@ -62,18 +45,25 @@ export default function SitterPayout({ id, profile }) {
               THB
             </div>
           </div>
-          <div className="total flex-1 flex align-middle justify-between bg-ps-white rounded-2xl p-6 gap-4">
-            <div className="text flex gap-2 w-full">
-              <Image src={wallet}></Image>
-              <p className="text-b2">Bank Account</p>
-            </div>
-            {profile.banks && profile.account_number && (
-              <div className="text-b2 text-ps-orange-500 w-fit text-nowrap">
-                {profile.banks.bank_name} *{profile.account_number.slice(-3)}
+          <Link
+            href={`/sitters/${id}/payout/bank-account`}
+            className="bank flex-1"
+          >
+            <div className="flex align-middle justify-between bg-ps-white rounded-2xl p-6 gap-4 cursor-pointer hover:shadow-md transition-transform active:scale-95">
+              <div className="text flex gap-2 w-full">
+                <Image src={wallet}></Image>
+                <p className="text-b2">Bank Account</p>
               </div>
-            )}
-            <Image src={next}></Image>
-          </div>
+              {profile.banks && profile.account_number ? (
+                <span className="text-b2 text-ps-orange-500 w-fit text-nowrap">
+                  {profile.banks.bank_name} *{profile.account_number.slice(-3)}
+                </span>
+              ) : (
+                <span className="text-b2 text-ps-gray-300">Select</span>
+              )}
+              <Image src={next}></Image>
+            </div>
+          </Link>
         </div>
       </div>
 
@@ -100,19 +90,20 @@ export default function SitterPayout({ id, profile }) {
           {/* body */}
           <tbody>
             {bookings.map((booking, index) => {
-              // const duration = calculateDurationInHours(
-              //   booking?.start_time,
-              //   booking?.end_time
-              // );
-              // const startDate = formatDateWithoutYear(booking?.start_time);
-              // const endDate =
-              //   new Date(booking?.start_time).toLocaleDateString() ===
-              //   new Date(booking?.end_time).toLocaleDateString()
-              //     ? formatTime(booking?.end_time)
-              //     : formatDateWithoutYear(booking?.end_time);
+              const transactionDate = booking.created_at;
+              const date = new Date(transactionDate);
+              const options = {
+                day: "2-digit",
+                month: "short",
+                year: "numeric",
+              };
+              const formattedDate = new Intl.DateTimeFormat("en-GB", options)
+                .format(date)
+                .replace(" 202", ", 202");
+
               return (
                 <tr key={index} className="text-nowrap">
-                  <td className="text-b2 py-6">Aug 25, 2024</td>
+                  <td className="text-b2 py-6">{formattedDate}</td>
                   <td className="text-b2 py-6">{booking.owners.full_name}</td>
                   <td className="text-b2 py-6">{booking.transaction_id}</td>
                   <td className="text-b2 text-ps-green-500 text-right">

@@ -36,7 +36,12 @@ export default function Layout({ children }) {
     "/sitters/[id]/booking/[bookingId]",
     "/admin",
   ];
-  const dynamicRoutes = ["/sitters/[id]/profile", "/sitters/[id]/booking"];
+  const dynamicRoutes = [
+    "/sitters/[id]/profile",
+    "/sitters/[id]/booking",
+    "/sitters/[id]/payout",
+    "/sitters/[id]/payout/bank-account",
+  ];
 
   const dynamicRoutesFooter = [
     "/sitters/[id]/booking/create",
@@ -61,6 +66,8 @@ export default function Layout({ children }) {
     "/sitters/[id]/profile",
     "/sitters/[id]/booking",
     "/sitters/[id]/booking/[bookingId]",
+    "/sitters/[id]/payout",
+    "/sitters/[id]/payout/bank-account",
   ];
 
   const dynamicRoutesRegex = dynamicRoutes.map(
