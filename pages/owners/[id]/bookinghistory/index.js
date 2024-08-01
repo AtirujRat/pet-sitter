@@ -21,6 +21,7 @@ import { useOwners } from "@/context/Owners";
 import { useRouter } from "next/router";
 import CancelModal from "@/components/bookinghistory/CancelModal";
 import { useUser } from "@/context/User";
+import { useOwnersAccountState } from "@/context/OwnersAccountState";
 
 const BOOKING_STATUS = {
   Waiting_for_confirm: "ps-pink-500",
@@ -58,6 +59,11 @@ export default function BookingHistory() {
   const { id } = router.query;
 
   const { userInfo } = useUser();
+  const { accountState, changeAccountStateHandle } = useOwnersAccountState();
+
+  useEffect(() => {
+    changeAccountStateHandle("bookinghistory");
+  }, []);
 
   async function getBookingHistory() {
     try {

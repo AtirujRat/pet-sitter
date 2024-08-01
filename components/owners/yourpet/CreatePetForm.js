@@ -166,7 +166,7 @@ export default function CreatePetForm() {
                 id="name"
                 name="name"
                 validate={validateRequired}
-                className="border-[#DCDFED] text-[#7B7E8F] rounded-lg"
+                className="border-[#DCDFED] text-ps-black rounded-lg"
                 placeholder="Name of your pet"
               />
             </div>
@@ -187,7 +187,7 @@ export default function CreatePetForm() {
                   id="type"
                   name="type"
                   validate={validateRequired}
-                  className="select select-bordered max-sm:w-full outline-none ring-0 border-[#DCDFED] text-[#7B7E8F] font-normal text-[16px]"
+                  className="select select-bordered max-sm:w-full outline-none ring-0 border-[#DCDFED] text-ps-black font-normal text-[16px]"
                 >
                   <option value="">Select your pet type</option>
                   <option value="dog">Dog</option>
@@ -214,7 +214,7 @@ export default function CreatePetForm() {
                   id="breed"
                   name="breed"
                   validate={validateRequired}
-                  className="border-[#DCDFED] text-[#7B7E8F] rounded-lg max-sm:w-full"
+                  className="border-[#DCDFED] text-ps-black rounded-lg max-sm:w-full"
                   placeholder="Breed of your pet"
                 />
               </div>
@@ -236,7 +236,7 @@ export default function CreatePetForm() {
                   id="sex"
                   name="sex"
                   validate={validateRequired}
-                  className="select select-bordered max-sm:w-full outline-none ring-0 border-[#DCDFED] text-[#7B7E8F] font-normal text-[16px]"
+                  className="select select-bordered max-sm:w-full outline-none ring-0 border-[#DCDFED] text-ps-black font-normal text-[16px]"
                 >
                   <option value="">Select sex of your pet</option>
                   <option value="male">Male</option>
@@ -261,7 +261,7 @@ export default function CreatePetForm() {
                   id="age"
                   name="age"
                   validate={validateRequired}
-                  className="border-[#DCDFED] text-[#7B7E8F] rounded-lg max-sm:w-full"
+                  className="border-[#DCDFED] text-ps-black rounded-lg max-sm:w-full"
                   placeholder="Age of your pet"
                   min="1"
                 />
@@ -287,7 +287,7 @@ export default function CreatePetForm() {
                   id="color"
                   name="color"
                   validate={validateRequired}
-                  className="border-[#DCDFED] text-[#7B7E8F] rounded-lg max-sm:w-full"
+                  className="border-[#DCDFED] text-ps-black rounded-lg max-sm:w-full"
                   placeholder="Describe color of your pet"
                 />
               </div>
@@ -309,7 +309,7 @@ export default function CreatePetForm() {
                   id="weight"
                   name="weight"
                   validate={validateRequired}
-                  className="border-[#DCDFED] text-[#7B7E8F] rounded-lg max-sm:w-full"
+                  className="border-[#DCDFED] text-ps-black rounded-lg max-sm:w-full"
                   placeholder="Weight of your pet"
                   min="0.1"
                   step="0.1"
@@ -329,7 +329,7 @@ export default function CreatePetForm() {
                 as="textarea"
                 id="description"
                 name="description"
-                className="border-[#DCDFED] text-[#7B7E8F] rounded-lg h-[140px]"
+                className="border-[#DCDFED] text-ps-black rounded-lg h-[140px]"
                 placeholder="Describe more about your pet..."
               />
             </div>
