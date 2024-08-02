@@ -4,6 +4,8 @@ import { ConversationSitterContext } from "@/pages/sitters/[id]/messages";
 import MessageCard from "./MessageCard";
 import axios from "axios";
 import { supabase } from "@/utils/supabase";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function MessagesSidebar({
   userType,
@@ -14,6 +16,7 @@ export default function MessagesSidebar({
   const { conversations, selectedConversationId, handleCardClick } = useContext(
     isOwner ? ConversationOwnerContext : ConversationSitterContext
   );
+  const router = useRouter();
 
   const [userOwner, setUserOwner] = useState(() => {
     if (typeof window !== "undefined") {
@@ -23,7 +26,7 @@ export default function MessagesSidebar({
   });
 
   const sortedConversations = conversations.sort(
-    (a, b) => new Date(b.updated_at) - new Date(a.updated_at)
+    (a, b) => new Date(b.created_at) - new Date(a.created_at)
   );
 
   const channels = supabase
@@ -55,8 +58,16 @@ export default function MessagesSidebar({
   }
   return (
     <section>
-      <div className="pt-4 w-[368px] h-full bg-ps-black">
-        <div className="w-full px-10 py-6">
+      <div className="pt-4 w-[368px] max-sm:absolute max-sm:top-0 z-10 max-sm:w-full h-full bg-ps-black overflow-y-auto">
+        <div className="flex items-center gap-2 mb-3 w-full px-10 py-6">
+          <button className="sm:hidden" onClick={() => router.back()}>
+            <Image
+              src="/assets/icons/icon-previous.svg"
+              alt="icon-previous"
+              width={24}
+              height={24}
+            />
+          </button>
           <h3 className="text-h3 text-ps-white">Messages</h3>
         </div>
         {sortedConversations.length > 0 ? (
@@ -70,9 +81,14 @@ export default function MessagesSidebar({
 
             const displayContent = lastMessage
               ? lastMessage.message_image_url
-                ? "Image file"
-                : lastMessage.text || "No message content"
+                ? `${
+                    lastMessage.sender_role === userType ? "You: " : ""
+                  }Image file`
+                : `${lastMessage.sender_role === userType ? "You: " : ""}${
+                    lastMessage.text || "No message content"
+                  }`
               : "";
+
             return (
               <MessageCard
                 key={conversation.id}

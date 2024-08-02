@@ -1,7 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import ChatWindow from "@/components/messages/ChatWindow";
 import axios from "axios";
-import { supabase } from "@/utils/supabase";
 import MessageSidebar from "@/components/messages/MessageSidebar";
 import Image from "next/image";
 
@@ -14,7 +13,6 @@ export default function ConversationOwnerPage() {
   const [selectedConversationId, setSelectedConversationId] = useState(null);
   const [isChatWindowOpen, setIsChatWindowOpen] = useState(true);
   const [isSend, setIsSend] = useState(null);
-  const [messages, setMessages] = useState();
 
   const [userOwner, setUserOwner] = useState(() => {
     if (typeof window !== "undefined") {
@@ -38,7 +36,7 @@ export default function ConversationOwnerPage() {
         );
 
         sortedConversations = [...response.data].sort(
-          (a, b) => new Date(b.updated_at) - new Date(a.updated_at)
+          (a, b) => new Date(b.created_at) - new Date(a.created_at)
         );
       }
       setConversations(sortedConversations);
@@ -54,7 +52,6 @@ export default function ConversationOwnerPage() {
   };
 
   useEffect(() => {
-    console.log("test");
     fetchConversations();
   }, [isSend]);
 
@@ -87,7 +84,7 @@ export default function ConversationOwnerPage() {
           fetchConversations={fetchConversations}
         />
         {!selectedConversation ? (
-          <div className="flex flex-col items-center justify-center gap-2 w-full h-full text-center bg-ps-gray-100">
+          <div className="max-sm:hidden flex flex-col items-center justify-center gap-2 w-full h-full text-center bg-ps-gray-100">
             <Image
               src="/assets/messages/pink-cat-foot.svg"
               width={82}

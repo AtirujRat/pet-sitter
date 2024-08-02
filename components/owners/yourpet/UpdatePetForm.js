@@ -119,7 +119,7 @@ export default function UpdatePetForm() {
     try {
       await axios.delete(`${API_URL}/${id}/pet/${petId}`);
       toggleModal(false);
-      router.push(`/owners/${id}/yourpet/`);
+      router.back();
     } catch (error) {
       console.error("Error deleting pet:", error);
     }
