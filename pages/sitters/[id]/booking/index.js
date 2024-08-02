@@ -55,7 +55,7 @@ export default function SitterManageBookingList() {
       {userInfo?.role === "sitter" ? (
         <div className="flex">
           <SideBarSitter />
-          <div className="w-full flex-col">
+          <div className=" flex-col grow">
             <NavBarSitter
               profileImage={profile?.profile_image_url}
               fullName={profile?.full_name}

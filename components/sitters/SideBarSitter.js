@@ -18,8 +18,7 @@ import logOut from "@/public/assets/icons/icon-logout-gray.svg";
 export default function SideBarSitter() {
   const router = useRouter();
   const { id } = router.query;
-  const location = usePathname();
-  const pathName = "/" + location.split("/")?.[3];
+  const pathName = "/" + router.pathname?.split("/")?.[3];
 
   const menu = [
     {
@@ -55,7 +54,7 @@ export default function SideBarSitter() {
   };
 
   return (
-    <div className="pt-4 w-full max-w-[240px] h-screen bg-[#FAFAFB] border-r border-[#E5E7F2] sticky top-0 lg:flex lg:flex-col hidden">
+    <div className="pt-4 w-full max-w-[240px] h-screen bg-[#FAFAFB] border-r border-[#E5E7F2] sticky top-0 shrink-0 lg:flex lg:flex-col hidden">
       <div className="pl-6 pt-6 pb-10 bg-[#FAFAFB]">
         <Link href={"/"}>
           <Image src={sitterlogo} alt="sister-logo" width={131} />
