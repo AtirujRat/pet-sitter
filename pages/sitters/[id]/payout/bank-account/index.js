@@ -18,7 +18,7 @@ export default function SitterPayout() {
   const { userInfo } = useUser();
 
   const { id } = router.query;
-  async function GetProfile() {
+  async function getProfile() {
     try {
       if (id) {
         const response = await axios.get(`/api/sitters/${id}`);
@@ -46,24 +46,13 @@ export default function SitterPayout() {
     if (!token) {
       router.push("/login/sitter");
     }
-    // async function fetchData() {
-    //   await GetProfile();
-    //   await getBankAccount();
-    //   setLoading(false);
-    // }
-    // if (id) {
-    //   fetchData();
-    // }
   }, []);
 
   useEffect(() => {
-    GetProfile();
+    getProfile();
     getBankAccount();
-    setLoading(false);
+    setLoading(false)
   }, [id]);
-
-  console.log(profile);
-  console.log(id);
 
   if (!profile) {
     return (
@@ -94,6 +83,7 @@ export default function SitterPayout() {
                 preview={preview}
                 setPreview={setPreview}
                 bankAccount={bankAccount}
+                setLoading={setLoading}
               />
             </div>
           </div>

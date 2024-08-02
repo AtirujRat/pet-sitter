@@ -84,7 +84,7 @@ export default function PayoutBankAccount({
       if (res.status === 200) {
         alert("Bank account was updated");
         actions.setSubmitting(false);
-        router.push(`/sitters/${id}/payout`);
+        router.reload();
       }
     } catch (error) {
       console.error("An error occurred:", error);
