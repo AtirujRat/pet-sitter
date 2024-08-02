@@ -36,13 +36,14 @@ export default function ConversationSitterPage() {
         );
 
         sortedConversations = [...response.data].sort(
-          (a, b) => new Date(b.updated_at) - new Date(a.updated_at)
+          (a, b) => new Date(b.created_at) - new Date(a.created_at)
         );
       }
       setConversations(sortedConversations);
+
       setLoading(false);
 
-      if (!selectedConversationId) {
+      if (!selectedConversationId && sortedConversations.length > 0) {
         setSelectedConversationId(sortedConversations[0].id);
       }
     } catch {
@@ -50,16 +51,11 @@ export default function ConversationSitterPage() {
     }
   };
 
-  const handleOnSend = () => {
-    setIsSend(!isSend);
-  };
-
   useEffect(() => {
-    console.log("test");
     fetchConversations();
   }, [isSend]);
 
-  const handleCardClick = (id) => {
+  const handleCardClick = async (id) => {
     setSelectedConversationId(id);
     setIsChatWindowOpen(true);
   };
@@ -67,6 +63,10 @@ export default function ConversationSitterPage() {
   const handleCloseChatWindow = () => {
     setIsChatWindowOpen(false);
     setSelectedConversationId(null);
+  };
+
+  const handleOnSend = () => {
+    setIsSend(!isSend);
   };
 
   return (
@@ -83,14 +83,26 @@ export default function ConversationSitterPage() {
           userType="sitter"
           fetchConversations={fetchConversations}
         />
-        {isChatWindowOpen && selectedConversation && (
-          <ChatWindow
-            conversation={selectedConversation}
-            userType="sitter"
-            onClose={handleCloseChatWindow}
-            onSend={handleOnSend}
-            user={userSitter.id}
-          />
+        {!selectedConversation ? (
+          <div className="max-sm:hidden flex flex-col items-center justify-center gap-2 w-full h-full text-center bg-ps-gray-100">
+            <Image
+              src="/assets/messages/pink-cat-foot.svg"
+              width={82}
+              height={84}
+            />
+            <p className="text-ps-gray-300 text-b1">Select a conversation!</p>
+          </div>
+        ) : (
+          isChatWindowOpen &&
+          selectedConversation && (
+            <ChatWindow
+              conversation={selectedConversation}
+              userType="sitter"
+              onClose={handleCloseChatWindow}
+              onSend={handleOnSend}
+              user={userSitter.id}
+            />
+          )
         )}
       </section>
     </ConversationSitterContext.Provider>

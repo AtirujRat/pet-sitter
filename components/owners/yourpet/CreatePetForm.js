@@ -92,7 +92,7 @@ export default function CreatePetForm() {
 
       const response = await axios.post(`${API_URL}/${id}/pet`, updatedValues);
 
-      router.push(`/owners/${id}/yourpet`);
+      router.back();
     } catch (error) {
       console.error("Error creating pet:", error);
     } finally {

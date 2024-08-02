@@ -11,7 +11,6 @@ export default function ChatWindow({
   onClose,
   onSend,
   user,
-  fetchConversations,
 }) {
   if (!conversation) {
     return (
@@ -78,16 +77,11 @@ export default function ChatWindow({
     }
 
     try {
-      // Upload profile image if it exists
       let profileImageUrl = null;
 
       profileImageUrl = await uploadProfileImage(file, "message_image");
       status = "image";
       onSubmit(profileImageUrl);
-
-      // await axios.put(`/api/sitters/${id}`, updatedValues);
-      // alert("Profile updated successfully!");
-      // router.reload();
     } catch (error) {
       console.error("Error updating profile:", error);
       alert("Failed to update profile. Please try again.");
@@ -139,11 +133,11 @@ export default function ChatWindow({
   };
 
   return (
-    <section className="w-full h-full flex flex-col justify-between">
+    <section className="w-full h-full max-sm:absolute max-sm:top-0 z-20 flex flex-col justify-between">
       <div className="w-full flex justify-between bg-ps-gray-100 px-10 py-6">
         <div className="flex gap-4 items-center">
           <img
-            className="rounded-full bg-ps-orange-500 w-12 h-12 object-cover"
+            className="max-sm:hidden rounded-full bg-ps-orange-500 w-12 h-12 object-cover"
             src={
               userType === "owner"
                 ? conversation.sitters?.profile_image_url
@@ -153,6 +147,14 @@ export default function ChatWindow({
             height={48}
             alt="Profile"
           />
+          <button className="sm:hidden" onClick={onClose}>
+            <Image
+              src="/assets/icons/icon-previous.svg"
+              alt="icon-previous"
+              width={24}
+              height={24}
+            />
+          </button>
           <h3 className="text-h3">
             {userType === "owner"
               ? conversation.sitters?.full_name
@@ -160,7 +162,7 @@ export default function ChatWindow({
           </h3>
         </div>
         <Image
-          className="hover:scale-110 focus:scale-100 transition-transform cursor-pointer"
+          className="max-sm:hidden hover:scale-110 focus:scale-100 transition-transform cursor-pointer"
           src="/assets/icons/icon-x.svg"
           width={24}
           height={24}
@@ -171,7 +173,12 @@ export default function ChatWindow({
 
       <div className="w-full h-full bg-ps-white flex flex-col-reverse p-10 overflow-y-auto">
         {orderedMessages.length === 0 ? (
-          <div className="flex justify-center items-center h-full">
+          <div className="flex flex-col gap-2 justify-center items-center h-full">
+            <Image
+              src="/assets/messages/pink-cat-foot.svg"
+              width={82}
+              height={84}
+            />
             <p className="text-b1 text-ps-gray-300">Start a conversation!</p>
           </div>
         ) : (

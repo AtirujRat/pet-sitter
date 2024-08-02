@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import axios from "axios";
-import { supabase } from "@/utils/supabase";
 
 export default function MessageCard({
   imgUrl,
@@ -11,7 +10,6 @@ export default function MessageCard({
   unreadCount,
   id,
   userOwner,
-  onSend,
 }) {
   async function updateStatus(id) {
     try {
@@ -44,8 +42,12 @@ export default function MessageCard({
       }}
     >
       <div className="flex gap-3 px-10 py-5 items-center">
-        <img className="rounded-full w-12 h-12" src={imgUrl} alt="Profile" />
-        <div className="w-[232px]">
+        <img
+          className="rounded-full object-cover w-12 h-12"
+          src={imgUrl}
+          alt="Profile"
+        />
+        <div className="w-[232px] max-md:w-[85%]">
           <div className="items-center flex justify-between w-full">
             <p className="text-b2 text-ps-white">{name}</p>
             {unreadCount > 0 && !isClicked && (
