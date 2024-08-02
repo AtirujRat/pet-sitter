@@ -12,6 +12,8 @@ export function UserProvider(props) {
       return savedState ? JSON.parse(savedState) : {};
     }
   });
+  const [register, setRegister] = useState(false);
+  const [registerResult, setRegisterResult] = useState("");
 
   function getOwner(id) {
     setUserInfo({ role: "owner", id: id });
@@ -34,6 +36,10 @@ export function UserProvider(props) {
         setUserInfo,
         getOwner,
         getSitter,
+        register,
+        setRegister,
+        registerResult,
+        setRegisterResult,
       }}
     >
       {props.children}

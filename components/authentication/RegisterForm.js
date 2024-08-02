@@ -3,6 +3,7 @@ import axios from "axios";
 import PhoneInput from "./PhoneInput";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { useUser } from "@/context/User";
 
 function validateEmail(value) {
   let error;
@@ -38,15 +39,16 @@ function validatePhone(value) {
 
 export default function RegisterForm(props) {
   const [showPassword, setShowPassword] = useState(false);
-  const router = useRouter();
+  const { register, setRegister, setRegisterResult } = useUser();
 
   async function getData(data) {
     try {
       await axios.post(props.api, data);
-      alert("register successful");
+      setRegisterResult("success");
     } catch (e) {
-      alert("connection error");
+      setRegisterResult("fail");
     }
+    setRegister(!register);
   }
 
   return (
@@ -55,7 +57,6 @@ export default function RegisterForm(props) {
       onSubmit={(values, { setSubmitting }) => {
         setSubmitting(false);
         getData(values);
-        router.push(props.route);
       }}
     >
       {({ errors, touched, isSubmitting, values }) => (

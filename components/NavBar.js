@@ -37,7 +37,6 @@ export default function NavBar({ setOpenModal }) {
       console.error("error");
       return;
     }
-
     setUserData(user);
 
     const { data: owners_id, error: getIdError } = await supabase
@@ -55,6 +54,11 @@ export default function NavBar({ setOpenModal }) {
         }, 500);
       }
       setUserId(owners_id[0].id);
+    }
+
+    if (!userInfo.role) {
+      setUserData();
+      setUserId();
     }
   }
 

@@ -5,7 +5,6 @@ export default async function handler(req, res) {
   if (req.method === "POST") {
     let { id, email, password, phone } = req.body;
     if (id) {
-      console.log(id);
       let { data: owners, error } = await supabase
         .from("owners")
         .select("id_provider")
