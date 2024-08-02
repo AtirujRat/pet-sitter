@@ -35,6 +35,7 @@ export default function Layout({ children }) {
     "/login/updatepassword",
     "/sitters/[id]/booking/[bookingId]",
     "/admin",
+    "/login/admin",
   ];
   const dynamicRoutes = [
     "/sitters/[id]/profile",
