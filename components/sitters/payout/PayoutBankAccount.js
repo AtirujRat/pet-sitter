@@ -136,8 +136,8 @@ export default function PayoutBankAccount({
     >
       {({ errors, touched, isSubmitting, setFieldValue, dirty }) => {
         return (
-          <Form className="flex flex-col gap-6">
-            <div className="text-h3 flex justify-between">
+          <Form className="flex flex-col sm:gap-6 gap-4">
+            <div className="flex justify-between">
               <div className="flex items-center gap-6">
                 <Link href={`/sitters/${id}/payout`}>
                   <Image src={back} alt="go back"></Image>
@@ -150,13 +150,13 @@ export default function PayoutBankAccount({
                   disabled={isSubmitting || !dirty}
                   id="Update"
                   text={isSubmitting ? "Updating..." : "Update"}
-                  width="w-fit text-[16px]"
+                  width="w-fit"
                 />
               </div>
             </div>
 
             <div className="bg-ps-white rounded-2xl px-4 md:px-10 lg:px-20 py-10 flex flex-col sm:gap-6 gap-4">
-              <div className="flex flex-col mb-10">
+              <div className="flex flex-col sm:mb-10">
                 <label htmlFor="book_bank_image" className="text-b2">
                   Book Bank Image*
                 </label>
@@ -164,7 +164,7 @@ export default function PayoutBankAccount({
                   <div className="text-ps-red">{errors.book_bank_image}</div>
                 ) : null}
 
-                <div className="gray-bg w-[500px] h-[480px] bg-ps-gray-200 mt-6 rounded-lg relative">
+                <div className="gray-bg sm:w-[500px] sm:h-[480px] w-full h-[400px] bg-ps-gray-200 sm:mt-6 mt-4 rounded-lg relative">
                   {preview && (
                     <img
                       className="w-full h-full object-contain p-4"
@@ -174,7 +174,7 @@ export default function PayoutBankAccount({
                   )}
                   <div className="absolute bottom-3 right-3">
                     <Image
-                      className="w-[30px] h-[30px] md:w-[60px] md:h-[60px]"
+                      className="w-[60px] h-[60px]"
                       src={plus}
                       alt="upload image"
                     />
@@ -187,7 +187,7 @@ export default function PayoutBankAccount({
                   </div>
                 </div>
               </div>
-              <div className="w-full sm:flex sm:gap-10">
+              <div className="w-full flex max-sm:flex-col sm:gap-10 gap-4">
                 <div className="account-number flex flex-col w-full">
                   <label htmlFor="account-number" className="text-b2">
                     Bank Account Number*
@@ -218,8 +218,8 @@ export default function PayoutBankAccount({
                 </div>
               </div>
 
-              <div className="flex w-full gap-10">
-                <div className="flex flex-col w-[50%] pr-5">
+              <div className="flex w-full">
+                <div className="flex flex-col sm:w-[50%] w-full sm:pr-5">
                   <label htmlFor="bank" className="text-b2">
                     Bank Name*
                   </label>
@@ -242,6 +242,16 @@ export default function PayoutBankAccount({
                   ) : null}
                 </div>
               </div>
+            </div>
+             {/* button mobile size */}
+             <div className="sm:hidden flex justify-end">
+             <ButtonOrange
+                  type="submit"
+                  disabled={isSubmitting || !dirty}
+                  id="Update"
+                  text={isSubmitting ? "Updating..." : "Update"}
+                  width="w-fit"
+                />
             </div>
           </Form>
         );
