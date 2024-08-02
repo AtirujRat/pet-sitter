@@ -230,7 +230,9 @@ export default function SitterProfileForm({ profile = {} }) {
                     type="submit"
                     disabled={isSubmitting}
                     id="Request for approval"
-                    text={isSubmitting ? "Submitting..." : "Request for approval"}
+                    text={
+                      isSubmitting ? "Submitting..." : "Request for approval"
+                    }
                     width="w-fit text-[16px]"
                   />
                 ) : profile.sitter_status === "approved" ||
@@ -248,7 +250,7 @@ export default function SitterProfileForm({ profile = {} }) {
             {profile.sitter_status === "rejected" ? (
               <div className="w-full h-[52px] bg-ps-gray-200 text-ps-red rounded-lg flex items-center pl-3 gap-[10px]">
                 <Image src={iconExclamation} width={20} height={20} />
-                Your request has not been approved: ‘Admin’s suggestion here’
+                Your request has not been approved: {profile.reject_reason}
               </div>
             ) : null}
 

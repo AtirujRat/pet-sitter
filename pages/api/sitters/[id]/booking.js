@@ -10,15 +10,18 @@ export default async function handler(req, res) {
       let supabaseQuery = supabase
         .from("bookings")
         .select(
-          "id, owners!inner(full_name), bookings_pets(pet_id), start_time, end_time, status, price, transaction_id, created_at"
+          "id, owners!inner(full_name), bookings_pets(pet_id), start_time, end_time, status, price, transaction_id, created_at, payment_method"
         )
         .eq("sitter_id", id)
         .ilike("owners.full_name", `%${ownerName}%`);
 
       if (status) {
-        supabaseQuery = supabaseQuery.eq("status", status);
+        if (Array.isArray(status)) {
+          supabaseQuery = supabaseQuery.in("status", status);
+        } else {
+          supabaseQuery = supabaseQuery.eq("status", status);
+        }
       }
-
       let { data: bookings, error } = await supabaseQuery;
 
       if (error) {
