@@ -20,19 +20,16 @@ export default function SitterDetails() {
   const { ratingStars, averageRating } = useCalculateRatingStars(
     sitter.bookings
   );
-  const { setAddress } = useSearch();
+  const { location } = useSearch();
 
   async function getSitter() {
     try {
       const res = await axios.get(`/api/sitters/${id}`);
       setSitter(res.data.data[0]);
       if (res.data.data[0].sitters_addresses) {
-        setAddress({
-          address_detail: res.data.data[0].sitters_addresses.address_detail,
-          subDistrict: res.data.data[0].sitters_addresses.sub_district,
-          district: res.data.data[0].sitters_addresses.district,
-          province: res.data.data[0].sitters_addresses.province,
-          zip_code: res.data.data[0].sitters_addresses.post_code,
+        location({
+          lat: res.data.data[0].sitters_addresses.lat,
+          lng: res.data.data[0].sitters_addresses.lng,
         });
       } else {
         console.warn("No address data found for this sitter.");

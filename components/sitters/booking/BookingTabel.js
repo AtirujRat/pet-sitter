@@ -29,19 +29,19 @@ export default function BookingTabel({
         {/* head */}
         <thead className="h-[48px] bg-ps-black sticky top-0">
           <tr className="w-full">
-            <th className="xl:w-[22%] w-[240px] text-ps-white shrink-0">
+            <th className="xl:w-[22%] w-[240px] text-b3 text-ps-white shrink-0">
               Pet Owner Name
             </th>
-            <th className="xl:w-[15%] w-[120px] text-b3  text-ps-white shrink-0">
+            <th className="xl:w-[15%] w-[120px] text-b3 text-ps-white shrink-0">
               Pet(s)
             </th>
-            <th className="xl:w-[15%] w-[120px] text-b3  text-ps-white shrink-0">
+            <th className="xl:w-[15%] w-[120px] text-b3 text-ps-white shrink-0">
               Duration
             </th>
-            <th className="xl:w-[30%] w-[420px] text-ps-white shrink-0">
+            <th className="xl:w-[30%] w-[420px] text-b3 text-ps-white shrink-0">
               Booked Date
             </th>
-            <th className="xl:w-[18%] text-b3 w-[220px]  text-ps-white shrink-0">
+            <th className="xl:w-[18%] w-[220px] text-b3 text-ps-white shrink-0">
               Status
             </th>
           </tr>
