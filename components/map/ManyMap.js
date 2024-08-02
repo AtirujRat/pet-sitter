@@ -11,6 +11,7 @@ export default function ManyMap() {
     center,
     setCenter,
     filteredRating,
+    reset,
   } = useSitters();
 
   const containerStyle = {
@@ -40,12 +41,13 @@ export default function ManyMap() {
   if (filteredSitters && filteredSitters.length > 0) {
     useEffect(() => {
       setTimeout(() => {
+        console.log(sitters);
         setCenter({
           lat: Number(sitters[0].sitters_addresses.lat),
           lng: Number(sitters[0].sitters_addresses.lng),
         });
-      }, 5000);
-    }, []);
+      }, 2000);
+    }, [reset]);
 
     const pinIconInActive = {
       url: "/assets/map/inactive-pin.png",
@@ -56,8 +58,6 @@ export default function ManyMap() {
       url: "/assets/map/pin@2x.png",
       scaledSize: { width: 75, height: 75 },
     };
-
-    console.log(sitters);
 
     return isLoaded ? (
       <GoogleMap
@@ -80,10 +80,8 @@ export default function ManyMap() {
               onClick={() => {
                 const newClick = {};
                 newClick[item.id] = 1;
+                newClick["index"] = index;
                 setClickPetSitter(newClick);
-                const newSitter = filteredSitters[index];
-                filteredSitters.splice(index, 1);
-                filteredSitters.unshift(newSitter);
                 setCenter({
                   lat: Number(item.sitters_addresses.lat),
                   lng: Number(item.sitters_addresses.lng),
