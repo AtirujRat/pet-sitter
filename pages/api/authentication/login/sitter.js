@@ -25,6 +25,18 @@ export default async function handler(req, res) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
+    const { data: update, error: e } = await supabase
+      .from("sitters")
+      .update({ last_logged_in: new Date() })
+      .eq("email", email)
+      .select();
+
+    if (e) {
+      return res
+        .status(400)
+        .json({ message: "error connection from database" });
+    }
+
     let { data: email_supabase, errors } = await supabase
       .from("email_supabase")
       .select("*")

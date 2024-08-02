@@ -28,9 +28,22 @@ export default function LoginForm(props) {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const { getOwner, getSitter } = useUser();
-
   async function logIn(formData) {
     try {
+      if (props.api === "admin") {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: formData.email,
+          password: formData.password,
+        });
+        if (error) {
+          console.log(error);
+          return;
+        }
+        setTimeout(() => {
+          router.push("/admin");
+        }, 1000);
+        return;
+      }
       const checkUser = await axios.post(props.api, formData);
       const { data, error } = await supabase.auth.signInWithPassword({
         email: checkUser.data.data[0].email,
@@ -45,13 +58,14 @@ export default function LoginForm(props) {
         setTimeout(() => {
           router.push("/");
         }, 1000);
-      } else {
+      } else if (props.api === "/api/authentication/login/sitter") {
         getSitter(checkUser.data.data[0].id);
         setTimeout(() => {
           router.push(`/sitters/${checkUser.data.data[0].id}/profile`);
         }, 1000);
       }
     } catch (e) {
+      console.log(e);
       alert("connection error");
     }
   }
@@ -114,25 +128,27 @@ export default function LoginForm(props) {
               </div>
             )}
           </div>
-          <div className="flex justify-between gap-2 items-center">
-            <div className="flex items-center space-x-2">
-              <Field
-                id="remember"
-                type="checkbox"
-                name="remember"
-                className="checkbox checkbox-warning border border-ps-gray-300 "
-              />
-              <label
-                htmlFor="remember"
-                className="label-text text-b2 font-medium cursor-pointer"
-              >
-                Remember?
-              </label>
+          {props.api === "admin" ? null : (
+            <div className="flex justify-between gap-2 items-center">
+              <div className="flex items-center space-x-2">
+                <Field
+                  id="remember"
+                  type="checkbox"
+                  name="remember"
+                  className="checkbox checkbox-primary border border-ps-gray-300 "
+                />
+                <label
+                  htmlFor="remember"
+                  className="label-text text-b2 font-medium cursor-pointer"
+                >
+                  Remember?
+                </label>
+              </div>
+              <Link href="/login/recovery">
+                <p className="text-b2 text-ps-orange-500">Forget Password?</p>
+              </Link>
             </div>
-            <Link href="/login/recovery">
-              <p className="text-b2 text-ps-orange-500">Forget Password?</p>
-            </Link>
-          </div>
+          )}
           <button
             type="submit"
             disabled={isSubmitting}

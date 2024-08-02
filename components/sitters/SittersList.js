@@ -15,6 +15,7 @@ import {
   usePrevNextButtons,
 } from "@/components/sitters/details/GalleryArrowButtons";
 import styles from "@/components/sitters/details/Gallery.module.css";
+import { useEffect, useState } from "react";
 
 const ITEMS_PER_PAGE = 5;
 
@@ -30,6 +31,8 @@ export default function SittersList() {
     setClickPetSitter,
     setCenter,
   } = useSitters();
+  const [filter, setFilter] = useState([]);
+
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
   const petTypeComponents = {
     Dog: DogBadge,
@@ -38,10 +41,25 @@ export default function SittersList() {
     Rabbit: RabbitBadge,
   };
 
-  const filteredSitters = sitters.filter((sitter) => {
+  let filteredSitters = sitters.filter((sitter) => {
     const { ratingStars } = useCalculateRatingStars(sitter.bookings);
     return filteredRating === null || ratingStars === filteredRating;
   });
+
+  function handleFilter() {
+    if (selectMap === "map" && clickPetSitter.index) {
+      const newSitter = filteredSitters[0];
+      filteredSitters[0] = filteredSitters[clickPetSitter.index];
+      filteredSitters[clickPetSitter.index] = newSitter;
+      setFilter(filteredSitters);
+    } else {
+      setFilter(filteredSitters);
+    }
+  }
+
+  useEffect(() => {
+    handleFilter();
+  }, [clickPetSitter]);
 
   setTotalPages(Math.ceil(filteredSitters.length / ITEMS_PER_PAGE));
 
@@ -162,12 +180,12 @@ export default function SittersList() {
             <div
               className={`${styles.embla__container} w-full md:h-[25vw] h-[280px]`}
             >
-              {currentSitters.length === 0 ? (
+              {filter.length === 0 ? (
                 <div className="notfound text-center text-ps-gray-600 text-b1  h-full w-full p-4 rounded-2xl max-xl:flex-col">
                   Sitter not found
                 </div>
               ) : (
-                currentSitters.map((sitter) => {
+                filter.map((sitter, index) => {
                   let galleryImage = "https://placehold.co/400x300";
 
                   if (sitter.sitters_images.length > 0) {
@@ -179,7 +197,7 @@ export default function SittersList() {
                   );
 
                   return (
-                    <div key={sitter.id} className="ml-10">
+                    <div key={index} className="ml-10">
                       <Link href={`/sitters/${sitter.id}`}>
                         <button type="button">
                           <div

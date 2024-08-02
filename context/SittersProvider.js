@@ -23,6 +23,7 @@ export function SittersProvider(props) {
   const [selectMap, setSelectMap] = useState("list");
   const [clickPetSitter, setClickPetSitter] = useState({});
   const [center, setCenter] = useState({});
+  const [reset, setReset] = useState(false);
 
   const handleClearSearch = () => {
     setSearchName("");
@@ -33,6 +34,8 @@ export function SittersProvider(props) {
     setFilteredRating(null);
     setCurrentPage(1);
     setRefresh(!refresh);
+    setReset(!reset);
+    setClickPetSitter({});
   };
 
   return (
@@ -71,6 +74,7 @@ export function SittersProvider(props) {
         setClickPetSitter,
         setCenter,
         center,
+        reset,
       }}
     >
       {props.children}

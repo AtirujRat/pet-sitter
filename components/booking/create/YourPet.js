@@ -172,7 +172,7 @@ export default function YourPet() {
             }}
             className={
               checkbox
-                ? "btn hover:bg-ps-orange-600 max-lg:w-[45%] lg:px-12  bg-ps-orange-500 text-b2 text-ps-white rounded-[99px] absolute bottom-[-595px] right-4 lg:bottom-14 lg:right-10"
+                ? "btn hover:bg-ps-orange-600 max-lg:w-[45%] lg:px-12 bg-ps-orange-500 text-b2 text-ps-white rounded-[99px] absolute bottom-[-595px] right-4 lg:bottom-14 lg:right-10"
                 : "btn max-lg:w-[45%] lg:px-12 bg-ps-gray-200 text-b2 text-ps-gray-300 border-none rounded-[99px] absolute bottom-[-595px] right-4 lg:bottom-14 lg:right-10"
             }
             disabled={!checkbox}
