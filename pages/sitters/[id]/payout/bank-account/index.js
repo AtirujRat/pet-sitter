@@ -5,7 +5,7 @@ import SideBarSitter from "@/components/sitters/SideBarSitter";
 import NavBarSitter from "@/components/sitters/NavbarSitter";
 import Loading from "@/components/Loading";
 import SidebarSitterMobile from "@/components/sitters/mobile/SidebarSitterMobile";
-import PayoutBankAccount from "@/components/sitters/payout/PayoutBankAccount";
+import BankAccountForm from "@/components/sitters/payout/BankAccountForm";
 
 export default function SitterPayout() {
   const router = useRouter();
@@ -84,7 +84,7 @@ export default function SitterPayout() {
           <SidebarSitterMobile />
         </div>
         <div className="bg-[#F5F6F9] flex flex-col gap-6 md:p-10 p-4">
-          <PayoutBankAccount
+          <BankAccountForm
             id={id}
             loading={loading}
             preview={preview}

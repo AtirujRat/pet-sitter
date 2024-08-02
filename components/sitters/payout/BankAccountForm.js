@@ -10,8 +10,9 @@ import Link from "next/link";
 import Loading from "@/components/Loading";
 import plus from "@/public/assets/icon-plus.svg";
 import ImageInput from "./ImageInput";
+import AccountNumberField from "./AccountNumberField";
 
-export default function PayoutBankAccount({
+export default function BankAccountForm({
   id,
   loading,
   preview,
@@ -91,10 +92,12 @@ export default function PayoutBankAccount({
 
     if (!values.account_number) {
       errors.account_number = "Required";
-    } else if (!/^\d+$/.test(values.account_number)) {
-      errors.account_number = "Account number must be a number";
-    } else if (values.account_number.length < 10) {
-      errors.account_number = "Account number must be at least 10 digits";
+    } else if (
+      !/^\d{3}-\d{1}-\d{5}-\d+$/.test(values.account_number) ||
+      values.account_number.replace(/-/g, "").length < 10
+    ) {
+      errors.account_number =
+        "Account number must be at least 10 digits number";
     }
 
     if (!values.book_bank_image) {
@@ -104,7 +107,7 @@ export default function PayoutBankAccount({
     if (!values.bank_id) {
       errors.bank_id = "Required";
     }
-    
+
     return errors;
   }
 
@@ -181,15 +184,11 @@ export default function PayoutBankAccount({
                   <label htmlFor="account-number" className="text-b2">
                     Bank Account Number*
                   </label>
-                  <Field
+                  <AccountNumberField
                     type="text"
                     id="account-number"
                     name="account_number"
-                    className="px-3 h-[48px] border rounded-lg border-ps-gray-200 text-base font-normal text-ps-black focus:outline-none focus:ring-0"
                   />
-                  {errors.account_number && touched.account_number ? (
-                    <div className="text-ps-red">{errors.account_number}</div>
-                  ) : null}
                 </div>
                 <div className="account-name flex flex-col w-full">
                   <label htmlFor="account-name" className="text-b2">
