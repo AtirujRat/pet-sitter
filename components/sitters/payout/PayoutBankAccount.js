@@ -17,21 +17,9 @@ export default function PayoutBankAccount({
   preview,
   setPreview,
   bankAccount,
+  initialValues,
 }) {
   const router = useRouter();
-  const initialValues = bankAccount
-    ? {
-        book_bank_image: bankAccount.book_bank_image_url,
-        account_number: bankAccount.account_number,
-        account_name: bankAccount.account_name,
-        bank_id: bankAccount.bank_id,
-      }
-    : {
-        book_bank_image: null,
-        account_number: "",
-        account_name: "",
-        bank_id: "",
-      };
 
   async function handleSubmittingForm(values, actions) {
     try {
@@ -116,7 +104,7 @@ export default function PayoutBankAccount({
     if (!values.bank_id) {
       errors.bank_id = "Required";
     }
-
+    
     return errors;
   }
 
@@ -130,6 +118,7 @@ export default function PayoutBankAccount({
 
   return (
     <Formik
+      enableReinitialize
       initialValues={initialValues}
       validate={validate}
       onSubmit={handleSubmittingForm}
@@ -243,15 +232,15 @@ export default function PayoutBankAccount({
                 </div>
               </div>
             </div>
-             {/* button mobile size */}
-             <div className="sm:hidden flex justify-end">
-             <ButtonOrange
-                  type="submit"
-                  disabled={isSubmitting || !dirty}
-                  id="Update"
-                  text={isSubmitting ? "Updating..." : "Update"}
-                  width="w-fit"
-                />
+            {/* button mobile size */}
+            <div className="sm:hidden flex justify-end">
+              <ButtonOrange
+                type="submit"
+                disabled={isSubmitting || !dirty}
+                id="Update"
+                text={isSubmitting ? "Updating..." : "Update"}
+                width="w-fit"
+              />
             </div>
           </Form>
         );
