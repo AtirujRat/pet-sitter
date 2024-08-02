@@ -7,10 +7,16 @@ import axios from "axios";
 export default function CancelModal(props) {
   async function cancelBookingHandle() {
     try {
-      await axios.patch(`/api/booking/${props.bookingList[props.index].id}`, {
-        status: "Canceled",
-      });
-      props.closeModal();
+      const cancelBooking = await axios.patch(
+        `/api/booking/${props.bookingList[props.index].id}`,
+        {
+          status: "Canceled",
+        }
+      );
+      if (cancelBooking) {
+        props.closeModal();
+        props.setRefresh((prev) => !prev);
+      }
     } catch {
       alert("Could not cancel booking because database issue");
     }
