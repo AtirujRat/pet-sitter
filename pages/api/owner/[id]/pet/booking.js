@@ -1,7 +1,7 @@
 import { supabase } from "@/utils/supabase";
 
 export default async function handler(req, res) {
-  if (req.method === "POSt") {
+  if (req.method === "POST") {
     const {
       owner_id,
       sitter_id,
