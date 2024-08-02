@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import date_icon from "@/public/assets/booking/date-icon.svg";
 import time_icon from "@/public/assets/booking/time.svg";
 import cross_icon from "@/public/assets/booking/cross.svg";
