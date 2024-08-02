@@ -26,13 +26,8 @@ export default function CashPayment() {
       <button
         type="button"
         onClick={() => {
-<<<<<<< HEAD
           addBookingHandle({ ...booking, payment_method: "Cash" });
           setConfirm("confirm");
-=======
-          // addBookingHandle({ ...booking, paymet_method: "cash" });
-          setConfirm(1);
->>>>>>> a24dc1d (feat: able to booking)
         }}
         className="btn hover:bg-ps-orange-600 max-lg:w-[45%] lg:px-12 bg-ps-orange-500 text-b2 text-ps-white rounded-[99px] absolute bottom-[-595px] right-4 lg:bottom-14 lg:right-10"
       >

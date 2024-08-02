@@ -1,7 +1,6 @@
 import close from "@/public/assets/booking/create/close.svg";
 import Image from "next/image";
 import { useBooking } from "@/context/Booking";
-<<<<<<< HEAD
 import axios from "axios";
 
 export default function Confirm() {
@@ -23,15 +22,6 @@ export default function Confirm() {
         localStorage.removeItem("user");
         handleBookingSuccess();
       }, 1500);
-=======
-
-export default function Confirm() {
-  const { booking, setConfirm, handleBooking } = useBooking();
-  function handleOnclick() {
-    try {
-      // handleBooking(booking);
-      setConfirm(2);
->>>>>>> a24dc1d (feat: able to booking)
     } catch (error) {
       console.log("error");
     }
@@ -44,11 +34,7 @@ export default function Confirm() {
         <button
           type="button"
           onClick={() => {
-<<<<<<< HEAD
             setConfirm("booking");
-=======
-            setConfirm(0);
->>>>>>> a24dc1d (feat: able to booking)
           }}
         >
           <Image src={close} alt={close} />
