@@ -74,19 +74,19 @@ export default function SitterPayout({ id, profile }) {
           {/* head */}
           <thead className="h-[48px] bg-ps-black sticky top-0">
             <tr className="w-full">
-              <th className="xl:w-[20%] w-[240px] text-ps-white shrink-0">
+              <th className="xl:w-[20%] w-[240px] text-b3 text-ps-white shrink-0">
                 Date
               </th>
-              <th className="xl:w-[27%] w-[120px] text-b3  text-ps-white shrink-0">
+              <th className="xl:w-[27%] w-[120px] text-b3 text-ps-white shrink-0">
                 From
               </th>
-              <th className="xl:w-[20%] w-[120px] text-b3  text-ps-white shrink-0">
+              <th className="xl:w-[20%] w-[120px] text-b3 text-ps-white shrink-0">
                 Transaction No.
               </th>
-              <th className="xl:w-[15%] w-[120px] text-b3  text-ps-white shrink-0">
+              <th className="xl:w-[15%] w-[120px] text-b3 text-ps-white shrink-0">
                 Payment Method
               </th>
-              <th className="xl:w-[18%] w-[420px] text-ps-white shrink-0 text-right">
+              <th className="xl:w-[18%] w-[420px] text-b3 text-ps-white shrink-0 text-right">
                 Amount
               </th>
             </tr>

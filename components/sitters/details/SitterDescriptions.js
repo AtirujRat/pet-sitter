@@ -1,4 +1,4 @@
-import PlaceSearch from "@/components/map/PlaceSearch";
+import Map from "@/components/map/Map";
 
 export default function SitterDescriptions({ sitter }) {
   return (
@@ -22,7 +22,7 @@ export default function SitterDescriptions({ sitter }) {
           {sitter.place_description}
         </p>
         <div className="map w-full h-[220px] rounded-lg mt-4 object-center">
-          <PlaceSearch draggable={false} />
+          <Map draggable={false} />
         </div>
       </div>
     </div>

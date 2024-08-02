@@ -192,7 +192,7 @@ export default function AddressForm({ existingAddress, error }) {
         </div>
       </div>
       <div className="w-full h-[400px]">
-        <PlaceSearch />
+        <PlaceSearch draggable={true} />
       </div>
     </div>
   );
