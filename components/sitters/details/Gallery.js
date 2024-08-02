@@ -23,7 +23,6 @@ export default function Gallery(props) {
       <div className={`${styles.embla__viewport} relative`} ref={emblaRef}>
         <div className={`${styles.embla__container} md:h-[25vw] h-[280px]`}>
           {slides.map((image, index) => {
-            console.log(image);
             return (
               <div className={`${styles.embla__slide}`} key={index}>
                 <img
