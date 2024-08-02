@@ -68,6 +68,7 @@ export default function PetOwnerDetail({ sitter, closeDetail }) {
                 onClick={() => {
                   setOpenModalReject(false);
                   changeBookingStatus("approved");
+                  closeDetail();
                 }}
               />
             </>
@@ -164,6 +165,7 @@ export default function PetOwnerDetail({ sitter, closeDetail }) {
                   onClick={() => {
                     setOpenModalReject(false);
                     changeBookingStatus("rejected");
+                    closeDetail();
                   }}
                 />
               </div>

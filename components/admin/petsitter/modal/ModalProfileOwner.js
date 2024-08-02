@@ -61,7 +61,7 @@ export default function ModalProfileOwner({
           </div>
         </div>
         <div className="sm:flex-row flex flex-col gap-10 p-10">
-          <div className="flex flex-col gap-10 p-6">
+          <div className="flex flex-col gap-10 px-6">
             <div className="flex flex-col gap-1">
               <p className="text-ps-gray-300 text-h4">Pet Owner Name</p>
               <p className="text-b2">{data?.owners?.full_name || "-"}</p>
