@@ -27,6 +27,8 @@ export default async function handler(req, res) {
         email: email,
         password: password,
         phone_number: phone,
+        created_at: new Date(),
+        updated_at: new Date(),
       },
     ])
     .select();
