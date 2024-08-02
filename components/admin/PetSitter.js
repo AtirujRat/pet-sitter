@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import searchIcon from "@/public/assets/icons/icon-search.svg";
 import userImage from "@/public/assets/account/profile_white.svg";
 import PetSitterDetail from "./petsitter/PetSitterDetail";
+import { DebounceInput } from "react-debounce-input";
 
 export default function PetSitter() {
   const { refresh, setRefresh } = useSitters();
@@ -36,8 +37,9 @@ export default function PetSitter() {
             <p className="text-h3 pb-2 ">Pet Sitter</p>
             <div className="flex gap-6 ">
               <div className="relative">
-                <input
+                <DebounceInput
                   value={search}
+                  debounceTimeout={1000}
                   onChange={(e) => setSearch(e.target.value)}
                   type="text"
                   placeholder="Search..."

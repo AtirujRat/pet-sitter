@@ -7,6 +7,7 @@ import { useAdminPetOwner } from "@/context/AdminPetOwner";
 
 import profile_icon from "@/public/assets/booking/owner-profile.svg";
 import Pagination from "@/hook/usePagination";
+import { DebounceInput } from "react-debounce-input";
 export default function PetOwner() {
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -41,9 +42,10 @@ export default function PetOwner() {
           <div className="flex items-center justify-between">
             <p className="text-h3 text-[#2A2E3F]">Pet Owner</p>
             <div className="relative">
-              <input
+              <DebounceInput
                 type="text"
                 value={searchOwnerInput}
+                debounceTimeout={1000}
                 placeholder="Search..."
                 onChange={(e) => {
                   setSearchOwnerInput(e.target.value);
