@@ -21,6 +21,7 @@ import { useOwners } from "@/context/Owners";
 import { useRouter } from "next/router";
 import CancelModal from "@/components/bookinghistory/CancelModal";
 import { useUser } from "@/context/User";
+import ChangeDateModal from "@/components/bookinghistory/ChangeDateModal";
 
 const BOOKING_STATUS = {
   Waiting_for_confirm: "ps-pink-500",
@@ -46,14 +47,13 @@ export default function BookingHistory() {
   const [isReviewModalOpened, setIsReviewModalOpened] = useState(false);
   const [isYourReviewModalOpened, setIsYourReviewModalOpened] = useState(false);
   const [isCancelModalOpened, setIsCancelModalOpened] = useState(false);
-
+  const [isChangeDateModalOpened, setIsChangeDateModalOpened] = useState(false);
   const [currentReview, setCurrentReview] = useState();
   const [currentIndex, setCurrentIndex] = useState();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const [refresh, setRefresh] = useState(false);
   const { getUserAuth } = useOwners();
-
   const router = useRouter();
   const { id } = router.query;
 
@@ -100,11 +100,8 @@ export default function BookingHistory() {
 
   useEffect(() => {
     getBookingHistory();
-  }, [isCancelModalOpened, id]);
-
-  useEffect(() => {
     getReviews();
-  }, [isReviewModalOpened]);
+  }, [id, refresh]);
 
   function toggleReportModal(index) {
     setCurrentIndex(index);
@@ -124,11 +121,15 @@ export default function BookingHistory() {
     setCurrentReview(id);
     setIsYourReviewModalOpened((prev) => !prev);
   }
-  console.log(bookingList);
 
   function toggleCancelModal(index) {
     setCurrentIndex(index);
     setIsCancelModalOpened((prev) => !prev);
+  }
+
+  function toggleChangeDateModal(index) {
+    setCurrentIndex(index);
+    setIsChangeDateModalOpened((prev) => !prev);
   }
 
   return (
@@ -147,6 +148,16 @@ export default function BookingHistory() {
                 key={index}
                 className="w-full h-fit rounded-2xl border-[1px] border-ps-gray-200 p-[24px] "
               >
+                {isChangeDateModalOpened && (
+                  <Modal>
+                    <ChangeDateModal
+                      closeModal={toggleChangeDateModal}
+                      bookingList={bookingList}
+                      index={currentIndex}
+                      setRefresh={setRefresh}
+                    />
+                  </Modal>
+                )}
                 {isBookingDetailModalOpened && (
                   <Modal closeModal={toggleBookingDetailModal}>
                     <BookingDetailModal
@@ -171,6 +182,7 @@ export default function BookingHistory() {
                       closeModal={toggleReviewModal}
                       bookingList={bookingList}
                       index={currentIndex}
+                      setRefresh={setRefresh}
                     />
                   </Modal>
                 )}
@@ -190,9 +202,11 @@ export default function BookingHistory() {
                       bookingList={bookingList}
                       index={currentIndex}
                       closeModal={toggleCancelModal}
+                      setRefresh={setRefresh}
                     />
                   </Modal>
                 )}
+
                 <div
                   onClick={() => toggleBookingDetailModal(index)}
                   className="flex flex-col min-[600px]:flex-row justify-between h-fit pb-[16px] gap-[16px] border-b-[1px] border-ps-gray-200 cursor-pointer"
@@ -236,7 +250,10 @@ export default function BookingHistory() {
                         {useGetOnlyTime(item.end_time)}
                       </span>
                       {item.status === "Waiting for confirm" && (
-                        <button className="text-b3 2xl:text-b2 font-[700] text-ps-orange-500 flex gap-1">
+                        <button
+                          onClick={() => toggleChangeDateModal(index)}
+                          className="text-b3 2xl:text-b2 font-[700] text-ps-orange-500 flex gap-1"
+                        >
                           <Image
                             className="w-[22px] h-[22px]"
                             src={pen_icon}
@@ -301,7 +318,7 @@ export default function BookingHistory() {
                     </div>
                   ) : (
                     <p className="text-ps-gray-400 text-b3">
-                      Waiting Pet Sitter for confirm booking
+                      {BOOKING_DESCRIPTION[item.status.replace(/ /g, "_")]}
                     </p>
                   )}
                   <div className="flex items-center gap-5">
