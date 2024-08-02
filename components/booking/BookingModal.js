@@ -4,11 +4,11 @@ import time_icon from "@/public/assets/booking/time.svg";
 import cross_icon from "@/public/assets/booking/cross.svg";
 import Image from "next/image";
 import { Formik, Field, Form } from "formik";
-
 import { useBooking } from "@/context/Booking";
 import { useOwners } from "@/context/Owners";
 import { useRouter } from "next/router";
 import axios from "axios";
+import { useGetOnlyDate } from "@/hook/useGetOnlyDate";
 
 const timeSchedule = [
   "8:00 AM",
@@ -19,8 +19,8 @@ const timeSchedule = [
   "10:30 AM",
   "11:00 AM",
   "11:30 AM",
-  "00:00 PM",
-  "00:30 PM",
+  "12:00 PM",
+  "12:30 PM",
   "1:00 PM",
   "1:30 PM",
   "2:00 PM",
@@ -36,10 +36,11 @@ const timeSchedule = [
 
 function validateCalendar(value) {
   let error;
-  const selectedDate = new Date(value);
-  const today = new Date();
-  if (today >= selectedDate) {
-    error = "Date must be tomorrow";
+  const selectedDate = useGetOnlyDate(new Date(value));
+  const today = useGetOnlyDate(new Date());
+
+  if (selectedDate < today) {
+    error = "The date can't be in the past.";
   } else if (value === "") {
     error = "Require";
   }
@@ -57,16 +58,27 @@ function convertToDate(time) {
     hours = 0;
   }
 
-  return new Date(1970, 0, 1, hours, minutes);
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth();
+  const date = now.getDate();
+
+  return new Date(year, month, date, hours, minutes);
 }
 
 function validateTimeSchedule(value1, value2) {
+  const now = new Date();
+  const futureTime = new Date(now.getTime() + 6 * 60 * 60 * 1000);
+
+  const time1 = convertToDate(value1);
+  const time2 = convertToDate(value2);
   if (value1 === "" || value2 === "") {
     return "Require";
   }
 
-  const time1 = convertToDate(value1);
-  const time2 = convertToDate(value2);
+  if (time1 < futureTime) {
+    return "At least 6 hours in advance.";
+  }
 
   if (time1 >= time2) {
     return "Invalid time";
@@ -92,6 +104,7 @@ export default function BookingModal(props) {
       return;
     } else {
       setTimeError(validateTimeSchedule(startTime, endTime));
+      return;
     }
   }, [startTime, endTime]);
 
@@ -101,13 +114,6 @@ export default function BookingModal(props) {
     const ownerData = await axios.get(
       `/api/owner/${ownerEmail.email}/queryowner`
     );
-
-    if (startTime === "" || endTime === "") {
-      setTimeError("Require");
-      return;
-    } else if (timeError) {
-      return;
-    }
 
     if (ownerEmail) {
       setUser(ownerData.data[0]);
@@ -129,6 +135,12 @@ export default function BookingModal(props) {
       initialValues={{ booking_date: "" }}
       onSubmit={(values, { setSubmitting }) => {
         createBooking(values);
+        if (startTime === "" || endTime === "") {
+          setTimeError("Require");
+          return;
+        } else if (timeError) {
+          return;
+        }
         setTimeout(() => {
           setStepBooking("your_pet");
           router.push(`/sitters/${id}/booking/create`);
@@ -155,12 +167,12 @@ export default function BookingModal(props) {
             <div className="flex items-center gap-[16px]">
               <div className="relative flex w-[24px] h-[24px]  justify-center">
                 <Image
-                  className="absolute w-[24px] h-[24px]"
+                  className="absolute w-[24px] h-[24px] "
                   src={date_icon}
                   alt="date icon"
                 />
                 <Field
-                  className="w-full h-full opacity-0 z-15"
+                  className="relative text-[30px] rotate-[180deg] left-[100px] opacity-0"
                   type="date"
                   name="booking_date"
                   validate={validateCalendar}
