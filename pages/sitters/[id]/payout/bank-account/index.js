@@ -46,15 +46,32 @@ export default function SitterPayout() {
     if (!token) {
       router.push("/login/sitter");
     }
-    async function fetchData() {
-      await GetProfile();
-      await getBankAccount();
-      setLoading(false);
-    }
-    if (id) {
-      fetchData();
-    }
+    // async function fetchData() {
+    //   await GetProfile();
+    //   await getBankAccount();
+    //   setLoading(false);
+    // }
+    // if (id) {
+    //   fetchData();
+    // }
   }, []);
+
+  useEffect(() => {
+    GetProfile();
+    getBankAccount();
+    setLoading(false);
+  }, [id]);
+
+  console.log(profile);
+  console.log(id);
+
+  if (!profile) {
+    return (
+      <div>
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <>
