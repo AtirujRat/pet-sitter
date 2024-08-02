@@ -181,18 +181,7 @@ export default function SittersList() {
                   return (
                     <div key={sitter.id} className="ml-10">
                       <Link href={`/sitters/${sitter.id}`}>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            const newClick = {};
-                            newClick[sitter.id] = 1;
-                            setClickPetSitter(newClick);
-                            setCenter({
-                              lat: Number(sitter.sitters_addresses.lat),
-                              lng: Number(sitter.sitters_addresses.lng),
-                            });
-                          }}
-                        >
+                        <button type="button">
                           <div
                             className={
                               clickPetSitter[sitter.id]

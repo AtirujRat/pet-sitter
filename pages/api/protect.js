@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-import { supabase } from "@/utils/supabase";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 export default async function protect(req, res) {

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import axios from "axios";
+import { supabase } from "@/utils/supabase";
 
 export default function MessageCard({
   imgUrl,
@@ -21,7 +22,6 @@ export default function MessageCard({
           id: id,
         });
       }
-      onSend();
     } catch (error) {
       console.log(error);
     }

@@ -22,14 +22,16 @@ export default function Gallery(props) {
     <section className={`${styles.embla} sm:my-10 max-sm:mb-10`}>
       <div className={`${styles.embla__viewport} relative`} ref={emblaRef}>
         <div className={`${styles.embla__container} md:h-[25vw] h-[280px]`}>
-          {slides.map((image, index) => (
-            <div className={`${styles.embla__slide}`} key={index}>
-              <img
-                src={image.image_url}
-                className="object-cover w-full h-full"
-              />
-            </div>
-          ))}
+          {slides.map((image, index) => {
+            return (
+              <div className={`${styles.embla__slide}`} key={index}>
+                <img
+                  src={image.image_url}
+                  className="object-cover w-full h-full"
+                />
+              </div>
+            );
+          })}
         </div>
         <div
           className={`${styles.embla__controls} absolute top-[40%] w-full flex justify-center`}
