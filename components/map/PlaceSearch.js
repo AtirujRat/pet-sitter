@@ -14,7 +14,7 @@ export default function PlaceSearch({ draggable }) {
         location({ lat, lng });
       });
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     }
   };
 

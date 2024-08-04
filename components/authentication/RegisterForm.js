@@ -2,7 +2,6 @@ import { Formik, Form, Field } from "formik";
 import axios from "axios";
 import PhoneInput from "./PhoneInput";
 import { useState } from "react";
-import { useRouter } from "next/router";
 import { useUser } from "@/context/User";
 
 function validateEmail(value) {
@@ -59,7 +58,7 @@ export default function RegisterForm(props) {
         getData(values);
       }}
     >
-      {({ errors, touched, isSubmitting, values }) => (
+      {({ errors, touched, isSubmitting }) => (
         <Form className="w-full flex flex-col gap-8 max-sm:gap-6">
           <div className="flex flex-col gap-2 relative">
             <label htmlFor="email" className="text-b2">

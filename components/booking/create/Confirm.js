@@ -6,16 +6,9 @@ import axios from "axios";
 export default function Confirm() {
   const { booking, setConfirm, handleBookingSuccess } = useBooking();
 
-  async function handleBooking(data) {
+  async function handleOnclick() {
     try {
-      await axios.post(`/api/owner/${data.owner_id}/createbooking`, data);
-    } catch (error) {
-      console.log("error");
-    }
-  }
-  function handleOnclick() {
-    try {
-      handleBooking(booking);
+      await axios.post(`/api/owner/${data.owner_id}/createbooking`, booking);
       setTimeout(() => {
         setConfirm("booking detail");
         localStorage.removeItem("myState");
@@ -23,7 +16,7 @@ export default function Confirm() {
         handleBookingSuccess();
       }, 1500);
     } catch (error) {
-      console.log("error");
+      // console.log("error");
     }
   }
 

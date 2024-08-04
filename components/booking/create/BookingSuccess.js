@@ -25,7 +25,7 @@ export default function BookingSuccess() {
       setTransaction(bookingData.data.data[bookingData.data.data.length - 1]);
       setLoading(false);
     } catch (error) {
-      console.log("error");
+      // console.log("error");
     }
   }
 

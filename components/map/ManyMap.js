@@ -20,15 +20,6 @@ export default function ManyMap() {
     borderRadius: "8px",
   };
 
-  const options = {
-    mapId: "google-map-script",
-    mapTypeControl: false,
-    zoomControl: false,
-    clickableIcons: false,
-    scrollwheel: true,
-    streetViewControl: false,
-  };
-
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
@@ -41,7 +32,6 @@ export default function ManyMap() {
   useEffect(() => {
     if (filteredSitters && filteredSitters.length > 0) {
       setTimeout(() => {
-        console.log(sitters);
         setCenter({
           lat: Number(sitters[0].sitters_addresses.lat),
           lng: Number(sitters[0].sitters_addresses.lng),
