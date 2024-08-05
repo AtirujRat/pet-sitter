@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import ChatWindow from "@/components/messages/ChatWindow";
 import axios from "axios";
-import { supabase } from "@/utils/supabase";
+import Image from "next/image";
 import MessageSidebar from "@/components/messages/MessageSidebar";
 
 export const ConversationSitterContext = createContext();

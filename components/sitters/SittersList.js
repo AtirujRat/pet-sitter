@@ -6,7 +6,7 @@ import goUp from "/public/assets/icons/icon-up.svg";
 import { DogBadge, CatBadge, BirdBadge, RabbitBadge } from "./PetBadges";
 import { useMediaQuery } from "react-responsive";
 import Loading from "../Loading";
-import useCalculateRatingStars from "@/hook/useCalculateRatingStars";
+import CalculateRatingStars from "@/hook/useCalculateRatingStars";
 import { useSitters } from "@/context/SittersProvider";
 import useEmblaCarousel from "embla-carousel-react";
 import {
@@ -42,7 +42,7 @@ export default function SittersList() {
   };
 
   let filteredSitters = sitters.filter((sitter) => {
-    const { ratingStars } = useCalculateRatingStars(sitter.bookings);
+    const { ratingStars } = CalculateRatingStars(sitter.bookings);
     return filteredRating === null || ratingStars === filteredRating;
   });
 
@@ -99,9 +99,7 @@ export default function SittersList() {
                   galleryImage = sitter.sitters_images[0].image_url;
                 }
 
-                const { ratingStars } = useCalculateRatingStars(
-                  sitter.bookings
-                );
+                const { ratingStars } = CalculateRatingStars(sitter.bookings);
 
                 return (
                   <div key={sitter.id}>
@@ -192,9 +190,7 @@ export default function SittersList() {
                     galleryImage = sitter.sitters_images[0].image_url;
                   }
 
-                  const { ratingStars } = useCalculateRatingStars(
-                    sitter.bookings
-                  );
+                  const { ratingStars } = CalculateRatingStars(sitter.bookings);
 
                   return (
                     <div key={index} className="ml-10">

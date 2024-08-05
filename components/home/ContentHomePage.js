@@ -15,7 +15,7 @@ export default function ContentHomePage() {
       {/* section 1 */}
       <div className="w-full max-w-[1440px] flex-col mx-auto lg:p-20 md:px-8 px-4 md:py-10 bg-ps-white z-10">
         <p className="w-full lg:text-h2 text-h3 text-center lg:mb-[120px] mb-10">
-          "Your Pets, Our Priority: Perfect Care, Anytime, Anywhere."
+          {'"Your Pets, Our Priority: Perfect Care, Anytime, Anywhere."'}
         </p>
         <div className="max-w-[1064px] w-full mx-auto md:flex-row flex flex-col gap-6 md:justify-between mb-[120px]">
           <div className="flex-col md:w-[504px] px-4 md:px-0">
