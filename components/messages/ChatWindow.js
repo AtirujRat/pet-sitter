@@ -12,25 +12,7 @@ export default function ChatWindow({
   onSend,
   user,
 }) {
-  if (!conversation) {
-    return (
-      <div className="flex flex-col items-center justify-center gap-2 w-full h-full text-center bg-ps-gray-100">
-        <Image
-          src="/assets/messages/pink-cat-foot.svg"
-          width={82}
-          height={84}
-        />
-        <p className="text-ps-gray-300 text-b1">Start a conversation!</p>
-      </div>
-    );
-  }
-
   const [messages, setMessages] = useState(conversation.messages || []);
-  let status = "text";
-  const initialValues = {
-    newMessage: "",
-  };
-
   useEffect(() => {
     setMessages(conversation.messages || []);
     const handleInserts = (payload) => {
@@ -61,6 +43,24 @@ export default function ChatWindow({
   useEffect(() => {
     onSend();
   }, [messages]);
+
+  if (!conversation) {
+    return (
+      <div className="flex flex-col items-center justify-center gap-2 w-full h-full text-center bg-ps-gray-100">
+        <Image
+          src="/assets/messages/pink-cat-foot.svg"
+          width={82}
+          height={84}
+        />
+        <p className="text-ps-gray-300 text-b1">Start a conversation!</p>
+      </div>
+    );
+  }
+
+  let status = "text";
+  const initialValues = {
+    newMessage: "",
+  };
 
   const orderedMessages = [...messages]
     .sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
