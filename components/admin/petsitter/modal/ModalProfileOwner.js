@@ -24,7 +24,9 @@ export default function ModalProfileOwner({
       );
       setData(res.data.data[0]);
       setLoading(false);
-    } catch (e) {}
+    } catch (error) {
+      console.error("Error fetching profile data:", error);
+    }
   }
 
   useEffect(() => {
