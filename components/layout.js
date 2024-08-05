@@ -52,6 +52,7 @@ export default function Layout({ children }) {
     "/owners/[id]/yourpet/[petId]",
     "/owners/[id]/bookinghistory",
     "/owners/[id]/messages",
+    "/404",
   ];
 
   const OwnerRoute = [
