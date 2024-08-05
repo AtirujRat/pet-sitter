@@ -1,5 +1,4 @@
 import Image from "next/image";
-import test from "@/public/assets/booking/create/imgtest.svg";
 import plus from "@/public/assets/booking/create/plus.svg";
 import {
   DogBadge,
@@ -14,6 +13,7 @@ import { useBooking } from "@/context/Booking";
 import { useOwners } from "@/context/Owners";
 import { useSitters } from "@/context/SittersProvider";
 import Loading from "@/components/Loading";
+import { useUser } from "@/context/User";
 
 export default function YourPet() {
   const router = useRouter();
@@ -31,6 +31,7 @@ export default function YourPet() {
     onselectPet,
     setOnselectPet,
   } = useBooking();
+  const { setConnection, connection } = useUser();
 
   const id = router.query.id;
 
@@ -56,7 +57,7 @@ export default function YourPet() {
       addBookingHandle({ ...booking, sitter_id: id });
       setLoading(false);
     } catch (e) {
-      // console.log("error");
+      setConnection(!connection);
     }
   }
 

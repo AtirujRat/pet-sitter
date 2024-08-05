@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { GoogleMap, useJsApiLoader, MarkerF } from "@react-google-maps/api";
 import { useSearch } from "@/context/Search";
 
@@ -26,6 +26,10 @@ export default function Map({ draggable }) {
   function markerFinishDrag(event) {
     location({ lat: event.latLng.lat(), lng: event.latLng.lng() });
   }
+
+  useEffect(() => {
+    setTimeout(() => {}, 1000);
+  });
   return isLoaded ? (
     <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={15}>
       <MarkerF

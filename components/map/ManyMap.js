@@ -30,13 +30,13 @@ export default function ManyMap() {
   });
 
   useEffect(() => {
-    if (filteredSitters && filteredSitters.length > 0) {
+    if (filteredSitters.length > 0) {
       setTimeout(() => {
         setCenter({
-          lat: Number(sitters[0].sitters_addresses.lat),
-          lng: Number(sitters[0].sitters_addresses.lng),
+          lat: Number(filteredSitters[0].sitters_addresses.lat),
+          lng: Number(filteredSitters[0].sitters_addresses.lng),
         });
-      }, 2000);
+      }, 1000);
     }
   }, [reset]);
 
@@ -51,13 +51,7 @@ export default function ManyMap() {
   };
 
   return isLoaded ? (
-    <GoogleMap
-      // ref={mapRef}
-      mapContainerStyle={containerStyle}
-      options={options}
-      center={center}
-      zoom={11}
-    >
+    <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={11}>
       {filteredSitters.map((item, index) => {
         return (
           <MarkerF

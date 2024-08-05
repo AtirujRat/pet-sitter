@@ -21,7 +21,7 @@ export default function PlaceSearch({ draggable }) {
   useEffect(() => {
     setTimeout(() => {
       handleClick();
-    }, 5000);
+    }, 1000);
   }, [address]);
 
   return <Map draggable={draggable} />;

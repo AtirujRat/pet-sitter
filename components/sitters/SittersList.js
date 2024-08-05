@@ -28,8 +28,7 @@ export default function SittersList() {
     loading,
     selectMap,
     clickPetSitter,
-    setClickPetSitter,
-    setCenter,
+    refresh,
   } = useSitters();
   const [filter, setFilter] = useState([]);
 
@@ -58,8 +57,12 @@ export default function SittersList() {
   }
 
   useEffect(() => {
-    handleFilter();
-  }, [clickPetSitter]);
+    setTimeout(() => {
+      handleFilter();
+    }, 1000);
+  }, [clickPetSitter, refresh]);
+
+  console.log(filter.length);
 
   setTotalPages(Math.ceil(filteredSitters.length / ITEMS_PER_PAGE));
 

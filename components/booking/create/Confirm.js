@@ -2,9 +2,11 @@ import close from "@/public/assets/booking/create/close.svg";
 import Image from "next/image";
 import { useBooking } from "@/context/Booking";
 import axios from "axios";
+import { useUser } from "@/context/User";
 
 export default function Confirm() {
   const { booking, setConfirm, handleBookingSuccess } = useBooking();
+  const { setConnection, connection } = useUser();
 
   async function handleOnclick() {
     try {
@@ -16,7 +18,7 @@ export default function Confirm() {
         handleBookingSuccess();
       }, 1500);
     } catch (error) {
-      // console.log("error");
+      setConnection(!connection);
     }
   }
 
