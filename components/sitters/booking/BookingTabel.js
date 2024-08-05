@@ -16,13 +16,12 @@ export default function BookingTabel({
   const router = useRouter();
   const [booking, setBooking] = useState();
   const [openModalProfile, setOpenModalProfile] = useState(false);
-  console.log(bookings);
 
   const handleClick = (index) => {
     setOpenModalProfile(true);
     setBooking(bookings[index]);
   };
-  console.log(booking);
+
   return (
     <div className="bg-ps-white rounded-2xl overflow-x-auto mb-10 sm:mb-0">
       <table className="table table-fixed">
