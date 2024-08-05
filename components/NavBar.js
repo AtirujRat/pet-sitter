@@ -13,11 +13,13 @@ import sisterlogo from "@/public/assets/sister-logo.svg";
 import Link from "next/link";
 import axios from "axios";
 import { useUser } from "@/context/User";
+import { useRouter } from "next/router";
 
 export default function NavBar({ setOpenModal }) {
   const [userData, setUserData] = useState();
   const [userId, setUserId] = useState();
   const { userInfo, setUserInfo } = useUser();
+  const router = useRouter();
 
   async function getUser() {
     const {
@@ -72,7 +74,7 @@ export default function NavBar({ setOpenModal }) {
   };
   useEffect(() => {
     getUser();
-  }, []);
+  }, [userInfo]);
 
   const handleLogout = async () => {
     let { error } = await supabase.auth.signOut();

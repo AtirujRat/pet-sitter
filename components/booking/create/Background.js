@@ -7,7 +7,6 @@ import { useEffect } from "react";
 
 export default function Backgroud() {
   const { confirm } = useBooking();
-  useEffect(() => {}, []);
   return (
     <div>
       {confirm === 2 ? (

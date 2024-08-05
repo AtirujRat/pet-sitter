@@ -15,7 +15,7 @@ export default function BookingSuccess() {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const { booking } = useBooking();
-  const { userInfo } = useUser();
+  const { userInfo, setConnection, connection } = useUser();
 
   async function getData() {
     try {
@@ -25,7 +25,7 @@ export default function BookingSuccess() {
       setTransaction(bookingData.data.data[bookingData.data.data.length - 1]);
       setLoading(false);
     } catch (error) {
-      console.log("error");
+      setConnection(!connection);
     }
   }
 

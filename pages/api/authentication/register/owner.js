@@ -49,7 +49,6 @@ export default async function handler(req, res) {
       phone: phone,
     });
     if (error) {
-      console.log(error);
       return res
         .status(400)
         .json({ message: "error connection from database" });

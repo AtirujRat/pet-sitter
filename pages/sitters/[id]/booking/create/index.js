@@ -8,9 +8,12 @@ import { useBooking } from "@/context/Booking";
 import Modal from "@/components/modal/Modal";
 import Confirm from "@/components/booking/create/Confirm";
 import BookingSuccess from "@/components/booking/create/BookingSuccess";
+import { useUser } from "@/context/User";
+import ConnectionServer from "@/components/ConnectionServer";
 
 export default function BookingCreate() {
   const { stepBooking, confirm } = useBooking();
+  const { connection } = useUser();
 
   return (
     <>
@@ -45,6 +48,11 @@ export default function BookingCreate() {
           </>
         )}
       </div>
+      {connection && (
+        <Modal>
+          <ConnectionServer text={"Error connection"} />
+        </Modal>
+      )}
     </>
   );
 }

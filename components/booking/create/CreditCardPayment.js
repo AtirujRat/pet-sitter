@@ -19,11 +19,10 @@ export default function CreditCardPayment() {
     <Formik
       initialValues={{ card_number: "", card_name: "", expire: "", cvc: "" }}
       className="w-full h-full"
-      onSubmit={(values, { setSubmitting }) => {
+      onSubmit={({ setSubmitting }) => {
         setSubmitting(false);
         addBookingHandle({
           ...booking,
-          // ...values,
           payment_method: "Credit card",
         });
         setConfirm("confirm");
