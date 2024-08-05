@@ -12,7 +12,7 @@ export default function RegisterSuccess(props) {
       {registerResult === "success" ? (
         <section className="w-[90%] lg:w-[400px] h-fit bg-ps-white rounded-2xl ">
           <div className="py-10 px-6 border-b-2 border-b-ps-gray-100 flex justify-center">
-            <Image src={success} className="w-32 h-32" />
+            <Image src={success} alt="success" className="w-32 h-32" />
           </div>
 
           <div className="flex flex-col px-6 pb-10 gap-6">
@@ -32,7 +32,7 @@ export default function RegisterSuccess(props) {
       ) : (
         <section className="w-[90%] lg:w-[400px] h-fit bg-ps-white rounded-2xl ">
           <div className="py-10 px-6 border-b-2 border-b-ps-gray-100 flex justify-center">
-            <Image src={error} className="w-32 h-32" />
+            <Image src={error} alt="error" className="w-32 h-32" />
           </div>
 
           <div className="flex flex-col px-6 pb-10 gap-6">

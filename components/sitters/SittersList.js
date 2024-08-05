@@ -62,8 +62,6 @@ export default function SittersList() {
     }, 1000);
   }, [clickPetSitter, refresh]);
 
-  console.log(filter.length);
-
   setTotalPages(Math.ceil(filteredSitters.length / ITEMS_PER_PAGE));
 
   const currentSitters = isDesktop

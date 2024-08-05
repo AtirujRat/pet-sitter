@@ -30,7 +30,7 @@ export default function ManyMap() {
   });
 
   useEffect(() => {
-    if (filteredSitters.length > 0) {
+    if (filteredSitters[0]) {
       setTimeout(() => {
         setCenter({
           lat: Number(filteredSitters[0].sitters_addresses.lat),
@@ -49,34 +49,35 @@ export default function ManyMap() {
     url: "/assets/map/pin@2x.png",
     scaledSize: { width: 75, height: 75 },
   };
-
-  return isLoaded ? (
-    <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={11}>
-      {filteredSitters.map((item, index) => {
-        return (
-          <MarkerF
-            key={index}
-            icon={clickPetSitter[item.id] ? pinIconActive : pinIconInActive}
-            position={{
-              lat: Number(item.sitters_addresses.lat),
-              lng: Number(item.sitters_addresses.lng),
-            }}
-            draggable={false}
-            onClick={() => {
-              const newClick = {};
-              newClick[item.id] = 1;
-              newClick["index"] = index;
-              setClickPetSitter(newClick);
-              setCenter({
+  if (center.lat) {
+    return isLoaded ? (
+      <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={11}>
+        {filteredSitters.map((item, index) => {
+          return (
+            <MarkerF
+              key={index}
+              icon={clickPetSitter[item.id] ? pinIconActive : pinIconInActive}
+              position={{
                 lat: Number(item.sitters_addresses.lat),
                 lng: Number(item.sitters_addresses.lng),
-              });
-            }}
-          />
-        );
-      })}
-    </GoogleMap>
-  ) : (
-    <></>
-  );
+              }}
+              draggable={false}
+              onClick={() => {
+                const newClick = {};
+                newClick[item.id] = 1;
+                newClick["index"] = index;
+                setClickPetSitter(newClick);
+                setCenter({
+                  lat: Number(item.sitters_addresses.lat),
+                  lng: Number(item.sitters_addresses.lng),
+                });
+              }}
+            />
+          );
+        })}
+      </GoogleMap>
+    ) : (
+      <></>
+    );
+  }
 }
