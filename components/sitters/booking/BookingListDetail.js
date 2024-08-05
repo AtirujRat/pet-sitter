@@ -55,13 +55,13 @@ export default function BookingListDetail({ bookingId }) {
 
   async function getBooking() {
     try {
-      const res = await axios.get(
-        `http://localhost:3000/api/booking/${bookingId}`
-      );
+      const res = await axios.get(`/api/booking/${bookingId}`);
 
       setBooking(res.data.data[0]);
       setLoading(false);
-    } catch (e) {}
+    } catch (error) {
+      console.error("Error fetching profile data:", error);
+    }
   }
 
   useEffect(() => {
@@ -97,7 +97,7 @@ export default function BookingListDetail({ bookingId }) {
   };
 
   async function changeBookingStatus(updatedStatus) {
-    await axios.patch(`http://localhost:3000/api/booking/${bookingId}`, {
+    await axios.patch(`/api/booking/${bookingId}`, {
       status: updatedStatus,
     });
     setRefresh(!refresh);
