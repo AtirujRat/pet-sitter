@@ -9,7 +9,6 @@ import {
 import Modal from "@/components/modal/Modal";
 import ReportModal from "@/components/bookinghistory/ReportModal";
 import BookingDetailModal from "@/components/bookinghistory/BookingDetailModal";
-
 import axios from "axios";
 import Loading from "@/components/Loading";
 import ReviewModal from "@/components/review/ReviewModal";
@@ -37,6 +36,23 @@ const BOOKING_DESCRIPTION = {
   In_service: "Your pet is already in Pet Sitter care!",
   Canceled: "This booking has been cancel.",
 };
+
+function useCalculateDutation(time1, time2) {
+  let date1 = new Date(time1);
+  let date2 = new Date(time2);
+
+  let diffMs = Math.abs(date2 - date1);
+  let diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+  let diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+
+  if (diffMinutes === 0) {
+    return `${diffHours} Hours`;
+  } else if (diffHours === 0) {
+    return `${diffMinutes} Mins`;
+  }
+
+  return `${diffHours}:${diffMinutes} Hours`;
+}
 
 export default function BookingHistory() {
   const [bookingList, setBookingList] = useState([]);

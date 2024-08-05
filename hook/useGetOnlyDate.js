@@ -3,6 +3,6 @@ export default function GetOnlyDate({ time }) {
   let day = String(date.getDate()).padStart(2, "0");
   let month = date.toLocaleString("en-US", { month: "long" }); // Months are zero-based
   let year = date.getFullYear();
-
+  console.log(time);
   return `${day} ${month} ${year}`;
 }
