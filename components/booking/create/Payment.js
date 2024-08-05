@@ -1,7 +1,6 @@
 import CreditCardPayment from "./CreditCardPayment";
 import CashPayment from "./CashPayment";
-import { useContext } from "react";
-import { BookingContext, useBooking } from "@/context/Booking";
+import { useBooking } from "@/context/Booking";
 export default function Payment() {
   const { payment, setPayment } = useBooking();
   return (
