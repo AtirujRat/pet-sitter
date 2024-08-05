@@ -1,11 +1,12 @@
 import Image from "next/image";
 
 import drop_down from "@/public/assets/icons/icon-dropdown.svg";
-import { useGetOnlyDate } from "@/hook/useGetOnlyDate";
+
 import Loading from "@/components/Loading";
 import { useAdminReport } from "@/context/AdminReports";
 import ReportDetail from "@/components/admin/reports/ReportDetail";
 import FilterDropdown from "./reports/FilterDropdown";
+import GetOnlyDate from "@/hook/useGetOnlyDate";
 
 const REPORT_STATUS = {
   Allstatus: "text-ps-gray-400",
@@ -111,7 +112,7 @@ export default function Report() {
                     {report.issue}
                   </td>
                   <td className="py-[24px] px-[16px] text-b2 w-[20%]">
-                    {useGetOnlyDate(report.created_at)}
+                    <GetOnlyDate time={report.created_at} />
                   </td>
                   <td
                     className={`${

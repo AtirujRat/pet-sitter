@@ -1,9 +1,9 @@
 import React from "react";
 import cross_icon from "@/public/assets/booking/cross.svg";
 import Image from "next/image";
-import { useGetOnlyDate } from "@/hook/useGetOnlyDate";
-import { useGetOnlyTime } from "@/hook/useGetOnlyTime";
-import { useCalculateDutation } from "@/hook/useCalculatedDuration";
+import GetOnlyDate from "@/hook/useGetOnlyDate";
+import GetOnlyTime from "@/hook/useGetOnlyTime";
+import CalculateDutation from "@/hook/useCalculatedDuration";
 
 export default function BookingDetailModal(props) {
   const BOOKING_STATUS = {
@@ -59,22 +59,22 @@ export default function BookingDetailModal(props) {
             <h1 className="text-b3 text-ps-gray-400">Date & Time:</h1>
             <div className="flex items-center gap-[12px]">
               <span className="text-b3 2xl:text-b2 text-ps-gray-600">
-                {useGetOnlyDate(props.bookingList[props.index].start_time)}
+                <GetOnlyDate time={props.bookingList[props.index].start_time} />
               </span>
               <span className="text-b2 text-ps-gray-400">|</span>
               <span className="text-b3 2xl:text-b2 text-ps-gray-600">
-                {useGetOnlyTime(props.bookingList[props.index].start_time)} -{" "}
-                {useGetOnlyTime(props.bookingList[props.index].end_time)}
+                <GetOnlyTime time={props.bookingList[props.index].start_time} />
+                - <GetOnlyTime time={props.bookingList[props.index].end_time} />
               </span>
             </div>
           </div>
           <div>
             <h1 className="text-b3 text-ps-gray-400">Duration:</h1>
             <p className="text-b2 text-ps-gray-600">
-              {useCalculateDutation(
-                props.bookingList[props.index].start_time,
-                props.bookingList[props.index].end_time
-              )}
+              <CalculateDutation
+                start_time={props.bookingList[props.index].start_time}
+                end_time={props.bookingList[props.index].end_time}
+              />
             </p>
           </div>
         </div>

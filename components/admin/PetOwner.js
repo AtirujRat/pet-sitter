@@ -4,8 +4,9 @@ import Image from "next/image";
 import Loading from "@/components/Loading";
 import PetOwnerDetail from "@/components/admin/petowner/PetOwnerDetail";
 import { useAdminPetOwner } from "@/context/AdminPetOwner";
-import { usePagination } from "@/hook/usePagination";
+
 import profile_icon from "@/public/assets/booking/owner-profile.svg";
+import Pagination from "@/hook/usePagination";
 export default function PetOwner() {
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -181,13 +182,14 @@ export default function PetOwner() {
               )}
               <tr>
                 <td className="mt-[20px]">
-                  {searchOwnerInput.length <= 1 &&
-                    usePagination(
-                      owners,
-                      ownerPerPage,
-                      currentPage,
-                      setCurrentPage
-                    )}
+                  {searchOwnerInput.length <= 1 && (
+                    <Pagination
+                      values={owners}
+                      valuePerPage={ownerPerPage}
+                      currentPage={currentPage}
+                      setCurrentPage={setCurrentPage}
+                    />
+                  )}
                 </td>
               </tr>
             </tbody>

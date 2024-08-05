@@ -2,8 +2,9 @@ import Image from "next/image";
 import cross_icon from "@/public/assets/booking/cross.svg";
 import gray_star from "@/public/assets/review/gray-star.svg";
 import green_star from "@/public/assets/review/green-star.svg";
-import { useGetOnlyDate } from "@/hook/useGetOnlyDate";
+
 import { ButtonOrangeLight } from "@/components/buttons/OrangeButtons";
+import GetOnlyDate from "@/hook/useGetOnlyDate";
 
 export default function YourReview(props) {
   const reviews = props.reviews.filter(
@@ -32,7 +33,7 @@ export default function YourReview(props) {
             <div>
               <h1 className="text-b1">{props.ownerData[0].full_name}</h1>
               <h1 className="text-ps-gray-400 text-b3">
-                {useGetOnlyDate(props.ownerData[0].updated_at)}
+                <GetOnlyDate time={props.ownerData[0].updated_at} />
               </h1>
             </div>
           </div>

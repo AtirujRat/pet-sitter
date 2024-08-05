@@ -1,6 +1,6 @@
-export function useCalculateDutation(time1, time2) {
-  let date1 = new Date(time1);
-  let date2 = new Date(time2);
+export default function CalculateDutation({ start_time, end_time }) {
+  let date1 = new Date(start_time);
+  let date2 = new Date(end_time);
 
   let diffMs = Math.abs(date2 - date1);
   let diffHours = Math.floor(diffMs / (1000 * 60 * 60));
