@@ -12,6 +12,9 @@ module.exports = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      dropShadow: {
+        costom: "2px 7px 5px rgba(0, 0, 0, 0.03)",
+      },
     },
 
     fontSize: {
@@ -69,8 +72,8 @@ module.exports = {
     colors: {
       ps: {
         gray: {
-          100: "#FFFFFF",
-          200: "#F6F6F9",
+          100: "#F6F6F9",
+          200: "#DCDFED",
           300: "#AEB1C3",
           400: "#7B7E8F",
           500: "#5B5D6F",
@@ -105,6 +108,21 @@ module.exports = {
         red: "#EA1010",
       },
     },
-    plugins: [require("daisyui")],
+  },
+  plugins: [require("daisyui"), require("@tailwindcss/forms")],
+  daisyui: {
+    themes: [
+      {
+        mytheme: {
+          // Customizing the default theme
+          primary: "#FF7037", // orange-500
+          secondary: "#000000", // black
+          accent: "#FFCA62", // yellow
+          neutral: "#3A3B46", //gray-600
+          "base-100": "#ffffff", // Change this to the background color you want
+          // Add other custom colors as needed
+        },
+      },
+    ],
   },
 };
