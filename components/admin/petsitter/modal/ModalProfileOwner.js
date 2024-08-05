@@ -19,9 +19,7 @@ export default function ModalProfileOwner({
   const [data, setData] = useState();
   async function getBookingProfile() {
     try {
-      const res = await axios.get(
-        `http://localhost:3000/api/booking/${booking?.id}`
-      );
+      const res = await axios.get(`/api/booking/${booking?.id}`);
       setData(res.data.data[0]);
       setLoading(false);
     } catch (error) {

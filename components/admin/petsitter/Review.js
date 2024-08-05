@@ -26,12 +26,12 @@ export default function Review({ sitter }) {
 
   async function updateReviewStatus(reviewId, newStatus) {
     try {
-      const response = await axios.patch("/api/reviews/changestatusreview", {
+      await axios.patch("/api/reviews/changestatusreview", {
         reviewId,
         newStatus,
       });
 
-      console.log("Review status updated successfully:", response.data);
+      console.log("Review status updated successfully");
       alert("Review status updated successfully");
 
       setReviews((prevReviews) =>
@@ -86,7 +86,7 @@ export default function Review({ sitter }) {
                   </div>
                 </div>
               </div>
-              <div className="review-content flex flex-col gap-4 grow">
+              <div className="review-content flex flex-col gap-4 grow w-full ">
                 <div>
                   <ReviewRating ratingStars={review?.reviews?.rating} />
                 </div>
