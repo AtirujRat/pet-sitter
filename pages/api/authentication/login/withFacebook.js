@@ -4,7 +4,7 @@ export async function signInWithFacebook() {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "facebook",
     options: {
-      redirectTo: `/auth/callback`,
+      redirectTo: "https://pet-sitter-seven.vercel.app/",
     },
   });
   if (error) {

@@ -26,9 +26,6 @@ export default function Sitters() {
       `/api/sitters?name=${searchName}&pet=${petQuery}&exp=${experience}&status=approved`
     );
 
-    if (res.statusText !== "OK") {
-      throw new Error(`HTTP error! status: ${res.status}`);
-    }
     setSitters(res.data.data);
     setLoading(false);
   }
