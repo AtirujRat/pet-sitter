@@ -1,20 +1,18 @@
 import axios from "axios";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useUser } from "@/context/User";
-
 import NavBarSitter from "@/components/sitters/NavbarSitter";
 import SideBarSitter from "@/components/sitters/SideBarSitter";
 import Loading from "@/components/Loading";
 import BookingList from "@/components/sitters/booking/BookingList";
 import SidebarSitterMobile from "@/components/sitters/mobile/SidebarSitterMobile";
+import Modal from "@/components/modal/Modal";
+import ConnectionServer from "@/components/ConnectionServer";
 
 export default function SitterManageBookingList() {
-  const router = useRouter();
-  const { id } = router.query;
-
   const [profile, setProfile] = useState(null);
-  const { userInfo } = useUser();
+  const { userInfo, connection } = useUser();
+  const id = userInfo?.id;
 
   const GetProfile = async () => {
     try {
@@ -70,6 +68,11 @@ export default function SitterManageBookingList() {
         </div>
       ) : (
         <Loading />
+      )}
+      {connection && (
+        <Modal>
+          <ConnectionServer text={"Error connection"} />
+        </Modal>
       )}
     </>
   );

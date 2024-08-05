@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useRouter } from "next/router";
 import { useEffect, useState, createContext } from "react";
 import { supabase } from "@/utils/supabase";
 import SideBarSitter from "@/components/sitters/SideBarSitter";
@@ -15,12 +14,11 @@ import error from "@/public/assets/authentication/alert-error.svg";
 export const SittersProfileContext = createContext();
 
 export default function SitterManageProfile() {
-  const router = useRouter();
-  const { id } = router.query;
   const [profile, setProfile] = useState(null);
   const [storageImages, setstorageImages] = useState([]);
   const [loading, setLoading] = useState(true);
   const { userInfo, connection } = useUser();
+  const id = userInfo?.id;
   const CDNURL =
     "https://etraoduqrzijngbazoib.supabase.co/storage/v1/object/public/sitters_gallery/";
 

@@ -1,20 +1,18 @@
 import axios from "axios";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useUser } from "@/context/User";
-
 import NavBarSitter from "@/components/sitters/NavbarSitter";
 import SideBarSitter from "@/components/sitters/SideBarSitter";
 import Loading from "@/components/Loading";
 import SitterPayout from "@/components/sitters/payout/SitterPayout";
 import SidebarSitterMobile from "@/components/sitters/mobile/SidebarSitterMobile";
+import Modal from "@/components/modal/Modal";
+import ConnectionServer from "@/components/ConnectionServer";
 
 export default function SitterManageBookingList() {
-  const router = useRouter();
-  const { id } = router.query;
-
+  const { userInfo, connection } = useUser();
+  const id = userInfo?.id;
   const [profile, setProfile] = useState(null);
-  const { userInfo } = useUser();
 
   const GetProfile = async () => {
     try {
@@ -26,17 +24,6 @@ export default function SitterManageBookingList() {
       console.error("Error fetching profile data:", error);
     }
   };
-
-  useEffect(() => {
-    const token = localStorage.getItem("sb-etraoduqrzijngbazoib-auth-token");
-    if (!token) {
-      router.push("/login/sitter");
-    }
-
-    if (+id !== userInfo.id) {
-      router.push(`/sitters/${userInfo.id}/profile`);
-    }
-  }, []);
 
   useEffect(() => {
     GetProfile();
@@ -70,6 +57,11 @@ export default function SitterManageBookingList() {
         </div>
       ) : (
         <Loading />
+      )}
+      {connection && (
+        <Modal>
+          <ConnectionServer text={"Error connection"} />
+        </Modal>
       )}
     </>
   );

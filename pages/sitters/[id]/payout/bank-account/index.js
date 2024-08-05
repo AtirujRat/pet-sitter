@@ -1,15 +1,17 @@
 import axios from "axios";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import SideBarSitter from "@/components/sitters/SideBarSitter";
 import NavBarSitter from "@/components/sitters/NavbarSitter";
 import Loading from "@/components/Loading";
 import SidebarSitterMobile from "@/components/sitters/mobile/SidebarSitterMobile";
 import BankAccountForm from "@/components/sitters/payout/BankAccountForm";
+import { useUser } from "@/context/User";
+import Modal from "@/components/modal/Modal";
+import ConnectionServer from "@/components/ConnectionServer";
 
 export default function SitterPayout() {
-  const router = useRouter();
-  const { id } = router.query;
+  const { userInfo, connection } = useUser();
+  const id = userInfo?.id;
   const [preview, setPreview] = useState(null);
   const [profile, setProfile] = useState(null);
   const [bankAccount, setBankAccount] = useState(null);
@@ -73,27 +75,38 @@ export default function SitterPayout() {
   }
 
   return (
-    <div className="flex">
-      <SideBarSitter />
-      <div className="w-full flex-col">
-        <NavBarSitter
-          profileImage={profile?.profile_image_url}
-          fullName={profile?.full_name}
-        />
-        <div className="w-full">
-          <SidebarSitterMobile />
+    <>
+      {userInfo?.role === "sitter" ? (
+        <div className="flex">
+          <SideBarSitter />
+          <div className="w-full flex-col">
+            <NavBarSitter
+              profileImage={profile?.profile_image_url}
+              fullName={profile?.full_name}
+            />
+            <div className="w-full">
+              <SidebarSitterMobile />
+            </div>
+            <div className="bg-[#F5F6F9] flex flex-col gap-6 md:p-10 p-4">
+              <BankAccountForm
+                id={id}
+                loading={loading}
+                preview={preview}
+                setPreview={setPreview}
+                bankAccount={bankAccount}
+                initialValues={initialValues}
+              />
+            </div>
+          </div>
         </div>
-        <div className="bg-[#F5F6F9] flex flex-col gap-6 md:p-10 p-4">
-          <BankAccountForm
-            id={id}
-            loading={loading}
-            preview={preview}
-            setPreview={setPreview}
-            bankAccount={bankAccount}
-            initialValues={initialValues}
-          />
-        </div>
-      </div>
-    </div>
+      ) : (
+        <Loading />
+      )}
+      {connection && (
+        <Modal>
+          <ConnectionServer text={"Error connection"} />
+        </Modal>
+      )}
+    </>
   );
 }
