@@ -1,4 +1,4 @@
-import BackgroudAuth from "@/components/authentication/BackgroudAuth";
+import BackgroudAuth from "@/components/authentication/BackgroundAuth";
 import UpdatePasswordForm from "@/components/authentication/UpdatePasswordForm";
 
 export default function RecoveryPage() {
