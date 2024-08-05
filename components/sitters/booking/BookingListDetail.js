@@ -61,7 +61,9 @@ export default function BookingListDetail({ bookingId }) {
 
       setBooking(res.data.data[0]);
       setLoading(false);
-    } catch (e) {}
+    } catch (error) {
+      console.error("Error fetching profile data:", error);
+    }
   }
 
   useEffect(() => {
