@@ -62,7 +62,9 @@ export default function PetSitter() {
                 <option selected value="">
                   All status
                 </option>
-                <option value="waiting for approve">Waiting for approve</option>
+                <option value="waiting for approval">
+                  Waiting for approve
+                </option>
                 <option value="approved">Approved</option>
                 <option value="rejected">Rejected</option>
               </select>

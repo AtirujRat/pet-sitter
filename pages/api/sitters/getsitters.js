@@ -10,12 +10,13 @@ export default async function handler(req, res) {
         .select(
           `
           *,
-          bookings(reviews!inner(rating, description, status, updated_at), owners(full_name, profile_image_url)),
+          bookings(reviews!inner(id, rating, description, status, updated_at), owners(full_name, profile_image_url)),
           sitters_addresses(*),
           sitters_images(image_url)
         `
         )
-        .order("sitter_status", { ascending: false });
+        .order("sitter_status", { ascending: false })
+        .not("sitter_status", "is", null);
 
       if (name || tradeName || email) {
         const filters = [];
@@ -29,6 +30,8 @@ export default async function handler(req, res) {
       if (status) {
         supabaseQuery = supabaseQuery.eq("sitter_status", status);
       }
+
+      supabaseQuery = supabaseQuery.eq("bookings.reviews.status", "pending");
 
       let { data: sitters, error } = await supabaseQuery;
 
