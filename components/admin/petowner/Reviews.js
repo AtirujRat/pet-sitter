@@ -4,8 +4,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import gray_star from "@/public/assets/review/gray-star.svg";
 import green_star from "@/public/assets/review/green-star.svg";
-import { useGetOnlyDate } from "@/hook/useGetOnlyDate";
+
 import Image from "next/image";
+import GetOnlyDate from "@/hook/useGetOnlyDate";
 
 export default function Reviews() {
   const [reviews, setReviews] = useState([]);
@@ -62,7 +63,7 @@ export default function Reviews() {
                         {review.bookings.sitters.full_name}
                       </h1>
                       <h1 className="text-ps-gray-400 text-b3">
-                        {useGetOnlyDate(review.created_at)}
+                        <GetOnlyDate time={review.created_at} />
                       </h1>
                     </div>
                   </div>

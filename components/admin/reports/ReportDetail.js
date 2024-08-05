@@ -7,10 +7,11 @@ import {
   ButtonOrange,
   ButtonOrangeLight,
 } from "@/components/buttons/OrangeButtons";
-import { useGetOnlyDate } from "@/hook/useGetOnlyDate";
+
 import Modal from "@/components/modal/Modal";
 import CancelReport from "@/components/admin/reports/modal/CancelReportModal";
 import ResolveModal from "@/components/admin/reports/modal/ResolveModal";
+import GetOnlyDate from "@/hook/useGetOnlyDate";
 
 export default function ReportDetail(props) {
   const [report, setReport] = useState([]);
@@ -122,7 +123,10 @@ export default function ReportDetail(props) {
             </div>
             <div className="flex flex-col gap-[4px]">
               <h1 className="text-h4 text-ps-gray-300">Date Submitted</h1>
-              <p> {useGetOnlyDate(report[0]?.created_at)}</p>
+
+              <p>
+                <GetOnlyDate time={report[0]?.created_at} />
+              </p>
             </div>
           </div>
         </>
