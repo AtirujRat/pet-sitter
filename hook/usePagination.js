@@ -1,12 +1,12 @@
 import arrow_icon from "@/public/assets/icons/icon-next.svg";
 import Image from "next/image";
 
-export function usePagination(
+export default function Pagination({
   values,
   valuePerPage,
   currentPage,
-  setCurrentPage
-) {
+  setCurrentPage,
+}) {
   let pages = [];
   for (let i = 1; i <= Math.ceil(values.length / valuePerPage); i++) {
     pages.push(i);

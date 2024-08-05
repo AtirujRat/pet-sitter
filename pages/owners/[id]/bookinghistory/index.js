@@ -9,9 +9,7 @@ import {
 import Modal from "@/components/modal/Modal";
 import ReportModal from "@/components/bookinghistory/ReportModal";
 import BookingDetailModal from "@/components/bookinghistory/BookingDetailModal";
-import { useGetOnlyDate } from "@/hook/useGetOnlyDate";
-import { useGetOnlyTime } from "@/hook/useGetOnlyTime";
-import { useCalculateDutation } from "@/hook/useCalculatedDuration";
+
 import axios from "axios";
 import Loading from "@/components/Loading";
 import ReviewModal from "@/components/review/ReviewModal";
@@ -22,6 +20,9 @@ import { useRouter } from "next/router";
 import CancelModal from "@/components/bookinghistory/CancelModal";
 import { useUser } from "@/context/User";
 import ChangeDateModal from "@/components/bookinghistory/ChangeDateModal";
+import GetOnlyDate from "@/hook/useGetOnlyDate";
+import GetOnlyTime from "@/hook/useGetOnlyTime";
+import CalculateDutation from "@/hook/useCalculatedDuration";
 
 const BOOKING_STATUS = {
   Waiting_for_confirm: "ps-pink-500",
@@ -242,12 +243,12 @@ export default function BookingHistory() {
                     <h1 className="text-ps-gray-400 text-b3">Date & Time:</h1>
                     <div className="flex items-center gap-[12px]">
                       <span className="text-b3 2xl:text-b2 text-ps-gray-600">
-                        {useGetOnlyDate(item.start_time)}
+                        <GetOnlyDate time={item.start_time} />
                       </span>
                       <span className="text-b2 text-ps-gray-400">|</span>
                       <span className="text-b3 2xl:text-b2 text-ps-gray-600">
-                        {useGetOnlyTime(item.start_time)} -{" "}
-                        {useGetOnlyTime(item.end_time)}
+                        <GetOnlyTime time={item.start_time} /> -{" "}
+                        <GetOnlyTime time={item.end_time} />
                       </span>
                       {item.status === "Waiting for confirm" && (
                         <button
@@ -271,7 +272,12 @@ export default function BookingHistory() {
                       <div>
                         <h1 className="text-ps-gray-400 text-b3">Duration:</h1>
                         <h1 className="text-ps-gray-600 text-b3 2xl:text-b2">
-                          {useCalculateDutation(item.start_time, item.end_time)}{" "}
+                          {
+                            <CalculateDutation
+                              start_time={item.start_time}
+                              end_time={item.end_time}
+                            />
+                          }
                         </h1>
                       </div>
                     </div>
@@ -306,13 +312,13 @@ export default function BookingHistory() {
                       </h1>
                       <h1 className={`flex gap-[10px]`}>
                         <span className={`text-${BOOKING_STATUS.Success}`}>
-                          {useGetOnlyDate(item.last_updated)}
+                          <GetOnlyDate time={item.last_updated} />
                         </span>{" "}
                         <span className={`text-${BOOKING_STATUS.Success}`}>
                           |
                         </span>
                         <span className={`text-${BOOKING_STATUS.Success}`}>
-                          {useGetOnlyTime(item.last_updated)}
+                          <GetOnlyTime time={item.last_updated} />
                         </span>
                       </h1>
                     </div>
