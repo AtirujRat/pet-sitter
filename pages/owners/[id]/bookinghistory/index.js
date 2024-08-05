@@ -9,9 +9,6 @@ import {
 import Modal from "@/components/modal/Modal";
 import ReportModal from "@/components/bookinghistory/ReportModal";
 import BookingDetailModal from "@/components/bookinghistory/BookingDetailModal";
-import { useGetOnlyDate } from "@/hook/useGetOnlyDate";
-import { useGetOnlyTime } from "@/hook/useGetOnlyTime";
-import { useCalculateDutation } from "@/hook/useCalculatedDuration";
 import axios from "axios";
 import Loading from "@/components/Loading";
 import ReviewModal from "@/components/review/ReviewModal";
@@ -36,6 +33,45 @@ const BOOKING_DESCRIPTION = {
   In_service: "Your pet is already in Pet Sitter care!",
   Canceled: "This booking has been cancel.",
 };
+
+function useGetOnlyDate(time) {
+  let date = new Date(time);
+  let day = String(date.getDate()).padStart(2, "0");
+  let month = date.toLocaleString("en-US", { month: "long" }); // Months are zero-based
+  let year = date.getFullYear();
+
+  return `${day} ${month} ${year}`;
+}
+
+function useGetOnlyTime(time) {
+  let date = new Date(time);
+  let hours = String(date.getHours()).padStart(2, "0");
+  let minutes = String(date.getMinutes()).padStart(2, "0");
+  let ampm = hours >= 12 ? "PM" : "AM";
+
+  hours = hours % 12;
+  hours = hours ? hours : 12; // The hour '0' should be '12'
+  hours = String(hours).padStart(2, "0");
+
+  return `${hours}:${minutes} ${ampm}`;
+}
+
+function useCalculateDutation(time1, time2) {
+  let date1 = new Date(time1);
+  let date2 = new Date(time2);
+
+  let diffMs = Math.abs(date2 - date1);
+  let diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+  let diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+
+  if (diffMinutes === 0) {
+    return `${diffHours} Hours`;
+  } else if (diffHours === 0) {
+    return `${diffMinutes} Mins`;
+  }
+
+  return `${diffHours}:${diffMinutes} Hours`;
+}
 
 export default function BookingHistory() {
   const [bookingList, setBookingList] = useState([]);
