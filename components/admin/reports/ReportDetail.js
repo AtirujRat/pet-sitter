@@ -87,13 +87,21 @@ export default function ReportDetail(props) {
                 {report[0]?.status}
               </li>
             </div>
-            <div className="flex items-center gap-[10px]">
-              <ButtonOrangeLight
-                onClick={() => cancelReportToggle()}
-                text="Cancel Report"
-              />
-              <ButtonOrange onClick={() => resolveToggle()} text="Resolve" />
-            </div>
+            {report[0]?.status === "Canceled" ||
+              (report[0]?.status === "Resolved" ? (
+                ""
+              ) : (
+                <div className="flex items-center gap-[10px]">
+                  <ButtonOrangeLight
+                    onClick={() => cancelReportToggle()}
+                    text="Cancel Report"
+                  />
+                  <ButtonOrange
+                    onClick={() => resolveToggle()}
+                    text="Resolve"
+                  />
+                </div>
+              ))}
           </div>
           <div className="flex flex-col gap-[50px] bg-ps-white rounded-2xl p-[40px]">
             <div className="flex flex-col gap-[4px]">
