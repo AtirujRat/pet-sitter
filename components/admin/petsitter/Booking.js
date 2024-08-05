@@ -17,7 +17,7 @@ export default function Booking({ sitter }) {
 
   async function getBooking() {
     const res = await axios.get(
-      `http://localhost:3000/api/sitters/${sitter.id}/booking?name=${searchName}&status=${selectedStatus}`
+      `/api/sitters/${sitter.id}/booking?name=${searchName}&status=${selectedStatus}`
     );
 
     setBookings(res.data.data);
