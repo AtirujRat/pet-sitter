@@ -12,7 +12,7 @@ export default function RecoveryPage() {
             your password!
           </h1>
           <h3 className="min-sm:text-h3 text-[1.125rem] font-medium text-ps-gray-500 max-sm:text-ps-gray-400 bg-transparent">
-            You'll receive email to recover your password
+            You{"'"}ll receive email to recover your password
           </h3>
         </div>
         <div className="max-sm:text-b2 max-sm:w-[100%] min-sm:w-[20%] flex flex-col gap-8 max-sm:gap-6">

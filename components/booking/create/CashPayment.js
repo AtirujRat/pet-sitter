@@ -11,7 +11,7 @@ export default function CashPayment() {
         <p className="text-center">
           If you want to pay by cash,
           <br /> you are required to make a cash payment <br />
-          upon arrival at the pet sitter's location.
+          upon arrival at the pet sitter{"'"}s location.
         </p>
       </div>
       <button
