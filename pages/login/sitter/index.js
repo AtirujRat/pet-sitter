@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useUser } from "@/context/User";
 import ConnectionServer from "@/components/ConnectionServer";
 import Modal from "@/components/modal/Modal";
+import error from "@/public/assets/authentication/alert-error.svg";
 
 export default function LoginOwner() {
   const api = "/api/authentication/login/sitter";
@@ -18,7 +19,7 @@ export default function LoginOwner() {
               Welcome back!
             </h1>
             <h3 className="min-sm:text-h3 text-[1.125rem] font-medium text-ps-gray-500 max-sm:text-ps-gray-400 bg-transparent">
-              Find your perfect pet sitter with us
+              Become the best Pet Sitter with us
             </h3>
           </div>
           <div className="max-sm:text-b2 max-sm:w-[100%] min-w-[25%] min-sm:w-[30%] flex flex-col gap-8 max-sm:gap-6">
@@ -34,7 +35,7 @@ export default function LoginOwner() {
       </section>
       {connection && (
         <Modal>
-          <ConnectionServer text={"invalid email or password"} />
+          <ConnectionServer text={"invalid email or password"} image={error} />
         </Modal>
       )}
     </>

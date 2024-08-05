@@ -134,7 +134,7 @@ export default function LoginForm(props) {
                   id="remember"
                   type="checkbox"
                   name="remember"
-                  className="checkbox checkbox-primary border border-ps-gray-300 "
+                  className="checkbox checkbox-primary [--chkfg:white] border border-ps-gray-300 "
                 />
                 <label
                   htmlFor="remember"

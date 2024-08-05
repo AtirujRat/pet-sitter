@@ -4,6 +4,7 @@ import SocialLogin from "@/components/authentication/SocialLogin";
 import { useUser } from "@/context/User";
 import ConnectionServer from "@/components/ConnectionServer";
 import Modal from "@/components/modal/Modal";
+import error from "@/public/assets/authentication/alert-error.svg";
 
 export default function LoginOwner() {
   const api = "/api/authentication/login/owner";
@@ -30,7 +31,7 @@ export default function LoginOwner() {
       </section>
       {connection && (
         <Modal>
-          <ConnectionServer text={"invalid email or password"} />
+          <ConnectionServer text={"invalid email or password"} image={error} />
         </Modal>
       )}
     </>
