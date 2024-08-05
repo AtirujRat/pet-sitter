@@ -4,8 +4,6 @@ export default async function handler(req, res) {
   if (req.method === "PATCH") {
     try {
       const { reviewId, newStatus } = req.body;
-      console.log("rejected", reviewId);
-      console.log("newStatus", newStatus);
 
       if (!reviewId || !newStatus) {
         return res.status(400).json({
