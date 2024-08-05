@@ -13,7 +13,7 @@ export default async function handler(req, res) {
         .select(
           "id, full_name, trade_name, sitter_status, profile_image_url, pet_types, sitters_images(image_url), bookings(reviews!inner(rating, status)),sitters_addresses(province, district, lat, lng)"
         )
-        .order("sitter_status", { ascending: false })
+        .order("id", { ascending: true })
         .ilike("trade_name", `%${tradeName}%`)
         .contains("pet_types", petType);
 
