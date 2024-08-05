@@ -19,7 +19,7 @@ export default function LoginOwner() {
               Welcome back!
             </h1>
             <h3 className="min-sm:text-h3 text-[1.125rem] font-medium text-ps-gray-500 max-sm:text-ps-gray-400 bg-transparent">
-              Find your perfect pet sitter with us
+              Become the best Pet Sitter with us
             </h3>
           </div>
           <div className="max-sm:text-b2 max-sm:w-[100%] min-w-[25%] min-sm:w-[30%] flex flex-col gap-8 max-sm:gap-6">
