@@ -19,6 +19,7 @@ import { useRouter } from "next/router";
 import CancelModal from "@/components/bookinghistory/CancelModal";
 import { useUser } from "@/context/User";
 import ChangeDateModal from "@/components/bookinghistory/ChangeDateModal";
+import GetOnlyDate from "@/hook/useGetOnlyDate";
 
 const BOOKING_STATUS = {
   Waiting_for_confirm: "ps-pink-500",
@@ -33,28 +34,6 @@ const BOOKING_DESCRIPTION = {
   In_service: "Your pet is already in Pet Sitter care!",
   Canceled: "This booking has been cancel.",
 };
-
-function useGetOnlyDate(time) {
-  let date = new Date(time);
-  let day = String(date.getDate()).padStart(2, "0");
-  let month = date.toLocaleString("en-US", { month: "long" }); // Months are zero-based
-  let year = date.getFullYear();
-
-  return `${day} ${month} ${year}`;
-}
-
-function useGetOnlyTime(time) {
-  let date = new Date(time);
-  let hours = String(date.getHours()).padStart(2, "0");
-  let minutes = String(date.getMinutes()).padStart(2, "0");
-  let ampm = hours >= 12 ? "PM" : "AM";
-
-  hours = hours % 12;
-  hours = hours ? hours : 12; // The hour '0' should be '12'
-  hours = String(hours).padStart(2, "0");
-
-  return `${hours}:${minutes} ${ampm}`;
-}
 
 function useCalculateDutation(time1, time2) {
   let date1 = new Date(time1);
@@ -278,7 +257,7 @@ export default function BookingHistory() {
                     <h1 className="text-ps-gray-400 text-b3">Date & Time:</h1>
                     <div className="flex items-center gap-[12px]">
                       <span className="text-b3 2xl:text-b2 text-ps-gray-600">
-                        {useGetOnlyDate(item.start_time)}
+                        <GetOnlyDate time={item.start_time} />
                       </span>
                       <span className="text-b2 text-ps-gray-400">|</span>
                       <span className="text-b3 2xl:text-b2 text-ps-gray-600">
@@ -342,7 +321,7 @@ export default function BookingHistory() {
                       </h1>
                       <h1 className={`flex gap-[10px]`}>
                         <span className={`text-${BOOKING_STATUS.Success}`}>
-                          {useGetOnlyDate(item.last_updated)}
+                          <GetOnlyDate time={item.last_updated} />
                         </span>{" "}
                         <span className={`text-${BOOKING_STATUS.Success}`}>
                           |
