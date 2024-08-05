@@ -20,6 +20,8 @@ export function AdminPetSitterProvider(props) {
   const [getCurrentSitter, setGetCurrentSitter] = useState([]);
   const [selectedSitter, setSelectedSitter] = useState(null);
   const [refresh, setRefresh] = useState(false);
+  const [totalPages, setTotalPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const { location } = useSearch();
 
@@ -95,6 +97,10 @@ export function AdminPetSitterProvider(props) {
         getStatusComponent,
         refresh,
         setRefresh,
+        currentPage,
+        setCurrentPage,
+        totalPages,
+        setTotalPages,
       }}
     >
       {props.children}

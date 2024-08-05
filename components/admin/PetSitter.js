@@ -2,11 +2,11 @@ import Image from "next/image";
 import { useAdminPetSitter } from "@/context/AdminPetSitter";
 import { useSitters } from "@/context/SittersProvider";
 import { useRouter } from "next/navigation";
-
 import searchIcon from "@/public/assets/icons/icon-search.svg";
 import userImage from "@/public/assets/account/profile_white.svg";
 import PetSitterDetail from "./petsitter/PetSitterDetail";
 import { DebounceInput } from "react-debounce-input";
+import Pagination from "../Pagination";
 
 export default function PetSitter() {
   const { refresh, setRefresh } = useSitters();
@@ -21,7 +21,19 @@ export default function PetSitter() {
     selectedSitter,
     setSelectedSitter,
     getStatusComponent,
+    currentPage,
+    setCurrentPage,
+    totalPages,
+    setTotalPages,
   } = useAdminPetSitter();
+
+  //--  For pagination --
+  const ITEMS_PER_PAGE = 10;
+  setTotalPages(Math.ceil(sitters.length / ITEMS_PER_PAGE));
+  const currentSitters = sitters.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
 
   const handleRowClick = (sitter) => {
     handleSitterClick(sitter);
@@ -91,7 +103,7 @@ export default function PetSitter() {
               </thead>
 
               <tbody>
-                {sitters.map((sitter, index) => (
+                {currentSitters.map((sitter, index) => (
                   <tr
                     key={index}
                     className="hover:bg-ps-orange-100 cursor-pointer"
@@ -128,6 +140,11 @@ export default function PetSitter() {
               </tbody>
             </table>
           </div>
+          <Pagination
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            totalPages={totalPages}
+          />
         </>
       ) : (
         <PetSitterDetail
