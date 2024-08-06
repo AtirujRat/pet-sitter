@@ -71,7 +71,7 @@ export default function LoginForm(props) {
 
   return (
     <Formik
-      initialValues={{ email: "", password: "", remember: false }}
+      initialValues={{ email: "", password: "" }}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
           logIn(values);

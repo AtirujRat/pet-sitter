@@ -19,6 +19,7 @@ export default function NavBar({ setOpenModal }) {
   const [userData, setUserData] = useState();
   const [userId, setUserId] = useState();
   const { userInfo, setUserInfo } = useUser();
+  const router = useRouter();
 
   async function getUser() {
     const {
@@ -84,9 +85,11 @@ export default function NavBar({ setOpenModal }) {
   const handleLogout = async () => {
     let { error } = await supabase.auth.signOut();
     if (error) return;
-    else getUser();
-    localStorage.removeItem("userInfo");
     setUserData(undefined);
+    setTimeout(() => {
+      localStorage.removeItem("userInfo");
+      router.reload();
+    }, 500);
   };
 
   return (
