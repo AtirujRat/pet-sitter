@@ -73,7 +73,7 @@ export default function SitterUser({ userId, setUserData }) {
               className="dropdown-content menu bg-base-100 rounded-lg z-[1] w-52 p-2 text-b2 drop-shadow-costom px-0"
             >
               <li className="py-2 text-b2">
-                <Link href={`/sitters/${userId}/profile/`}>
+                <Link href={`/sitters/profile/`}>
                   <Image src={profilemock} alt="profile" width={20} />
                   Profile
                 </Link>
@@ -107,7 +107,7 @@ export default function SitterUser({ userId, setUserData }) {
       <div className="sm:hidden absolute top-15 right-0 size-10 bg-ps-white w-full h-full z-10">
         <div className="py-10 px-4 flex flex-col gap-4">
           <Link
-            href={`/sitters/${userId}/profile/`}
+            href={`/sitters/profile/`}
             className="w-full p-4 text-b1 flex gap-3"
           >
             <Image src={profilemock} alt="profile" width={20} height={20} />

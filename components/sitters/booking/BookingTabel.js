@@ -61,7 +61,7 @@ export default function BookingTabel({
             return (
               <tr
                 key={index}
-                className="hover:bg-ps-orange-100 cursor-pointer"
+                className="hover:bg-ps-orange-100 cursor-pointer text-nowrap"
                 onClick={() => {
                   if (modal) {
                     handleClick(index);

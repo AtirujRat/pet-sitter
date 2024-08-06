@@ -6,11 +6,9 @@ import Loading from "@/components/Loading";
 import SidebarSitterMobile from "@/components/sitters/mobile/SidebarSitterMobile";
 import BankAccountForm from "@/components/sitters/payout/BankAccountForm";
 import { useUser } from "@/context/User";
-import Modal from "@/components/modal/Modal";
-import ConnectionServer from "@/components/ConnectionServer";
 
 export default function SitterPayout() {
-  const { userInfo, connection } = useUser();
+  const { userInfo } = useUser();
   const id = userInfo?.id;
   const [preview, setPreview] = useState(null);
   const [profile, setProfile] = useState(null);
@@ -54,13 +52,6 @@ export default function SitterPayout() {
   }
 
   useEffect(() => {
-    const token = localStorage.getItem("sb-etraoduqrzijngbazoib-auth-token");
-    if (!token) {
-      router.push("/login/sitter");
-    }
-  }, []);
-
-  useEffect(() => {
     getProfile();
     getBankAccount();
     setLoading(false);
@@ -101,11 +92,6 @@ export default function SitterPayout() {
         </div>
       ) : (
         <Loading />
-      )}
-      {connection && (
-        <Modal>
-          <ConnectionServer text={"Error connection"} />
-        </Modal>
       )}
     </>
   );

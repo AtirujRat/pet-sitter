@@ -7,8 +7,6 @@ import SideBarSitter from "@/components/sitters/SideBarSitter";
 import Loading from "@/components/Loading";
 import BookingListDetail from "@/components/sitters/booking/BookingListDetail";
 import SidebarSitterMobile from "@/components/sitters/mobile/SidebarSitterMobile";
-import Modal from "@/components/modal/Modal";
-import ConnectionServer from "@/components/ConnectionServer";
 
 export default function Detail() {
   const router = useRouter();
@@ -63,11 +61,6 @@ export default function Detail() {
         </div>
       ) : (
         <Loading />
-      )}
-      {connection && (
-        <Modal>
-          <ConnectionServer text={"Error connection"} />
-        </Modal>
       )}
     </>
   );

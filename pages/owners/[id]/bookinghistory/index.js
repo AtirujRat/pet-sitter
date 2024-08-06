@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import { useRouter } from "next/router";
 import Image from "next/image";
 import phone_icon from "@/public/assets/booking/phone.svg";
 import pen_icon from "@/public/assets/booking/pen.svg";
 import { useOwners } from "@/context/Owners";
 import { useUser } from "@/context/User";
-
 import {
   ButtonOrange,
   ButtonOrangeLight,
@@ -60,8 +59,8 @@ export default function BookingHistory() {
   const { getUserAuth } = useOwners();
   const [alertText, setAlertText] = useState("");
   const [alertType, setAlertType] = useState("");
-
   const { userInfo, connection, setConnection } = useUser();
+  const router = useRouter();
 
   async function getBookingHistory() {
     try {
