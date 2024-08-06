@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useRouter } from "next/router";
 import { supabase } from "@/utils/supabase";
 
@@ -17,8 +16,7 @@ import logOut from "@/public/assets/icons/icon-logout-gray.svg";
 
 export default function SideBarSitter() {
   const router = useRouter();
-  const { id } = router.query;
-  const pathName = "/" + router.pathname?.split("/")?.[3];
+  const pathName = "/" + router.pathname?.split("/")?.[2];
 
   const menu = [
     {

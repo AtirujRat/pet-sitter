@@ -226,7 +226,7 @@ export default function BookingListDetail({ bookingId }) {
 
         <div className="flex flex-col gap-1">
           <p className="text-ps-gray-300 text-h4">Transaction No.</p>
-          <p className="text-b2">-</p>
+          <p className="text-b2">{booking?.transaction_id}</p>
         </div>
 
         <div className="flex flex-col gap-1">
@@ -303,9 +303,10 @@ export default function BookingListDetail({ bookingId }) {
             </div>
           </div>
           <div className="sm:flex-row flex flex-col gap-10 p-10">
-            <div className="w-[240px] h-[240px] rounded-full">
+            <div className="w-[240px] h-[240px] rounded-full relative">
               {booking.owners?.profile_image_url ? (
-                <img
+                <Image
+                  fill
                   src={booking.owners?.profile_image_url}
                   alt={booking?.owners?.full_name}
                   className="w-full h-full object-cover rounded-full"
@@ -379,7 +380,8 @@ export default function BookingListDetail({ bookingId }) {
             <div className="flex flex-col gap-4 w-fit">
               <div className="w-[240px] h-[240px] rounded-full relative shrink-0 flex justify-center">
                 {selectPet?.pet_image_url ? (
-                  <img
+                  <Image
+                    fill
                     src={selectPet?.pet_image_url}
                     alt={selectPet?.name}
                     className="w-full h-full object-cover rounded-full"

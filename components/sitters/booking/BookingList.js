@@ -3,7 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSitters } from "@/context/SittersProvider";
 
-import BookigTabel from "./BookingTabel";
+import BookingTabel from "./BookingTabel";
 import {
   WaitingForConfirm,
   WaitingForService,
@@ -104,7 +104,8 @@ export default function BookingList({ id }) {
       </div>
 
       {/* booking list */}
-      <BookigTabel
+
+      <BookingTabel
         bookings={bookings}
         getStatusComponent={getStatusComponent}
         id={id}

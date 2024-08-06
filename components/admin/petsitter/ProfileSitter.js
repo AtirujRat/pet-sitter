@@ -25,7 +25,7 @@ export default function ProfileSitter({ sitter }) {
             <Image
               src={sitter?.profile_image_url || null}
               alt={sitter?.full_name}
-              fill
+              fill="auto"
               style={{ objectFit: "cover" }}
             />
           ) : (
