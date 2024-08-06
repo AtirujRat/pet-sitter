@@ -61,7 +61,7 @@ export default function NavBar({ setOpenModal }) {
   }, [userInfo]);
 
   return (
-    <nav className="w-full flex justify-center py-5 px-5 lg:px-0 relative z-10">
+    <nav className="w-full flex justify-center py-5 px-5 lg:px-0 relative z-50">
       {/* desktop */}
       <section className="max-w-[1440px] min-w-0 w-full sm:flex sm:justify-between sm:items-center lg:px-20 hidden ">
         <Link href={"/"}>
