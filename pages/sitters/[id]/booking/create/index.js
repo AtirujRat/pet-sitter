@@ -10,7 +10,6 @@ import Confirm from "@/components/booking/create/Confirm";
 import BookingSuccess from "@/components/booking/create/BookingSuccess";
 import { useUser } from "@/context/User";
 import ConnectionServer from "@/components/ConnectionServer";
-import error from "@/public/assets/authentication/alert-error.svg";
 
 export default function BookingCreate() {
   const { stepBooking, confirm } = useBooking();
@@ -50,9 +49,7 @@ export default function BookingCreate() {
         )}
       </div>
       {connection && (
-        <Modal>
-          <ConnectionServer text={"Error connection"} image={error} />
-        </Modal>
+        <ConnectionServer text={"Error connection"} type={"error"} />
       )}
     </>
   );

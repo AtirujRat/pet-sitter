@@ -2,16 +2,16 @@ import LoginForm from "@/components/authentication/LoginForm";
 import Link from "next/link";
 import { useUser } from "@/context/User";
 import ConnectionServer from "@/components/ConnectionServer";
-import Modal from "@/components/modal/Modal";
-import error from "@/public/assets/authentication/alert-error.svg";
 
 export default function LoginOwner() {
   const api = "/api/authentication/login/sitter";
   const route = "/register/sitter";
   const { connection } = useUser();
-
   return (
     <>
+      {connection && (
+        <ConnectionServer type={"error"} text={"Invalid email or password"} />
+      )}
       <section className="w-full h-screen flex max-sm:text-scale-75 justify-center items-center relative z-10">
         <div className="w-full max-sm:w-[90%] bg-transparent flex flex-col items-center justify-center max-sm:gap-8 gap-14 absolute">
           <div className="bg-transparent flex flex-col text-center gap-2">
@@ -33,11 +33,6 @@ export default function LoginOwner() {
           </div>
         </div>
       </section>
-      {connection && (
-        <Modal>
-          <ConnectionServer text={"invalid email or password"} image={error} />
-        </Modal>
-      )}
     </>
   );
 }
