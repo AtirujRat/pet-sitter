@@ -8,7 +8,7 @@ import BankAccountForm from "@/components/sitters/payout/BankAccountForm";
 import { useUser } from "@/context/User";
 
 export default function SitterPayout() {
-  const { userInfo, setConnection} = useUser();
+  const { userInfo } = useUser();
   const id = userInfo?.id;
   const [preview, setPreview] = useState(null);
   const [profile, setProfile] = useState(null);
@@ -26,7 +26,6 @@ export default function SitterPayout() {
       if (id) {
         const response = await axios.get(`/api/sitters/${id}`);
         setProfile(response.data.data[0]);
-        setConnection(true);
       }
     } catch (error) {
       console.error("Error fetching profile data:", error);
