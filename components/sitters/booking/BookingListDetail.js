@@ -111,7 +111,7 @@ export default function BookingListDetail({ bookingId }) {
     <div className="flex flex-col gap-6">
       <div className="md:flex-row justify-between flex flex-col gap-4 md:gap-0">
         <div className="sm:flex-row flex flex-col gap-2 sm:items-center">
-          <div className="flex">
+          <div className="flex gap-6">
             <Image
               src={arrow}
               width={24}

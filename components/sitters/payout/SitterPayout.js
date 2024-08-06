@@ -46,7 +46,7 @@ export default function SitterPayout({ id, profile }) {
             </div>
           </div>
           <Link
-            href={`/sitters/${id}/payout/bank-account`}
+            href={`/sitters/payout/bank-account`}
             className="bank md:w-[50%] w-full min-w-[325px] h-[76px]  flex align-middle justify-between bg-ps-white rounded-2xl p-6 gap-4 cursor-pointer hover:shadow-md transition-transform active:scale-95"
           >
             <div className="text flex gap-2 w-full">

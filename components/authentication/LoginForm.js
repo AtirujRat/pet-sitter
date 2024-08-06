@@ -61,7 +61,7 @@ export default function LoginForm(props) {
       } else if (props.api === "/api/authentication/login/sitter") {
         getSitter(checkUser.data.data[0].id);
         setTimeout(() => {
-          router.push(`/sitters/${checkUser.data.data[0].id}/profile`);
+          router.push(`/sitters/profile`);
         }, 1000);
       }
     } catch (e) {

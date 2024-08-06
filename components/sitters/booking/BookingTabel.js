@@ -65,7 +65,7 @@ export default function BookingTabel({
                 onClick={() => {
                   if (modal) {
                     handleClick(index);
-                  } else router.push(`/sitters/${id}/booking/${booking?.id}`);
+                  } else router.push(`/sitters/booking/${booking?.id}`);
                 }}
               >
                 <td className="text-b2 py-6 flex items-center gap-2">

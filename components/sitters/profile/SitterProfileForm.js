@@ -15,7 +15,7 @@ import userimage from "@/public/assets/navbar/usermock.svg";
 import plus from "@/public/assets/icon-plus.svg";
 import iconExclamation from "@/public/assets/icons/icon-exclamation-circle.svg";
 import ImageGallery from "./ImageGallery";
-import { SittersProfileContext } from "@/pages/sitters/[id]/profile";
+import { SittersProfileContext } from "@/pages/sitters/profile";
 import { Approved, WaitingForApproval, Rejected } from "./SittersStatus";
 import {
   validateName,
@@ -27,7 +27,6 @@ import {
 
 export default function SitterProfileForm({ profile = {} }) {
   const router = useRouter();
-  const { id } = router.query;
   const { address, searchLng, searchLat } = useSearch();
   const { getImages, storageImages, CDNURL } = useContext(
     SittersProfileContext
@@ -191,7 +190,7 @@ export default function SitterProfileForm({ profile = {} }) {
         sitters_images: galleryImageUrls,
       };
 
-      await axios.put(`/api/sitters/${id}`, updatedValues);
+      await axios.put(`/api/sitters/${profile.id}`, updatedValues);
       alert("Profile updated successfully!");
       router.reload();
     } catch (error) {

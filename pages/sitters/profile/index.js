@@ -9,7 +9,6 @@ import { useUser } from "@/context/User";
 import Modal from "@/components/modal/Modal";
 import ConnectionServer from "@/components/ConnectionServer";
 import SidebarSitterMobile from "@/components/sitters/mobile/SidebarSitterMobile";
-import error from "@/public/assets/authentication/alert-error.svg";
 
 export const SittersProfileContext = createContext();
 
@@ -112,7 +111,7 @@ export default function SitterManageProfile() {
       )}{" "}
       {connection && (
         <Modal>
-          <ConnectionServer text={"Error connection"} image={error} />
+          <ConnectionServer text={"Error connection"} />
         </Modal>
       )}
     </SittersProfileContext.Provider>

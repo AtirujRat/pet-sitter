@@ -15,7 +15,6 @@ import search from "@/public/assets/icons/icon-search.svg";
 
 export default function BookingList({ id }) {
   const { setLoading, refresh, setRefresh } = useSitters();
-
   const [bookings, setBookings] = useState([]);
   const [searchName, setSearchName] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
