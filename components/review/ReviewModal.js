@@ -13,7 +13,6 @@ import axios from "axios";
 export default function ReviewModal(props) {
   const [rating, setRating] = useState(0);
   const [isRatingEqual0, setIsRatingEqual0] = useState(null);
-  const [error, setError] = useState(null);
 
   function validateDescription(value) {
     let error;
@@ -36,12 +35,16 @@ export default function ReviewModal(props) {
         status: "pending",
       });
       if (submitReview) {
-        props.closeModal();
+        props.setConnection(true);
+        props.setAlertText("Review has been sent.");
+        props.setAlertType("success");
         props.setRefresh((prev) => !prev);
+        props.closeModal();
       }
-      setError(null);
     } catch (error) {
-      setError("Could not sent the report because database issue");
+      props.setConnection(true);
+      props.setAlertText("Could not send review because database issue");
+      props.setAlertType("error");
     }
   }
 
@@ -115,7 +118,6 @@ export default function ReviewModal(props) {
                     {errors.description}
                   </div>
                 )}
-                {error ?? <p className="text-ps-red">{error}</p>}
               </div>
             </div>
             <div className="flex justify-between">

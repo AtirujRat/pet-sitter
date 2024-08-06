@@ -3,7 +3,7 @@ import previous from "/public/assets/icons/icon-previous.svg";
 import next from "/public/assets/icons/icon-next.svg";
 import { useSitters } from "@/context/SittersProvider";
 
-export default function Pagination() {
+export default function SitterPagination() {
   const { selectMap, currentPage, setCurrentPage, totalPages } = useSitters();
 
   function renderPaginationButtons() {

@@ -13,8 +13,10 @@ import {
 } from "@/components/sitters/PetBadges";
 import { useUser } from "@/context/User";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import axios from "axios";
 import { useOwners } from "@/context/Owners";
+import AlertTop from "@/components/alerts/AlertTop";
 
 export default function SitterCard({
   sitter,
@@ -31,6 +33,7 @@ export default function SitterCard({
   const router = useRouter();
   const sitter_id = router.query.id;
   const { getUserAuth } = useOwners();
+  const [error, setError] = useState(null);
 
   async function handleSendMessage(data) {
     await axios.post(`/api/owner/${userInfo.id}/conversations`, data);
@@ -46,7 +49,7 @@ export default function SitterCard({
       return;
     }
     if (ownerData.email === sitter.email) {
-      alert("You cannot book yourself");
+      setError("You cannot book yourself")
     } else {
       setIsBookingModalOpen(true);
     }
@@ -54,6 +57,7 @@ export default function SitterCard({
 
   return (
     <div className="sitter-card flex flex-col lg:w-[33%] w-full bg-ps-white sm:rounded-2xl h-fit min-w-[370px] lg:sticky top-5">
+      {error && <AlertTop type="error" text={error} />}
       <div className="sister-profile px-10 py-10 flex flex-col gap-6 items-center w-full">
         <img
           src={sitter.profile_image_url ?? "/assets/booking/owner-profile.svg"}

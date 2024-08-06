@@ -27,7 +27,7 @@ function validatePassword(value) {
 export default function LoginForm(props) {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-  const { getOwner, getSitter } = useUser();
+  const { getOwner, getSitter, setConnection, connection } = useUser();
   async function logIn(formData) {
     try {
       if (props.api === "admin") {
@@ -36,7 +36,7 @@ export default function LoginForm(props) {
           password: formData.password,
         });
         if (error) {
-          console.log(error);
+          setConnection(!connection);
           return;
         }
         setTimeout(() => {
@@ -50,29 +50,28 @@ export default function LoginForm(props) {
         password: checkUser.data.data[0].password,
       });
       if (error) {
-        console.log(error);
+        setConnection(!connection);
         return;
       }
       if (props.api === "/api/authentication/login/owner") {
         getOwner(checkUser.data.data[0].id);
         setTimeout(() => {
           router.push("/");
-        }, 1000);
+        }, 500);
       } else if (props.api === "/api/authentication/login/sitter") {
         getSitter(checkUser.data.data[0].id);
         setTimeout(() => {
-          router.push(`/sitters/${checkUser.data.data[0].id}/profile`);
-        }, 1000);
+          router.push(`/sitters/profile`);
+        }, 500);
       }
     } catch (e) {
-      console.log(e);
-      alert("connection error");
+      setConnection(!connection);
     }
   }
 
   return (
     <Formik
-      initialValues={{ email: "", password: "", remember: false }}
+      initialValues={{ email: "", password: "" }}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
           logIn(values);
@@ -80,7 +79,7 @@ export default function LoginForm(props) {
         }, 400);
       }}
     >
-      {({ errors, touched, isValidating, isSubmitting }) => (
+      {({ errors, touched, isSubmitting }) => (
         <Form className="w-full flex flex-col gap-8 max-sm:gap-6">
           <div className="flex flex-col gap-2 relative">
             <label htmlFor="email" className="text-b2 text-ps-black">
@@ -135,7 +134,7 @@ export default function LoginForm(props) {
                   id="remember"
                   type="checkbox"
                   name="remember"
-                  className="checkbox checkbox-primary border border-ps-gray-300 "
+                  className="checkbox checkbox-primary [--chkfg:white] border border-ps-gray-300 "
                 />
                 <label
                   htmlFor="remember"

@@ -13,9 +13,6 @@ export function useAdmin() {
 export function AdminProvider(props) {
   const [state, setState] = useState("Pet Owner");
 
-  const { address } = useSearch();
-  console.log(address);
-
   return (
     <AdminContext.Provider
       value={{

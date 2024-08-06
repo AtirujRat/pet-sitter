@@ -2,7 +2,7 @@ import Image, { getImageProps } from "next/image";
 import iconUpLoad from "@/public/assets/sitters/icon-upload.svg";
 import iconClose from "@/public/assets/sitters/icon-close.svg";
 import { useFormikContext } from "formik";
-import { SittersProfileContext } from "@/pages/sitters/[id]/profile";
+import { SittersProfileContext } from "@/pages/sitters/profile";
 import { useContext } from "react";
 
 export default function ImageGallery({ profile, uploadGalleryImage }) {

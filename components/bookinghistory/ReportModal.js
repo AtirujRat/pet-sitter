@@ -37,9 +37,15 @@ export default function ReportModal(props) {
         status: "New Report",
       });
       setError(null);
+      props.setAlertType("success");
+      props.setAlertText("Report has been sent");
+      props.setConnection(true);
+      props.setRefresh((prev) => !prev);
       props.closeModal();
     } catch (error) {
-      setError("Could not sent the report because database issue");
+      props.setAlertType("error");
+      props.setAlertText("Could not send report because database issue");
+      props.setConnection(true);
     }
   }
 

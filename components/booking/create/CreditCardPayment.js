@@ -19,17 +19,16 @@ export default function CreditCardPayment() {
     <Formik
       initialValues={{ card_number: "", card_name: "", expire: "", cvc: "" }}
       className="w-full h-full"
-      onSubmit={(values, { setSubmitting }) => {
+      onSubmit={({ setSubmitting }) => {
         setSubmitting(false);
         addBookingHandle({
           ...booking,
-          // ...values,
           payment_method: "Credit card",
         });
         setConfirm("confirm");
       }}
     >
-      {({ errors, touched, isSubmitting }) => (
+      {({ errors, touched }) => (
         <Form className="w-full h-full flex flex-col gap-10 max-sm:gap-6 ">
           <div className="w-full flex max-lg:flex-col lg:justify-between gap-10 lg:gap-10 relative">
             <div className="w-full lg:w-[50%] flex flex-col gap-2 relative">

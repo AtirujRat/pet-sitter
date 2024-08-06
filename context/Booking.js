@@ -1,4 +1,3 @@
-import axios from "axios";
 import { createContext, useState, useEffect, useContext } from "react";
 import { useSitters } from "./SittersProvider";
 

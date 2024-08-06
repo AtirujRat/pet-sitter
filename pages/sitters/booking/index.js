@@ -1,20 +1,16 @@
 import axios from "axios";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useUser } from "@/context/User";
-
 import NavBarSitter from "@/components/sitters/NavbarSitter";
 import SideBarSitter from "@/components/sitters/SideBarSitter";
 import Loading from "@/components/Loading";
-import BookingListDetail from "@/components/sitters/booking/BookingListDetail";
+import BookingList from "@/components/sitters/booking/BookingList";
 import SidebarSitterMobile from "@/components/sitters/mobile/SidebarSitterMobile";
 
-export default function Detail() {
-  const router = useRouter();
-  const { id, bookingId } = router.query;
-  const { userInfo } = useUser();
-
+export default function SitterManageBookingList() {
   const [profile, setProfile] = useState(null);
+  const { userInfo } = useUser();
+  const id = userInfo?.id;
 
   const GetProfile = async () => {
     try {
@@ -55,7 +51,7 @@ export default function Detail() {
       {userInfo?.role === "sitter" ? (
         <div className="flex">
           <SideBarSitter />
-          <div className="w-full flex-col">
+          <div className=" flex-col grow">
             <NavBarSitter
               profileImage={profile?.profile_image_url}
               fullName={profile?.full_name}
@@ -63,10 +59,8 @@ export default function Detail() {
             <div className="w-full">
               <SidebarSitterMobile />
             </div>
-            <div className="bg-ps-gray-100 flex flex-col gap-6 md:p-10 p-4">
-              <div>
-                <BookingListDetail bookingId={bookingId} />
-              </div>
+            <div className="bg-ps-gray-100 flex flex-col gap-6 px-4 md:p-10 sm:px-10 sm:py-6 min-h-screen">
+              <BookingList id={id} />
             </div>
           </div>
         </div>

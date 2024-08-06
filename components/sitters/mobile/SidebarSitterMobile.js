@@ -51,7 +51,7 @@ export default function SidebarSitterMobile() {
       <div className="bg-[#FAFAFB] flex justify-between w-full lg:px-10 no-scrollbar overflow-auto">
         {menu.map((list, index) => (
           <Link
-            href={`/sitters/${id}${list.pathUrl}`}
+            href={`/sitters${list.pathUrl}`}
             key={list.label}
             className=" shrink-0 "
           >

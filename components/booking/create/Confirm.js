@@ -2,20 +2,15 @@ import close from "@/public/assets/booking/create/close.svg";
 import Image from "next/image";
 import { useBooking } from "@/context/Booking";
 import axios from "axios";
+import { useUser } from "@/context/User";
 
 export default function Confirm() {
   const { booking, setConfirm, handleBookingSuccess } = useBooking();
+  const { setConnection, connection, userInfo } = useUser();
 
-  async function handleBooking(data) {
+  async function handleOnclick() {
     try {
-      await axios.post(`/api/owner/${data.owner_id}/createbooking`, data);
-    } catch (error) {
-      console.log("error");
-    }
-  }
-  function handleOnclick() {
-    try {
-      handleBooking(booking);
+      await axios.post(`/api/owner/${userInfo.id}/createbooking`, booking);
       setTimeout(() => {
         setConfirm("booking detail");
         localStorage.removeItem("myState");
@@ -23,7 +18,7 @@ export default function Confirm() {
         handleBookingSuccess();
       }, 1500);
     } catch (error) {
-      console.log("error");
+      setConnection(!connection);
     }
   }
 

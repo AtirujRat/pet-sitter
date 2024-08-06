@@ -1,5 +1,4 @@
 import { PetTag } from "./PetTag";
-import Image from "next/image";
 
 export default function PetCard(props) {
   return (

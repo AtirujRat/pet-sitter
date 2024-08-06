@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import axios from "axios";
 import { useAdminPetSitter } from "@/context/AdminPetSitter";
+import { useUser } from "@/context/User";
 
 import ProfileSitter from "./ProfileSitter";
 import Booking from "./Booking";
@@ -14,20 +15,30 @@ import {
   ButtonOrangeLight,
 } from "@/components/buttons/OrangeButtons";
 import BookingModal from "@/components/sitters/booking/BookingModal";
+import ConnectionServer from "@/components/ConnectionServer";
 
-export default function PetOwnerDetail({ sitter, closeDetail }) {
+export default function PetSiiterDetail({ sitter, closeDetail }) {
   const [currenDetails, setCurrentDetails] = useState("profile");
   const [openModalReject, setOpenModalReject] = useState(false);
   const [rejectReason, setRejectReason] = useState("");
+  const [showTextAlert, setShowTextAlert] = useState("");
+  const [showTypeAlert, setShowTypeAlert] = useState("");
 
-  const { getStatusComponent, refresh, setRefresh } = useAdminPetSitter();
+  const { getStatusComponent, refresh, setRefresh, GetSitterProfile } =
+    useAdminPetSitter();
+  const { setConnection, connection } = useUser();
 
-  async function changeBookingStatus(updatedStatus) {
-    await axios.patch(`/api/sitters/getsitters`, {
-      id: sitter.id,
-      sitter_status: updatedStatus,
-      reject_reason: rejectReason,
-    });
+  async function changeSitterStatus(updatedStatus) {
+    await axios
+      .patch(`/api/sitters/getsitters`, {
+        id: sitter.id,
+        sitter_status: updatedStatus,
+        reject_reason: rejectReason,
+      })
+      .then((res) => {
+        GetSitterProfile();
+      });
+    setConnection(!connection);
     setRefresh(!refresh);
   }
 
@@ -37,6 +48,9 @@ export default function PetOwnerDetail({ sitter, closeDetail }) {
 
   return (
     <section className="w-full flex flex-col gap-6 bg-ps-gray-100">
+      {connection && (
+        <ConnectionServer type={showTypeAlert} text={showTextAlert} />
+      )}
       <div className="flex items-center gap-[10px] justify-between">
         <div className="flex items-center gap-6">
           <Image
@@ -66,9 +80,9 @@ export default function PetOwnerDetail({ sitter, closeDetail }) {
                 text="Approve"
                 width="w-fit"
                 onClick={() => {
-                  setOpenModalReject(false);
-                  changeBookingStatus("approved");
-                  closeDetail();
+                  changeSitterStatus("approved");
+                  setShowTypeAlert("success");
+                  setShowTextAlert("Approved Successfully");
                 }}
               />
             </>
@@ -77,8 +91,14 @@ export default function PetOwnerDetail({ sitter, closeDetail }) {
       </div>
       {sitter?.sitter_status === "rejected" ? (
         <div className="w-full h-[52px] px-4 bg-ps-gray-200 text-ps-red rounded-lg flex items-center gap-[10px]">
-          <Image src={iconExclamation} width={20} height={20} />
-          Your request has not been approved: ‘Admin’s suggestion here’
+          <Image
+            src={iconExclamation}
+            width={20}
+            height={20}
+            alt="icon Exclamation"
+          />
+          Your request has not been approved: {"‘"}Admin{"’"}s suggestion here
+          {"’"}
         </div>
       ) : null}
 
@@ -164,8 +184,9 @@ export default function PetOwnerDetail({ sitter, closeDetail }) {
                   width="w-fit"
                   onClick={() => {
                     setOpenModalReject(false);
-                    changeBookingStatus("rejected");
-                    closeDetail();
+                    changeSitterStatus("rejected");
+                    setShowTypeAlert("success");
+                    setShowTextAlert("Reject Successfully");
                   }}
                 />
               </div>

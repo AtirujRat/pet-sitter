@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useRouter } from "next/router";
 import { useEffect, useState, createContext } from "react";
 import { supabase } from "@/utils/supabase";
 import SideBarSitter from "@/components/sitters/SideBarSitter";
@@ -12,12 +11,11 @@ import SidebarSitterMobile from "@/components/sitters/mobile/SidebarSitterMobile
 export const SittersProfileContext = createContext();
 
 export default function SitterManageProfile() {
-  const router = useRouter();
-  const { id } = router.query;
   const [profile, setProfile] = useState(null);
   const [storageImages, setstorageImages] = useState([]);
   const [loading, setLoading] = useState(true);
   const { userInfo } = useUser();
+  const id = userInfo?.id;
   const CDNURL =
     "https://etraoduqrzijngbazoib.supabase.co/storage/v1/object/public/sitters_gallery/";
 
@@ -59,17 +57,6 @@ export default function SitterManageProfile() {
 
     getImages();
   }
-
-  useEffect(() => {
-    const token = localStorage.getItem("sb-etraoduqrzijngbazoib-auth-token");
-    if (!token) {
-      router.push("/login/sitter");
-    }
-
-    if (+id !== userInfo.id) {
-      router.push(`/sitters/${userInfo.id}/profile`);
-    }
-  }, []);
 
   useEffect(() => {
     async function fetchData() {

@@ -36,9 +36,12 @@ export default function BookingDetailModal(props) {
         </li>
         <div>
           <p className="text-b2 text-ps-gray-300">
-            Transaction date: Tue, 16 Oct 2022
+            Transaction date:{" "}
+            <GetOnlyDate time={props.bookingList[props.index].created_at} />
           </p>
-          <p className="text-b2 text-ps-gray-300">Transaction No. : 122312</p>
+          <p className="text-b2 text-ps-gray-300">
+            Transaction No. : {props.bookingList[props.index].transaction_id}
+          </p>
         </div>
         <div className="flex flex-col">
           <h1 className="text-b3 text-ps-gray-400 ">Pet Sitter:</h1>

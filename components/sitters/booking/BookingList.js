@@ -3,7 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSitters } from "@/context/SittersProvider";
 
-import BookigTabel from "./BookingTabel";
+import BookingTabel from "./BookingTabel";
 import {
   WaitingForConfirm,
   WaitingForService,
@@ -15,7 +15,6 @@ import search from "@/public/assets/icons/icon-search.svg";
 
 export default function BookingList({ id }) {
   const { setLoading, refresh, setRefresh } = useSitters();
-
   const [bookings, setBookings] = useState([]);
   const [searchName, setSearchName] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
@@ -40,7 +39,7 @@ export default function BookingList({ id }) {
 
   const getBooking = async () => {
     const res = await axios.get(
-      `http://localhost:3000/api/sitters/${id}/booking?name=${searchName}&status=${selectedStatus}`
+      `/api/sitters/${id}/booking?name=${searchName}&status=${selectedStatus}`
     );
 
     setBookings(res.data.data);
@@ -63,7 +62,7 @@ export default function BookingList({ id }) {
   };
 
   return (
-    <div className="flex flex-col gap-6 h-screen">
+    <div className="flex flex-col gap-6">
       {/* Search */}
       <div className="md:flex justify-between">
         <p className="md:text-h3 text-h4 pb-2 md:pb-0">Booking List</p>
@@ -105,7 +104,8 @@ export default function BookingList({ id }) {
       </div>
 
       {/* booking list */}
-      <BookigTabel
+
+      <BookingTabel
         bookings={bookings}
         getStatusComponent={getStatusComponent}
         id={id}

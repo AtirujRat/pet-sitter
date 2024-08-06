@@ -16,16 +16,15 @@ export default function BookingTabel({
   const router = useRouter();
   const [booking, setBooking] = useState();
   const [openModalProfile, setOpenModalProfile] = useState(false);
-  console.log(bookings);
 
   const handleClick = (index) => {
     setOpenModalProfile(true);
     setBooking(bookings[index]);
   };
-  console.log(booking);
+
   return (
-    <div className="bg-ps-white rounded-2xl overflow-x-auto mb-10 sm:mb-0">
-      <table className="table table-fixed">
+    <div className="bg-ps-white rounded-2xl overflow-x-auto mb-10 sm:mb-0 w-full">
+      <table className="table">
         {/* head */}
         <thead className="h-[48px] bg-ps-black sticky top-0">
           <tr className="w-full">
@@ -62,11 +61,11 @@ export default function BookingTabel({
             return (
               <tr
                 key={index}
-                className="hover:bg-ps-orange-100 cursor-pointer"
+                className="hover:bg-ps-orange-100 cursor-pointer text-nowrap"
                 onClick={() => {
                   if (modal) {
                     handleClick(index);
-                  } else router.push(`/sitters/${id}/booking/${booking?.id}`);
+                  } else router.push(`/sitters/booking/${booking?.id}`);
                 }}
               >
                 <td className="text-b2 py-6 flex items-center gap-2">

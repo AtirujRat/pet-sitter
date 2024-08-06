@@ -55,13 +55,13 @@ export default function BookingListDetail({ bookingId }) {
 
   async function getBooking() {
     try {
-      const res = await axios.get(
-        `http://localhost:3000/api/booking/${bookingId}`
-      );
+      const res = await axios.get(`/api/booking/${bookingId}`);
 
       setBooking(res.data.data[0]);
       setLoading(false);
-    } catch (e) {}
+    } catch (error) {
+      console.error("Error fetching profile data:", error);
+    }
   }
 
   useEffect(() => {
@@ -97,7 +97,7 @@ export default function BookingListDetail({ bookingId }) {
   };
 
   async function changeBookingStatus(updatedStatus) {
-    await axios.patch(`http://localhost:3000/api/booking/${bookingId}`, {
+    await axios.patch(`/api/booking/${bookingId}`, {
       status: updatedStatus,
     });
     setRefresh(!refresh);
@@ -111,7 +111,7 @@ export default function BookingListDetail({ bookingId }) {
     <div className="flex flex-col gap-6">
       <div className="md:flex-row justify-between flex flex-col gap-4 md:gap-0">
         <div className="sm:flex-row flex flex-col gap-2 sm:items-center">
-          <div className="flex">
+          <div className="flex gap-6">
             <Image
               src={arrow}
               width={24}
@@ -226,7 +226,7 @@ export default function BookingListDetail({ bookingId }) {
 
         <div className="flex flex-col gap-1">
           <p className="text-ps-gray-300 text-h4">Transaction No.</p>
-          <p className="text-b2">-</p>
+          <p className="text-b2">{booking?.transaction_id}</p>
         </div>
 
         <div className="flex flex-col gap-1">
@@ -303,9 +303,10 @@ export default function BookingListDetail({ bookingId }) {
             </div>
           </div>
           <div className="sm:flex-row flex flex-col gap-10 p-10">
-            <div className="w-[240px] h-[240px] rounded-full">
+            <div className="w-[240px] h-[240px] rounded-full relative">
               {booking.owners?.profile_image_url ? (
-                <img
+                <Image
+                  fill
                   src={booking.owners?.profile_image_url}
                   alt={booking?.owners?.full_name}
                   className="w-full h-full object-cover rounded-full"
@@ -379,7 +380,8 @@ export default function BookingListDetail({ bookingId }) {
             <div className="flex flex-col gap-4 w-fit">
               <div className="w-[240px] h-[240px] rounded-full relative shrink-0 flex justify-center">
                 {selectPet?.pet_image_url ? (
-                  <img
+                  <Image
+                    fill
                     src={selectPet?.pet_image_url}
                     alt={selectPet?.name}
                     className="w-full h-full object-cover rounded-full"

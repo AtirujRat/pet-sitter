@@ -1,5 +1,4 @@
 import Image from "next/image";
-import test from "@/public/assets/booking/create/imgtest.svg";
 import plus from "@/public/assets/booking/create/plus.svg";
 import {
   DogBadge,
@@ -14,6 +13,7 @@ import { useBooking } from "@/context/Booking";
 import { useOwners } from "@/context/Owners";
 import { useSitters } from "@/context/SittersProvider";
 import Loading from "@/components/Loading";
+import { useUser } from "@/context/User";
 
 export default function YourPet() {
   const router = useRouter();
@@ -31,6 +31,7 @@ export default function YourPet() {
     onselectPet,
     setOnselectPet,
   } = useBooking();
+  const { setConnection, connection } = useUser();
 
   const id = router.query.id;
 
@@ -56,7 +57,7 @@ export default function YourPet() {
       addBookingHandle({ ...booking, sitter_id: id });
       setLoading(false);
     } catch (e) {
-      console.log("error");
+      setConnection(!connection);
     }
   }
 
@@ -129,10 +130,12 @@ export default function YourPet() {
                             className="checkbox checkbox-primary [--chkfg:white] border border-ps-gray-200 hover:border-ps-orange-300 focus:border-ps-orange-300 absolute top-2 right-2"
                           />
                         )}
-                        <img
+                        <Image
                           src={pet.pet_image_url}
-                          alt="test"
-                          className="w-20 h-20 rounded-full"
+                          alt="pet-image"
+                          width={80}
+                          height={80}
+                          className="w-20 h-20 rounded-full object-cover"
                         />
                         <h4 className="text-h4">{pet.name}</h4>
                         <p>{petTypeComponents[pet.type]}</p>
@@ -144,7 +147,7 @@ export default function YourPet() {
               <button
                 type="button"
                 onClick={() => {
-                  router.push(`/owners/${petData[0].owner_id}/yourpet/create`);
+                  router.push(`/owners/yourpet/create`);
                 }}
                 className="w-full lg:w-[30%] h-[240px] lg:h-[50%] hover:bg-ps-orange-200 active:scale-95 bg-ps-orange-100 border-none rounded-2xl flex flex-col justify-center items-center gap-2"
               >

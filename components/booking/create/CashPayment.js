@@ -1,9 +1,11 @@
 import { useBooking } from "@/context/Booking";
 import paw from "@/public/assets/booking/create/paw.svg";
 import Image from "next/image";
+
 export default function CashPayment() {
   const { setStepBooking, setConfirm, addBookingHandle, booking } =
     useBooking();
+
   return (
     <section className="w-full h-full ">
       <div className="w-full lg:h-[50%] bg-ps-gray-100 flex flex-col justify-center items-center gap-6">

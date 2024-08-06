@@ -1,16 +1,19 @@
 import BackgroundAuth from "@/components/authentication/BackgroundAuth";
 import RegisterForm from "@/components/authentication/RegisterForm";
 import SocialLogin from "@/components/authentication/SocialLogin";
-import RegisterSuccess from "@/components/authentication/RegisterSuccess";
-import Modal from "@/components/modal/Modal";
 import { useUser } from "@/context/User";
+import ConnectionServer from "@/components/ConnectionServer";
 
 export default function RegisterOwner() {
   const api = "/api/authentication/register/owner";
   const route = "/login/owner";
-  const { register } = useUser();
+  const { connection, register } = useUser();
+
   return (
     <>
+      {connection && (
+        <ConnectionServer type={register.type} text={register.text} />
+      )}
       <section className="w-full h-screen flex max-sm:text-scale-75 justify-center items-center relative z-10">
         <BackgroundAuth />
         <div className="max-sm:w-[90%] bg-transparent flex flex-col items-center justify-center max-sm:gap-8 gap-14 absolute">
@@ -29,11 +32,6 @@ export default function RegisterOwner() {
           </div>
         </div>
       </section>
-      {register ? (
-        <Modal>
-          <RegisterSuccess route={route} />
-        </Modal>
-      ) : null}
     </>
   );
 }

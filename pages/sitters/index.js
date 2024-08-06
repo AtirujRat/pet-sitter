@@ -2,7 +2,7 @@ import SittersList from "@/components/sitters/SittersList";
 import PageTitleDesktop from "@/components/sitters/PageTitleDesktop";
 import SearchBarSitter from "@/components/sitters/searchbar/SearchBarSitter";
 import PageTitleMobile from "@/components/sitters/PageTitleMobile";
-import Pagination from "@/components/sitters/Pagination";
+import SitterPagination from "@/components/sitters/SitterPagination";
 import axios from "axios";
 import { useEffect } from "react";
 import { useSitters } from "@/context/SittersProvider";
@@ -52,7 +52,7 @@ export default function Sitters() {
             </div>
           )}
         </div>
-        <Pagination />
+        <SitterPagination />
       </div>
     </section>
   );

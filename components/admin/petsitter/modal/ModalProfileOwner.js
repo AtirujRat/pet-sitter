@@ -19,12 +19,12 @@ export default function ModalProfileOwner({
   const [data, setData] = useState();
   async function getBookingProfile() {
     try {
-      const res = await axios.get(
-        `http://localhost:3000/api/booking/${booking?.id}`
-      );
+      const res = await axios.get(`/api/booking/${booking?.id}`);
       setData(res.data.data[0]);
       setLoading(false);
-    } catch (e) {}
+    } catch (error) {
+      console.error("Error fetching profile data:", error);
+    }
   }
 
   useEffect(() => {
@@ -114,7 +114,7 @@ export default function ModalProfileOwner({
 
             <div className="flex flex-col gap-1">
               <p className="text-ps-gray-300 text-h4">Transaction No.</p>
-              <p className="text-b2">-</p>
+              <p className="text-b2">{data?.transaction_id}</p>
             </div>
 
             <div className="flex flex-col gap-1">

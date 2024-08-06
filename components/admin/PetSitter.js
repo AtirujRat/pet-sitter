@@ -2,10 +2,11 @@ import Image from "next/image";
 import { useAdminPetSitter } from "@/context/AdminPetSitter";
 import { useSitters } from "@/context/SittersProvider";
 import { useRouter } from "next/navigation";
-
 import searchIcon from "@/public/assets/icons/icon-search.svg";
 import userImage from "@/public/assets/account/profile_white.svg";
 import PetSitterDetail from "./petsitter/PetSitterDetail";
+import { DebounceInput } from "react-debounce-input";
+import Pagination from "../Pagination";
 
 export default function PetSitter() {
   const { refresh, setRefresh } = useSitters();
@@ -20,7 +21,19 @@ export default function PetSitter() {
     selectedSitter,
     setSelectedSitter,
     getStatusComponent,
+    currentPage,
+    setCurrentPage,
+    totalPages,
+    setTotalPages,
   } = useAdminPetSitter();
+
+  //--  For pagination --
+  const ITEMS_PER_PAGE = 8;
+  setTotalPages(Math.ceil(sitters.length / ITEMS_PER_PAGE));
+  const currentSitters = sitters.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
 
   const handleRowClick = (sitter) => {
     handleSitterClick(sitter);
@@ -36,8 +49,9 @@ export default function PetSitter() {
             <p className="text-h3 pb-2 ">Pet Sitter</p>
             <div className="flex gap-6 ">
               <div className="relative">
-                <input
+                <DebounceInput
                   value={search}
+                  debounceTimeout={700}
                   onChange={(e) => setSearch(e.target.value)}
                   type="text"
                   placeholder="Search..."
@@ -60,7 +74,9 @@ export default function PetSitter() {
                 <option selected value="">
                   All status
                 </option>
-                <option value="waiting for approve">Waiting for approve</option>
+                <option value="waiting for approval">
+                  Waiting for approval
+                </option>
                 <option value="approved">Approved</option>
                 <option value="rejected">Rejected</option>
               </select>
@@ -87,7 +103,7 @@ export default function PetSitter() {
               </thead>
 
               <tbody>
-                {sitters.map((sitter, index) => (
+                {currentSitters.map((sitter, index) => (
                   <tr
                     key={index}
                     className="hover:bg-ps-orange-100 cursor-pointer"
@@ -124,11 +140,16 @@ export default function PetSitter() {
               </tbody>
             </table>
           </div>
+          <Pagination
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            totalPages={totalPages}
+          />
         </>
       ) : (
         <PetSitterDetail
           sitter={selectedSitter}
-          closeDetail={() => setSelectedSitter(null)}
+          closeDetail={() => setSelectedSitter()}
         />
       )}
     </div>
