@@ -16,7 +16,7 @@ export default function PlaceSearch({ draggable }) {
         location({ lat, lng });
       });
     } catch (e) {
-      setConnection(!connection);
+      return;
     }
   };
 

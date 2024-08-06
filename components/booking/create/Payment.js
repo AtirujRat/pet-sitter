@@ -1,8 +1,10 @@
-import CreditCardPayment from "./CreditCardPayment";
-import CashPayment from "./CashPayment";
+import CreditCardPayment from "@/components/booking/create/CreditCardPayment";
+import CashPayment from "@/components/booking/create/CashPayment";
 import { useBooking } from "@/context/Booking";
+
 export default function Payment() {
   const { payment, setPayment } = useBooking();
+
   return (
     <section className="w-full h-full py-10 px-4 lg:p-10 relative flex flex-col gap-12">
       <div className="w-full h-[15%] flex justify-between gap-4">

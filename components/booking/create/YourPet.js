@@ -130,9 +130,11 @@ export default function YourPet() {
                             className="checkbox checkbox-primary [--chkfg:white] border border-ps-gray-200 hover:border-ps-orange-300 focus:border-ps-orange-300 absolute top-2 right-2"
                           />
                         )}
-                        <img
+                        <Image
                           src={pet.pet_image_url}
                           alt="test"
+                          width={80}
+                          height={80}
                           className="w-20 h-20 rounded-full"
                         />
                         <h4 className="text-h4">{pet.name}</h4>

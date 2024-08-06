@@ -38,16 +38,20 @@ function validatePhone(value) {
 
 export default function RegisterForm(props) {
   const [showPassword, setShowPassword] = useState(false);
-  const { register, setRegister, setRegisterResult } = useUser();
+  const { setRegister, connection, setConnection } = useUser();
 
   async function getData(data) {
     try {
       await axios.post(props.api, data);
-      setRegisterResult("success");
+      setRegister({ type: "success", text: "Register Success" });
+      setConnection(!connection);
+      setTimeout(() => {
+        router.push(props.route);
+      }, 2000);
     } catch (e) {
-      setRegisterResult("fail");
+      setConnection(!connection);
+      setRegister({ type: "error", text: "Error Connection" });
     }
-    setRegister(!register);
   }
 
   return (

@@ -34,6 +34,29 @@ export default async function handler(req, res) {
         error: error.message,
       });
     }
+  }
+  if (req.method === "POST") {
+    const { email } = req.body;
+    try {
+      const { data: owners_id, error: getIdError } = await supabase
+        .from("owners")
+        .select("id")
+        .eq("email", email);
+
+      if (getIdError) {
+        return res.status(400).json({
+          message: "error connection",
+        });
+      }
+
+      return res.status(200).json({
+        data: owners_id[0].id,
+      });
+    } catch (e) {
+      return res.status(400).json({
+        message: "error connection",
+      });
+    }
   } else {
     return res.status(405).json({ error: "Method Not Available" });
   }

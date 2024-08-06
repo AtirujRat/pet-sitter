@@ -6,7 +6,7 @@ import {
   validateName,
   validateEmail,
   validatePhone,
-} from "./validate/validate";
+} from "@/components/booking/create/validate/validate";
 import { useBooking } from "@/context/Booking";
 import { useOwners } from "@/context/Owners";
 
@@ -28,7 +28,7 @@ export default function Information() {
         setStepBooking("payment");
       }}
     >
-      {({ errors, touched, isSubmitting, setFieldValue }) => (
+      {({ errors, touched, setFieldValue }) => (
         <Form className=" w-full h-full p-10 flex flex-col gap-10 max-sm:gap-6 relative">
           <div className="flex flex-col gap-2 relative">
             <label htmlFor="name" className="text-b2">
