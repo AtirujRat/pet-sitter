@@ -17,7 +17,7 @@ export default function ConnectionServer({ text, type }) {
   if (type === "error") {
     return (
       <div className="toast toast-top toast-center absolute z-50">
-        <div role="alert" className="alert alert-error">
+        <div role="alert" className="alert alert-error text-b2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6 shrink-0 stroke-current"
@@ -38,7 +38,7 @@ export default function ConnectionServer({ text, type }) {
   } else if (type === "success") {
     return (
       <div className="toast toast-top toast-center">
-        <div role="alert" className="alert alert-success">
+        <div role="alert" className="alert alert-success text-b2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6 shrink-0 stroke-current"
@@ -59,7 +59,7 @@ export default function ConnectionServer({ text, type }) {
   } else if (type === "warning") {
     return (
       <div className="toast toast-top toast-center">
-        <div role="alert" className="alert alert-warning">
+        <div role="alert" className="alert alert-warning text-b2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6 shrink-0 stroke-current"
@@ -80,7 +80,7 @@ export default function ConnectionServer({ text, type }) {
   } else if (type === "info") {
     return (
       <div className="toast toast-top toast-center">
-        <div role="alert" className="alert alert-info">
+        <div role="alert" className="alert alert-info text-b2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

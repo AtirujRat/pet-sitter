@@ -123,8 +123,7 @@ module.exports = {
           "base-100": "#FFFFFF", // Change this to the background color you want
           info: "#76D0FC",
           success: "#1CCD83",
-          error: "#EA1010",
-          "error-content": "#FFFFFF",
+          error: "#FA8AC0",
           warning: "#FFCA62",
         },
       },

@@ -20,7 +20,7 @@ export default function AlertTop({ text, type }) {
   return (
     <div className="toast toast-top toast-center">
       {type === "error" && (
-        <div role="alert" className="alert alert-error">
+        <div role="alert" className="alert alert-error text-b2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6 shrink-0 stroke-current"
@@ -38,7 +38,7 @@ export default function AlertTop({ text, type }) {
         </div>
       )}
       {type === "success" && (
-        <div role="alert" className="alert alert-success">
+        <div role="alert" className="alert alert-success text-b2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6 shrink-0 stroke-current"
@@ -56,7 +56,7 @@ export default function AlertTop({ text, type }) {
         </div>
       )}
       {type === "warning" && (
-        <div role="alert" className="alert alert-warning">
+        <div role="alert" className="alert alert-warning text-b2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6 shrink-0 stroke-current"
@@ -74,7 +74,7 @@ export default function AlertTop({ text, type }) {
         </div>
       )}
       {type === "info" && (
-        <div role="alert" className="alert alert-info">
+        <div role="alert" className="alert alert-info text-b2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
