@@ -1,20 +1,18 @@
 import axios from "axios";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useUser } from "@/context/User";
-
 import NavBarSitter from "@/components/sitters/NavbarSitter";
 import SideBarSitter from "@/components/sitters/SideBarSitter";
 import Loading from "@/components/Loading";
-import BookingList from "@/components/sitters/booking/BookingList";
+import SitterPayout from "@/components/sitters/payout/SitterPayout";
 import SidebarSitterMobile from "@/components/sitters/mobile/SidebarSitterMobile";
+import Modal from "@/components/modal/Modal";
+import ConnectionServer from "@/components/ConnectionServer";
 
 export default function SitterManageBookingList() {
-  const router = useRouter();
-  const { id } = router.query;
-
+  const { userInfo, connection } = useUser();
+  const id = userInfo?.id;
   const [profile, setProfile] = useState(null);
-  const { userInfo } = useUser();
 
   const GetProfile = async () => {
     try {
@@ -26,17 +24,6 @@ export default function SitterManageBookingList() {
       console.error("Error fetching profile data:", error);
     }
   };
-
-  useEffect(() => {
-    const token = localStorage.getItem("sb-etraoduqrzijngbazoib-auth-token");
-    if (!token) {
-      router.push("/login/sitter");
-    }
-
-    if (+id !== userInfo.id) {
-      router.push(`/sitters/${userInfo.id}/profile`);
-    }
-  }, []);
 
   useEffect(() => {
     GetProfile();
@@ -55,7 +42,7 @@ export default function SitterManageBookingList() {
       {userInfo?.role === "sitter" ? (
         <div className="flex">
           <SideBarSitter />
-          <div className=" flex-col grow">
+          <div className="w-full flex-col">
             <NavBarSitter
               profileImage={profile?.profile_image_url}
               fullName={profile?.full_name}
@@ -63,13 +50,18 @@ export default function SitterManageBookingList() {
             <div className="w-full">
               <SidebarSitterMobile />
             </div>
-            <div className="bg-ps-gray-100 flex flex-col gap-6 px-4 md:p-10 sm:px-10 sm:py-6">
-              <BookingList id={id} />
+            <div className="bg-ps-gray-100 flex flex-col gap-6 p-4 md:p-10 sm:px-10 sm:py-6 min-h-screen">
+              <SitterPayout id={id} profile={profile} />
             </div>
           </div>
         </div>
       ) : (
         <Loading />
+      )}
+      {connection && (
+        <Modal>
+          <ConnectionServer text={"Error connection"} />
+        </Modal>
       )}
     </>
   );

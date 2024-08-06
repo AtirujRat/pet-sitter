@@ -63,7 +63,7 @@ export default function SideBarSitter() {
       <div className="bg-[#FAFAFB] grow flex flex-col justify-between">
         <div>
           {menu.map((list, index) => (
-            <Link href={`/sitters/${id}${list.pathUrl}`} key={list.label}>
+            <Link href={`/sitters${list.pathUrl}`} key={list.label}>
               <button
                 className={`flex py-4 px-6 w-full gap-4  text-[16px] font-medium ${
                   list.pathUrl === pathName

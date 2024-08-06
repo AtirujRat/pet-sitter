@@ -131,7 +131,7 @@ export default function BankAccountForm({
           <Form className="flex flex-col sm:gap-6 gap-4">
             <div className="flex justify-between">
               <div className="flex items-center gap-6">
-                <Link href={`/sitters/${id}/payout`}>
+                <Link href={`/sitters/payout`}>
                   <Image src={back} alt="go back"></Image>
                 </Link>
                 <p className="md:text-h3 text-h4">Payout Option</p>
