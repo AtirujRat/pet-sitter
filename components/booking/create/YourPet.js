@@ -132,7 +132,9 @@ export default function YourPet() {
                         )}
                         <Image
                           src={pet.pet_image_url}
-                          alt="test"
+                          alt="pet-image"
+                          width={80}
+                          height={80}
                           className="w-20 h-20 rounded-full object-cover"
                         />
                         <h4 className="text-h4">{pet.name}</h4>
