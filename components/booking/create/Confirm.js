@@ -6,11 +6,11 @@ import { useUser } from "@/context/User";
 
 export default function Confirm() {
   const { booking, setConfirm, handleBookingSuccess } = useBooking();
-  const { setConnection, connection } = useUser();
+  const { setConnection, connection, userInfo } = useUser();
 
   async function handleOnclick() {
     try {
-      await axios.post(`/api/owner/${data.owner_id}/createbooking`, booking);
+      await axios.post(`/api/owner/${userInfo.id}/createbooking`, booking);
       setTimeout(() => {
         setConfirm("booking detail");
         localStorage.removeItem("myState");

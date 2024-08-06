@@ -10,6 +10,7 @@ import { useUser } from "@/context/User";
 import Modal from "@/components/modal/Modal";
 import ConnectionServer from "@/components/ConnectionServer";
 import SidebarSitterMobile from "@/components/sitters/mobile/SidebarSitterMobile";
+import error from "@/public/assets/authentication/alert-error.svg";
 
 export const SittersProfileContext = createContext();
 
@@ -63,17 +64,6 @@ export default function SitterManageProfile() {
   }
 
   useEffect(() => {
-    const token = localStorage.getItem("sb-etraoduqrzijngbazoib-auth-token");
-    if (!token) {
-      router.push("/login/sitter");
-    }
-
-    if (+id !== userInfo.id) {
-      router.push(`/sitters/${userInfo.id}/profile`);
-    }
-  }, []);
-
-  useEffect(() => {
     async function fetchData() {
       await GetProfile();
       await getImages();
@@ -124,7 +114,7 @@ export default function SitterManageProfile() {
       )}{" "}
       {connection && (
         <Modal>
-          <ConnectionServer text={"Error connection"} />
+          <ConnectionServer text={"Error connection"} image={error} />
         </Modal>
       )}
     </SittersProfileContext.Provider>

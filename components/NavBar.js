@@ -19,15 +19,17 @@ export default function NavBar({ setOpenModal }) {
   const [userData, setUserData] = useState();
   const [userId, setUserId] = useState();
   const { userInfo, setUserInfo } = useUser();
-  const router = useRouter();
 
   async function getUser() {
     const {
       data: { user },
       error,
     } = await supabase.auth.getUser();
-    if (user) {
-      if (user.app_metadata.provider !== "email") {
+    if (user && !userInfo.role) {
+      if (
+        user.app_metadata.provider !== "email" ||
+        user.app_metadata.providers.includes("google")
+      ) {
         const data = {
           id: user.id,
           email: user.email,
@@ -50,7 +52,10 @@ export default function NavBar({ setOpenModal }) {
       console.log(getIdError);
     }
     if (user) {
-      if (user.app_metadata.provider !== "email") {
+      if (
+        user.app_metadata.provider !== "email" ||
+        user.app_metadata.providers.includes("google")
+      ) {
         setTimeout(() => {
           setUserInfo({ role: "owner", id: owners_id[0].id });
         }, 500);
