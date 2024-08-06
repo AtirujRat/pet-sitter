@@ -114,7 +114,7 @@ export default function ModalProfileOwner({
 
             <div className="flex flex-col gap-1">
               <p className="text-ps-gray-300 text-h4">Transaction No.</p>
-              <p className="text-b2">-</p>
+              <p className="text-b2">{data?.transaction_id}</p>
             </div>
 
             <div className="flex flex-col gap-1">

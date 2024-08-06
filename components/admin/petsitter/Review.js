@@ -2,7 +2,9 @@ import Image from "next/image";
 import axios from "axios";
 import { useState } from "react";
 import { useAdminPetSitter } from "@/context/AdminPetSitter";
+import { useUser } from "@/context/User";
 
+import OwnerProfile from "@/public/assets/booking/owner-profile.svg";
 import ReviewRating from "@/components/sitters/ReviewRating";
 import CheckIcon from "@/public/assets/admin/check-icon.svg";
 import TrashIcon from "@/public/assets/admin/trash-icon.svg";
@@ -13,9 +15,12 @@ import {
 } from "@/components/buttons/OrangeButtons";
 import BookingModal from "@/components/sitters/booking/BookingModal";
 import Pagination from "../../Pagination";
+import ConnectionServer from "@/components/ConnectionServer";
 
 export default function Review({ sitter }) {
   const [reviews, setReviews] = useState(sitter.bookings);
+  const [showTextAlert, setShowTextAlert] = useState("");
+  const [showTypeAlert, setShowTypeAlert] = useState("");
   const {
     refresh,
     setRefresh,
@@ -24,6 +29,7 @@ export default function Review({ sitter }) {
     currentReviewPage,
     setCurrentReviewPage,
   } = useAdminPetSitter();
+  const { setConnection, connection } = useUser();
 
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [selectedReviewId, setSelectedReviewId] = useState(null);
@@ -49,23 +55,24 @@ export default function Review({ sitter }) {
         newStatus,
       });
 
-      console.log("Review status updated successfully");
-
       setReviews((prevReviews) =>
         prevReviews.filter((review) => review.reviews.id !== reviewId)
       );
-
+      setConnection(!connection);
       setRefresh(!refresh);
     } catch (error) {
-      console.error(
-        "Error updating review status:",
-        error.response?.data || error.message
-      );
+      setShowTypeAlert("error");
+      setShowTextAlert("Please try again");
+      setConnection(!connection);
+      return;
     }
   }
 
   return (
     <div className="reviews-container w-full h-fit flex flex-col gap-4 p-6">
+      {connection && (
+        <ConnectionServer type={showTypeAlert} text={showTextAlert} />
+      )}
       {reviews.length === 0 ? (
         <p className="notfound w-full p-6 text-b2 text-ps-gray-500 text-center">
           No reviews
@@ -86,12 +93,12 @@ export default function Review({ sitter }) {
             >
               <div className="reviewer-profile flex w-[220px]">
                 <div className="flex gap-4">
-                  <img
+                  <Image
                     className="w-14 h-14 rounded-full object-cover bg-ps-gray-200"
-                    src={
-                      review?.owners?.profile_image_url ??
-                      "/assets/booking/owner-profile.svg"
-                    }
+                    src={review?.owners?.profile_image_url ?? OwnerProfile}
+                    alt={review?.owners?.full_name || "-"}
+                    width={56}
+                    height={56}
                   />
                   <div className="reviewer-name shrink-0">
                     <p className="text-b1">
@@ -127,9 +134,11 @@ export default function Review({ sitter }) {
                   alt="CheckIcon"
                   width={60}
                   height={60}
-                  onClick={() =>
-                    updateReviewStatus(review.reviews.id, "approved")
-                  }
+                  onClick={() => {
+                    updateReviewStatus(review.reviews.id, "approved");
+                    setShowTypeAlert("success");
+                    setShowTextAlert("Approved Successfully");
+                  }}
                 />
               </div>
             </div>
@@ -180,6 +189,8 @@ export default function Review({ sitter }) {
                   onClick={() => {
                     setOpenDeleteModal(false);
                     updateReviewStatus(selectedReviewId, "rejected");
+                    setShowTypeAlert("success");
+                    setShowTextAlert("Delete Successfully");
                   }}
                 />
               </div>

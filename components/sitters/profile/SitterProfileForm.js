@@ -7,6 +7,7 @@ import { supabase } from "@/utils/supabase";
 import axios from "axios";
 import * as Yup from "yup";
 import { useSearch } from "@/context/Search";
+import { useUser } from "@/context/User";
 import { ButtonOrange } from "@/components/buttons/OrangeButtons";
 import AddressForm from "@/components/map/AddressForm";
 import PhoneInput from "@/components/authentication/PhoneInput";
@@ -15,6 +16,7 @@ import userimage from "@/public/assets/navbar/usermock.svg";
 import plus from "@/public/assets/icon-plus.svg";
 import iconExclamation from "@/public/assets/icons/icon-exclamation-circle.svg";
 import ImageGallery from "./ImageGallery";
+import ConnectionServer from "@/components/ConnectionServer";
 import { SittersProfileContext } from "@/pages/sitters/profile";
 import { Approved, WaitingForApproval, Rejected } from "./SittersStatus";
 import {
@@ -27,10 +29,13 @@ import {
 
 export default function SitterProfileForm({ profile = {} }) {
   const router = useRouter();
+  const [showTextAlert, setShowTextAlert] = useState("");
+  const [showTypeAlert, setShowTypeAlert] = useState("");
   const { address, searchLng, searchLat } = useSearch();
   const { getImages, storageImages, CDNURL } = useContext(
     SittersProfileContext
   );
+  const { setConnection, connection } = useUser();
 
   const initialValues = {
     profile_image_url: null,
@@ -107,7 +112,9 @@ export default function SitterProfileForm({ profile = {} }) {
           throw error;
         }
       } else {
-        alert("File size should not exceed 2 MB.");
+        setShowTypeAlert("warning");
+        setShowTextAlert("File size should not exceed 2 MB.");
+        setConnection(!connection);
       }
     }
   }
@@ -147,16 +154,23 @@ export default function SitterProfileForm({ profile = {} }) {
 
   async function updateProfile(values) {
     error = validateRequiredAddress(values?.sitters_addresses);
+
     if (storageImages.length > 10) {
-      return alert("You can upload a maximum of 10 gallery images.");
+      setShowTypeAlert("warning");
+      setShowTextAlert("You can upload a maximum of 10 gallery images.");
+      setConnection(!connection);
     }
 
     if (storageImages.length < 4) {
-      return alert("Please upload a minimum of 4 gallery images.");
+      setShowTypeAlert("warning");
+      setShowTextAlert("Please upload a minimum of 4 gallery images.");
+      setConnection(!connection);
     }
 
     if (values.profile_image_url.size > 2 * 1024 * 1024) {
-      return alert("Profile image should not exceed 2 MB.");
+      setShowTypeAlert("warning");
+      setShowTextAlert("Profile image should not exceed 2 MB.");
+      setConnection(!connection);
     }
 
     try {
@@ -191,11 +205,15 @@ export default function SitterProfileForm({ profile = {} }) {
       };
 
       await axios.put(`/api/sitters/${profile.id}`, updatedValues);
-      alert("Profile updated successfully!");
+      setShowTypeAlert("success");
+      setShowTextAlert("Profile updated successfully!");
+      setConnection(!connection);
       router.reload();
     } catch (error) {
       console.error("Error updating profile:", error);
-      alert("Failed to update profile. Please try again.");
+      setShowTypeAlert("error");
+      setShowTextAlert("Failed to update profile. Please try again.");
+      setConnection(!connection);
     }
   }
 
@@ -217,6 +235,9 @@ export default function SitterProfileForm({ profile = {} }) {
       {({ errors, touched, isSubmitting }) => {
         return (
           <Form className="flex flex-col gap-6">
+            {connection && (
+              <ConnectionServer type={showTypeAlert} text={showTextAlert} />
+            )}
             <div className="text-h3 flex justify-between">
               <div className="flex items-center gap-6">
                 <p className="md:text-h3 text-h4">Pet Sitter Profile</p>
@@ -252,7 +273,6 @@ export default function SitterProfileForm({ profile = {} }) {
                 Your request has not been approved: {profile.reject_reason}
               </div>
             ) : null}
-
             {/* Basic Information */}
             <div className="bg-ps-white rounded-2xl px-4 md:px-10 lg:px-20 py-10 flex flex-col sm:gap-6 gap-4">
               <div className="flex flex-col gap-6">
@@ -374,7 +394,6 @@ export default function SitterProfileForm({ profile = {} }) {
                 </div>
               </div>
             </div>
-
             {/* Pet Sitter */}
             <div className="bg-ps-white rounded-2xl px-4 md:px-10 lg:px-20 py-10 flex flex-col sm:gap-6 gap-4">
               <div className="flex flex-col gap-6">
@@ -401,7 +420,7 @@ export default function SitterProfileForm({ profile = {} }) {
               <div className="flex w-full gap-10">
                 <div className="flex flex-col w-full">
                   <label htmlFor="pet_types" className="text-b2">
-                    Pet type
+                    Pet type*
                   </label>
                   <Field
                     validate={validateRequired}
@@ -458,7 +477,6 @@ export default function SitterProfileForm({ profile = {} }) {
                 </div>
               </div>
             </div>
-
             {/* Address */}
             <div className="bg-ps-white rounded-2xl px-4 md:px-10 lg:px-20 py-10 flex flex-col gap-6">
               <div className="flex flex-col gap-6">
