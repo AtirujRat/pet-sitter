@@ -15,19 +15,24 @@ import {
 } from "@/components/buttons/OrangeButtons";
 import BookingModal from "@/components/sitters/booking/BookingModal";
 
-export default function PetOwnerDetail({ sitter, closeDetail }) {
+export default function PetSiiterDetail({ sitter, closeDetail }) {
   const [currenDetails, setCurrentDetails] = useState("profile");
   const [openModalReject, setOpenModalReject] = useState(false);
   const [rejectReason, setRejectReason] = useState("");
 
-  const { getStatusComponent, refresh, setRefresh } = useAdminPetSitter();
+  const { getStatusComponent, refresh, setRefresh, GetSitterProfile } =
+    useAdminPetSitter();
 
-  async function changeBookingStatus(updatedStatus) {
-    await axios.patch(`/api/sitters/getsitters`, {
-      id: sitter.id,
-      sitter_status: updatedStatus,
-      reject_reason: rejectReason,
-    });
+  async function changeSitterStatus(updatedStatus) {
+    await axios
+      .patch(`/api/sitters/getsitters`, {
+        id: sitter.id,
+        sitter_status: updatedStatus,
+        reject_reason: rejectReason,
+      })
+      .then((res) => {
+        GetSitterProfile();
+      });
     setRefresh(!refresh);
   }
 
@@ -67,8 +72,7 @@ export default function PetOwnerDetail({ sitter, closeDetail }) {
                 width="w-fit"
                 onClick={() => {
                   setOpenModalReject(false);
-                  changeBookingStatus("approved");
-                  closeDetail();
+                  changeSitterStatus("approved");
                 }}
               />
             </>
@@ -164,8 +168,7 @@ export default function PetOwnerDetail({ sitter, closeDetail }) {
                   width="w-fit"
                   onClick={() => {
                     setOpenModalReject(false);
-                    changeBookingStatus("rejected");
-                    closeDetail();
+                    changeSitterStatus("rejected");
                   }}
                 />
               </div>
