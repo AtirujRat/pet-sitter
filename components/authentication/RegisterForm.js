@@ -3,6 +3,7 @@ import axios from "axios";
 import PhoneInput from "./PhoneInput";
 import { useState } from "react";
 import { useUser } from "@/context/User";
+import { useRouter } from "next/router";
 
 function validateEmail(value) {
   let error;
@@ -39,6 +40,7 @@ function validatePhone(value) {
 export default function RegisterForm(props) {
   const [showPassword, setShowPassword] = useState(false);
   const { setRegister, connection, setConnection } = useUser();
+  const router = useRouter();
 
   async function getData(data) {
     try {
