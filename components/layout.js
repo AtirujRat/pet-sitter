@@ -18,8 +18,8 @@ import jwtInterceptor from "@/utils/jwtinterceptor";
 import CheckUserOwner from "@/components/CheckUserOwner";
 import CheckUserSitter from "./CheckUserSitter";
 
-// make sure you register this only once!
 jwtInterceptor();
+
 export default function Layout({ children }) {
   const [openModal, setOpenModal] = useState(false);
   const router = useRouter();
@@ -46,18 +46,18 @@ export default function Layout({ children }) {
   const dynamicRoutesFooter = [
     "/sitters/[id]/booking/create",
     "/owners/[id]/profile",
-    "/owners/[id]/yourpet",
-    "/owners/[id]/yourpet/create",
-    "/owners/[id]/yourpet/[petId]",
+    "/owners/yourpet",
+    "/owners/yourpet/create",
+    "/owners/yourpet/[petId]",
     "/owners/[id]/bookinghistory",
     "/owners/[id]/messages",
     "/404",
   ];
 
   const OwnerRoute = [
-    "/owners/[id]/yourpet",
-    "/owners/[id]/yourpet/create",
-    "/owners/[id]/yourpet/[petId]",
+    "/owners/yourpet",
+    "/owners/yourpet/create",
+    "/owners/yourpet/[petId]",
     "/owners/[id]/profile",
     "/owners/[id]/bookinghistory",
     "/sitters/[id]/booking/create",

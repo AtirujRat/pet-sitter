@@ -11,34 +11,39 @@ import {
 } from "@/components/buttons/OrangeButtons";
 import { ConfirmModal } from "@/components/modal/ConfirmModal";
 import Loading from "@/components/Loading";
+import { useUser } from "@/context/User";
+import AlertTop from "@/components/alerts/AlertTop";
 
-const API_URL = "/api/owner";
+const API_RUD_PET = (id, petId) => `/api/owner/${id}/pet/${petId}/`;
 
 export default function UpdatePetForm() {
   const router = useRouter();
-  const { id, petId } = router.query;
+  const { petId } = router.query;
+  const { userInfo } = useUser();
+  const id = userInfo?.id;
 
   const [pet, setPet] = useState(null);
   const [preview, setPreview] = useState(null);
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
   const fileInputRef = useRef(null);
   const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
+    if (!id || !petId) return;
+
     const fetchPet = async () => {
       try {
-        const response = await axios.get(`${API_URL}/${id}/pet/${petId}`);
+        const response = await axios.get(API_RUD_PET(id, petId));
         setPet(response.data[0]);
         setPreview(response.data[0].pet_image_url);
-      } catch (error) {
-        console.error("Error fetching pet:", error);
+      } catch {
+        setError("Error fetching pet.");
       }
     };
 
-    if (id && petId) {
-      fetchPet();
-    }
-  }, [id, petId]);
+    fetchPet();
+  }, []);
 
   const initialValues = {
     pet_image_url: pet?.pet_image_url || null,
@@ -62,12 +67,15 @@ export default function UpdatePetForm() {
       return;
     }
 
-    setError(null);
     setFieldValue("pet_image_url", file);
 
     const reader = new FileReader();
     reader.onloadend = () => setPreview(reader.result);
-    reader.readAsDataURL(file);
+
+    if (file) {
+      reader.readAsDataURL(file);
+      setSuccess("Upload image successful.");
+    }
   };
 
   const onSubmit = async (values, actions) => {
@@ -83,13 +91,13 @@ export default function UpdatePetForm() {
           .upload(`pet_image/${fileName}`, file);
 
         if (imageError) {
-          console.error("Error uploading image:", imageError.message);
+          setError("Error uploading image.");
           return;
         }
 
         const publicImageUrl = supabase.storage
-          .from("pets/pet_image")
-          .getPublicUrl(fileName);
+          .from("pets")
+          .getPublicUrl(`pet_image/${fileName}`);
 
         updatedValues = {
           ...values,
@@ -102,10 +110,10 @@ export default function UpdatePetForm() {
         };
       }
 
-      await axios.put(`${API_URL}/${id}/pet/${petId}`, updatedValues);
-      router.push(`/owners/${id}/yourpet`);
-    } catch (error) {
-      console.error("Error updating pet:", error);
+      await axios.put(API_RUD_PET(id, petId), updatedValues);
+      router.push(`/owners/yourpet`);
+    } catch {
+      setError("Error updating pet.");
     } finally {
       actions.setSubmitting(false);
     }
@@ -117,11 +125,12 @@ export default function UpdatePetForm() {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`${API_URL}/${id}/pet/${petId}`);
+      await axios.delete(API_RUD_PET(id, petId));
       toggleModal(false);
+      setSuccess("Delete pet successful.");
       router.back();
-    } catch (error) {
-      console.error("Error deleting pet:", error);
+    } catch {
+      setError("Error deleting pet.");
     }
   };
 
@@ -135,14 +144,12 @@ export default function UpdatePetForm() {
         <Form className="w-full">
           <div className="flex w-full flex-col gap-10 max-sm:gap-4">
             {/* Upload Image */}
-            <div className="relative w-[240px] h-[240px]">
+            <div className="relative w-[240px] h-[240px] max-md:w-[120px] max-md:h-[120px]">
               {preview ? (
                 <img
                   src={preview}
                   alt="pet_image"
                   className="relative h-full w-full rounded-full object-cover"
-                  layout="fill"
-                  priority
                 />
               ) : (
                 <div
@@ -175,6 +182,7 @@ export default function UpdatePetForm() {
                   alt="upload"
                   width={60}
                   height={60}
+                  className="max-md:w-[40px] max-md:h-[40px]"
                 />
               </div>
             </div>
@@ -386,7 +394,7 @@ export default function UpdatePetForm() {
                 onCancel={() => toggleModal(false)}
                 onClick={handleDelete}
                 title="Delete Confirmation"
-                description="Are you sure to delete this pet?"
+                description="Are you sure you want to delete this pet?"
                 buttonOrangeText="Delete"
               />
             )}
@@ -403,6 +411,9 @@ export default function UpdatePetForm() {
               />
             </div>
           </div>
+          {/* alert */}
+          {error && <AlertTop type="error" text={error} />}
+          {success && <AlertTop type="success" text={success} />}
         </Form>
       )}
     </Formik>

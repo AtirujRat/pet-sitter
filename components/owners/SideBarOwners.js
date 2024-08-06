@@ -8,15 +8,17 @@ import list_icon_active from "@/public/assets/account/list-active.svg";
 useOwnersAccountState;
 import { useRouter } from "next/router";
 import { useOwnersAccountState } from "@/context/OwnersAccountState";
+import { useUser } from "@/context/User";
 
 function SideBarOwners() {
   const router = useRouter();
-  const { id } = router.query;
+  const { userInfo } = useUser();
+  const id = userInfo?.id;
   const { accountState, changeAccountStateHandle } = useOwnersAccountState();
 
   return (
     <section className="w-full lg:w-fit h-fit md:sticky top-5">
-      <div className="flex flex-col items-start w-full lg:w-[292px] lg:h-[356px] lg:rounded-2xl bg-ps-white lg:shadow-md overflow-x-scroll lg:overflow-hidden">
+      <div className="flex flex-col items-start w-full lg:w-[292px] lg:h-[356px] lg:rounded-2xl bg-ps-white lg:shadow-md overflow-x-scroll lg:overflow-hidden z-50">
         <h1 className="text-h4 hidden lg:block px-[20px] py-[20px]">Account</h1>
         <div className="text-b1 flex justify-between min-w-max md:min-w-full lg:flex-col">
           <button
@@ -42,7 +44,7 @@ function SideBarOwners() {
           <button
             onClick={() => {
               changeAccountStateHandle("yourpet");
-              router.push(`/owners/${id}/yourpet/`);
+              router.push(`/owners/yourpet/`);
             }}
             className={`flex gap-5 ${
               accountState === "yourpet"
