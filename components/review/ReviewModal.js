@@ -36,6 +36,8 @@ export default function ReviewModal(props) {
         status: "pending",
       });
       if (submitReview) {
+        props.setConnection(true);
+        props.setAlertText("Review has been sent.");
         props.closeModal();
         props.setRefresh((prev) => !prev);
       }

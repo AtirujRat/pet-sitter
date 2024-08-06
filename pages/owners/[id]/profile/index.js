@@ -12,9 +12,7 @@ import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import { useOwners } from "@/context/Owners";
 import ConnectionServer from "@/components/ConnectionServer";
-import Modal from "@/components/modal/Modal";
 import { useUser } from "@/context/User";
-import alert_error from "@/public/assets/authentication/alert-error.svg";
 
 function validateName(value) {
   let error;
@@ -198,8 +196,9 @@ export default function Account() {
         id_number: formData.id_number,
         date_of_birth: formData.date_of_birth,
       });
-    } catch (error) {
       setConnection(true);
+    } catch (error) {
+      alert("errr");
     }
   }
 
@@ -208,12 +207,7 @@ export default function Account() {
       <div className="max-w-[1440px] min-w-0 lg:flex lg:justify-between mx-auto max-lg:flex-col lg:items-start lg:px-20  gap-9">
         <SideBarOwners />
         {connection && (
-          <Modal>
-            <ConnectionServer
-              text="Could not update profile."
-              image={alert_error}
-            />
-          </Modal>
+          <ConnectionServer type="success" text="Profile has been updated" />
         )}
 
         <Formik

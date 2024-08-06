@@ -56,8 +56,9 @@ export default function BookingHistory() {
   const [error, setError] = useState(null);
   const [refresh, setRefresh] = useState(false);
   const { getUserAuth } = useOwners();
+  const [alertText, setAlertText] = useState("");
 
-  const { userInfo } = useUser();
+  const { userInfo, connection, setConnection } = useUser();
 
   async function getBookingHistory() {
     try {
@@ -140,6 +141,7 @@ export default function BookingHistory() {
           <h1 className="text-h3">Booking History</h1>
           {loading && <Loading />}
           {error && <h1 className="text-ps-red">{error}</h1>}
+          {connection && <ConnectionServer type="success" text={alertText} />}
 
           {bookingList.map((item, index) => {
             return (
@@ -154,6 +156,8 @@ export default function BookingHistory() {
                       bookingList={bookingList}
                       index={currentIndex}
                       setRefresh={setRefresh}
+                      setAlertText={setAlertText}
+                      setConnection={setConnection}
                     />
                   </Modal>
                 )}
@@ -172,6 +176,8 @@ export default function BookingHistory() {
                       closeModal={toggleReportModal}
                       bookingList={bookingList}
                       index={currentIndex}
+                      setConnection={setConnection}
+                      setAlertText={setAlertText}
                     />
                   </Modal>
                 )}
@@ -182,6 +188,8 @@ export default function BookingHistory() {
                       bookingList={bookingList}
                       index={currentIndex}
                       setRefresh={setRefresh}
+                      setConnection={setConnection}
+                      setAlertText={setAlertText}
                     />
                   </Modal>
                 )}
@@ -202,6 +210,8 @@ export default function BookingHistory() {
                       index={currentIndex}
                       closeModal={toggleCancelModal}
                       setRefresh={setRefresh}
+                      setConnection={setConnection}
+                      setAlertText={setAlertText}
                     />
                   </Modal>
                 )}
