@@ -6,11 +6,9 @@ import Loading from "@/components/Loading";
 import SidebarSitterMobile from "@/components/sitters/mobile/SidebarSitterMobile";
 import BankAccountForm from "@/components/sitters/payout/BankAccountForm";
 import { useUser } from "@/context/User";
-import Modal from "@/components/modal/Modal";
-import ConnectionServer from "@/components/ConnectionServer";
 
 export default function SitterPayout() {
-  const { userInfo, connection } = useUser();
+  const { userInfo, setConnection} = useUser();
   const id = userInfo?.id;
   const [preview, setPreview] = useState(null);
   const [profile, setProfile] = useState(null);
@@ -28,6 +26,7 @@ export default function SitterPayout() {
       if (id) {
         const response = await axios.get(`/api/sitters/${id}`);
         setProfile(response.data.data[0]);
+        setConnection(true);
       }
     } catch (error) {
       console.error("Error fetching profile data:", error);
@@ -52,13 +51,6 @@ export default function SitterPayout() {
       console.error("Error fetching bank account:", error);
     }
   }
-
-  useEffect(() => {
-    const token = localStorage.getItem("sb-etraoduqrzijngbazoib-auth-token");
-    if (!token) {
-      router.push("/login/sitter");
-    }
-  }, []);
 
   useEffect(() => {
     getProfile();
@@ -101,11 +93,6 @@ export default function SitterPayout() {
         </div>
       ) : (
         <Loading />
-      )}
-      {connection && (
-        <Modal>
-          <ConnectionServer text={"Error connection"} />
-        </Modal>
       )}
     </>
   );

@@ -106,5 +106,5 @@ export default function AlertTop({ text, type }) {
 // setSuccess("Create pet successful.");
 // setSuccess(null);
 
-// {error && <Alert type="error" text={error} />}
-// {success && <Alert type="success" text={success} />}
+// {error && <AlertTop type="error" text={error} />}
+// {success && <AlertTop type="success" text={success} />}

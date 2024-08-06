@@ -11,6 +11,8 @@ import Loading from "@/components/Loading";
 import plus from "@/public/assets/icon-plus.svg";
 import ImageInput from "./ImageInput";
 import AccountNumberField from "./AccountNumberField";
+import { useState } from "react";
+import AlertTop from "@/components/alerts/AlertTop";
 
 export default function BankAccountForm({
   id,
@@ -21,7 +23,8 @@ export default function BankAccountForm({
   initialValues,
 }) {
   const router = useRouter();
-
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
   async function handleSubmittingForm(values, actions) {
     try {
       let imageUrl = values.book_bank_image || null;
@@ -71,15 +74,12 @@ export default function BankAccountForm({
         }
       );
       if (res.status === 200) {
-        alert("Bank account was updated");
+        setSuccess("Update!");
         actions.setSubmitting(false);
         router.reload();
       }
     } catch (error) {
-      console.error("An error occurred:", error);
-      alert(
-        "An error occurred while updating the bank account. Please try again."
-      );
+      setError("Error occurred while updating bank account");
     }
   }
 
@@ -129,10 +129,16 @@ export default function BankAccountForm({
       {({ errors, touched, isSubmitting, setFieldValue, dirty }) => {
         return (
           <Form className="flex flex-col sm:gap-6 gap-4">
+            {error && <AlertTop type="error" text={error} />}
+            {success && <AlertTop type="success" text={success} />}
             <div className="flex justify-between">
               <div className="flex items-center gap-6">
                 <Link href={`/sitters/payout`}>
-                  <Image src={back} alt="go back"></Image>
+                  <Image
+                    src={back}
+                    alt="go back"
+                    style={{ width: "auto", height: "auto" }}
+                  ></Image>
                 </Link>
                 <p className="md:text-h3 text-h4">Payout Option</p>
               </div>
@@ -169,6 +175,7 @@ export default function BankAccountForm({
                       className="w-[60px] h-[60px]"
                       src={plus}
                       alt="upload image"
+                      style={{ width: "auto", height: "auto" }}
                     />
                     <Field
                       component={ImageInput}

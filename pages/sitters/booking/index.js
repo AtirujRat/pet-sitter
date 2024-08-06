@@ -6,12 +6,10 @@ import SideBarSitter from "@/components/sitters/SideBarSitter";
 import Loading from "@/components/Loading";
 import BookingList from "@/components/sitters/booking/BookingList";
 import SidebarSitterMobile from "@/components/sitters/mobile/SidebarSitterMobile";
-import Modal from "@/components/modal/Modal";
-import ConnectionServer from "@/components/ConnectionServer";
 
 export default function SitterManageBookingList() {
   const [profile, setProfile] = useState(null);
-  const { userInfo, connection } = useUser();
+  const { userInfo } = useUser();
   const id = userInfo?.id;
 
   const GetProfile = async () => {
@@ -68,11 +66,6 @@ export default function SitterManageBookingList() {
         </div>
       ) : (
         <Loading />
-      )}
-      {connection && (
-        <Modal>
-          <ConnectionServer text={"Error connection"} />
-        </Modal>
       )}
     </>
   );

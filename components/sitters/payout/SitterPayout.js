@@ -34,7 +34,7 @@ export default function SitterPayout({ id, profile }) {
         <div className="summary-bar flex w-full md:gap-6 gap-3 max-md:flex-col">
           <div className="total md:w-[50%] w-full min-w-[325px] h-[76px] flex align-middle justify-between bg-ps-white rounded-2xl p-6 gap-4">
             <div className="text flex gap-2">
-              <Image src={dollar} alt="dollar icon"></Image>
+              <Image src={dollar} alt="dollar icon" style={{ width: 'auto', height: 'auto' }}></Image>
               <p className="text-b2">Total Earning</p>
             </div>
             <div className="text-b2">
@@ -50,7 +50,7 @@ export default function SitterPayout({ id, profile }) {
             className="bank md:w-[50%] w-full min-w-[325px] h-[76px]  flex align-middle justify-between bg-ps-white rounded-2xl p-6 gap-4 cursor-pointer hover:shadow-md transition-transform active:scale-95"
           >
             <div className="text flex gap-2 w-full">
-              <Image src={wallet} alt="wallet icon"></Image>
+              <Image src={wallet} alt="wallet icon" style={{ width: 'auto', height: 'auto' }}></Image>
               <p className="text-b2 text-nowrap">Bank Account</p>
             </div>
             {profile.sitters_bank_accounts ? (
@@ -63,7 +63,7 @@ export default function SitterPayout({ id, profile }) {
             ) : (
               <span className="text-b2 text-ps-gray-300">Select</span>
             )}
-            <Image src={next} alt="add bank account"></Image>
+            <Image src={next} alt="add bank account" style={{ width: 'auto', height: 'auto' }}></Image>
           </Link>
         </div>
       </div>
