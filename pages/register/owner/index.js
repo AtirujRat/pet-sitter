@@ -8,6 +8,7 @@ export default function RegisterOwner() {
   const api = "/api/authentication/register/owner";
   const route = "/login/owner";
   const { connection, register } = useUser();
+
   return (
     <>
       {connection && (

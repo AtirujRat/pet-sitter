@@ -8,6 +8,7 @@ export default function RegisterSitter() {
   const api = "/api/authentication/register/sitter";
   const route = "/login/sitter";
   const { connection, register } = useUser();
+
   return (
     <>
       {connection && (

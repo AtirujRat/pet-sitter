@@ -21,7 +21,7 @@ export default function AddressForm({ existingAddress, error }) {
       const data = await response.json();
       setProvince(data);
     } catch (e) {
-      // console.log(e);
+      return;
     }
   }
 

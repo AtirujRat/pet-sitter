@@ -1,18 +1,24 @@
 import Image from "next/image";
-import divide from "../../public/assets/authentication/Divider.svg";
-import facebook from "../../public/assets/authentication/logo-facebook.svg";
-import gmail from "../../public/assets/authentication/logo-gmail.svg";
+import divide from "@/public/assets/authentication/Divider.svg";
+import facebook from "@/public/assets/authentication/logo-facebook.svg";
+import gmail from "@/public/assets/authentication/logo-gmail.svg";
 import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { signInWithFacebook } from "@/pages/api/authentication/login/withFacebook";
+import { useUser } from "@/context/User";
 export default function SocialLogin(props) {
   const router = useRouter();
+  const { connection, setConnection } = useUser();
 
-  const Logingoogle = async () => {
-    const data = await axios.get("/api/authentication/login/withgmail");
-    router.push(`${data.data.message.url}`);
-  };
+  async function Logingoogle() {
+    try {
+      const data = await axios.get("/api/authentication/login/withgmail");
+      router.push(`${data.data.message.url}`);
+    } catch (e) {
+      setConnection(!connection);
+    }
+  }
   return (
     <>
       <div className="w-full flex justify-between gap-2">

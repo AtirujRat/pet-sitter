@@ -2,6 +2,7 @@ import LoginForm from "@/components/authentication/LoginForm";
 
 export default function LoginAdmin() {
   const api = "admin";
+
   return (
     <section className="w-full h-screen flex max-sm:text-scale-75 justify-center items-center relative z-10">
       <div className="w-full max-sm:w-[90%] bg-transparent flex flex-col items-center justify-center max-sm:gap-8 gap-10 absolute">
