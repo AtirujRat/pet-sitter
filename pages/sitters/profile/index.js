@@ -6,8 +6,6 @@ import SitterProfileForm from "@/components/sitters/profile/SitterProfileForm";
 import NavBarSitter from "@/components/sitters/NavbarSitter";
 import Loading from "@/components/Loading";
 import { useUser } from "@/context/User";
-import Modal from "@/components/modal/Modal";
-import ConnectionServer from "@/components/ConnectionServer";
 import SidebarSitterMobile from "@/components/sitters/mobile/SidebarSitterMobile";
 
 export const SittersProfileContext = createContext();
@@ -16,7 +14,7 @@ export default function SitterManageProfile() {
   const [profile, setProfile] = useState(null);
   const [storageImages, setstorageImages] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { userInfo, connection } = useUser();
+  const { userInfo } = useUser();
   const id = userInfo?.id;
   const CDNURL =
     "https://etraoduqrzijngbazoib.supabase.co/storage/v1/object/public/sitters_gallery/";
@@ -108,11 +106,6 @@ export default function SitterManageProfile() {
         </div>
       ) : (
         <Loading />
-      )}{" "}
-      {connection && (
-        <Modal>
-          <ConnectionServer text={"Error connection"} />
-        </Modal>
       )}
     </SittersProfileContext.Provider>
   );

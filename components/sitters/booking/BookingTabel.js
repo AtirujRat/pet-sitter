@@ -23,8 +23,8 @@ export default function BookingTabel({
   };
 
   return (
-    <div className="bg-ps-white rounded-2xl overflow-x-auto mb-10 sm:mb-0">
-      <table className="table table-fixed">
+    <div className="bg-ps-white rounded-2xl overflow-x-auto mb-10 sm:mb-0 w-full">
+      <table className="table">
         {/* head */}
         <thead className="h-[48px] bg-ps-black sticky top-0">
           <tr className="w-full">
