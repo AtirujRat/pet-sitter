@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
+
 import Image from "next/image";
 import phone_icon from "@/public/assets/booking/phone.svg";
 import pen_icon from "@/public/assets/booking/pen.svg";
+import { useOwners } from "@/context/Owners";
+import { useUser } from "@/context/User";
+
 import {
   ButtonOrange,
   ButtonOrangeLight,
@@ -9,16 +14,13 @@ import {
 import Modal from "@/components/modal/Modal";
 import ReportModal from "@/components/bookinghistory/ReportModal";
 import BookingDetailModal from "@/components/bookinghistory/BookingDetailModal";
-import axios from "axios";
 import Loading from "@/components/Loading";
 import ReviewModal from "@/components/review/ReviewModal";
 import YourReview from "@/components/review/YourReview";
 import SideBarOwners from "@/components/owners/SideBarOwners";
-import { useOwners } from "@/context/Owners";
-import { useRouter } from "next/router";
 import CancelModal from "@/components/bookinghistory/CancelModal";
-import { useUser } from "@/context/User";
 import ChangeDateModal from "@/components/bookinghistory/ChangeDateModal";
+import ConnectionServer from "@/components/ConnectionServer";
 import GetOnlyDate from "@/hook/useGetOnlyDate";
 import GetOnlyTime from "@/hook/useGetOnlyTime";
 import CalculateDutation from "@/hook/useCalculatedDuration";
@@ -37,23 +39,6 @@ const BOOKING_DESCRIPTION = {
   Canceled: "This booking has been cancel.",
 };
 
-function useCalculateDutation(time1, time2) {
-  let date1 = new Date(time1);
-  let date2 = new Date(time2);
-
-  let diffMs = Math.abs(date2 - date1);
-  let diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-  let diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
-
-  if (diffMinutes === 0) {
-    return `${diffHours} Hours`;
-  } else if (diffHours === 0) {
-    return `${diffMinutes} Mins`;
-  }
-
-  return `${diffHours}:${diffMinutes} Hours`;
-}
-
 export default function BookingHistory() {
   const [bookingList, setBookingList] = useState([]);
   const [reviews, setReviews] = useState([]);
@@ -71,27 +56,26 @@ export default function BookingHistory() {
   const [error, setError] = useState(null);
   const [refresh, setRefresh] = useState(false);
   const { getUserAuth } = useOwners();
-  const router = useRouter();
-  const { id } = router.query;
+  const [alertText, setAlertText] = useState("");
 
-  const { userInfo } = useUser();
+  const { userInfo, connection, setConnection } = useUser();
 
   async function getBookingHistory() {
     try {
-      if (id) {
-        const ownerEmail = await getUserAuth();
+      const ownerEmail = await getUserAuth();
 
-        const ownerData = await axios.get(
-          `/api/owner/${ownerEmail.email}/queryowner`
-        );
-        setOnwerData(ownerData.data);
+      const getOwnerData = await axios.get(
+        `/api/owner/${ownerEmail.email}/queryowner`
+      );
+      setOnwerData(getOwnerData.data);
 
-        const getBookingList = await axios.get(`/api/owner/${id}/booking`);
-        console.log(getBookingList);
-        setBookingList(getBookingList.data);
-        setLoading(false);
-        setError(null);
-      }
+      const getBookingList = await axios.get(
+        `/api/owner/${getOwnerData.data[0].id}/booking`
+      );
+
+      setBookingList(getBookingList.data);
+      setLoading(false);
+      setError(null);
     } catch (error) {
       setError("Could not fetch Booking List");
       setLoading(false);
@@ -118,7 +102,7 @@ export default function BookingHistory() {
   useEffect(() => {
     getBookingHistory();
     getReviews();
-  }, [id, refresh]);
+  }, [refresh]);
 
   function toggleReportModal(index) {
     setCurrentIndex(index);
@@ -157,9 +141,9 @@ export default function BookingHistory() {
           <h1 className="text-h3">Booking History</h1>
           {loading && <Loading />}
           {error && <h1 className="text-ps-red">{error}</h1>}
+          {connection && <ConnectionServer type="success" text={alertText} />}
 
           {bookingList.map((item, index) => {
-            console.log(item);
             return (
               <div
                 key={index}
@@ -172,6 +156,8 @@ export default function BookingHistory() {
                       bookingList={bookingList}
                       index={currentIndex}
                       setRefresh={setRefresh}
+                      setAlertText={setAlertText}
+                      setConnection={setConnection}
                     />
                   </Modal>
                 )}
@@ -190,6 +176,8 @@ export default function BookingHistory() {
                       closeModal={toggleReportModal}
                       bookingList={bookingList}
                       index={currentIndex}
+                      setConnection={setConnection}
+                      setAlertText={setAlertText}
                     />
                   </Modal>
                 )}
@@ -200,6 +188,8 @@ export default function BookingHistory() {
                       bookingList={bookingList}
                       index={currentIndex}
                       setRefresh={setRefresh}
+                      setConnection={setConnection}
+                      setAlertText={setAlertText}
                     />
                   </Modal>
                 )}
@@ -220,9 +210,25 @@ export default function BookingHistory() {
                       index={currentIndex}
                       closeModal={toggleCancelModal}
                       setRefresh={setRefresh}
+                      setConnection={setConnection}
+                      setAlertText={setAlertText}
                     />
                   </Modal>
                 )}
+
+                {/* <Modal>
+          <ConnectionServer
+            text="Your report has been sent"
+            image={success_icon}
+          />
+        </Modal> */}
+
+                {/* <Modal>
+          <ConnectionServer
+            text="Your review has been sent"
+            image={success_icon}
+          />
+        </Modal> */}
 
                 <div
                   onClick={() => toggleBookingDetailModal(index)}
