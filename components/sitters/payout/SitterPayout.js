@@ -96,14 +96,10 @@ export default function SitterPayout({ id, profile }) {
             {bookings.map((booking, index) => {
               const transactionDate = booking.created_at;
               const date = new Date(transactionDate);
-              const options = {
-                day: "2-digit",
-                month: "short",
-                year: "numeric",
-              };
-              const formattedDate = new Intl.DateTimeFormat("en-GB", options)
-                .format(date)
-                .replace(" 202", ", 202");
+              const day = date.getDate();
+              const month = date.toLocaleString("en-GB", { month: "short" });
+              const year = date.getFullYear();
+              const formattedDate = `${day} ${month}, ${year}`;
 
               return (
                 <tr key={index} className="text-nowrap">
