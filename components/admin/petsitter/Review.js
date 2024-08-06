@@ -12,16 +12,34 @@ import {
   ButtonOrangeLight,
 } from "@/components/buttons/OrangeButtons";
 import BookingModal from "@/components/sitters/booking/BookingModal";
+import Pagination from "../../Pagination";
 
 export default function Review({ sitter }) {
   const [reviews, setReviews] = useState(sitter.bookings);
-  const { refresh, setRefresh } = useAdminPetSitter();
+  const {
+    refresh,
+    setRefresh,
+    totalReviewPages,
+    setTotalReviewPages,
+    currentReviewPage,
+    setCurrentReviewPage,
+  } = useAdminPetSitter();
 
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [selectedReviewId, setSelectedReviewId] = useState(null);
 
   function handlerCloseModal() {
     setOpenDeleteModal(false);
+  }
+
+  let currentSitters = reviews;
+  const ITEMS_PER_PAGE = 5;
+  setTotalReviewPages(Math.ceil(reviews.length / ITEMS_PER_PAGE));
+  if (reviews.length > 5) {
+    currentSitters = reviews.slice(
+      (currentReviewPage - 1) * ITEMS_PER_PAGE,
+      currentReviewPage * ITEMS_PER_PAGE
+    );
   }
 
   async function updateReviewStatus(reviewId, newStatus) {
@@ -32,7 +50,6 @@ export default function Review({ sitter }) {
       });
 
       console.log("Review status updated successfully");
-      alert("Review status updated successfully");
 
       setReviews((prevReviews) =>
         prevReviews.filter((review) => review.reviews.id !== reviewId)
@@ -54,7 +71,7 @@ export default function Review({ sitter }) {
           No reviews
         </p>
       ) : (
-        reviews.map((review, index) => {
+        currentSitters.map((review, index) => {
           let options = { year: "numeric", month: "short", day: "numeric" };
           const reviewDate = new Date(review?.reviews?.updated_at);
           const formattedReviewDate = reviewDate.toLocaleDateString(
@@ -119,6 +136,11 @@ export default function Review({ sitter }) {
           );
         })
       )}
+      <Pagination
+        currentPage={currentReviewPage}
+        setCurrentPage={setCurrentReviewPage}
+        totalPages={totalReviewPages}
+      />
 
       {/* Modal Delete */}
       <BookingModal

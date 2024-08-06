@@ -28,7 +28,7 @@ export default function PetSitter() {
   } = useAdminPetSitter();
 
   //--  For pagination --
-  const ITEMS_PER_PAGE = 10;
+  const ITEMS_PER_PAGE = 8;
   setTotalPages(Math.ceil(sitters.length / ITEMS_PER_PAGE));
   const currentSitters = sitters.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
@@ -51,7 +51,7 @@ export default function PetSitter() {
               <div className="relative">
                 <DebounceInput
                   value={search}
-                  debounceTimeout={1000}
+                  debounceTimeout={700}
                   onChange={(e) => setSearch(e.target.value)}
                   type="text"
                   placeholder="Search..."
@@ -75,7 +75,7 @@ export default function PetSitter() {
                   All status
                 </option>
                 <option value="waiting for approval">
-                  Waiting for approve
+                  Waiting for approval
                 </option>
                 <option value="approved">Approved</option>
                 <option value="rejected">Rejected</option>
@@ -149,7 +149,7 @@ export default function PetSitter() {
       ) : (
         <PetSitterDetail
           sitter={selectedSitter}
-          closeDetail={() => setSelectedSitter(null)}
+          closeDetail={() => setSelectedSitter()}
         />
       )}
     </div>
