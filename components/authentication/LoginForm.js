@@ -57,12 +57,12 @@ export default function LoginForm(props) {
         getOwner(checkUser.data.data[0].id);
         setTimeout(() => {
           router.push("/");
-        }, 1000);
+        }, 500);
       } else if (props.api === "/api/authentication/login/sitter") {
         getSitter(checkUser.data.data[0].id);
         setTimeout(() => {
           router.push(`/sitters/profile`);
-        }, 1000);
+        }, 500);
       }
     } catch (e) {
       setConnection(!connection);
