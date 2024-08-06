@@ -1,25 +1,31 @@
-import Link from "next/link";
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { useState, useEffect } from "react";
 import { supabase } from "@/utils/supabase";
-import { useRouter } from "next/router";
-
-import profile from "@/public/assets/navbar/profile.svg";
-import pet from "@/public/assets/navbar/pet.svg";
-import history from "@/public/assets/navbar/history.svg";
-import logout from "@/public/assets/navbar/logout.svg";
+import bell from "@/public/assets/navbar/bell.svg";
+import message from "@/public/assets/navbar/message.svg";
+import menu from "@/public/assets/navbar/menu.svg";
+import sisterlogo from "@/public/assets/sister-logo.svg";
+import Link from "next/link";
+import axios from "axios";
+import { useUser } from "@/context/User";
+import Anonymous from "@/components/navbar/Anonymous";
+import OwnerUser from "@/components/navbar/OwnerUser";
+import SitterUser from "@/components/navbar/SitterUser";
 
 export default function LoginMobile({ setOpenModal }) {
   const [userData, setUserData] = useState();
-  const router = useRouter();
+  const { userInfo, setUserInfo } = useUser();
 
   async function getUser() {
     const {
       data: { user },
       error,
     } = await supabase.auth.getUser();
-    if (user) {
-      if (user.app_metadata.provider !== "email") {
+    if (user && !userInfo.role) {
+      if (
+        user.app_metadata.provider !== "email" ||
+        user.app_metadata.providers.includes("google")
+      ) {
         const data = {
           id: user.id,
           email: user.email,
@@ -32,19 +38,28 @@ export default function LoginMobile({ setOpenModal }) {
       return;
     }
     setUserData(user);
+
+    if (!userInfo.role) {
+      setUserData();
+    }
   }
+
   const newUser = async (data) => {
     try {
       await axios.post("/api/authentication/register/owner", data);
-      console.log("success");
+      const id = await axios.post("/api/owner/getowners", {
+        email: data.email,
+      });
+      setTimeout(() => {
+        setUserInfo({ role: "owner", id: id.data.data });
+      }, 500);
     } catch (e) {
-      console.log("errorss");
+      return;
     }
   };
   useEffect(() => {
     getUser();
-  }, []);
-
+  }, [userInfo]);
   const handleLogout = async () => {
     let { error } = await supabase.auth.signOut();
     if (error) return;
@@ -57,53 +72,19 @@ export default function LoginMobile({ setOpenModal }) {
   return (
     <div>
       {userData !== undefined ? (
-        <div className="py-10 px-4 flex flex-col gap-4">
-          <Link href={"/#"} className="w-full p-4 text-b1 flex gap-3">
-            <Image src={profile} alt="profile" width={20} />
-            Profile
-          </Link>
-          <Link href={"/#"} className="w-full p-4 text-b1 flex gap-3">
-            <Image src={pet} alt="your pet" width={24} />
-            Your Pet
-          </Link>
-          <Link href={"/#"} className="w-full p-4 text-b1 flex gap-3">
-            <Image src={history} alt="history" width={20} />
-            History
-          </Link>
-          <div className="border-b border-[#DCDFED]"></div>
-          <div className="w-full p-4 text-b1">
-            <button
-              className="flex items-center gap-3"
-              onClick={() => {
-                handleLogout();
-              }}
-            >
-              <Image src={logout} alt="logout" width={16} />
-              Log out
-            </button>
-          </div>
-          <Link
-            href={"/sitters"}
-            className="w-full py-3 text-b1 text-ps-white text-center bg-ps-orange-500 rounded-full"
-          >
-            Find A Pet Sitter
-          </Link>
-        </div>
+        userInfo?.role === "owner" ? (
+          <OwnerUser
+            userId={userInfo.id}
+            userEmail={userData.email}
+            setUserData={setUserData}
+          />
+        ) : (
+          userInfo?.role === "sitter" && (
+            <SitterUser userId={userInfo.id} setUserData={setUserData} />
+          )
+        )
       ) : (
-        <div className="py-10 px-4 flex flex-col gap-4">
-          <Link href={"/register/sitter"} className="w-full p-4 text-b1">
-            Become a Pet Sitter
-          </Link>
-          <Link href={"/login/owner"} className="w-full p-4 text-b1">
-            Login
-          </Link>
-          <Link
-            href={"/sitters"}
-            className="w-full py-3 text-b1 text-ps-white text-center bg-ps-orange-500 rounded-full"
-          >
-            Find A Pet Sitter
-          </Link>
-        </div>
+        <Anonymous />
       )}
     </div>
   );
