@@ -112,6 +112,8 @@ export default function Account() {
   const [preview, setPreview] = useState();
   const { getUserAuth } = useOwners();
   const [error, setError] = useState(null);
+  const [alertType, setAlertType] = useState(false);
+  const [alertText, setAlertText] = useState("");
   const { connection, setConnection } = useUser();
 
   async function getUser() {
@@ -149,7 +151,9 @@ export default function Account() {
       let publicAttachmentUrl;
       if (formData.image) {
         if (formData.image.size > maxSizeInBytes) {
-          alert("File size exceeds 2MB limit");
+          setAlertText("Image file must not exceed 2 MB.");
+          setAlertType("warning");
+          setConnection(true);
           return;
         }
 
@@ -196,9 +200,14 @@ export default function Account() {
         id_number: formData.id_number,
         date_of_birth: formData.date_of_birth,
       });
+
+      setAlertText("Profile has been updated.");
+      setAlertType("success");
       setConnection(true);
     } catch (error) {
-      alert("errr");
+      setAlertText("Could not update profile.");
+      setAlertType("error");
+      setConnection(true);
     }
   }
 
@@ -206,9 +215,7 @@ export default function Account() {
     <div className="w-full h-full bg-ps-gray-100  lg:pt-10 lg:pb-20 ">
       <div className="max-w-[1440px] min-w-0 lg:flex lg:justify-between mx-auto max-lg:flex-col lg:items-start lg:px-20  gap-9">
         <SideBarOwners />
-        {connection && (
-          <ConnectionServer type="success" text="Profile has been updated" />
-        )}
+        {connection && <ConnectionServer type={alertType} text={alertText} />}
 
         <Formik
           enableReinitialize={true}

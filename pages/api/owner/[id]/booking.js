@@ -19,6 +19,7 @@ export default async function handler(req, res) {
           last_updated,
           price,
           message,
+          transaction_id,
           sitters (
             full_name,
             id,
