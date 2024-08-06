@@ -17,6 +17,7 @@ export default function SitterDetails() {
     useSitters();
   const [loading, setLoading] = useState(true);
   const id = useRouter().query.id;
+  const router = useRouter();
   const { ratingStars, averageRating } = useCalculateRatingStars(
     sitter.bookings
   );
@@ -36,6 +37,10 @@ export default function SitterDetails() {
       }
       setLoading(false);
     } catch (error) {
+      if (error.response.status === 404) {
+        router.push("/404");
+        return;
+      }
       console.error("Error fetching sitter data:", error);
     }
   }
