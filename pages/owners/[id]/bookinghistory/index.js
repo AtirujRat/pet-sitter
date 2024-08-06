@@ -4,9 +4,7 @@ import axios from "axios";
 import Image from "next/image";
 import phone_icon from "@/public/assets/booking/phone.svg";
 import pen_icon from "@/public/assets/booking/pen.svg";
-import success_icon from "@/public/assets/icons/icon-success.svg";
 import { useOwners } from "@/context/Owners";
-import { useRouter } from "next/router";
 import { useUser } from "@/context/User";
 
 import {
@@ -58,27 +56,25 @@ export default function BookingHistory() {
   const [error, setError] = useState(null);
   const [refresh, setRefresh] = useState(false);
   const { getUserAuth } = useOwners();
-  const router = useRouter();
-  const { id } = router.query;
 
   const { userInfo } = useUser();
 
   async function getBookingHistory() {
     try {
-      if (id) {
-        const ownerEmail = await getUserAuth();
+      const ownerEmail = await getUserAuth();
 
-        const ownerData = await axios.get(
-          `/api/owner/${ownerEmail.email}/queryowner`
-        );
-        setOnwerData(ownerData.data);
+      const getOwnerData = await axios.get(
+        `/api/owner/${ownerEmail.email}/queryowner`
+      );
+      setOnwerData(getOwnerData.data);
 
-        const getBookingList = await axios.get(`/api/owner/${id}/booking`);
-        console.log(getBookingList);
-        setBookingList(getBookingList.data);
-        setLoading(false);
-        setError(null);
-      }
+      const getBookingList = await axios.get(
+        `/api/owner/${getOwnerData.data[0].id}/booking`
+      );
+
+      setBookingList(getBookingList.data);
+      setLoading(false);
+      setError(null);
     } catch (error) {
       setError("Could not fetch Booking List");
       setLoading(false);
@@ -105,7 +101,7 @@ export default function BookingHistory() {
   useEffect(() => {
     getBookingHistory();
     getReviews();
-  }, [id, refresh]);
+  }, [refresh]);
 
   function toggleReportModal(index) {
     setCurrentIndex(index);
@@ -146,7 +142,6 @@ export default function BookingHistory() {
           {error && <h1 className="text-ps-red">{error}</h1>}
 
           {bookingList.map((item, index) => {
-            console.log(item);
             return (
               <div
                 key={index}

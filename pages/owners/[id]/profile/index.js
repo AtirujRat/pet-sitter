@@ -13,7 +13,8 @@ import axios from "axios";
 import { useOwners } from "@/context/Owners";
 import ConnectionServer from "@/components/ConnectionServer";
 import Modal from "@/components/modal/Modal";
-import success_icon from "@/public/assets/icons/icon-success.svg";
+import { useUser } from "@/context/User";
+import alert_error from "@/public/assets/authentication/alert-error.svg";
 
 function validateName(value) {
   let error;
@@ -113,6 +114,7 @@ export default function Account() {
   const [preview, setPreview] = useState();
   const { getUserAuth } = useOwners();
   const [error, setError] = useState(null);
+  const { connection, setConnection } = useUser();
 
   async function getUser() {
     try {
@@ -196,10 +198,8 @@ export default function Account() {
         id_number: formData.id_number,
         date_of_birth: formData.date_of_birth,
       });
-
-      alert("Profile has been updated");
     } catch (error) {
-      console.log(error);
+      setConnection(true);
     }
   }
 
@@ -207,12 +207,14 @@ export default function Account() {
     <div className="w-full h-full bg-ps-gray-100  lg:pt-10 lg:pb-20 ">
       <div className="max-w-[1440px] min-w-0 lg:flex lg:justify-between mx-auto max-lg:flex-col lg:items-start lg:px-20  gap-9">
         <SideBarOwners />
-        {/* <Modal>
-          <ConnectionServer
-            text="Profile has been updated"
-            image={success_icon}
-          />
-        </Modal> */}
+        {connection && (
+          <Modal>
+            <ConnectionServer
+              text="Could not update profile."
+              image={alert_error}
+            />
+          </Modal>
+        )}
 
         <Formik
           enableReinitialize={true}
@@ -229,6 +231,7 @@ export default function Account() {
             <Form className="w-full lg:w-[965px] bg-ps-white h-fit shadow-md lg:rounded-2xl p-[10px] lg:p-[40px] flex flex-col items-start gap-[20px] lg:gap-[45px]">
               <h1 className="text-h3">Profile</h1>
               {error && <p>{error}</p>}
+
               <div className="relative flex justify-center items-center w-[120px] h-[120px] lg:w-[220px] lg:h-[220px] bg-ps-gray-300 rounded-full">
                 {preview ? (
                   <img
@@ -262,12 +265,13 @@ export default function Account() {
                 <div className="text-ps-red">{errors.image}</div>
               )}
               <div className="flex flex-col w-full gap-2">
-                <label className="text-b2">Your Name*</label>
+                <label className="text-b2 ">Your Name*</label>
                 <Field
                   type="text"
                   name="full_name"
-                  className="text-b2 rounded-lg border-2 border-ps-gray-200 focus:border-ps-gray-200 focus:ring-0"
+                  className="text-b2 rounded-lg border-[1px] border-ps-gray-200 focus:border-ps-gray-200 focus:ring-0 text-[#7B7E8F]"
                   validate={(value) => validateName(value)}
+                  placeholder="Full name"
                 />
                 {errors.full_name && touched.full_name && (
                   <div className="text-ps-red">{errors.full_name}</div>
@@ -280,7 +284,8 @@ export default function Account() {
                     type="email"
                     name="email"
                     disabled={true}
-                    className="text-b2 rounded-lg border-2 border-ps-gray-200 focus:border-ps-gray-200 focus:ring-0"
+                    className="text-b2 rounded-lg border-[1px] border-ps-gray-200 focus:border-ps-gray-200 focus:ring-0 text-[#7B7E8F]"
+                    placeholder="Email"
                   />
                   {errors.email && touched.email && (
                     <div className="text-ps-red">{errors.email}</div>
@@ -293,7 +298,8 @@ export default function Account() {
                     name="phone_number"
                     component={PhoneInput}
                     validate={(value) => validatePhone(value, userData)}
-                    className="text-b2 rounded-lg border-2 border-ps-gray-200 focus:border-ps-gray-200 focus:ring-0"
+                    className="text-b2 rounded-lg border-[1px] border-ps-gray-200 focus:border-ps-gray-200 focus:ring-0 text-[#7B7E8F]"
+                    placeholder="Phone number"
                   />
                   {errors.phone_number && touched.phone_number && (
                     <div className="text-ps-red">{errors.phone_number}</div>
@@ -308,7 +314,8 @@ export default function Account() {
                     name="id_number"
                     validate={(value) => validateNumber(value, userData)}
                     component={IdInput}
-                    className="text-b2 rounded-lg border-2 border-ps-gray-200 focus:border-ps-gray-200 focus:ring-0"
+                    className="text-b2 rounded-lg border-[1px] border-ps-gray-200 focus:border-ps-gray-200 focus:ring-0 text-[#7B7E8F]"
+                    placeholder="Id number"
                   />
                   {errors.id_number && touched.id_number && (
                     <div className="text-ps-red">{errors.id_number}</div>
@@ -320,7 +327,8 @@ export default function Account() {
                     type="date"
                     name="date_of_birth"
                     validate={validateCalendar}
-                    className="text-b2 rounded-lg border-2 border-ps-gray-200 focus:border-ps-gray-200 focus:ring-0"
+                    className="text-b2 rounded-lg border-[1px] border-ps-gray-200 focus:border-ps-gray-200 focus:ring-0 text-[#7B7E8F]"
+                    placeholder="Date of birth"
                   />
                   {errors.date_of_birth && touched.date_of_birth && (
                     <div className="text-ps-red">{errors.date_of_birth}</div>
