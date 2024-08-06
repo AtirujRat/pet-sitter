@@ -1,13 +1,13 @@
 import { getGeocode, getLatLng } from "use-places-autocomplete";
 import { useSearch } from "@/context/Search";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Map from "@/components/map/Map";
 import { useUser } from "@/context/User";
 
 export default function PlaceSearch({ draggable }) {
   const { location, address } = useSearch();
   const { setConnection, connection } = useUser();
-  let addresses = `${address.address_detail} ${address.subDistrict} ${address.district} ${address.province} ${address.zip_code}`;
+  const [addresses, setAddresses] = useState("");
 
   const handleClick = async () => {
     try {
@@ -22,7 +22,12 @@ export default function PlaceSearch({ draggable }) {
 
   useEffect(() => {
     setTimeout(() => {
-      handleClick();
+      setAddresses(
+        `${address.address_detail} ${address.subDistrict} ${address.district} ${address.province} ${address.zip_code}`
+      );
+      if (addresses) {
+        handleClick();
+      }
     }, 1000);
   }, [address]);
 

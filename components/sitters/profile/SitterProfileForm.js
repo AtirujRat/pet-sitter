@@ -265,8 +265,10 @@ export default function SitterProfileForm({ profile = {} }) {
                 </label>
                 <div className="relative flex justify-center items-center w-[120px] h-[120px] md:w-[220px] md:h-[220px] bg-ps-gray-300 rounded-full">
                   {preview ? (
-                    <img
+                    <Image
                       src={preview}
+                      width={240}
+                      height={240}
                       alt="Image Preview"
                       className="w-full h-full object-cover rounded-full"
                     />
