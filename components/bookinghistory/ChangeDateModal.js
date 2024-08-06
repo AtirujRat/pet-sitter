@@ -132,13 +132,16 @@ export default function ChangeDateModal(props) {
           }
         );
         if (changeDate) {
+          props.setAlertType("success");
           props.setAlertText("Date has been changed.");
           props.setRefresh((prev) => !prev);
           props.closeModal();
           props.setConnection(true);
         }
       } catch {
-        alert("Could not changedate");
+        props.setAlertType("error");
+        props.setAlertText("Could not change date because database issue.");
+        props.setConnection(true);
       }
     }
   }

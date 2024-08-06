@@ -37,12 +37,14 @@ const BOOKING_DESCRIPTION = {
   Waiting_for_confirm: "Waiting Pet Sitter for confirm booking.",
   In_service: "Your pet is already in Pet Sitter care!",
   Canceled: "This booking has been cancel.",
+  Waiting_for_service: "Waiting Pet Sitter for service.",
 };
 
 export default function BookingHistory() {
   const [bookingList, setBookingList] = useState([]);
   const [reviews, setReviews] = useState([]);
-  const [ownerData, setOnwerData] = useState();
+  const [ownerData, setOnwerData] = useState([]);
+  const [reports, setReports] = useState([]);
   const [isReportModalOpened, setIsReportModalOpened] = useState(false);
   const [isBookingDetailModalOpened, setIsBookingDetailModalOpened] =
     useState(false);
@@ -57,6 +59,7 @@ export default function BookingHistory() {
   const [refresh, setRefresh] = useState(false);
   const { getUserAuth } = useOwners();
   const [alertText, setAlertText] = useState("");
+  const [alertType, setAlertType] = useState("");
 
   const { userInfo, connection, setConnection } = useUser();
 
@@ -79,16 +82,28 @@ export default function BookingHistory() {
     } catch (error) {
       setError("Could not fetch Booking List");
       setLoading(false);
-      return;
     }
   }
 
   async function getReviews() {
     try {
       const getRating = await axios.get("/api/reviews/reviews");
-      setReviews(getRating.data);
+      if (getRating) {
+        setReviews(getRating.data);
+      }
     } catch (error) {
-      return;
+      setError("Could not fetch reviews");
+    }
+  }
+
+  async function getReports() {
+    try {
+      const getReport = await axios.get("/api/reports/reports");
+      if (getReport) {
+        setReports(getReport.data);
+      }
+    } catch (error) {
+      setError("Could not fetch reports");
     }
   }
 
@@ -102,6 +117,7 @@ export default function BookingHistory() {
   useEffect(() => {
     getBookingHistory();
     getReviews();
+    getReports();
   }, [refresh]);
 
   function toggleReportModal(index) {
@@ -141,7 +157,7 @@ export default function BookingHistory() {
           <h1 className="text-h3">Booking History</h1>
           {loading && <Loading />}
           {error && <h1 className="text-ps-red">{error}</h1>}
-          {connection && <ConnectionServer type="success" text={alertText} />}
+          {connection && <ConnectionServer type={alertType} text={alertText} />}
 
           {bookingList.map((item, index) => {
             return (
@@ -157,6 +173,7 @@ export default function BookingHistory() {
                       index={currentIndex}
                       setRefresh={setRefresh}
                       setAlertText={setAlertText}
+                      setAlertType={setAlertType}
                       setConnection={setConnection}
                     />
                   </Modal>
@@ -176,8 +193,10 @@ export default function BookingHistory() {
                       closeModal={toggleReportModal}
                       bookingList={bookingList}
                       index={currentIndex}
-                      setConnection={setConnection}
                       setAlertText={setAlertText}
+                      setAlertType={setAlertType}
+                      setConnection={setConnection}
+                      setRefresh={setRefresh}
                     />
                   </Modal>
                 )}
@@ -188,8 +207,9 @@ export default function BookingHistory() {
                       bookingList={bookingList}
                       index={currentIndex}
                       setRefresh={setRefresh}
-                      setConnection={setConnection}
                       setAlertText={setAlertText}
+                      setAlertType={setAlertType}
+                      setConnection={setConnection}
                     />
                   </Modal>
                 )}
@@ -216,23 +236,9 @@ export default function BookingHistory() {
                   </Modal>
                 )}
 
-                {/* <Modal>
-          <ConnectionServer
-            text="Your report has been sent"
-            image={success_icon}
-          />
-        </Modal> */}
-
-                {/* <Modal>
-          <ConnectionServer
-            text="Your review has been sent"
-            image={success_icon}
-          />
-        </Modal> */}
-
                 <div
                   onClick={() => toggleBookingDetailModal(index)}
-                  className="flex flex-col min-[600px]:flex-row justify-between h-fit pb-[16px] gap-[16px] border-b-[1px] border-ps-gray-200 cursor-pointer"
+                  className="flex flex-col  min-[600px]:flex-row justify-between h-fit pb-[16px] gap-[16px] border-b-[1px] border-ps-gray-200 cursor-pointer"
                 >
                   <div className="flex items-center gap-[16px] ">
                     <img
@@ -248,7 +254,7 @@ export default function BookingHistory() {
                   </div>
                   <div className="flex flex-col items-start min-[600px]:items-end gap-[12px]">
                     <h1 className="text-b3 text-ps-gray-300">
-                      Transaction date: Tue, 16 Aug 2023
+                      Transaction date: <GetOnlyDate time={item.created_at} />
                     </h1>
                     <li
                       className={`text-${
@@ -260,8 +266,8 @@ export default function BookingHistory() {
                   </div>
                 </div>
 
-                <div className="flex flex-col  md:flex-row gap-[10px] sm:gap-[15px] justify-between mt-[16px] ">
-                  <div className="w-full md:w-[65%]">
+                <div className="flex flex-col md:flex-row gap-[10px] sm:gap-[15px] justify-between mt-[16px] ">
+                  <div className="w-full md:w-[55%] ">
                     <h1 className="text-ps-gray-400 text-b3">Date & Time:</h1>
                     <div className="flex items-center gap-[12px]">
                       <span className="text-b3 2xl:text-b2 text-ps-gray-600">
@@ -352,12 +358,20 @@ export default function BookingHistory() {
                   <div className="flex items-center gap-5">
                     {item.status === "Success" ? (
                       <>
-                        <button
-                          onClick={() => toggleReportModal(index)}
-                          className="text-b2 font-[700] text-ps-orange-500"
-                        >
-                          Report
-                        </button>
+                        {reports
+                          .map((report) => report.booking_id)
+                          .includes(item.id) ? (
+                          <p className="text-b2 font-[700] text-ps-orange-500">
+                            Reported
+                          </p>
+                        ) : (
+                          <button
+                            onClick={() => toggleReportModal(index)}
+                            className="text-b2 font-[700] text-ps-orange-500"
+                          >
+                            Report
+                          </button>
+                        )}
 
                         {reviews
                           .map((review) => review.booking_id)

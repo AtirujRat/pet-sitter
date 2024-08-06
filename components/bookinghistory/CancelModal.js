@@ -15,12 +15,15 @@ export default function CancelModal(props) {
       );
       if (cancelBooking) {
         props.setAlertText("This booking has been canceled");
+        props.setAlertType("success");
+        props.setConnection(true);
         props.setRefresh((prev) => !prev);
         props.closeModal();
-        props.setConnection(true);
       }
     } catch {
-      alert("Could not cancel booking because database issue");
+      props.setAlertText("Could not cancel booking because database issue");
+      props.setAlertType("error");
+      props.setConnection(true);
     }
   }
 
