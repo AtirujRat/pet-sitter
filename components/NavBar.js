@@ -139,7 +139,7 @@ export default function NavBar({ setOpenModal }) {
                         </Link>
                       </li>
                       <li className="py-2 text-b2">
-                        <Link href={`/owners/${userId}/yourpet/`}>
+                        <Link href={`/owners/yourpet/ `}>
                           <Image src={pet} alt="your pet" width={22} />
                           Your Pet
                         </Link>

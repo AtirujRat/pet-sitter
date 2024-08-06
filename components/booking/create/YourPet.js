@@ -133,7 +133,7 @@ export default function YourPet() {
                         <img
                           src={pet.pet_image_url}
                           alt="test"
-                          className="w-20 h-20 rounded-full"
+                          className="w-20 h-20 rounded-full object-cover"
                         />
                         <h4 className="text-h4">{pet.name}</h4>
                         <p>{petTypeComponents[pet.type]}</p>
@@ -145,7 +145,7 @@ export default function YourPet() {
               <button
                 type="button"
                 onClick={() => {
-                  router.push(`/owners/${petData[0].owner_id}/yourpet/create`);
+                  router.push(`/owners/yourpet/create`);
                 }}
                 className="w-full lg:w-[30%] h-[240px] lg:h-[50%] hover:bg-ps-orange-200 active:scale-95 bg-ps-orange-100 border-none rounded-2xl flex flex-col justify-center items-center gap-2"
               >

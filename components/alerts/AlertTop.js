@@ -1,22 +1,25 @@
-import Image from "next/image";
-import { useUser } from "@/context/User";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 
-export default function ConnectionServer({ text, type }) {
-  const { connection, setConnection } = useUser();
-
-  function hundleClick() {
-    setConnection(!connection);
-  }
+export default function AlertTop({ text, type }) {
+  const [visible, setVisible] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => {
-      hundleClick();
-    }, 2000);
-  });
-  if (type === "error") {
-    return (
-      <div className="toast toast-top toast-center">
+    const hideComponentTimeout = setTimeout(() => {
+      setVisible(false);
+    }, 3000);
+
+    return () => {
+      clearTimeout(hideComponentTimeout);
+    };
+  }, []);
+
+  if (!visible) {
+    return null;
+  }
+
+  return (
+    <div className="toast toast-top toast-center">
+      {type === "error" && (
         <div role="alert" className="alert alert-error">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -33,11 +36,8 @@ export default function ConnectionServer({ text, type }) {
           </svg>
           <span>{text}</span>
         </div>
-      </div>
-    );
-  } else if (type === "success") {
-    return (
-      <div className="toast toast-top toast-center">
+      )}
+      {type === "success" && (
         <div role="alert" className="alert alert-success">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -54,11 +54,8 @@ export default function ConnectionServer({ text, type }) {
           </svg>
           <span>{text}</span>
         </div>
-      </div>
-    );
-  } else if (type === "warning") {
-    return (
-      <div className="toast toast-top toast-center">
+      )}
+      {type === "warning" && (
         <div role="alert" className="alert alert-warning">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -75,11 +72,8 @@ export default function ConnectionServer({ text, type }) {
           </svg>
           <span>{text}</span>
         </div>
-      </div>
-    );
-  } else if (type === "info") {
-    return (
-      <div className="toast toast-top toast-center">
+      )}
+      {type === "info" && (
         <div role="alert" className="alert alert-info">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -96,7 +90,21 @@ export default function ConnectionServer({ text, type }) {
           </svg>
           <span>{text}</span>
         </div>
-      </div>
-    );
-  }
+      )}
+    </div>
+  );
 }
+
+//example
+
+//const [error, setError] = useState(null);
+//const [success, setSuccess] = useState(null);
+
+// setError("File size should not exceed 2 MB.");
+// setError(null);
+
+// setSuccess("Create pet successful.");
+// setSuccess(null);
+
+// {error && <Alert type="error" text={error} />}
+// {success && <Alert type="success" text={success} />}

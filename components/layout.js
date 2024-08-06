@@ -61,6 +61,8 @@ export default function Layout({ children }) {
     "/owners/[id]/profile",
     "/owners/[id]/bookinghistory",
     "/sitters/[id]/booking/create",
+    "/owners/yourpet",
+    "/owners/yourpet/create",
   ];
 
   const SitterRoute = [

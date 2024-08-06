@@ -9,12 +9,20 @@ import {
   ButtonOrange,
   ButtonOrangeLight,
 } from "@/components/buttons/OrangeButtons";
+import { useUser } from "@/context/User";
+import AlertTop from "@/components/alerts/AlertTop";
 
-const API_URL = "/api/owner";
+const API_POST_PET = "/api/owner/${id}/pet";
 
 export default function CreatePetForm() {
   const router = useRouter();
-  const { id } = router.query;
+  const { userInfo } = useUser();
+  const id = userInfo?.id;
+
+  const [preview, setPreview] = useState(null);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+  const fileInputRef = useRef(null);
 
   const initialValues = {
     pet_image_url: null,
@@ -36,10 +44,6 @@ export default function CreatePetForm() {
     return error;
   };
 
-  const [preview, setPreview] = useState(null);
-  const [error, setError] = useState(null);
-  const fileInputRef = useRef(null);
-
   const handleImageChange = async (event, setFieldValue) => {
     const file = event.currentTarget.files[0];
 
@@ -48,15 +52,16 @@ export default function CreatePetForm() {
       return;
     }
 
-    setError(null);
     setFieldValue("pet_image_url", file);
 
     const reader = new FileReader();
     reader.onloadend = () => {
       setPreview(reader.result);
     };
+
     if (file) {
       reader.readAsDataURL(file);
+      setSuccess("Upload image successful.");
     }
   };
 
@@ -73,7 +78,7 @@ export default function CreatePetForm() {
           .upload(`pet_image/${fileName}`, file);
 
         if (imageError) {
-          console.error("Error uploading image:", imageError.message);
+          setError("Error uploading image");
           return;
         }
 
@@ -90,11 +95,13 @@ export default function CreatePetForm() {
         owner_id: id,
       };
 
-      const response = await axios.post(`${API_URL}/${id}/pet`, updatedValues);
+      const response = await axios.post(`${API_POST_PET}`, updatedValues);
+
+      setSuccess("Create pet successful");
 
       router.back();
-    } catch (error) {
-      console.error("Error creating pet:", error);
+    } catch {
+      setError("Error create pet");
     } finally {
       actions.setSubmitting(false);
     }
@@ -106,7 +113,7 @@ export default function CreatePetForm() {
         <Form className="w-full">
           <div className="flex w-full flex-col gap-10 max-sm:gap-4">
             {/* upload image */}
-            <div className="relative w-[240px] h-[240px]">
+            <div className="relative w-[240px] h-[240px] max-md:w-[120px] max-md:h-[120px]">
               {preview ? (
                 <Image
                   src={preview}
@@ -148,6 +155,7 @@ export default function CreatePetForm() {
                   alt="upload"
                   width={60}
                   height={60}
+                  className="max-md:w-[40px] max-md:h-[40px]"
                 />
               </div>
             </div>
@@ -348,6 +356,10 @@ export default function CreatePetForm() {
               />
             </div>
           </div>
+
+          {/* alert */}
+          {error && <AlertTop type="error" text={error} />}
+          {success && <AlertTop type="success" text={success} />}
         </Form>
       )}
     </Formik>
