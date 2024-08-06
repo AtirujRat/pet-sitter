@@ -11,6 +11,9 @@ import { supabase } from "@/utils/supabase";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import { useOwners } from "@/context/Owners";
+import ConnectionServer from "@/components/ConnectionServer";
+import Modal from "@/components/modal/Modal";
+import success_icon from "@/public/assets/icons/icon-success.svg";
 
 function validateName(value) {
   let error;
@@ -204,6 +207,13 @@ export default function Account() {
     <div className="w-full h-full bg-ps-gray-100  lg:pt-10 lg:pb-20 ">
       <div className="max-w-[1440px] min-w-0 lg:flex lg:justify-between mx-auto max-lg:flex-col lg:items-start lg:px-20  gap-9">
         <SideBarOwners />
+        {/* <Modal>
+          <ConnectionServer
+            text="Profile has been updated"
+            image={success_icon}
+          />
+        </Modal> */}
+
         <Formik
           enableReinitialize={true}
           initialValues={initialValues}
