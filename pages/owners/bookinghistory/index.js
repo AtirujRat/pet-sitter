@@ -271,7 +271,7 @@ export default function BookingHistory() {
                           <div className="flex flex-col items-start min-[600px]:items-end gap-[12px]">
                             <h1 className="text-b3 text-ps-gray-300">
                               Transaction date:{" "}
-                              <GetOnlyDate time={item.created_at} />
+                              <GetOnlyDate time={item.last_updated} />
                             </h1>
                             <li
                               className={`text-${
