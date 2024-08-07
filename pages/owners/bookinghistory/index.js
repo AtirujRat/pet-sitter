@@ -23,6 +23,7 @@ import ConnectionServer from "@/components/ConnectionServer";
 import GetOnlyDate from "@/hook/useGetOnlyDate";
 import GetOnlyTime from "@/hook/useGetOnlyTime";
 import CalculateDutation from "@/hook/useCalculatedDuration";
+import { useOwnersAccountState } from "@/context/OwnersAccountState";
 
 const BOOKING_STATUS = {
   Waiting_for_confirm: "ps-pink-500",
@@ -59,6 +60,9 @@ export default function BookingHistory() {
   const { getUserAuth } = useOwners();
   const [alertText, setAlertText] = useState("");
   const [alertType, setAlertType] = useState("");
+
+  const { changeAccountStateHandle } = useOwnersAccountState();
+
   const { userInfo, connection, setConnection } = useUser();
   const router = useRouter();
 
@@ -118,6 +122,10 @@ export default function BookingHistory() {
     getReviews();
     getReports();
   }, [refresh]);
+
+  useEffect(() => {
+    changeAccountStateHandle("bookinghistory");
+  }, []);
 
   function toggleReportModal(index) {
     setCurrentIndex(index);
@@ -231,6 +239,7 @@ export default function BookingHistory() {
                       setRefresh={setRefresh}
                       setConnection={setConnection}
                       setAlertText={setAlertText}
+                      setAlertType={setAlertType}
                     />
                   </Modal>
                 )}
