@@ -23,6 +23,10 @@ export function UserProvider(props) {
     setUserInfo({ role: "sitter", id: id });
   }
 
+  function getAdmin() {
+    setUserInfo({ role: "admin" });
+  }
+
   useEffect(() => {
     if (userInfo) {
       localStorage.setItem("userInfo", JSON.stringify(userInfo));
@@ -36,6 +40,7 @@ export function UserProvider(props) {
         setUserInfo,
         getOwner,
         getSitter,
+        getAdmin,
         register,
         setRegister,
         setConnection,

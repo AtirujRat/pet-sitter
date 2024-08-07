@@ -17,6 +17,7 @@ import { UserProvider } from "@/context/User";
 import jwtInterceptor from "@/utils/jwtinterceptor";
 import CheckUserOwner from "@/components/CheckUserOwner";
 import CheckUserSitter from "./CheckUserSitter";
+import CheckAdmin from "./CheckAdmin";
 
 jwtInterceptor();
 
@@ -72,13 +73,15 @@ export default function Layout({ children }) {
     "/sitters/payout/bank-account",
   ];
 
+  const AdminRoute = ["/admin"];
+
   const dynamicRoutesRegex = dynamicRoutes.map(
     (route) => new RegExp(`^${route.replace("[id]", "[^/]+")}$`)
   );
 
   const isOwnerRoute = OwnerRoute.includes(router.pathname);
-
   const isSitterRoute = SitterRoute.includes(router.pathname);
+  const isAdminRoute = AdminRoute.includes(router.pathname);
 
   const isNoLayoutRoute =
     noLayoutRoutes.includes(router.pathname) ||
@@ -126,6 +129,7 @@ export default function Layout({ children }) {
                       )}
                       {isOwnerRoute && <CheckUserOwner />}
                       {isSitterRoute && <CheckUserSitter />}
+                      {isAdminRoute && <CheckAdmin />}
                       <div>{children}</div>
                       {!isNoLayoutRoute && !isNoFooterRoute && <Footer />}
                     </div>

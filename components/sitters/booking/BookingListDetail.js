@@ -60,6 +60,10 @@ export default function BookingListDetail({ bookingId }) {
       setBooking(res.data.data[0]);
       setLoading(false);
     } catch (error) {
+      if (error.response.status === 404) {
+        router.push("/404");
+        return;
+      }
       console.error("Error fetching profile data:", error);
     }
   }
@@ -104,7 +108,11 @@ export default function BookingListDetail({ bookingId }) {
   }
 
   if (loading) {
-    return <Loading />;
+    return (
+      <div className="h-screen">
+        <Loading />
+      </div>
+    );
   }
 
   return (
