@@ -44,7 +44,7 @@ export default function SitterCard({
       }, 1000);
     } catch {
       setError(
-        "sitter can't create a conversation. Please login pet owner account."
+        "Sitter can't create a conversation. Please login pet owner account."
       );
       setAlertKey((prevKey) => prevKey + 1);
     }
@@ -54,7 +54,7 @@ export default function SitterCard({
     const ownerData = await getUserAuth();
     if (userInfo.role !== "owner") {
       setError(
-        "sitter can't create a booking. Please login pet owner account."
+        "Sitter can't create a booking. Please login pet owner account."
       );
       setAlertKey((prevKey) => prevKey + 1);
       return;

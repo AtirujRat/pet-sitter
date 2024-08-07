@@ -191,15 +191,18 @@ export default function BookingListDetail({ bookingId }) {
 
         <div className="flex flex-col gap-2">
           <p className="text-ps-gray-300 text-h4">Pet Detail</p>
-          <div
-            className="flex gap-3 flex-wrap justify-center md:justify-start"
-            onClick={() => setOpenModalPet(true)}
-          >
+          <div className="flex gap-3 flex-wrap justify-center md:justify-start">
             {booking?.pets?.length === 0 ? (
               <p className="text-b2">No pets available</p>
             ) : (
               booking?.pets?.map((pet, index) => (
-                <div key={index} onClick={() => setSelectPet(pet)}>
+                <div
+                  key={index}
+                  onClick={() => {
+                    setSelectPet(pet);
+                    setOpenModalPet(true);
+                  }}
+                >
                   <PetCard
                     styles="lg:w-[207px] w-[280px] h-[236px] border border-ps-gray-200 shadow-none hover:-translate-y-0"
                     image={`${pet.pet_image_url}`}
