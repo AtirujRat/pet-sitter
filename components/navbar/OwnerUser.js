@@ -47,7 +47,7 @@ export default function OwnerUser({ userId, userEmail, setUserData }) {
           width={48}
           className="w-[48px] h-[48px] bg-[#F6F6F9] rounded-full cursor-pointer "
         />
-        <Link href={`/owners/${userId}/messages/`}>
+        <Link href={`/owners/messages/`}>
           <Image
             src={message}
             alt="message"
@@ -60,7 +60,7 @@ export default function OwnerUser({ userId, userEmail, setUserData }) {
           <Image
             src={profile ? profile : usermock}
             alt="bell"
-            className="rounded-full cursor-pointer"
+            className="rounded-full cursor-pointer object-cover"
             tabIndex="0"
             role="button"
             width={48}
@@ -72,7 +72,7 @@ export default function OwnerUser({ userId, userEmail, setUserData }) {
               className="dropdown-content menu bg-base-100 rounded-lg z-[1] w-52 p-2 text-b2 drop-shadow-costom px-0"
             >
               <li className="py-2 text-b2">
-                <Link href={`/owners/${userId}/profile/`}>
+                <Link href={`/owners/profile/`}>
                   <Image
                     src={profilemock}
                     alt="profile"
@@ -89,7 +89,7 @@ export default function OwnerUser({ userId, userEmail, setUserData }) {
                 </Link>
               </li>
               <li className="py-2 text-b2">
-                <Link href={`/owners/${userId}/bookinghistory/`}>
+                <Link href={`/owners/bookinghistory/`}>
                   <Image src={history} alt="history" width={20} />
                   History
                 </Link>
@@ -111,21 +111,21 @@ export default function OwnerUser({ userId, userEmail, setUserData }) {
       <div className="sm:hidden absolute top-15 right-0 size-10 bg-ps-white w-full h-full z-10">
         <div className="py-10 px-4 flex flex-col gap-4">
           <Link
-            href={`/owners/${userId}/profile/`}
+            href={`/owners/profile/`}
             className="w-full p-4 text-b1 flex gap-3"
           >
             <Image src={profilemock} alt="profile" width={20} height={20} />
             Profile
           </Link>
           <Link
-            href={`/owners/${userId}/yourpet/`}
+            href={`/owners/yourpet/`}
             className="w-full p-4 text-b1 flex gap-3"
           >
             <Image src={pet} alt="your pet" width={24} height={24} />
             Your Pet
           </Link>
           <Link
-            href={`/owners/${userId}/bookinghistory/`}
+            href={`/owners/bookinghistory/`}
             className="w-full p-4 text-b1 flex gap-3"
           >
             <Image src={history} alt="history" width={20} height={20} />

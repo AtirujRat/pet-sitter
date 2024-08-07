@@ -45,24 +45,25 @@ export default function Layout({ children }) {
   const dynamicRoutes = [];
 
   const dynamicRoutesFooter = [
-    "/sitters/[id]/booking/create",
-    "/owners/[id]/profile",
+    "/sitters/booking/create",
+    "/owners/profile",
     "/owners/yourpet",
     "/owners/yourpet/create",
     "/owners/yourpet/[petId]",
-    "/owners/[id]/bookinghistory",
-    "/owners/[id]/messages",
+    "/owners/bookinghistory",
+    "/owners/messages",
+    "/sitters/messages",
     "/404",
-    "/sitters/[id]/messages",
   ];
 
   const OwnerRoute = [
     "/owners/yourpet",
     "/owners/yourpet/create",
     "/owners/yourpet/[petId]",
-    "/owners/[id]/profile",
-    "/owners/[id]/bookinghistory",
-    "/sitters/[id]/booking/create",
+    "/owners/profile",
+    "/owners/bookinghistory",
+    "/sitters/booking/create",
+    "/owners/messages",
   ];
 
   const SitterRoute = [
@@ -71,6 +72,7 @@ export default function Layout({ children }) {
     "/sitters/booking",
     "/sitters/payout",
     "/sitters/payout/bank-account",
+    "/sitters/messages",
   ];
 
   const AdminRoute = ["/admin"];

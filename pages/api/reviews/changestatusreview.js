@@ -32,11 +32,9 @@ export default async function handler(req, res) {
         data,
       });
     } catch (error) {
-      console.error("Error in API handler:", error);
       return res.status(500).json({
         message:
           "Server could not update review status because of a database connection issue.",
-        error: error.message,
       });
     }
   } else {

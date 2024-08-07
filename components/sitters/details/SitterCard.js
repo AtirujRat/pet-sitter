@@ -34,22 +34,34 @@ export default function SitterCard({
   const sitter_id = router.query.id;
   const { getUserAuth } = useOwners();
   const [error, setError] = useState(null);
+  const [alertKey, setAlertKey] = useState(0);
 
   async function handleSendMessage(data) {
-    await axios.post(`/api/owner/${userInfo.id}/conversations`, data);
-    setTimeout(() => {
-      router.push(`/owners/${userInfo.id}/messages`);
-    }, 1000);
+    try {
+      await axios.post(`/api/owner/${userInfo.id}/conversations`, data);
+      setTimeout(() => {
+        router.push(`/owners/messages`);
+      }, 1000);
+    } catch {
+      setError(
+        "Sitter can't create a conversation. Please login pet owner account."
+      );
+      setAlertKey((prevKey) => prevKey + 1);
+    }
   }
 
   async function handleBookingClick() {
     const ownerData = await getUserAuth();
     if (userInfo.role !== "owner") {
-      router.push("/login/owner");
+      setError(
+        "Sitter can't create a booking. Please login pet owner account."
+      );
+      setAlertKey((prevKey) => prevKey + 1);
       return;
     }
     if (ownerData.email === sitter.email) {
-      setError("You cannot book yourself")
+      setError("You cannot book yourself");
+      setAlertKey((prevKey) => prevKey + 1);
     } else {
       setIsBookingModalOpen(true);
     }
@@ -114,6 +126,8 @@ export default function SitterCard({
           onClick={handleBookingClick}
         />
       </div>
+      {/* alert */}
+      {error && <AlertTop key={alertKey} type="error" text={error} />}
     </div>
   );
 }

@@ -9,9 +9,18 @@ import reportActive from "@/public/assets/admin/report-active.svg";
 import logout from "@/public/assets/admin/logout.svg";
 import { useAdmin } from "@/context/Admin";
 import SideBarButton from "./SideBarButton";
+import { supabase } from "@/utils/supabase";
+import { useRouter } from "next/router";
 
 export default function SideBar() {
   const { state, setState } = useAdmin();
+  const router = useRouter();
+  async function handleLogout() {
+    let { error } = await supabase.auth.signOut();
+    localStorage.removeItem("userInfo");
+    router.reload();
+  }
+
   return (
     <div className="min-w-[240px] h-screen py-4 bg-ps-black flex flex-col justify-between sticky top-0">
       <div className="w-full">
@@ -36,7 +45,10 @@ export default function SideBar() {
           state={"Report"}
         />
       </div>
-      <button className="py-4 px-6 flex gap-4 border-t-2 border-t-ps-gray-500">
+      <button
+        className="py-4 px-6 flex gap-4 border-t-2 border-t-ps-gray-500"
+        onClick={handleLogout}
+      >
         <Image src={logout} alt="logout" />
         <p className="text-b2 text-ps-gray-300">Log Out</p>
       </button>

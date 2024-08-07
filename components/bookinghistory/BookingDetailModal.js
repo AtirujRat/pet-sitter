@@ -83,9 +83,14 @@ export default function BookingDetailModal(props) {
         </div>
         <div className="border-b-[1px] border-ps-gray-200 pb-[20px]">
           <h1 className="text-b3 text-ps-gray-400">Pet:</h1>
-          <span className="text-b2 text-ps-gray-600">
-            {props.bookingList[props.index].pets}
-          </span>
+          <p className="text-b2 text-ps-gray-600">
+            {props.bookingList[props.index].pets.map((pet, index) => (
+              <span key={index}>
+                {pet.name}
+                {index < props.bookingList[props.index].pets.length - 1 && ", "}
+              </span>
+            ))}
+          </p>
         </div>
         <div className="flex items-center justify-between">
           <h1 className="text-b2">Total</h1>

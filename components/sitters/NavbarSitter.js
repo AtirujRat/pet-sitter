@@ -56,7 +56,7 @@ export default function NavBarSitter({ profileImage, fullName }) {
           <button
             type="button"
             onClick={() => {
-              router.push(`/sitters/${userInfo.id}/messages`);
+              router.push(`/sitters/messages`);
             }}
             className="bg-ps-gray-100 rounded-full flex"
           >

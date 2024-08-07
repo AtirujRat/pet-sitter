@@ -48,7 +48,7 @@ export default function SitterUser({ userId, setUserData }) {
           width={48}
           className="w-[48px] h-[48px] bg-[#F6F6F9] rounded-full cursor-pointer "
         />
-        <Link href={`/sitters/${userId}/messages/`}>
+        <Link href={`/sitters/messages/`}>
           <Image
             src={message}
             alt="message"
@@ -61,7 +61,7 @@ export default function SitterUser({ userId, setUserData }) {
           <Image
             src={profile ? profile : usermock}
             alt="bell"
-            className="rounded-full cursor-pointer"
+            className="rounded-full cursor-pointer object-cover"
             tabIndex="0"
             role="button"
             width={48}
