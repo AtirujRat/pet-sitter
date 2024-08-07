@@ -43,11 +43,10 @@ export default async function handler(req, res) {
         data: sitters,
       });
     } catch (error) {
-      console.error("Error in API handler:", error);
+      console.error("Error in API handler");
       return res.status(500).json({
         message:
           "Server could not read sitters because of database connection issue.",
-        error: error.message,
       });
     }
   }
