@@ -13,6 +13,7 @@ import axios from "axios";
 import { useOwners } from "@/context/Owners";
 import ConnectionServer from "@/components/ConnectionServer";
 import { useUser } from "@/context/User";
+import { useOwnersAccountState } from "@/context/OwnersAccountState";
 
 function validateName(value) {
   let error;
@@ -116,6 +117,8 @@ export default function Account() {
   const [alertText, setAlertText] = useState("");
   const { connection, setConnection } = useUser();
 
+  const { accountState, changeAccountStateHandle } = useOwnersAccountState();
+
   async function getUser() {
     try {
       const ownerEmail = await getUserAuth();
@@ -132,6 +135,10 @@ export default function Account() {
 
   useEffect(() => {
     getUser();
+  }, []);
+
+  useEffect(() => {
+    changeAccountStateHandle("profile");
   }, []);
 
   const initialValues = {

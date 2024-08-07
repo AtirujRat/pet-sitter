@@ -12,8 +12,8 @@ import { useUser } from "@/context/User";
 
 function SideBarOwners() {
   const router = useRouter();
-  const { userInfo } = useUser();
-  const id = userInfo?.id;
+  // const { userInfo } = useUser();
+  // const id = userInfo?.id;
   const { accountState, changeAccountStateHandle } = useOwnersAccountState();
 
   return (
@@ -24,7 +24,7 @@ function SideBarOwners() {
           <button
             onClick={() => {
               changeAccountStateHandle("profile");
-              router.push(`/owners/${id}/profile/`);
+              router.push(`/owners/profile/`);
             }}
             className={`flex gap-5 ${
               accountState === "profile"
@@ -64,7 +64,7 @@ function SideBarOwners() {
           <button
             onClick={() => {
               changeAccountStateHandle("bookinghistory");
-              router.push(`/owners/${id}/bookinghistory/`);
+              router.push(`/owners/bookinghistory/`);
             }}
             className={`flex gap-5 ${
               accountState === "bookinghistory"
@@ -84,7 +84,7 @@ function SideBarOwners() {
           <button
             onClick={() => {
               changeAccountStateHandle("changepassword");
-              router.push(`/owners/${id}/changepassword/`);
+              router.push(`/owners/changepassword/`);
             }}
             className={`flex gap-5 ${
               accountState === "changepassword"
