@@ -23,6 +23,7 @@ export default async function handler(req, res) {
               email: email,
               created_at: new Date(),
               updated_at: new Date(),
+              member_status: "Normal",
             },
           ])
           .select();
@@ -63,6 +64,7 @@ export default async function handler(req, res) {
           phone_number: phone,
           created_at: new Date(),
           updated_at: new Date(),
+          member_status: "Normal",
         },
       ])
       .select();
