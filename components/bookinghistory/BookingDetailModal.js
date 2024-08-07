@@ -37,7 +37,7 @@ export default function BookingDetailModal(props) {
         <div>
           <p className="text-b2 text-ps-gray-300">
             Transaction date:{" "}
-            <GetOnlyDate time={props.bookingList[props.index].created_at} />
+            <GetOnlyDate time={props.bookingList[props.index].last_updated} />
           </p>
           <p className="text-b2 text-ps-gray-300">
             Transaction No. : {props.bookingList[props.index].transaction_id}
