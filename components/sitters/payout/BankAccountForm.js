@@ -67,7 +67,7 @@ export default function BankAccountForm({
 
       // PUT data
       const res = await axios.put(
-        `http://localhost:3000/api/sitters/${id}/payout`,
+        `/api/sitters/${id}/payout`,
         {
           ...values,
           book_bank_image: imageUrl,
