@@ -38,7 +38,9 @@ export default async function handler(req, res) {
         .eq("id", id);
 
       if (selectError) {
-        return res.status(405).json({ error: "Method Not Available" });
+        return res.status(404).json({
+          message: "Server could not find a sitters to update",
+        });
       }
 
       // เตรียมข้อมูลสำหรับการอัปเดต
@@ -67,7 +69,9 @@ export default async function handler(req, res) {
           .eq("id", id)
           .select();
         if (updateError) {
-          return res.status(405).json({ error: "Method Not Available" });
+          return res.status(400).json({
+            message: "error connection",
+          });
         }
         updateResult = data;
       } else {
@@ -76,7 +80,9 @@ export default async function handler(req, res) {
           .upsert(updateData)
           .select();
         if (upsertError) {
-          return res.status(405).json({ error: "Method Not Available" });
+          return res.status(400).json({
+            message: "error connection",
+          });
         }
         updateResult = data;
       }
@@ -102,7 +108,9 @@ export default async function handler(req, res) {
         .eq("sitter_id", id);
 
       if (deleteSitterIdError) {
-        return res.status(405).json({ error: "Method Not Available" });
+        return res.status(400).json({
+          message: "error connection",
+        });
       }
 
       // แทรกที่อยู่ใหม่
@@ -111,7 +119,9 @@ export default async function handler(req, res) {
         .insert(addressData)
         .select();
       if (addressInsertError) {
-        return res.status(405).json({ error: "Method Not Available" });
+        return res.status(400).json({
+          message: "error connection",
+        });
       }
       addressResult = data;
 
@@ -122,12 +132,13 @@ export default async function handler(req, res) {
         .eq("id", id)
         .select();
       if (updateSitterError) {
-        return res.status(405).json({ error: "Method Not Available" });
+        return res.status(400).json({
+          message: "error connection",
+        });
       }
       updateResult = updatedSitter;
 
       // อัปเดตข้อมูลในตาราง sitters_images
-
       const { data: existingImages, error: fetchError } = await supabase
         .from("sitters_images")
         .select("image_url")
@@ -169,11 +180,15 @@ export default async function handler(req, res) {
         }
       }
 
-      return res
-        .status(200)
-        .json({ sitters: updateResult, sitters_images: newImageUrls });
+      return res.status(200).json({
+        message: "Profile has been updated",
+        sitters: updateResult,
+        sitters_images: newImageUrls,
+      });
     } catch (error) {
-      return res.status(400).json({ error: error.message });
+      return res
+        .status(500)
+        .json({ message: "Could not update profile because database issue" });
     }
   } else {
     return res.status(405).json({ error: "Method Not Available" });
