@@ -16,7 +16,7 @@ export default async function handler(req, res) {
       }
 
       if (pets.length === 0) {
-        return res.status(404).json({
+        return res.status(403).json({
           message: `Server could not find a requested pets to show for owner id ${id}`,
         });
       }
