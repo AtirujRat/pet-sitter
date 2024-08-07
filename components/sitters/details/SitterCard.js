@@ -15,6 +15,8 @@ import { useUser } from "@/context/User";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { useOwners } from "@/context/Owners";
+import AlertTop from "@/components/alerts/AlertTop";
+import { useState } from "react";
 
 export default function SitterCard({
   sitter,
@@ -31,22 +33,35 @@ export default function SitterCard({
   const router = useRouter();
   const sitter_id = router.query.id;
   const { getUserAuth } = useOwners();
+  const [error, setError] = useState(null);
+  const [alertKey, setAlertKey] = useState(0);
 
   async function handleSendMessage(data) {
-    await axios.post(`/api/owner/${userInfo.id}/conversations`, data);
-    setTimeout(() => {
-      router.push(`/owners/${userInfo.id}/messages`);
-    }, 1000);
+    try {
+      await axios.post(`/api/owner/${userInfo.id}/conversations`, data);
+      setTimeout(() => {
+        router.push(`/owners/messages`);
+      }, 1000);
+    } catch {
+      setError(
+        "sitter can't create a conversation. Please login pet owner account."
+      );
+      setAlertKey((prevKey) => prevKey + 1);
+    }
   }
 
   async function handleBookingClick() {
     const ownerData = await getUserAuth();
     if (userInfo.role !== "owner") {
-      router.push("/login/owner");
+      setError(
+        "sitter can't create a booking. Please login pet owner account."
+      );
+      setAlertKey((prevKey) => prevKey + 1);
       return;
     }
     if (ownerData.email === sitter.email) {
-      alert("You cannot book yourself");
+      setError("You cannot book yourself");
+      setAlertKey((prevKey) => prevKey + 1);
     } else {
       setIsBookingModalOpen(true);
     }
@@ -110,6 +125,8 @@ export default function SitterCard({
           onClick={handleBookingClick}
         />
       </div>
+      {/* alert */}
+      {error && <AlertTop key={alertKey} type="error" text={error} />}
     </div>
   );
 }

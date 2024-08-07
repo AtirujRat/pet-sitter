@@ -44,13 +44,14 @@ export default function Layout({ children }) {
   const dynamicRoutes = [];
 
   const dynamicRoutesFooter = [
-    "/sitters/[id]/booking/create",
-    "/owners/[id]/profile",
+    "/sitters/booking/create",
+    "/owners/profile",
     "/owners/yourpet",
     "/owners/yourpet/create",
     "/owners/yourpet/[petId]",
-    "/owners/[id]/bookinghistory",
-    "/owners/[id]/messages",
+    "/owners/bookinghistory",
+    "/owners/messages",
+    "/sitters/messages",
     "/404",
   ];
 
@@ -58,9 +59,9 @@ export default function Layout({ children }) {
     "/owners/yourpet",
     "/owners/yourpet/create",
     "/owners/yourpet/[petId]",
-    "/owners/[id]/profile",
-    "/owners/[id]/bookinghistory",
-    "/sitters/[id]/booking/create",
+    "/owners/profile",
+    "/owners/bookinghistory",
+    "/sitters/booking/create",
   ];
 
   const SitterRoute = [

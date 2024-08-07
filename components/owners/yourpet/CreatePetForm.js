@@ -22,6 +22,7 @@ export default function CreatePetForm() {
   const [preview, setPreview] = useState(null);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [alertKey, setAlertKey] = useState(0);
   const fileInputRef = useRef(null);
 
   const initialValues = {
@@ -49,6 +50,7 @@ export default function CreatePetForm() {
 
     if (file && file.size > 2 * 1024 * 1024) {
       setError("File size should not exceed 2 MB.");
+      setAlertKey((prevKey) => prevKey + 1);
       return;
     }
 
@@ -62,6 +64,7 @@ export default function CreatePetForm() {
     if (file) {
       reader.readAsDataURL(file);
       setSuccess("Upload image successful.");
+      setAlertKey((prevKey) => prevKey + 1);
     }
   };
 
@@ -79,6 +82,7 @@ export default function CreatePetForm() {
 
         if (imageError) {
           setError("Error uploading image");
+          setAlertKey((prevKey) => prevKey + 1);
           return;
         }
 
@@ -98,10 +102,12 @@ export default function CreatePetForm() {
       const response = await axios.post(`${API_POST_PET}`, updatedValues);
 
       setSuccess("Create pet successful");
+      setAlertKey((prevKey) => prevKey + 1);
 
       router.back();
     } catch {
       setError("Error create pet");
+      setAlertKey((prevKey) => prevKey + 1);
     } finally {
       actions.setSubmitting(false);
     }
@@ -358,8 +364,8 @@ export default function CreatePetForm() {
           </div>
 
           {/* alert */}
-          {error && <AlertTop type="error" text={error} />}
-          {success && <AlertTop type="success" text={success} />}
+          {error && <AlertTop key={alertKey} type="error" text={error} />}
+          {success && <AlertTop key={alertKey} type="success" text={success} />}
         </Form>
       )}
     </Formik>

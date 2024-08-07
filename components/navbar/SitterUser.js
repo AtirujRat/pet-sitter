@@ -48,7 +48,7 @@ export default function SitterUser({ userId, setUserData }) {
           width={48}
           className="w-[48px] h-[48px] bg-[#F6F6F9] rounded-full cursor-pointer "
         />
-        <Link href={`/sitters/${userId}/messages/`}>
+        <Link href={`/sitters/messages/`}>
           <Image
             src={message}
             alt="message"
@@ -73,7 +73,7 @@ export default function SitterUser({ userId, setUserData }) {
               className="dropdown-content menu bg-base-100 rounded-lg z-[1] w-52 p-2 text-b2 drop-shadow-costom px-0"
             >
               <li className="py-2 text-b2">
-                <Link href={`/sitters/${userId}/profile/`}>
+                <Link href={`/sitters/profile/`}>
                   <Image src={profilemock} alt="profile" width={20} />
                   Profile
                 </Link>
