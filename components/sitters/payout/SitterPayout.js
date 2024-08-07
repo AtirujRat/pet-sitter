@@ -14,7 +14,7 @@ export default function SitterPayout({ id, profile }) {
 
   async function getBooking() {
     const res = await axios.get(
-      `http://localhost:3000/api/sitters/${id}/booking?name=&status=Success&status=In service`
+      `/api/sitters/${id}/booking?name=&status=Success&status=In service`
     );
 
     setBookings(res.data.data);
