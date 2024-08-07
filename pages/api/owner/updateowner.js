@@ -16,7 +16,7 @@ export default async function handler(req, res) {
         .update(updatedOwner)
         .eq("id", id)
         .select();
-      console.log(error);
+
       if (error) {
         return res.status(400).json({ message: "Could not update profile" });
       }

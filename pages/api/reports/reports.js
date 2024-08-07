@@ -49,7 +49,7 @@ export default async function handler(req, res) {
     } catch (error) {
       return res
         .status(500)
-        .json({ message: "Could not create report becasue database issue" });
+        .json({ message: "Could not send report becasue database issue" });
     }
   }
 
@@ -64,11 +64,9 @@ export default async function handler(req, res) {
           .eq("status", status);
 
         if (error) {
-          return res
-            .status(400)
-            .json({
-              message: "Could not get reports maybe wrong data incoming",
-            });
+          return res.status(400).json({
+            message: "Could not get reports maybe wrong data incoming",
+          });
         }
 
         return res.status(200).json(reports);
@@ -79,11 +77,9 @@ export default async function handler(req, res) {
             `* , bookings(owners:owner_id (full_name) , sitters:sitter_id (full_name) )`
           );
         if (error) {
-          return res
-            .status(400)
-            .json({
-              message: "Could not get reports maybe wrong data incoming",
-            });
+          return res.status(400).json({
+            message: "Could not get reports maybe wrong data incoming",
+          });
         }
 
         return res.status(200).json(reports);
