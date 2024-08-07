@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
-import { ConversationOwnerContext } from "@/pages/owners/[id]/messages";
-import { ConversationSitterContext } from "@/pages/sitters/[id]/messages";
+import { ConversationOwnerContext } from "@/pages/owners/messages";
+import { ConversationSitterContext } from "@/pages/sitters/messages";
 import MessageCard from "./MessageCard";
 import axios from "axios";
 import { supabase } from "@/utils/supabase";

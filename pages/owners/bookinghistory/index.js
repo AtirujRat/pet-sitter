@@ -113,7 +113,7 @@ export default function BookingHistory() {
   async function handleSendMessage(data) {
     await axios.post(`/api/owner/${userInfo.id}/conversations`, data);
     setTimeout(() => {
-      router.push(`/owners/${userInfo.id}/messages`);
+      router.push(`/owners/messages`);
     }, 1000);
   }
 

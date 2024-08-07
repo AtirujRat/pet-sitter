@@ -3,16 +3,20 @@ import ChatWindow from "@/components/messages/ChatWindow";
 import axios from "axios";
 import Image from "next/image";
 import MessageSidebar from "@/components/messages/MessageSidebar";
+import AlertTop from "@/components/alerts/AlertTop";
+import { useRouter } from "next/navigation";
 
 export const ConversationSitterContext = createContext();
 const API_URL = "/api/sitters";
 
 export default function ConversationSitterPage() {
   const [conversations, setConversations] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [selectedConversationId, setSelectedConversationId] = useState(null);
   const [isChatWindowOpen, setIsChatWindowOpen] = useState(true);
   const [isSend, setIsSend] = useState(null);
+  const [error, setError] = useState(null);
+  const [alertKey, setAlertKey] = useState(0);
+  const router = useRouter();
 
   const [userSitter, setUserSitter] = useState(() => {
     if (typeof window !== "undefined") {
@@ -26,7 +30,11 @@ export default function ConversationSitterPage() {
   );
 
   const fetchConversations = async () => {
-    setLoading(true);
+    if (!userSitter.id) {
+      router.push("/404");
+      return;
+    }
+
     let sortedConversations;
 
     try {
@@ -41,13 +49,12 @@ export default function ConversationSitterPage() {
       }
       setConversations(sortedConversations);
 
-      setLoading(false);
-
       if (!selectedConversationId && sortedConversations.length > 0) {
         setSelectedConversationId(sortedConversations[0].id);
       }
     } catch {
-      setLoading(true);
+      setError("Error loading conversations");
+      setAlertKey((prevKey) => prevKey + 1);
     }
   };
 
@@ -104,6 +111,8 @@ export default function ConversationSitterPage() {
             />
           )
         )}
+        {/* alert */}
+        {error && <AlertTop key={alertKey} type="error" text={error} />}
       </section>
     </ConversationSitterContext.Provider>
   );
