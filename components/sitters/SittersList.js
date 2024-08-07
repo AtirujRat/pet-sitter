@@ -46,10 +46,9 @@ export default function SittersList() {
   });
 
   if (selectMap === "map" && clickPetSitter.index) {
-    const newSitter = [...filteredSitters];
-    const newIndex = newSitter[0];
-    newSitter[0] = newSitter[clickPetSitter.index];
-    newSitter[clickPetSitter.index] = newIndex;
+    const newSitter = filteredSitters[0];
+    filteredSitters[0] = filteredSitters[clickPetSitter.index];
+    filteredSitters[clickPetSitter.index] = newSitter;
     filter = newSitter;
   } else {
     filter = filteredSitters;
