@@ -60,7 +60,7 @@ export default function OwnerUser({ userId, userEmail, setUserData }) {
           <Image
             src={profile ? profile : usermock}
             alt="bell"
-            className="rounded-full cursor-pointer"
+            className="rounded-full cursor-pointer object-cover"
             tabIndex="0"
             role="button"
             width={48}
