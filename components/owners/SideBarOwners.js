@@ -8,12 +8,9 @@ import list_icon_active from "@/public/assets/account/list-active.svg";
 useOwnersAccountState;
 import { useRouter } from "next/router";
 import { useOwnersAccountState } from "@/context/OwnersAccountState";
-import { useUser } from "@/context/User";
 
 function SideBarOwners() {
   const router = useRouter();
-  // const { userInfo } = useUser();
-  // const id = userInfo?.id;
   const { accountState, changeAccountStateHandle } = useOwnersAccountState();
 
   return (
@@ -82,10 +79,7 @@ function SideBarOwners() {
             Booking History
           </button>
           <button
-            onClick={() => {
-              changeAccountStateHandle("changepassword");
-              router.push(`/owners/changepassword/`);
-            }}
+            onClick={() => {}}
             className={`flex gap-5 ${
               accountState === "changepassword"
                 ? "bg-ps-orange-100 text-ps-orange-500"

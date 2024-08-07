@@ -54,7 +54,6 @@ export default function Layout({ children }) {
     "/owners/messages",
     "/sitters/messages",
     "/404",
-    "/sitters/[id]/messages",
   ];
 
   const OwnerRoute = [
@@ -64,6 +63,7 @@ export default function Layout({ children }) {
     "/owners/profile",
     "/owners/bookinghistory",
     "/sitters/booking/create",
+    "/owners/messages",
   ];
 
   const SitterRoute = [
@@ -72,6 +72,7 @@ export default function Layout({ children }) {
     "/sitters/booking",
     "/sitters/payout",
     "/sitters/payout/bank-account",
+    "/sitters/messages",
   ];
 
   const AdminRoute = ["/admin"];
