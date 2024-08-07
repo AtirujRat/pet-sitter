@@ -27,7 +27,8 @@ function validatePassword(value) {
 export default function LoginForm(props) {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-  const { getOwner, getSitter, setConnection, connection } = useUser();
+  const { getOwner, getSitter, getAdmin, setConnection, connection } =
+    useUser();
   async function logIn(formData) {
     try {
       if (props.api === "admin") {
@@ -39,6 +40,7 @@ export default function LoginForm(props) {
           setConnection(!connection);
           return;
         }
+        getAdmin();
         setTimeout(() => {
           router.push("/admin");
         }, 1000);

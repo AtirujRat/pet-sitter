@@ -30,7 +30,7 @@ export default function SittersList() {
     clickPetSitter,
     refresh,
   } = useSitters();
-  const [filter, setFilter] = useState([]);
+  let filter;
 
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
   const petTypeComponents = {
@@ -45,22 +45,15 @@ export default function SittersList() {
     return filteredRating === null || ratingStars === filteredRating;
   });
 
-  function handleFilter() {
-    if (selectMap === "map" && clickPetSitter.index) {
-      const newSitter = filteredSitters[0];
-      filteredSitters[0] = filteredSitters[clickPetSitter.index];
-      filteredSitters[clickPetSitter.index] = newSitter;
-      setFilter(filteredSitters);
-    } else {
-      setFilter(filteredSitters);
-    }
+  if (selectMap === "map" && clickPetSitter.index) {
+    const newSitter = [...filteredSitters];
+    const newIndex = newSitter[0];
+    newSitter[0] = newSitter[clickPetSitter.index];
+    newSitter[clickPetSitter.index] = newIndex;
+    filter = newSitter;
+  } else {
+    filter = filteredSitters;
   }
-
-  useEffect(() => {
-    setTimeout(() => {
-      handleFilter();
-    }, 1000);
-  }, [clickPetSitter, refresh]);
 
   setTotalPages(Math.ceil(filteredSitters.length / ITEMS_PER_PAGE));
 

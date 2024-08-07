@@ -1,7 +1,9 @@
 import { supabase } from "@/utils/supabase";
+import protect from "../protect";
 
 export default async function handler(req, res) {
   const { name, phone_number, email } = req.query;
+  protect(req, res);
 
   if (req.method === "GET") {
     try {
