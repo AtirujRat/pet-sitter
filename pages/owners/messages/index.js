@@ -4,6 +4,7 @@ import axios from "axios";
 import MessageSidebar from "@/components/messages/MessageSidebar";
 import Image from "next/image";
 import AlertTop from "@/components/alerts/AlertTop";
+import { useRouter } from "next/router";
 
 export const ConversationOwnerContext = createContext();
 const API_URL = "/api/owner";
@@ -15,6 +16,7 @@ export default function ConversationOwnerPage() {
   const [isSend, setIsSend] = useState(null);
   const [error, setError] = useState(null);
   const [alertKey, setAlertKey] = useState(0);
+  const router = useRouter();
 
   const [userOwner, setUserOwner] = useState(() => {
     if (typeof window !== "undefined") {
@@ -28,6 +30,11 @@ export default function ConversationOwnerPage() {
   );
 
   const fetchConversations = async () => {
+    if (!userOwner.id) {
+      router.push("/404");
+      return;
+    }
+
     let sortedConversations;
 
     try {

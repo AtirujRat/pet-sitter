@@ -4,6 +4,7 @@ import axios from "axios";
 import Image from "next/image";
 import MessageSidebar from "@/components/messages/MessageSidebar";
 import AlertTop from "@/components/alerts/AlertTop";
+import { useRouter } from "next/navigation";
 
 export const ConversationSitterContext = createContext();
 const API_URL = "/api/sitters";
@@ -15,6 +16,7 @@ export default function ConversationSitterPage() {
   const [isSend, setIsSend] = useState(null);
   const [error, setError] = useState(null);
   const [alertKey, setAlertKey] = useState(0);
+  const router = useRouter();
 
   const [userSitter, setUserSitter] = useState(() => {
     if (typeof window !== "undefined") {
@@ -28,6 +30,11 @@ export default function ConversationSitterPage() {
   );
 
   const fetchConversations = async () => {
+    if (!userSitter.id) {
+      router.push("/404");
+      return;
+    }
+
     let sortedConversations;
 
     try {
