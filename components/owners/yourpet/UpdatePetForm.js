@@ -26,6 +26,7 @@ export default function UpdatePetForm() {
   const [preview, setPreview] = useState(null);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [alertKey, setAlertKey] = useState(0);
   const fileInputRef = useRef(null);
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -39,6 +40,7 @@ export default function UpdatePetForm() {
         setPreview(response.data[0].pet_image_url);
       } catch {
         setError("Error fetching pet.");
+        setAlertKey((prevKey) => prevKey + 1);
       }
     };
 
@@ -64,6 +66,7 @@ export default function UpdatePetForm() {
 
     if (file && file.size > 2 * 1024 * 1024) {
       setError("File size should not exceed 2 MB.");
+      setAlertKey((prevKey) => prevKey + 1);
       return;
     }
 
@@ -75,6 +78,7 @@ export default function UpdatePetForm() {
     if (file) {
       reader.readAsDataURL(file);
       setSuccess("Upload image successful.");
+      setAlertKey((prevKey) => prevKey + 1);
     }
   };
 
@@ -92,6 +96,7 @@ export default function UpdatePetForm() {
 
         if (imageError) {
           setError("Error uploading image.");
+          setAlertKey((prevKey) => prevKey + 1);
           return;
         }
 
@@ -114,6 +119,7 @@ export default function UpdatePetForm() {
       router.push(`/owners/yourpet`);
     } catch {
       setError("Error updating pet.");
+      setAlertKey((prevKey) => prevKey + 1);
     } finally {
       actions.setSubmitting(false);
     }
@@ -128,9 +134,11 @@ export default function UpdatePetForm() {
       await axios.delete(API_RUD_PET(id, petId));
       toggleModal(false);
       setSuccess("Delete pet successful.");
+      setAlertKey((prevKey) => prevKey + 1);
       router.back();
     } catch {
       setError("Error deleting pet.");
+      setAlertKey((prevKey) => prevKey + 1);
     }
   };
 
@@ -412,8 +420,8 @@ export default function UpdatePetForm() {
             </div>
           </div>
           {/* alert */}
-          {error && <AlertTop type="error" text={error} />}
-          {success && <AlertTop type="success" text={success} />}
+          {error && <AlertTop key={alertKey} type="error" text={error} />}
+          {success && <AlertTop key={alertKey} type="success" text={success} />}
         </Form>
       )}
     </Formik>
