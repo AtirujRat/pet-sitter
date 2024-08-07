@@ -27,7 +27,7 @@ export default function PetList() {
       setLoading(true);
 
       try {
-        const response = await axios.get(`/api/owsner/${id}/pet`);
+        const response = await axios.get(`/api/owner/${id}/pet`);
         setPets(response.data);
       } catch (error) {
         setError("Failed to load pets. Please try again later.");
