@@ -1,0 +1,19 @@
+#date {
+  background-color: orange;
+  padding: 15px;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  color: #ffffff;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+}
+.datepicker::-webkit-calendar-picker-indicator {
+  background-color: orange;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 3px;
+}

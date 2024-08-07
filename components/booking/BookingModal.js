@@ -7,6 +7,7 @@ import { useBooking } from "@/context/Booking";
 import { useOwners } from "@/context/Owners";
 import { useRouter } from "next/router";
 import axios from "axios";
+import styles from "./DatePicker.module.css";
 
 const timeSchedule = [
   "8:00 AM",
@@ -215,7 +216,13 @@ export default function BookingModal(props) {
             onClick={() => setToggleStartTime((prev) => !prev)}
             className="relative w-[208px] flex justify-start items-center h-[48px] rounded-lg border-[1px] border-ps-gray-200 cursor-pointer"
           >
-            <h1 className="p-[12px] text-b3 sm:text-b2"> {startTime}</h1>
+            <h1
+              className={`p-[12px] text-b3 sm:text-b2 ${
+                !startTime ? "text-ps-gray-400" : ""
+              }`}
+            >
+              {startTime || "Start time"}
+            </h1>
             {toggleStartTime && (
               <div className="absolute top-[100%] w-full h-[220px] bg-ps-white overflow-x-auto rounded-xl list-none shadow-[4px_2px_12px_2px_#00000029] mt-[5px] py-[12px]">
                 {timeSchedule.map((time, index) => {
@@ -240,7 +247,13 @@ export default function BookingModal(props) {
             onClick={() => setToggleEndTime((prev) => !prev)}
             className="relative w-[208px] flex justify-start items-center h-[48px] rounded-lg border-[1px] border-ps-gray-200 cursor-pointer"
           >
-            <h1 className="p-[12px] text-b3 sm:text-b2"> {endTime}</h1>
+            <h1
+              className={`p-[12px] text-b3 sm:text-b2 ${
+                !endTime ? "text-ps-gray-400" : ""
+              }`}
+            >
+              {endTime || "End time"}
+            </h1>
             {toggleEndTime && (
               <div className="absolute top-[100%] w-full h-[220px] bg-ps-white overflow-x-auto rounded-xl list-none shadow-[4px_2px_12px_2px_#00000029] mt-[5px] py-[12px]">
                 {timeSchedule.map((time, index) => {
