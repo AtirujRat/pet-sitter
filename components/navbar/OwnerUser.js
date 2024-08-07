@@ -47,7 +47,7 @@ export default function OwnerUser({ userId, userEmail, setUserData }) {
           width={48}
           className="w-[48px] h-[48px] bg-[#F6F6F9] rounded-full cursor-pointer "
         />
-        <Link href={`/owners/${userId}/messages/`}>
+        <Link href={`/owners/messages/`}>
           <Image
             src={message}
             alt="message"
@@ -118,7 +118,7 @@ export default function OwnerUser({ userId, userEmail, setUserData }) {
             Profile
           </Link>
           <Link
-            href={`/owners/${userId}/yourpet/`}
+            href={`/owners/yourpet/`}
             className="w-full p-4 text-b1 flex gap-3"
           >
             <Image src={pet} alt="your pet" width={24} height={24} />
