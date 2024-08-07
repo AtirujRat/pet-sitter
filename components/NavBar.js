@@ -84,7 +84,7 @@ export default function NavBar({ setOpenModal }) {
             <Anonymous />
           )}
           <Link href={"/sitters"}>
-            <button className="items-center justify-center w-[168px] h-[48px] bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide ">
+            <button className="items-center justify-center w-[168px] h-[48px] bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide">
               Find A Pet Sitter
             </button>
           </Link>
@@ -98,7 +98,13 @@ export default function NavBar({ setOpenModal }) {
         </Link>
         <div className="flex gap-2">
           <Image src={bell} alt="bell" width={48} />
-          <Image src={message} alt="message" width={48} className=" mr-1" />
+          <Link
+            href={`/${
+              userInfo?.role === "owner" ? "owners" : "sitters"
+            }/messages`}
+          >
+            <Image src={message} alt="message" width={48} className="mr-1" />
+          </Link>
           <Image
             src={menu}
             alt="menu"

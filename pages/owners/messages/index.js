@@ -1,20 +1,22 @@
 import { createContext, useEffect, useState } from "react";
 import ChatWindow from "@/components/messages/ChatWindow";
 import axios from "axios";
-import Image from "next/image";
 import MessageSidebar from "@/components/messages/MessageSidebar";
+import Image from "next/image";
+import AlertTop from "@/components/alerts/AlertTop";
 
-export const ConversationSitterContext = createContext();
-const API_URL = "/api/sitters";
+export const ConversationOwnerContext = createContext();
+const API_URL = "/api/owner";
 
-export default function ConversationSitterPage() {
+export default function ConversationOwnerPage() {
   const [conversations, setConversations] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [selectedConversationId, setSelectedConversationId] = useState(null);
   const [isChatWindowOpen, setIsChatWindowOpen] = useState(true);
   const [isSend, setIsSend] = useState(null);
+  const [error, setError] = useState(null);
+  const [alertKey, setAlertKey] = useState(0);
 
-  const [userSitter, setUserSitter] = useState(() => {
+  const [userOwner, setUserOwner] = useState(() => {
     if (typeof window !== "undefined") {
       const savedState = localStorage.getItem("userInfo");
       return savedState ? JSON.parse(savedState) : {};
@@ -26,13 +28,12 @@ export default function ConversationSitterPage() {
   );
 
   const fetchConversations = async () => {
-    setLoading(true);
     let sortedConversations;
 
     try {
-      if (userSitter.id) {
+      if (userOwner.id) {
         const response = await axios.get(
-          `${API_URL}/${userSitter.id}/conversations`
+          `${API_URL}/${userOwner.id}/conversations`
         );
 
         sortedConversations = [...response.data].sort(
@@ -41,13 +42,12 @@ export default function ConversationSitterPage() {
       }
       setConversations(sortedConversations);
 
-      setLoading(false);
-
       if (!selectedConversationId && sortedConversations.length > 0) {
         setSelectedConversationId(sortedConversations[0].id);
       }
     } catch {
-      setLoading(true);
+      setError("Error loading conversations");
+      setAlertKey((prevKey) => prevKey + 1);
     }
   };
 
@@ -70,7 +70,7 @@ export default function ConversationSitterPage() {
   };
 
   return (
-    <ConversationSitterContext.Provider
+    <ConversationOwnerContext.Provider
       value={{
         conversations,
         selectedConversationId,
@@ -80,7 +80,7 @@ export default function ConversationSitterPage() {
       <section className="w-full h-[91vh] flex">
         <MessageSidebar
           onSend={handleOnSend}
-          userType="sitter"
+          userType="owner"
           fetchConversations={fetchConversations}
         />
         {!selectedConversation ? (
@@ -97,14 +97,15 @@ export default function ConversationSitterPage() {
           selectedConversation && (
             <ChatWindow
               conversation={selectedConversation}
-              userType="sitter"
+              userType="owner"
               onClose={handleCloseChatWindow}
               onSend={handleOnSend}
-              user={userSitter.id}
+              user={userOwner.id}
             />
           )
         )}
+        {error && <AlertTop key={alertKey} type="error" text={error} />}
       </section>
-    </ConversationSitterContext.Provider>
+    </ConversationOwnerContext.Provider>
   );
 }

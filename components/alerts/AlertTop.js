@@ -99,12 +99,15 @@ export default function AlertTop({ text, type }) {
 
 //const [error, setError] = useState(null);
 //const [success, setSuccess] = useState(null);
+// const [alertKey, setAlertKey] = useState(0);
 
 // setError("File size should not exceed 2 MB.");
+// setAlertKey((prevKey) => prevKey + 1);
 // setError(null);
 
 // setSuccess("Create pet successful.");
+// setAlertKey((prevKey) => prevKey + 1);
 // setSuccess(null);
 
-// {error && <AlertTop type="error" text={error} />}
-// {success && <AlertTop type="success" text={success} />}
+// {error && <AlertTop key={alertKey} type="error" text={error} />}
+// {success && <AlertTop key={alertKey} type="success" text={success} />}

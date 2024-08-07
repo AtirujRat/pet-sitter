@@ -5,27 +5,37 @@ import axios from "axios";
 import Loading from "@/components/Loading";
 import { useUser } from "@/context/User";
 import AlertTop from "@/components/alerts/AlertTop";
+import { useRouter } from "next/router";
 
 export default function PetList() {
+  const router = useRouter();
   const { userInfo } = useUser();
   const id = userInfo?.id;
 
   const [pets, setPets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [alertKey, setAlertKey] = useState(0);
 
   useEffect(() => {
-    if (!id) return;
+    if (!id) {
+      router.push("/404");
+      return;
+    }
 
     const fetchPets = async () => {
       setLoading(true);
-      setError(null);
 
       try {
-        const response = await axios.get(`/api/owner/${id}/pet`);
+        const response = await axios.get(`/api/owsner/${id}/pet`);
         setPets(response.data);
-      } catch {
+      } catch (error) {
         setError("Failed to load pets. Please try again later.");
+        setAlertKey((prevKey) => prevKey + 1);
+        if (error.response.status === 404) {
+          router.push("/404");
+          return;
+        }
       } finally {
         setLoading(false);
       }
@@ -52,7 +62,7 @@ export default function PetList() {
         </Link>
       ))}
       {/* alert */}
-      {error && <AlertTop type="error" text={error} />}
+      {error && <AlertTop key={alertKey} type="error" text={error} />}
     </section>
   );
 }

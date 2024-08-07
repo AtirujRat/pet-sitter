@@ -48,7 +48,7 @@ export default function SitterUser({ userId, setUserData }) {
           width={48}
           className="w-[48px] h-[48px] bg-[#F6F6F9] rounded-full cursor-pointer "
         />
-        <Link href={`/sitters/${userId}/messages/`}>
+        <Link href={`/sitters/messages/`}>
           <Image
             src={message}
             alt="message"
