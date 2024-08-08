@@ -30,7 +30,7 @@ export default function SittersList() {
     clickPetSitter,
     refresh,
   } = useSitters();
-  let filter;
+  const [filter, setFilter] = useState([]);
 
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
   const petTypeComponents = {
@@ -49,9 +49,6 @@ export default function SittersList() {
     const newSitter = filteredSitters[0];
     filteredSitters[0] = filteredSitters[clickPetSitter.index];
     filteredSitters[clickPetSitter.index] = newSitter;
-    filter = newSitter;
-  } else {
-    filter = filteredSitters;
   }
 
   setTotalPages(Math.ceil(filteredSitters.length / ITEMS_PER_PAGE));
@@ -166,17 +163,19 @@ export default function SittersList() {
           </button>{" "}
         </>
       ) : (
-        <section className={`w-full sm:my-10 max-sm:mb-10 absolute top-[72%]`}>
+        <section
+          className={`w-full sm:my-10 max-sm:mb-10 absolute sm:top-[72%] top-[82%]`}
+        >
           <div className={`${styles.embla__viewport} w-full`} ref={emblaRef}>
             <div
               className={`${styles.embla__container} w-full md:h-[25vw] h-[280px]`}
             >
-              {filter.length === 0 ? (
+              {filteredSitters.length === 0 ? (
                 <div className="notfound text-center text-ps-gray-600 text-b1  h-full w-full p-4 rounded-2xl max-xl:flex-col">
                   Sitter not found
                 </div>
               ) : (
-                filter.map((sitter, index) => {
+                filteredSitters.map((sitter, index) => {
                   let galleryImage = "https://placehold.co/400x300";
 
                   if (sitter.sitters_images.length > 0) {
@@ -192,15 +191,15 @@ export default function SittersList() {
                           <div
                             className={
                               clickPetSitter[sitter.id]
-                                ? "sitter-item w-[600px] h-40 bg-ps-white p-4 flex xl:gap-9 sm:gap-3 gap-2 border-2 border-ps-orange-600 rounded-2xl hover:shadow-lg transition-transform active:scale-95 max-xl:flex-col"
-                                : "sitter-item w-[600px] h-40 bg-ps-white p-4 flex xl:gap-9 sm:gap-3 gap-2 rounded-2xl hover:shadow-lg transition-transform active:scale-95 max-xl:flex-col"
+                                ? "sitter-item w-[600px] h-40 bg-ps-white p-4 flex xl:gap-9 sm:gap-3 gap-2 border-2 border-ps-orange-600 rounded-2xl hover:shadow-lg transition-transform active:scale-95"
+                                : "sitter-item w-[600px] h-40 bg-ps-white p-4 flex xl:gap-9 sm:gap-3 gap-2 rounded-2xl hover:shadow-lg transition-transform active:scale-95"
                             }
                           >
                             {" "}
                             <img
                               src={galleryImage}
                               alt={`first gallery image for ${sitter.full_name}`}
-                              className="h-[90%] w-[30%] rounded-lg object-cover object-center self-center max-xl:w-full max-sm:h-[100px]"
+                              className="h-[90%] w-[30%] rounded-lg object-cover object-center self-center max-sm:h-[100px]"
                             ></img>
                             <div className="setter-info flex-col w-full">
                               <div className="profile flex gap-5 my-2 justify-between">
