@@ -28,19 +28,22 @@ export default function BookingDetail() {
     }
     setDate({ dateStart, start, end });
     setTotal(price);
-    addBookingHandle({
-      ...booking,
-      duration: duration,
-      price: total,
-      dateStart,
-    });
+    setTimeout(() => {
+      addBookingHandle({
+        ...booking,
+        duration: duration,
+        price: total,
+        dateStart,
+      });
+    }, 500);
     setLoading(false);
   }
+
   useEffect(() => {
     if (booking.owner_pet) {
       handleDuration();
     }
-  }, [duration, onselectPet]);
+  }, [duration, onselectPet, total]);
 
   return (
     <>

@@ -44,22 +44,24 @@ export default function YourPet() {
   };
 
   async function getData() {
+    console.log(id);
     try {
-      if (!id) {
-        return;
+      if (id) {
+        const getDataOwners = await axios.post("/api/owner/getdata", {
+          id: booking.owner_id,
+        });
+        const getDataSittets = await axios.get(`/api/sitters/${id}`);
+        setSitter(getDataSittets.data.data[0]);
+        setPetData(getDataOwners.data.data);
+        addBookingHandle({ ...booking, sitter_id: id });
+        setLoading(false);
       }
-      const getDataOwners = await axios.post("/api/owner/getdata", {
-        id: booking.owner_id,
-      });
-      const getDataSittets = await axios.get(`/api/sitters/${id}`);
-      setSitter(getDataSittets.data.data[0]);
-      setPetData(getDataOwners.data.data);
-      addBookingHandle({ ...booking, sitter_id: id });
-      setLoading(false);
     } catch (e) {
       setConnection(!connection);
     }
   }
+
+  console.log(booking);
 
   useEffect(() => {
     getData();
@@ -82,7 +84,6 @@ export default function YourPet() {
       setOnselectPet(!onselectPet);
     }
   }
-
   if (sitter.pet_types) {
     for (let i = 0; i < sitter.pet_types.length; i++) {
       sitter.pet_types[i] = sitter.pet_types[i].toLowerCase();
@@ -102,7 +103,7 @@ export default function YourPet() {
                       <div
                         key={pet.id}
                         className={
-                          select[pet.type]
+                          select[pet.name]
                             ? "w-full lg:w-[30%] h-[240px] lg:h-[50%] hover:bg-ps-orange-100 border border-ps-orange-500 rounded-2xl flex flex-col justify-center items-center relative gap-4"
                             : "w-full lg:w-[30%] h-[240px] lg:h-[50%] hover:bg-ps-orange-100 border border-ps-gray-200 rounded-2xl flex flex-col justify-center items-center relative gap-4"
                         }
@@ -123,7 +124,7 @@ export default function YourPet() {
                             type="checkbox"
                             value={pet.name}
                             onChange={handlePetSelect}
-                            checked={select[pet.type]}
+                            checked={select[pet.name]}
                             onClick={() => {
                               handleClick(pet.name, pet.id);
                             }}
