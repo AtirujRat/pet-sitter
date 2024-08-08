@@ -14,6 +14,7 @@ import { useOwners } from "@/context/Owners";
 import { useSitters } from "@/context/SittersProvider";
 import Loading from "@/components/Loading";
 import { useUser } from "@/context/User";
+import petmock from "@/public/assets/pets/pet-dummy.svg";
 
 export default function YourPet() {
   const router = useRouter();
@@ -44,7 +45,6 @@ export default function YourPet() {
   };
 
   async function getData() {
-    console.log(id);
     try {
       if (id) {
         const getDataOwners = await axios.post("/api/owner/getdata", {
@@ -60,8 +60,6 @@ export default function YourPet() {
       setConnection(!connection);
     }
   }
-
-  console.log(booking);
 
   useEffect(() => {
     getData();
@@ -132,7 +130,7 @@ export default function YourPet() {
                           />
                         )}
                         <Image
-                          src={pet.pet_image_url}
+                          src={pet.pet_image_url ? pet.pet_image_url : petmock}
                           alt="pet-image"
                           width={80}
                           height={80}
