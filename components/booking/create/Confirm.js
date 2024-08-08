@@ -10,7 +10,6 @@ export default function Confirm() {
 
   async function handleOnclick() {
     try {
-      console.log(booking);
       await axios.post(`/api/owner/${userInfo.id}/createbooking`, booking);
       setTimeout(() => {
         setConfirm("booking detail");

@@ -12,9 +12,8 @@ import { useUser } from "@/context/User";
 import ConnectionServer from "@/components/ConnectionServer";
 
 export default function BookingCreate() {
-  const { stepBooking, confirm, booking } = useBooking();
+  const { stepBooking, confirm } = useBooking();
   const { connection } = useUser();
-  // console.log(booking);
 
   return (
     <>
