@@ -252,7 +252,7 @@ export default function Account() {
                         alt="preview"
                         className="absolute w-full h-full object-cover rounded-full"
                       />
-                    ) : userData?.profile_image_url === "NULL" ? (
+                    ) : !userData?.profile_image_url ? (
                       <Image
                         src={profile_icon}
                         alt="profile icon"
@@ -261,7 +261,7 @@ export default function Account() {
                     ) : (
                       <img
                         src={userData?.profile_image_url}
-                        alt="profile image"
+                        alt="profile icon"
                         className="absolute w-full h-full object-cover rounded-full"
                       />
                     )}
