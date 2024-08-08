@@ -170,84 +170,83 @@ export default function BookingHistory() {
             <>
               {bookingList.length > 0 ? (
                 <>
+                  {isChangeDateModalOpened && (
+                    <Modal>
+                      <ChangeDateModal
+                        closeModal={toggleChangeDateModal}
+                        bookingList={bookingList}
+                        index={currentIndex}
+                        setRefresh={setRefresh}
+                        setAlertText={setAlertText}
+                        setAlertType={setAlertType}
+                        setConnection={setConnection}
+                      />
+                    </Modal>
+                  )}
+                  {isBookingDetailModalOpened && (
+                    <Modal closeModal={toggleBookingDetailModal}>
+                      <BookingDetailModal
+                        closeModal={toggleBookingDetailModal}
+                        bookingList={bookingList}
+                        index={currentIndex}
+                      />
+                    </Modal>
+                  )}
+                  {isReportModalOpened && (
+                    <Modal closeModal={toggleReportModal}>
+                      <ReportModal
+                        closeModal={toggleReportModal}
+                        bookingList={bookingList}
+                        index={currentIndex}
+                        setAlertText={setAlertText}
+                        setAlertType={setAlertType}
+                        setConnection={setConnection}
+                        setRefresh={setRefresh}
+                      />
+                    </Modal>
+                  )}
+                  {isReviewModalOpened && (
+                    <Modal closeModal={toggleReviewModal}>
+                      <ReviewModal
+                        closeModal={toggleReviewModal}
+                        bookingList={bookingList}
+                        index={currentIndex}
+                        setRefresh={setRefresh}
+                        setAlertText={setAlertText}
+                        setAlertType={setAlertType}
+                        setConnection={setConnection}
+                      />
+                    </Modal>
+                  )}
+                  {isYourReviewModalOpened && (
+                    <Modal closeModal={toggleYourReviewModal}>
+                      <YourReview
+                        ownerData={ownerData}
+                        reviews={reviews}
+                        currentReview={currentReview}
+                        closeModal={toggleYourReviewModal}
+                      />
+                    </Modal>
+                  )}
+                  {isCancelModalOpened && (
+                    <Modal>
+                      <CancelModal
+                        bookingList={bookingList}
+                        index={currentIndex}
+                        closeModal={toggleCancelModal}
+                        setRefresh={setRefresh}
+                        setConnection={setConnection}
+                        setAlertText={setAlertText}
+                        setAlertType={setAlertType}
+                      />
+                    </Modal>
+                  )}
                   {bookingList.map((item, index) => {
                     return (
                       <div
                         key={index}
                         className="w-full h-fit rounded-2xl border-[1px] border-ps-gray-200 p-[24px] "
                       >
-                        {isChangeDateModalOpened && (
-                          <Modal>
-                            <ChangeDateModal
-                              closeModal={toggleChangeDateModal}
-                              bookingList={bookingList}
-                              index={currentIndex}
-                              setRefresh={setRefresh}
-                              setAlertText={setAlertText}
-                              setAlertType={setAlertType}
-                              setConnection={setConnection}
-                            />
-                          </Modal>
-                        )}
-                        {isBookingDetailModalOpened && (
-                          <Modal closeModal={toggleBookingDetailModal}>
-                            <BookingDetailModal
-                              closeModal={toggleBookingDetailModal}
-                              bookingList={bookingList}
-                              index={currentIndex}
-                            />
-                          </Modal>
-                        )}
-                        {isReportModalOpened && (
-                          <Modal closeModal={toggleReportModal}>
-                            <ReportModal
-                              closeModal={toggleReportModal}
-                              bookingList={bookingList}
-                              index={currentIndex}
-                              setAlertText={setAlertText}
-                              setAlertType={setAlertType}
-                              setConnection={setConnection}
-                              setRefresh={setRefresh}
-                            />
-                          </Modal>
-                        )}
-                        {isReviewModalOpened && (
-                          <Modal closeModal={toggleReviewModal}>
-                            <ReviewModal
-                              closeModal={toggleReviewModal}
-                              bookingList={bookingList}
-                              index={currentIndex}
-                              setRefresh={setRefresh}
-                              setAlertText={setAlertText}
-                              setAlertType={setAlertType}
-                              setConnection={setConnection}
-                            />
-                          </Modal>
-                        )}
-                        {isYourReviewModalOpened && (
-                          <Modal closeModal={toggleYourReviewModal}>
-                            <YourReview
-                              ownerData={ownerData}
-                              reviews={reviews}
-                              currentReview={currentReview}
-                              closeModal={toggleYourReviewModal}
-                            />
-                          </Modal>
-                        )}
-                        {isCancelModalOpened && (
-                          <Modal>
-                            <CancelModal
-                              bookingList={bookingList}
-                              index={currentIndex}
-                              closeModal={toggleCancelModal}
-                              setRefresh={setRefresh}
-                              setConnection={setConnection}
-                              setAlertText={setAlertText}
-                              setAlertType={setAlertType}
-                            />
-                          </Modal>
-                        )}
-
                         <div
                           onClick={() => toggleBookingDetailModal(index)}
                           className="flex flex-col  min-[600px]:flex-row justify-between h-fit pb-[16px] gap-[16px] border-b-[1px] border-ps-gray-200 cursor-pointer"
