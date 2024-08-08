@@ -8,7 +8,6 @@ import Script from "next/script";
 import { SearchProvider } from "@/context/Search";
 import { BookingProvider } from "@/context/Booking";
 import { supabase } from "@/utils/supabase";
-
 import { SittersProvider } from "@/context/SittersProvider";
 import { SitterManageProfileProvider } from "@/context/SitterManageProfile";
 import { OwnerProvider } from "@/context/Owners";
@@ -19,6 +18,7 @@ import jwtInterceptor from "@/utils/jwtinterceptor";
 import CheckUserOwner from "@/components/CheckUserOwner";
 import CheckUserSitter from "./CheckUserSitter";
 import CheckAdmin from "./CheckAdmin";
+import { NextUIProvider } from "@nextui-org/system";
 
 jwtInterceptor();
 
@@ -110,12 +110,12 @@ export default function Layout({ children }) {
         defer
         src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
       />
-      <UserProvider>
-        <SearchProvider>
-          <AdminProvider>
-            <OwnersAccountStateProvider>
-              <OwnerProvider>
-                <SitterManageProfileProvider>
+      <NextUIProvider>
+        <UserProvider>
+          <SearchProvider>
+            <AdminProvider>
+              <OwnersAccountStateProvider>
+                <OwnerProvider>
                   <SittersProvider>
                     <BookingProvider>
                       <div className="w-full">
@@ -139,12 +139,12 @@ export default function Layout({ children }) {
                       </div>
                     </BookingProvider>
                   </SittersProvider>
-                </SitterManageProfileProvider>
-              </OwnerProvider>
-            </OwnersAccountStateProvider>
-          </AdminProvider>
-        </SearchProvider>
-      </UserProvider>
+                </OwnerProvider>
+              </OwnersAccountStateProvider>
+            </AdminProvider>
+          </SearchProvider>
+        </UserProvider>
+      </NextUIProvider>
     </>
   );
 }
