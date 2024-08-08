@@ -16,7 +16,7 @@ export default function Confirm() {
         localStorage.removeItem("myState");
         localStorage.removeItem("user");
         handleBookingSuccess();
-      }, 1500);
+      }, 500);
     } catch (error) {
       setConnection(!connection);
     }

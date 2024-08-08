@@ -22,6 +22,7 @@ export default function BookingSuccess() {
       const bookingData = await axios.get(
         `/api/owner/${userInfo.id}/createbooking`
       );
+      console.log(bookingData);
       setTransaction(bookingData.data.data[bookingData.data.data.length - 1]);
       setLoading(false);
     } catch (error) {
@@ -126,7 +127,7 @@ export default function BookingSuccess() {
             <button
               type="button"
               onClick={() => {
-                router.push(`/owners/${userInfo.id}/bookinghistory`);
+                router.push(`/owners/bookinghistory`);
               }}
               className="btn hover:bg-ps-orange-200 max-lg:w-[45%] lg:px-10 bg-ps-orange-100 text-ps-orange-500 text-b2 border-none rounded-[99px] "
             >
