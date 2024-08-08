@@ -10,6 +10,7 @@ import { BookingProvider } from "@/context/Booking";
 import { supabase } from "@/utils/supabase";
 
 import { SittersProvider } from "@/context/SittersProvider";
+import { SitterManageProfileProvider } from "@/context/SitterManageProfile";
 import { OwnerProvider } from "@/context/Owners";
 import { OwnersAccountStateProvider } from "@/context/OwnersAccountState";
 import { AdminProvider } from "@/context/Admin";
@@ -114,29 +115,31 @@ export default function Layout({ children }) {
           <AdminProvider>
             <OwnersAccountStateProvider>
               <OwnerProvider>
-                <SittersProvider>
-                  <BookingProvider>
-                    <div className="w-full">
-                      {!isNoLayoutRoute && (
-                        <NavBar
-                          setOpenModal={() => setOpenModal((prev) => !prev)}
-                        />
-                      )}
-                      {openModal && (
-                        <div className="absolute top-15 right-0 size-10 bg-ps-white w-full h-full z-10">
-                          <LoginMobile
+                <SitterManageProfileProvider>
+                  <SittersProvider>
+                    <BookingProvider>
+                      <div className="w-full">
+                        {!isNoLayoutRoute && (
+                          <NavBar
                             setOpenModal={() => setOpenModal((prev) => !prev)}
                           />
-                        </div>
-                      )}
-                      {isOwnerRoute && <CheckUserOwner />}
-                      {isSitterRoute && <CheckUserSitter />}
-                      {isAdminRoute && <CheckAdmin />}
-                      <div>{children}</div>
-                      {!isNoLayoutRoute && !isNoFooterRoute && <Footer />}
-                    </div>
-                  </BookingProvider>
-                </SittersProvider>
+                        )}
+                        {openModal && (
+                          <div className="absolute top-15 right-0 size-10 bg-ps-white w-full h-full z-10">
+                            <LoginMobile
+                              setOpenModal={() => setOpenModal((prev) => !prev)}
+                            />
+                          </div>
+                        )}
+                        {isOwnerRoute && <CheckUserOwner />}
+                        {isSitterRoute && <CheckUserSitter />}
+                        {isAdminRoute && <CheckAdmin />}
+                        <div>{children}</div>
+                        {!isNoLayoutRoute && !isNoFooterRoute && <Footer />}
+                      </div>
+                    </BookingProvider>
+                  </SittersProvider>
+                </SitterManageProfileProvider>
               </OwnerProvider>
             </OwnersAccountStateProvider>
           </AdminProvider>
