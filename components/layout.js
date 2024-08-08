@@ -116,6 +116,7 @@ export default function Layout({ children }) {
             <AdminProvider>
               <OwnersAccountStateProvider>
                 <OwnerProvider>
+                 <SitterManageProfileProvider>
                   <SittersProvider>
                     <BookingProvider>
                       <div className="w-full">
@@ -139,6 +140,7 @@ export default function Layout({ children }) {
                       </div>
                     </BookingProvider>
                   </SittersProvider>
+                 <SitterManageProfileProvider>
                 </OwnerProvider>
               </OwnersAccountStateProvider>
             </AdminProvider>
