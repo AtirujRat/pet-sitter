@@ -12,6 +12,10 @@ export default function Detail() {
   const { profile } = useSitterManageProfileState();
   const { bookingId } = router.query;
 
+  if (!profile) {
+    return <Loading />;
+  }
+
   return (
     <div className="flex">
       <SideBarSitter />
