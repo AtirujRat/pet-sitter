@@ -10,13 +10,14 @@ export default function Confirm() {
 
   async function handleOnclick() {
     try {
+      console.log(booking);
       await axios.post(`/api/owner/${userInfo.id}/createbooking`, booking);
       setTimeout(() => {
         setConfirm("booking detail");
         localStorage.removeItem("myState");
         localStorage.removeItem("user");
         handleBookingSuccess();
-      }, 1500);
+      }, 500);
     } catch (error) {
       setConnection(!connection);
     }

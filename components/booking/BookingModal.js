@@ -141,7 +141,7 @@ export default function BookingModal(props) {
         setUser(ownerData.data[0]);
         addBookingHandle({
           owner_id: ownerData.data[0].id,
-          sitter_id: "",
+          sitter_id: id,
           start_time: dateInput + " " + startTime,
           end_time: dateInput + " " + endTime,
           status: "Waiting for confirm",
