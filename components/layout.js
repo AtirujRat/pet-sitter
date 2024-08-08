@@ -140,7 +140,7 @@ export default function Layout({ children }) {
                       </div>
                     </BookingProvider>
                   </SittersProvider>
-                 <SitterManageProfileProvider>
+                 </SitterManageProfileProvider>
                 </OwnerProvider>
               </OwnersAccountStateProvider>
             </AdminProvider>
