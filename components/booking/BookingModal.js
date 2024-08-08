@@ -136,7 +136,7 @@ export default function BookingModal(props) {
 
     if (timeError === null && dateError === null) {
       const ownerEmail = await getUserAuth();
-
+      //use try catch
       const ownerData = await axios.get(
         `/api/owner/${ownerEmail.email}/queryowner`
       );
