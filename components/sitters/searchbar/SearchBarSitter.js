@@ -15,6 +15,8 @@ export default function SearchBarSitter() {
     handleClearSearch,
     refresh,
     setRefresh,
+    setClickPetSitter,
+    setCurrentPage
   } = useSitters();
 
   return (
@@ -76,6 +78,8 @@ export default function SearchBarSitter() {
           onClick={() => {
             setFilteredRating(selectedRating);
             setRefresh(!refresh);
+            setClickPetSitter({});
+            setCurrentPage(1);
           }}
           className="w-full bg-ps-orange-500 text-ps-white text-[16px] font-bold rounded-full tracking-wide h-[48px]"
         >

@@ -11,6 +11,7 @@ export default async function handler(req, res) {
         "*, sitters(full_name, trade_name), bookings_pets(booking_id, pet_id), pets(name)"
       )
       .eq("owner_id", id);
+    bookings = bookings.sort((a, b) => a.id - b.id);
     return res.status(200).json({ data: bookings });
   }
   if (req.method === "POST") {

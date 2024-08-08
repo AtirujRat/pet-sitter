@@ -65,13 +65,13 @@ export default function SitterPagination() {
 
       addButton(totalPages, currentPage === totalPages);
     }
-    
+
     return buttons;
   }
 
   return (
     <>
-      {selectMap === "list" && (
+      {selectMap === "list" && totalPages > 1 && (
         <div className="pagination max-lg:hidden flex h-10 gap-3 w-fit">
           {currentPage > 1 && (
             <button

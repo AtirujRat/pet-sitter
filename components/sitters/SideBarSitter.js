@@ -6,11 +6,9 @@ import { supabase } from "@/utils/supabase";
 import sitterlogo from "@/public/assets/sister-logo.svg";
 import profile from "@/public/assets/sidebarsitter/profile-sidebar.svg";
 import booking from "@/public/assets/sidebarsitter/booking.svg";
-import calendar from "@/public/assets/sidebarsitter/calendar.svg";
 import payout from "@/public/assets/sidebarsitter/payout.svg";
 import profileActive from "@/public/assets/sidebarsitter/profile-sidebar-active.svg";
 import bookingActive from "@/public/assets/sidebarsitter/booking-active.svg";
-import calendarActive from "@/public/assets/sidebarsitter/calendar-active.svg";
 import payoutActive from "@/public/assets/sidebarsitter/payout-active.svg";
 import logOut from "@/public/assets/icons/icon-logout-gray.svg";
 
@@ -31,12 +29,6 @@ export default function SideBarSitter() {
       label: "Booking List",
       pathUrl: "/booking",
     },
-    // {
-    //   icon: calendar,
-    //   iconActive: calendarActive,
-    //   label: "Calendar",
-    //   pathUrl: "/calendar",
-    // },
     {
       icon: payout,
       iconActive: payoutActive,
@@ -61,24 +53,25 @@ export default function SideBarSitter() {
       <div className="bg-[#FAFAFB] grow flex flex-col justify-between">
         <div>
           {menu.map((list, index) => (
-            <Link href={`/sitters${list.pathUrl}`} key={list.label}>
-              <button
-                className={`flex py-4 px-6 w-full gap-4  text-[16px] font-medium ${
-                  list.pathUrl === pathName
-                    ? "text-ps-orange-500 bg-ps-orange-100"
-                    : "text-[#5B5D6F]"
-                }`}
-                key={list.label}
-              >
-                <Image
-                  src={list.pathUrl === pathName ? list.iconActive : list.icon}
-                  alt="sister-logo"
-                  width={24}
-                  height={24}
-                />
-                {list.label}
-              </button>
-            </Link>
+            <button
+              key={list.label}
+              onClick={() => {
+                router.push(`/sitters${list.pathUrl}`);
+              }}
+              className={`flex py-4 px-6 w-full gap-4  text-[16px] font-medium ${
+                list.pathUrl === pathName
+                  ? "text-ps-orange-500 bg-ps-orange-100"
+                  : "text-[#5B5D6F]"
+              }`}
+            >
+              <Image
+                src={list.pathUrl === pathName ? list.iconActive : list.icon}
+                alt="sister-logo"
+                width={24}
+                height={24}
+              />
+              {list.label}
+            </button>
           ))}
         </div>
       </div>

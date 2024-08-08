@@ -38,7 +38,7 @@ export default function Sitters() {
 
   return (
     <section className="w-full flex justify-center bg-ps-gray-100 sm:py-8 pt-4 lg:pb-32">
-      <div className="page-container w-full sm:px-20 max-w-[1440px] flex flex-col items-center h-full">
+      <div className="page-container w-full sm:px-20 max-w-[1440px] flex flex-col items-center">
         <PageTitleDesktop />
         <div className="flex gap-8 max-lg:flex-col lg:mb-11 w-full">
           <SearchBarSitter />
@@ -46,8 +46,10 @@ export default function Sitters() {
           {selectMap === "list" ? (
             <SittersList sitters={sitters} />
           ) : (
-            <div className="w-[70%] relative">
-              <ManyMap />
+            <div className="w-full relative">
+              <div className="w-full sm:h-[750px] h-[1000px]">
+                <ManyMap />
+              </div>
               <SittersList sitters={sitters} />
             </div>
           )}

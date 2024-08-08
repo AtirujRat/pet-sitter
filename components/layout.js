@@ -8,8 +8,8 @@ import Script from "next/script";
 import { SearchProvider } from "@/context/Search";
 import { BookingProvider } from "@/context/Booking";
 import { supabase } from "@/utils/supabase";
-
 import { SittersProvider } from "@/context/SittersProvider";
+import { SitterManageProfileProvider } from "@/context/SitterManageProfile";
 import { OwnerProvider } from "@/context/Owners";
 import { OwnersAccountStateProvider } from "@/context/OwnersAccountState";
 import { AdminProvider } from "@/context/Admin";
@@ -18,6 +18,7 @@ import jwtInterceptor from "@/utils/jwtinterceptor";
 import CheckUserOwner from "@/components/CheckUserOwner";
 import CheckUserSitter from "./CheckUserSitter";
 import CheckAdmin from "./CheckAdmin";
+import { NextUIProvider } from "@nextui-org/system";
 
 jwtInterceptor();
 
@@ -45,7 +46,7 @@ export default function Layout({ children }) {
   const dynamicRoutes = [];
 
   const dynamicRoutesFooter = [
-    "/sitters/booking/create",
+    "/sitters/[id]/booking/create",
     "/owners/profile",
     "/owners/yourpet",
     "/owners/yourpet/create",
@@ -109,39 +110,43 @@ export default function Layout({ children }) {
         defer
         src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
       />
-      <UserProvider>
-        <SearchProvider>
-          <AdminProvider>
-            <OwnersAccountStateProvider>
-              <OwnerProvider>
-                <SittersProvider>
-                  <BookingProvider>
-                    <div className="w-full">
-                      {!isNoLayoutRoute && (
-                        <NavBar
-                          setOpenModal={() => setOpenModal((prev) => !prev)}
-                        />
-                      )}
-                      {openModal && (
-                        <div className="absolute top-15 right-0 size-10 bg-ps-white w-full h-full z-10">
-                          <LoginMobile
+      <NextUIProvider>
+        <UserProvider>
+          <SearchProvider>
+            <AdminProvider>
+              <OwnersAccountStateProvider>
+                <OwnerProvider>
+                 <SitterManageProfileProvider>
+                  <SittersProvider>
+                    <BookingProvider>
+                      <div className="w-full">
+                        {!isNoLayoutRoute && (
+                          <NavBar
                             setOpenModal={() => setOpenModal((prev) => !prev)}
                           />
-                        </div>
-                      )}
-                      {isOwnerRoute && <CheckUserOwner />}
-                      {isSitterRoute && <CheckUserSitter />}
-                      {isAdminRoute && <CheckAdmin />}
-                      <div>{children}</div>
-                      {!isNoLayoutRoute && !isNoFooterRoute && <Footer />}
-                    </div>
-                  </BookingProvider>
-                </SittersProvider>
-              </OwnerProvider>
-            </OwnersAccountStateProvider>
-          </AdminProvider>
-        </SearchProvider>
-      </UserProvider>
+                        )}
+                        {openModal && (
+                          <div className="absolute top-15 right-0 size-10 bg-ps-white w-full h-full z-10">
+                            <LoginMobile
+                              setOpenModal={() => setOpenModal((prev) => !prev)}
+                            />
+                          </div>
+                        )}
+                        {isOwnerRoute && <CheckUserOwner />}
+                        {isSitterRoute && <CheckUserSitter />}
+                        {isAdminRoute && <CheckAdmin />}
+                        <div>{children}</div>
+                        {!isNoLayoutRoute && !isNoFooterRoute && <Footer />}
+                      </div>
+                    </BookingProvider>
+                  </SittersProvider>
+                 </SitterManageProfileProvider>
+                </OwnerProvider>
+              </OwnersAccountStateProvider>
+            </AdminProvider>
+          </SearchProvider>
+        </UserProvider>
+      </NextUIProvider>
     </>
   );
 }

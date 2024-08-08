@@ -7,6 +7,9 @@ import { useBooking } from "@/context/Booking";
 import { useOwners } from "@/context/Owners";
 import { useRouter } from "next/router";
 import axios from "axios";
+import { DatePicker } from "@nextui-org/date-picker";
+import { getLocalTimeZone, today } from "@internationalized/date";
+import { useDateFormatter } from "@react-aria/i18n";
 
 const timeSchedule = [
   "8:00 AM",
@@ -58,25 +61,26 @@ export default function BookingModal(props) {
   const [toggleEndTime, setToggleEndTime] = useState(false);
   const [dateError, setDateError] = useState(false);
   const [timeError, setTimeError] = useState(false);
-
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  let formatter = useDateFormatter({ dateStyle: "full" });
   const router = useRouter();
-
   const id = router.query.id;
   const { addBookingHandle, setStepBooking } = useBooking();
   const { getUserAuth, setUser } = useOwners();
 
-  const validateBookingDate = (inputDate) => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+  //---Validations---
+  // const validateBookingDate = (inputDate) => {
+  //   const today = new Date();
+  //   today.setHours(0, 0, 0, 0);
 
-    const selectedDate = new Date(inputDate);
+  //   const selectedDate = new Date(inputDate);
 
-    if (selectedDate < today) {
-      setDateError("Selected date cannot be in the past.");
-    } else {
-      setDateError(null);
-    }
-  };
+  //   if (selectedDate < today) {
+  //     setDateError("Selected date cannot be in the past.");
+  //   } else {
+  //     setDateError(null);
+  //   }
+  // };
 
   function validateTimeSchedule(value1, value2, date) {
     const now = new Date();
@@ -101,7 +105,7 @@ export default function BookingModal(props) {
     }
 
     if (time1 >= time2) {
-      setTimeError("Invalid date");
+      setTimeError("Invalid time");
       return;
     }
 
@@ -112,14 +116,6 @@ export default function BookingModal(props) {
     validateTimeSchedule(startTime, endTime, dateInput);
   }, [startTime, endTime, dateInput]);
 
-  function onChangeDateHandle(e) {
-    setDateInput(e.target.value);
-    if (e.target.value !== "") {
-      setDateError(null);
-    }
-    validateBookingDate(e.target.value);
-  }
-
   async function createBooking(e) {
     e.preventDefault();
 
@@ -127,7 +123,7 @@ export default function BookingModal(props) {
       setTimeError("Require");
     }
     if (dateInput === "") {
-      setDateError("Require");
+      setTimeError("Require");
     }
 
     if (timeError === null && dateError === null) {
@@ -141,7 +137,7 @@ export default function BookingModal(props) {
         setUser(ownerData.data[0]);
         addBookingHandle({
           owner_id: ownerData.data[0].id,
-          sitter_id: "",
+          sitter_id: id,
           start_time: dateInput + " " + startTime,
           end_time: dateInput + " " + endTime,
           status: "Waiting for confirm",
@@ -156,6 +152,25 @@ export default function BookingModal(props) {
         router.push(`/sitters/${id}/booking/create`);
       }, 1000);
     }
+  }
+
+  //---Date input functions---
+
+  function handleDateChange(date) {
+    if (date) {
+      setDateInput(date.toString());
+      setDateError(null);
+    }
+  }
+
+  function CalendarIcon() {
+    return (
+      <Image className="w-[24px] h-[24px]" src={date_icon} alt="select date" />
+    );
+  }
+
+  function DateLabel() {
+    return <div className="w-[24px] h-[24px]" alt="select date"></div>;
   }
 
   return (
@@ -177,22 +192,48 @@ export default function BookingModal(props) {
         <h1 className="text-ps-gray-600 text-b3 sm:text-b1">
           Select date and time you want to schedule the service.
         </h1>
-        <div className="flex items-center gap-[16px]">
-          <div className="relative flex w-[24px] h-[24px]  justify-center">
+        <div className="flex flex-col relative">
+          <div className="date-input w-full flex gap-4">
+            <DatePicker
+              variant="bordered"
+              onChange={handleDateChange}
+              labelPlacement="outside-left"
+              label={<DateLabel />}
+              selectorIcon={<CalendarIcon />}
+              color="primary"
+              size="lg"
+              radius="sm"
+              minValue={today(getLocalTimeZone())}
+              defaultValue={today(getLocalTimeZone())}
+              classNames={{
+                selectorButton: "absolute -left-[46px]",
+              }}
+              dateInputClassNames={{
+                label: "mr-2",
+                inputWrapper:
+                  "shadow-none border border-[#DCDFED] hover:border-[#AEB1C3] focus:border-[#AEB1C3]",
+                errorMessage: "text-[#EA1010] text-[14px]",
+                input: "text-[16px] font-medium",
+              }}
+            />
+          </div>
+        </div>
+        {/* <div className="relative flex w-[24px] h-[24px]  justify-center">
             <Image
               className="absolute w-[24px] h-[24px] "
               src={date_icon}
               alt="date icon"
             />
             <input
-              className="relative text-[30px] rotate-[180deg] left-[100px] opacity-0"
+              className="relative text-[30px] "
               type="date"
               name="booking_date"
               onChange={onChangeDateHandle}
               value={dateInput}
             />
-          </div>
-          <div className="w-full relative">
+          </div> */}
+
+        {/* <div className="w-full relative">
             <div
               className="w-full flex p-[10px] items-center h-[48px] rounded-lg border-[1px] border-ps-gray-200"
               disabled={true}
@@ -202,8 +243,7 @@ export default function BookingModal(props) {
             <div className="absolute top-[100%]  text-ps-red text-b3">
               {dateError}
             </div>
-          </div>
-        </div>
+          </div> */}
 
         <div className="flex items-center gap-[16px]">
           <Image
@@ -213,9 +253,15 @@ export default function BookingModal(props) {
           />
           <div
             onClick={() => setToggleStartTime((prev) => !prev)}
-            className="relative w-[208px] flex justify-start items-center h-[48px] rounded-lg border-[1px] border-ps-gray-200 cursor-pointer"
+            className="relative w-[208px] flex justify-start items-center h-[48px] rounded-lg border border-ps-gray-200 hover:border-[#AEB1C3] cursor-pointer"
           >
-            <h1 className="p-[12px] text-b3 sm:text-b2"> {startTime}</h1>
+            <h1
+              className={`p-[12px] text-b3 sm:text-b2 ${
+                !startTime ? "text-ps-gray-400" : ""
+              }`}
+            >
+              {startTime || "Start time"}
+            </h1>
             {toggleStartTime && (
               <div className="absolute top-[100%] w-full h-[220px] bg-ps-white overflow-x-auto rounded-xl list-none shadow-[4px_2px_12px_2px_#00000029] mt-[5px] py-[12px]">
                 {timeSchedule.map((time, index) => {
@@ -231,16 +277,22 @@ export default function BookingModal(props) {
                 })}
               </div>
             )}
-            <div className="absolute top-[100%]  text-ps-red text-b3">
+            <div className="absolute top-[113%] left-1 text-ps-red text-b3">
               {timeError}
             </div>
           </div>
           <span className="text-ps-gray-300">-</span>
           <div
             onClick={() => setToggleEndTime((prev) => !prev)}
-            className="relative w-[208px] flex justify-start items-center h-[48px] rounded-lg border-[1px] border-ps-gray-200 cursor-pointer"
+            className="relative w-[208px] flex justify-start items-center h-[48px] rounded-lg border border-ps-gray-200 hover:border-[#AEB1C3] cursor-pointer"
           >
-            <h1 className="p-[12px] text-b3 sm:text-b2"> {endTime}</h1>
+            <h1
+              className={`p-[12px] text-b3 sm:text-b2 ${
+                !endTime ? "text-ps-gray-400" : ""
+              }`}
+            >
+              {endTime || "End time"}
+            </h1>
             {toggleEndTime && (
               <div className="absolute top-[100%] w-full h-[220px] bg-ps-white overflow-x-auto rounded-xl list-none shadow-[4px_2px_12px_2px_#00000029] mt-[5px] py-[12px]">
                 {timeSchedule.map((time, index) => {
@@ -260,7 +312,8 @@ export default function BookingModal(props) {
         </div>
         <button
           type="submit"
-          className="bg-ps-orange-500 text-ps-white text-b2 w-full rounded-full py-[12px] px-[24px] mt-[30px]"
+          disabled={isSubmitting}
+          className="bg-ps-orange-500 text-ps-white text-b2 w-full rounded-full py-[12px] px-[24px] mt-6 disabled:bg-ps-gray-300"
         >
           Continue
         </button>

@@ -244,8 +244,8 @@ export default function SitterProfileForm({ profile = {} }) {
                 {getStatusComponent(profile?.sitter_status)}
               </div>
               <div className="hidden sm:flex">
-                {profile.sitter_status === null ||
-                profile.sitter_status === "rejected" ? (
+                {profile?.sitter_status === null ||
+                profile?.sitter_status === "rejected" ? (
                   <ButtonOrange
                     type="submit"
                     disabled={isSubmitting}
