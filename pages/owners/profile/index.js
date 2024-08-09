@@ -353,7 +353,7 @@ export default function Account() {
                   <div className="w-full text-end">
                     <button
                       type="submit"
-                      className="w-[159px] h-[48px] rounded-full bg-ps-orange-500 text-ps-white"
+                      className="w-[159px] h-[48px] font-bold rounded-full bg-ps-orange-500 text-ps-white"
                     >
                       Update profile
                     </button>
