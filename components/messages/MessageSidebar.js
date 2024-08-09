@@ -58,7 +58,7 @@ export default function MessagesSidebar({
   }
   return (
     <section>
-      <div className="pt-4 w-[368px] max-sm:absolute max-sm:top-0 z-10 max-sm:w-full h-full bg-ps-black overflow-y-auto">
+      <div className="pt-4 w-[368px] max-sm:absolute max-sm:top-0 max-sm:z-[60] z-40 max-sm:w-full h-full bg-ps-black overflow-y-auto">
         <div className="flex items-center gap-2 mb-3 w-full px-10 py-6">
           <button className="sm:hidden" onClick={() => router.back()}>
             <Image
