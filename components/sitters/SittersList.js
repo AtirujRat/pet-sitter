@@ -205,8 +205,8 @@ export default function SittersList() {
                           <div
                             className={
                               clickPetSitter[sitter.id]
-                                ? "max-sm:hidden sitter-item w-[600px] h-40 bg-ps-white p-4 flex xl:gap-9 sm:gap-3 gap-2 border-2 border-ps-orange-600 rounded-2xl hover:shadow-lg transition-transform active:scale-95"
-                                : "max-sm:hidden sitter-item w-[600px] h-40 bg-ps-white p-4 flex xl:gap-9 sm:gap-3 gap-2 rounded-2xl hover:shadow-lg transition-transform active:scale-95"
+                                ? "max-lg:hidden sitter-item w-[600px] h-40 bg-ps-white p-4 flex xl:gap-9 sm:gap-3 gap-2 border-2 border-ps-orange-600 rounded-2xl hover:shadow-lg transition-transform active:scale-95"
+                                : "max-lg:hidden sitter-item w-[600px] h-40 bg-ps-white p-4 flex xl:gap-9 sm:gap-3 gap-2 rounded-2xl hover:shadow-lg transition-transform active:scale-95"
                             }
                           >
                             {" "}
@@ -241,8 +241,8 @@ export default function SittersList() {
                           <div
                             className={
                               clickPetSitter[sitter.id]
-                                ? "sm:hidden sitter-item w-[330px] h-[154px] ml-[12%] bg-ps-white p-3 flex flex-col xl:gap-9 sm:gap-3 gap-3 border-2 border-ps-orange-600 rounded-2xl hover:shadow-lg transition-transform active:scale-95"
-                                : "sm:hidden sitter-item w-[330px] h-[154px] ml-[12%] bg-ps-white p-3 flex flex-col xl:gap-9 sm:gap-3 gap-3 rounded-2xl hover:shadow-lg transition-transform active:scale-95"
+                                ? "lg:hidden sitter-item w-[330px] h-[154px] ml-[12%] bg-ps-white p-3 flex flex-col xl:gap-9 sm:gap-3 gap-3 border-2 border-ps-orange-600 rounded-2xl hover:shadow-lg transition-transform active:scale-95"
+                                : "lg:hidden sitter-item w-[330px] h-[154px] ml-[12%] bg-ps-white p-3 flex flex-col xl:gap-9 sm:gap-3 gap-3 rounded-2xl hover:shadow-lg transition-transform active:scale-95"
                             }
                           >
                             {" "}

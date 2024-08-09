@@ -42,6 +42,7 @@ export default function Layout({ children }) {
     "/sitters/booking",
     "/sitters/payout",
     "/sitters/payout/bank-account",
+    "/sitters/changepassword",
   ];
   const dynamicRoutes = [];
 
@@ -50,6 +51,7 @@ export default function Layout({ children }) {
     "/owners/profile",
     "/owners/yourpet",
     "/owners/yourpet/create",
+    "/owners/changepassword",
     "/owners/yourpet/[petId]",
     "/owners/bookinghistory",
     "/owners/messages",
@@ -63,6 +65,7 @@ export default function Layout({ children }) {
     "/owners/yourpet/[petId]",
     "/owners/profile",
     "/owners/bookinghistory",
+    "/owners/changepassword",
     "/sitters/booking/create",
     "/owners/messages",
   ];
@@ -74,6 +77,7 @@ export default function Layout({ children }) {
     "/sitters/payout",
     "/sitters/payout/bank-account",
     "/sitters/messages",
+    "/sitters/changepassword",
   ];
 
   const AdminRoute = ["/admin"];
@@ -116,31 +120,33 @@ export default function Layout({ children }) {
             <AdminProvider>
               <OwnersAccountStateProvider>
                 <OwnerProvider>
-                 <SitterManageProfileProvider>
-                  <SittersProvider>
-                    <BookingProvider>
-                      <div className="w-full">
-                        {!isNoLayoutRoute && (
-                          <NavBar
-                            setOpenModal={() => setOpenModal((prev) => !prev)}
-                          />
-                        )}
-                        {openModal && (
-                          <div className="absolute top-15 right-0 size-10 bg-ps-white w-full h-full z-10">
-                            <LoginMobile
+                  <SitterManageProfileProvider>
+                    <SittersProvider>
+                      <BookingProvider>
+                        <div className="w-full">
+                          {!isNoLayoutRoute && (
+                            <NavBar
                               setOpenModal={() => setOpenModal((prev) => !prev)}
                             />
-                          </div>
-                        )}
-                        {isOwnerRoute && <CheckUserOwner />}
-                        {isSitterRoute && <CheckUserSitter />}
-                        {isAdminRoute && <CheckAdmin />}
-                        <div>{children}</div>
-                        {!isNoLayoutRoute && !isNoFooterRoute && <Footer />}
-                      </div>
-                    </BookingProvider>
-                  </SittersProvider>
-                 </SitterManageProfileProvider>
+                          )}
+                          {openModal && (
+                            <div className="absolute top-15 right-0 size-10 bg-ps-white w-full h-full z-10">
+                              <LoginMobile
+                                setOpenModal={() =>
+                                  setOpenModal((prev) => !prev)
+                                }
+                              />
+                            </div>
+                          )}
+                          {isOwnerRoute && <CheckUserOwner />}
+                          {isSitterRoute && <CheckUserSitter />}
+                          {isAdminRoute && <CheckAdmin />}
+                          <div>{children}</div>
+                          {!isNoLayoutRoute && !isNoFooterRoute && <Footer />}
+                        </div>
+                      </BookingProvider>
+                    </SittersProvider>
+                  </SitterManageProfileProvider>
                 </OwnerProvider>
               </OwnersAccountStateProvider>
             </AdminProvider>
