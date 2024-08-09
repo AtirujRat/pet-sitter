@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import bell from "@/public/assets/navbar/bell.svg";
 import message from "@/public/assets/navbar/message.svg";
-import usermock from "@/public/assets/navbar/usermock.svg";
+import usermock from "@/public/assets/booking/owner-profile.svg";
 import profilemock from "@/public/assets/navbar/profile.svg";
 import pet from "@/public/assets/navbar/pet.svg";
 import history from "@/public/assets/navbar/history.svg";
