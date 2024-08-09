@@ -21,10 +21,10 @@ function validateConfirmPassword(value, values) {
   return error;
 }
 
-export default function UpdatePasswordForm(props) {
+export default function UpdatePasswordForm() {
   const getData = async (data) => {
     try {
-      await axios.post(props.api, data);
+      await axios.post("/api/authentication/recovery/updatepassword", data);
       alert("Password updated successfully");
     } catch (e) {
       alert("Connection error");
