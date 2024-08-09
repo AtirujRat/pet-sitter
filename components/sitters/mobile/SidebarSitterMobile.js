@@ -2,22 +2,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/router";
-import { supabase } from "@/utils/supabase";
 
 import profile from "@/public/assets/sidebarsitter/profile-sidebar.svg";
 import booking from "@/public/assets/sidebarsitter/booking.svg";
-import calendar from "@/public/assets/sidebarsitter/calendar.svg";
 import payout from "@/public/assets/sidebarsitter/payout.svg";
 import profileActive from "@/public/assets/sidebarsitter/profile-sidebar-active.svg";
 import bookingActive from "@/public/assets/sidebarsitter/booking-active.svg";
-import calendarActive from "@/public/assets/sidebarsitter/calendar-active.svg";
 import payoutActive from "@/public/assets/sidebarsitter/payout-active.svg";
 
 export default function SidebarSitterMobile() {
   const router = useRouter();
-  const { id } = router.query;
   const location = usePathname();
-  const pathName = "/" + location.split("/")?.[3];
+  const pathName = "/" + location.split("/")?.[2];
 
   const menu = [
     {
@@ -32,12 +28,6 @@ export default function SidebarSitterMobile() {
       label: "Booking List",
       pathUrl: "/booking",
     },
-    // {
-    //   icon: calendar,
-    //   iconActive: calendarActive,
-    //   label: "Calendar",
-    //   pathUrl: "/calendar",
-    // },
     {
       icon: payout,
       iconActive: payoutActive,

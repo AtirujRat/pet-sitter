@@ -60,6 +60,7 @@ export default function BookingHistory() {
   const { getUserAuth } = useOwners();
   const [alertText, setAlertText] = useState("");
   const [alertType, setAlertType] = useState("");
+  const [sitterId, setSitterId] = useState(null);
 
   const { changeAccountStateHandle } = useOwnersAccountState();
 
@@ -225,6 +226,7 @@ export default function BookingHistory() {
                         reviews={reviews}
                         currentReview={currentReview}
                         closeModal={toggleYourReviewModal}
+                        sitterId={sitterId}
                       />
                     </Modal>
                   )}
@@ -411,9 +413,10 @@ export default function BookingHistory() {
                                   .map((review) => review.booking_id)
                                   .includes(item.id) ? (
                                   <div
-                                    onClick={() =>
-                                      toggleYourReviewModal(item.id)
-                                    }
+                                    onClick={() => {
+                                      toggleYourReviewModal(item.id);
+                                      setSitterId(item.sitters.id);
+                                    }}
                                   >
                                     <ButtonOrangeLight
                                       text="Your review"
