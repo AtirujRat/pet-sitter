@@ -61,7 +61,7 @@ export default function BookingModal(props) {
   const [toggleEndTime, setToggleEndTime] = useState(false);
   const [dateError, setDateError] = useState(false);
   const [timeError, setTimeError] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false);
   let formatter = useDateFormatter({ dateStyle: "full" });
   const router = useRouter();
   const id = router.query.id;
@@ -127,30 +127,33 @@ export default function BookingModal(props) {
     }
 
     if (timeError === null && dateError === null) {
-      const ownerEmail = await getUserAuth();
+      try {
+        const ownerEmail = await getUserAuth();
 
-      const ownerData = await axios.get(
-        `/api/owner/${ownerEmail.email}/queryowner`
-      );
+        const ownerData = await axios.get(
+          `/api/owner/${ownerEmail.email}/queryowner`
+        );
+        if (ownerEmail) {
+          setUser(ownerData.data[0]);
+          addBookingHandle({
+            owner_id: ownerData.data[0].id,
+            sitter_id: id,
+            start_time: dateInput + " " + startTime,
+            end_time: dateInput + " " + endTime,
+            status: "Waiting for confirm",
+            creted_at: new Date(),
+            last_updated: new Date(),
+            price: "",
+          });
+        }
 
-      if (ownerEmail) {
-        setUser(ownerData.data[0]);
-        addBookingHandle({
-          owner_id: ownerData.data[0].id,
-          sitter_id: id,
-          start_time: dateInput + " " + startTime,
-          end_time: dateInput + " " + endTime,
-          status: "Waiting for confirm",
-          creted_at: new Date(),
-          last_updated: new Date(),
-          price: "",
-        });
+        setTimeout(() => {
+          setStepBooking("your_pet");
+          router.push(`/sitters/${id}/booking/create`);
+        }, 1000);
+      } catch (error) {
+        console.log(error);
       }
-
-      setTimeout(() => {
-        setStepBooking("your_pet");
-        router.push(`/sitters/${id}/booking/create`);
-      }, 1000);
     }
   }
 
