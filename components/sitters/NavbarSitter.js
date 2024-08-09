@@ -10,6 +10,7 @@ import sitterlogo from "@/public/assets/sister-logo.svg";
 import menu from "@/public/assets/navbar/menu.svg";
 import logOut from "@/public/assets/icons/icon-logout-gray.svg";
 import { useUser } from "@/context/User";
+import booking from "@/public/assets/sidebarsitter/booking.svg";
 
 export default function NavBarSitter({ profileImage, fullName }) {
   const [openModal, setOpenModal] = useState(false);
@@ -101,7 +102,18 @@ export default function NavBarSitter({ profileImage, fullName }) {
           </div>
           <div className="w-full px-6 py-6 text-b1 flex justify-end">
             <button
-              className="flex items-center gap-3"
+              onClick={() => {
+                router.push(`/sitters/changepassword`);
+              }}
+              className="flex items-center gap-3 text-ps-gray-500"
+            >
+              <Image src={booking} alt="sister-logo" width={24} height={24} />
+              Change Password
+            </button>
+          </div>
+          <div className="w-full px-6 py-6 text-b1 flex justify-end">
+            <button
+              className="flex items-center gap-3 text-ps-gray-500"
               onClick={() => {
                 handleLogout();
               }}

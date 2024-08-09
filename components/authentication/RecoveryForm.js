@@ -27,12 +27,13 @@ export default function RecoveryForm() {
       );
 
       if (error) {
-        console.error("Error sending recovery email:");
+        console.log(error);
         return;
       }
       setEmailSent(true);
       console.log("Recovery email sent:");
     } catch (e) {
+      console.log(e);
       return;
     }
   }

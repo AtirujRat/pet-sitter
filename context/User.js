@@ -14,6 +14,7 @@ export function UserProvider(props) {
   });
   const [register, setRegister] = useState({});
   const [connection, setConnection] = useState(false);
+  const [result, setResult] = useState("fail");
 
   function getOwner(id) {
     setUserInfo({ role: "owner", id: id });
@@ -45,6 +46,8 @@ export function UserProvider(props) {
         setRegister,
         setConnection,
         connection,
+        result,
+        setResult,
       }}
     >
       {props.children}
