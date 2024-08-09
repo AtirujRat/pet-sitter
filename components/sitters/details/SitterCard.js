@@ -108,8 +108,8 @@ export default function SitterCard({
           </div>
         </div>
       </div>
-      <div className="buttons flex p-6 border-t-[1px] border-ps-gray-200 gap-4">
-        <div className="max-md:hidden w-full">
+      <div className="buttons flex p-6 border-t-[1px] max-sm:flex-col border-ps-gray-200 gap-4">
+        <div className="w-full">
           <ButtonOrangeLight
             id="chat"
             text="Send Message"
