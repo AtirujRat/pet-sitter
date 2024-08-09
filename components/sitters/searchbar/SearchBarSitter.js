@@ -67,10 +67,10 @@ export default function SearchBarSitter() {
           <option value="5%2B Years">5+ Years</option>
         </select>
       </div>
-      <div className="flex gap-4 max-sm:pb-4 max-sm:px-5">
+      <div className="flex max-sm:flex-col gap-4 max-sm:pb-4 max-sm:px-5">
         <button
           onClick={handleClearSearch}
-          className="max-sm:hidden w-full bg-ps-orange-100 text-ps-orange-500 text-[16px] font-bold rounded-full tracking-wide h-[48px]"
+          className="w-full bg-ps-orange-100 text-ps-orange-500 text-[16px] font-bold rounded-full tracking-wide h-[48px]"
         >
           Clear
         </button>

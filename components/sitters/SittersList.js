@@ -9,30 +9,25 @@ import Loading from "../Loading";
 import CalculateRatingStars from "@/hook/useCalculateRatingStars";
 import { useSitters } from "@/context/SittersProvider";
 import useEmblaCarousel from "embla-carousel-react";
-import {
-  PrevButton,
-  NextButton,
-  usePrevNextButtons,
-} from "@/components/sitters/details/GalleryArrowButtons";
 import styles from "@/components/sitters/details/Gallery.module.css";
 import { useEffect, useState } from "react";
-
-const ITEMS_PER_PAGE = 5;
 
 export default function SittersList() {
   const {
     sitters,
     filteredRating,
     currentPage,
+    setCurrentPage,
     setTotalPages,
     loading,
     selectMap,
     clickPetSitter,
-    refresh,
+    totalPages,
   } = useSitters();
   const [filter, setFilter] = useState([]);
-
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
+  const ITEMS_PER_PAGE = 5;
+  const ITEMS_PER_PAGE_MOBILE = 3;
   const petTypeComponents = {
     Dog: DogBadge,
     Cat: CatBadge,
@@ -51,22 +46,36 @@ export default function SittersList() {
     filteredSitters[clickPetSitter.index] = newSitter;
   }
 
+  //--- For Pagination
   setTotalPages(Math.ceil(filteredSitters.length / ITEMS_PER_PAGE));
-
   const currentSitters = isDesktop
     ? filteredSitters.slice(
         (currentPage - 1) * ITEMS_PER_PAGE,
         currentPage * ITEMS_PER_PAGE
       )
-    : filteredSitters;
+    : filteredSitters.slice(0, currentPage * ITEMS_PER_PAGE_MOBILE);
+
+  //---Infinite Scrolling on Mobile
+  const loadMore = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
+
+  useEffect(() => {
+    if (!isDesktop) {
+      const handleScroll = () => {
+        if (
+          window.innerHeight + window.scrollY + 340 >=
+          document.body.offsetHeight
+        ) {
+          loadMore();
+        }
+      };
+      window.addEventListener("scroll", handleScroll);
+      return () => window.removeEventListener("scroll", handleScroll);
+    }
+  }, [isDesktop]);
 
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
-  const {
-    prevBtnDisabled,
-    nextBtnDisabled,
-    onPrevButtonClick,
-    onNextButtonClick,
-  } = usePrevNextButtons(emblaApi);
 
   if (loading) {
     return <Loading />;
@@ -82,72 +91,77 @@ export default function SittersList() {
                 Sitter not found
               </div>
             ) : (
-              currentSitters.map((sitter) => {
-                let galleryImage = "https://placehold.co/400x300";
+              <>
+                {currentSitters.map((sitter) => {
+                  let galleryImage = "https://placehold.co/400x300";
 
-                if (sitter.sitters_images.length > 0) {
-                  galleryImage = sitter.sitters_images[0].image_url;
-                }
+                  if (sitter.sitters_images.length > 0) {
+                    galleryImage = sitter.sitters_images[0].image_url;
+                  }
 
-                const { ratingStars } = CalculateRatingStars(sitter.bookings);
+                  const { ratingStars } = CalculateRatingStars(sitter.bookings);
 
-                return (
-                  <div key={sitter.id}>
-                    <Link href={`/sitters/${sitter.id}`}>
-                      <div className="sitter-item bg-ps-white p-4 flex xl:gap-9 sm:gap-3 gap-2 rounded-2xl hover:shadow-lg transition-transform active:scale-95 max-xl:flex-col">
-                        <img
-                          src={galleryImage}
-                          alt={`first gallery image for ${sitter.full_name}`}
-                          className="h-[185px] w-[245px] xl:min-w-[245px] rounded-lg object-cover object-center self-center max-xl:w-full max-sm:h-[100px]"
-                        ></img>
-                        <div className="setter-info flex-col w-full">
-                          <div className="profile flex gap-5 my-2">
-                            <img
-                              src={
-                                sitter.profile_image_url ??
-                                "/assets/booking/owner-profile.svg"
-                              }
-                              alt={`${sitter.full_name}-profile-image`}
-                              className="rounded-full object-cover sm:h-[64px] sm:max-h-[64px] sm:min-w-[64px] sm:w-[64px] h-[36px] w-[36px] max-h-[36px] min-w-[36px] bg-ps-gray-200"
-                            ></img>
-                            <div className="sitter-title w-full">
-                              <h3 className="sm:text-h3 text-lg font-bold leading-6">
-                                {sitter.trade_name}
-                              </h3>
-                              <p className="sm:text-b1 sm:leading-8 text-b3">
-                                By {sitter.full_name}
-                              </p>
-                            </div>
-                            <ReviewRating
-                              sitter={sitter}
-                              ratingStars={ratingStars}
-                            />
-                          </div>
-                          {sitter.sitters_addresses && (
-                            <div className="location flex gap-1 sm:my-6 my-2.5">
-                              <Image
-                                src={pin}
-                                alt="location"
-                                className="sm:w-6 sm:h-6 w-4 h-4 self-center"
+                  return (
+                    <div key={sitter.id}>
+                      <Link href={`/sitters/${sitter.id}`}>
+                        <div className="sitter-item bg-ps-white p-4 flex xl:gap-9 sm:gap-3 gap-2 rounded-2xl hover:shadow-lg transition-transform active:scale-95 max-xl:flex-col">
+                          <img
+                            src={galleryImage}
+                            alt={`first gallery image for ${sitter.full_name}`}
+                            className="h-[185px] w-[245px] xl:min-w-[245px] rounded-lg object-cover object-center self-center max-xl:w-full max-sm:h-[100px]"
+                          ></img>
+                          <div className="setter-info flex-col w-full">
+                            <div className="profile flex gap-5 my-2">
+                              <img
+                                src={
+                                  sitter.profile_image_url ??
+                                  "/assets/booking/owner-profile.svg"
+                                }
+                                alt={`${sitter.full_name}-profile-image`}
+                                className="rounded-full object-cover sm:h-[64px] sm:max-h-[64px] sm:min-w-[64px] sm:w-[64px] h-[36px] w-[36px] max-h-[36px] min-w-[36px] bg-ps-gray-200"
+                              ></img>
+                              <div className="sitter-title w-full">
+                                <h3 className="sm:text-h3 text-lg font-bold leading-6">
+                                  {sitter.trade_name}
+                                </h3>
+                                <p className="sm:text-b1 sm:leading-8 text-b3">
+                                  By {sitter.full_name}
+                                </p>
+                              </div>
+                              <ReviewRating
+                                sitter={sitter}
+                                ratingStars={ratingStars}
                               />
-                              <p className="sm:text-b2 text-b3 text-ps-gray-400">
-                                {sitter.sitters_addresses.district},{" "}
-                                {sitter.sitters_addresses.province}
-                              </p>
                             </div>
-                          )}
-                          <div className="pet-type flex gap-2">
-                            {sitter.pet_types.map((pet, index) => {
-                              const BadgeComponent = petTypeComponents[pet];
-                              return <BadgeComponent key={index} />;
-                            })}
+                            {sitter.sitters_addresses && (
+                              <div className="location flex gap-1 sm:my-6 my-2.5">
+                                <Image
+                                  src={pin}
+                                  alt="location"
+                                  className="sm:w-6 sm:h-6 w-4 h-4 self-center"
+                                />
+                                <p className="sm:text-b2 text-b3 text-ps-gray-400">
+                                  {sitter.sitters_addresses.district},{" "}
+                                  {sitter.sitters_addresses.province}
+                                </p>
+                              </div>
+                            )}
+                            <div className="pet-type flex gap-2">
+                              {sitter.pet_types.map((pet, index) => {
+                                const BadgeComponent = petTypeComponents[pet];
+                                return <BadgeComponent key={index} />;
+                              })}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </Link>
-                  </div>
-                );
-              })
+                      </Link>
+                    </div>
+                  );
+                })}
+                {currentPage < totalPages && (
+                  <div className="loading loading-dots loading-md self-center text-ps-gray-500 mt-5 lg:hidden"></div>
+                )}
+              </>
             )}
           </div>
           <button
