@@ -12,7 +12,7 @@ export default function YourReview(props) {
   );
 
   return (
-    <div className="max-[768px]:absolute left-0 bottom-0 w-[100vw] h-[70vh] md:w-[800px] md:h-[720px] bg-ps-white rounded-t-2xl  md:rounded-2xl">
+    <div className="max-[768px]:absolute left-0 bottom-0 w-[100vw] h-[366px] sm:h-[600px] md:w-[800px] md:h-[720px] bg-ps-white rounded-t-2xl  md:rounded-2xl">
       <div className="flex max-w-full justify-between border-b-[1px] border-ps-gray-200 py-[24px] px-[40px]">
         <h1 className="text-h3 text-ps-gray-600">
           <span className="max-md:hidden">Your </span>Rating{" "}
@@ -26,9 +26,9 @@ export default function YourReview(props) {
           alt="cross icon"
         />
       </div>
-      <div className="flex items-center md:h-[640px] h-[560px] justify-between flex-col sm:p-10 p-5">
+      <div className="flex items-center md:h-[640px] h-[280px] justify-between flex-col sm:p-10 p-5">
         <div className="w-full flex flex-col gap-3 border-b-2 pb-10 border-b-ps-gray-200">
-          <div className="flex justify-between">
+          <div className="flex max-sm:justify-between">
             <div className="flex items-start gap-3 sm:pr-10">
               <img
                 className="sm:w-[56px] sm:h-[56px] w-[36px] h-[36px] rounded-full object-cover"
@@ -48,7 +48,7 @@ export default function YourReview(props) {
                   return (
                     <Image
                       key={item}
-                      className="w-[20px] h-[20px]"
+                      className="sm:w-5 sm:h-5 w-4 h-4"
                       src={
                         index + 1 <= reviews[0].rating ? green_star : gray_star
                       }
