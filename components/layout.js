@@ -52,6 +52,7 @@ export default function Layout({ children }) {
     "/owners/yourpet/create",
     "/owners/yourpet/[petId]",
     "/owners/bookinghistory",
+    "/owners/changepassword",
     "/owners/messages",
     "/sitters/messages",
     "/404",
@@ -116,31 +117,33 @@ export default function Layout({ children }) {
             <AdminProvider>
               <OwnersAccountStateProvider>
                 <OwnerProvider>
-                 <SitterManageProfileProvider>
-                  <SittersProvider>
-                    <BookingProvider>
-                      <div className="w-full">
-                        {!isNoLayoutRoute && (
-                          <NavBar
-                            setOpenModal={() => setOpenModal((prev) => !prev)}
-                          />
-                        )}
-                        {openModal && (
-                          <div className="absolute top-15 right-0 size-10 bg-ps-white w-full h-full z-10">
-                            <LoginMobile
+                  <SitterManageProfileProvider>
+                    <SittersProvider>
+                      <BookingProvider>
+                        <div className="w-full">
+                          {!isNoLayoutRoute && (
+                            <NavBar
                               setOpenModal={() => setOpenModal((prev) => !prev)}
                             />
-                          </div>
-                        )}
-                        {isOwnerRoute && <CheckUserOwner />}
-                        {isSitterRoute && <CheckUserSitter />}
-                        {isAdminRoute && <CheckAdmin />}
-                        <div>{children}</div>
-                        {!isNoLayoutRoute && !isNoFooterRoute && <Footer />}
-                      </div>
-                    </BookingProvider>
-                  </SittersProvider>
-                 </SitterManageProfileProvider>
+                          )}
+                          {openModal && (
+                            <div className="absolute top-15 right-0 size-10 bg-ps-white w-full h-full z-10">
+                              <LoginMobile
+                                setOpenModal={() =>
+                                  setOpenModal((prev) => !prev)
+                                }
+                              />
+                            </div>
+                          )}
+                          {isOwnerRoute && <CheckUserOwner />}
+                          {isSitterRoute && <CheckUserSitter />}
+                          {isAdminRoute && <CheckAdmin />}
+                          <div>{children}</div>
+                          {!isNoLayoutRoute && !isNoFooterRoute && <Footer />}
+                        </div>
+                      </BookingProvider>
+                    </SittersProvider>
+                  </SitterManageProfileProvider>
                 </OwnerProvider>
               </OwnersAccountStateProvider>
             </AdminProvider>
