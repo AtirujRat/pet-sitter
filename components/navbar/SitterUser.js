@@ -61,7 +61,7 @@ export default function SitterUser({ userId, setUserData }) {
           <Image
             src={profile ? profile : usermock}
             alt="bell"
-            className="rounded-full cursor-pointer object-cover"
+            className="rounded-full cursor-pointer object-cover min-w-[48px] min-h-[48px]"
             tabIndex="0"
             role="button"
             width={48}
