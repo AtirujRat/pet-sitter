@@ -28,17 +28,11 @@ function validateConfirmPassword(value, values) {
 }
 
 export default function RecoveryPage() {
-  const [token, setToken] = useState(() => {
-    if (typeof window !== "undefined") {
-      const savedState = localStorage.getItem(
-        "sb-etraoduqrzijngbazoib-auth-token"
-      );
-      return JSON.parse(savedState);
-    }
-  });
   const { setConnection, connection, result, setResult } = useUser();
   const router = useRouter();
   const getData = async (datas) => {
+    let token = localStorage.getItem("sb-etraoduqrzijngbazoib-auth-token");
+    token = JSON.parse(token);
     try {
       const password = await axios.post(
         "/api/authentication/recovery/owner",
