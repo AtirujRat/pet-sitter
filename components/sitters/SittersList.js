@@ -164,11 +164,11 @@ export default function SittersList() {
         </>
       ) : (
         <section
-          className={`w-full sm:my-10 max-sm:mb-10 absolute sm:top-[72%] top-[82%]`}
+          className={` w-full sm:my-10 max-sm:mb-10 absolute sm:top-[72%] top-[82%]`}
         >
-          <div className={`${styles.embla__viewport} w-full`} ref={emblaRef}>
+          <div className={`${styles.embla__viewport} w-full `} ref={emblaRef}>
             <div
-              className={`${styles.embla__container} w-full md:h-[25vw] h-[280px]`}
+              className={`${styles.embla__container} w-[80%] sm:w-full md:h-[25vw] h-[200px]`}
             >
               {filteredSitters.length === 0 ? (
                 <div className="notfound text-center text-ps-gray-600 text-b1  h-full w-full p-4 rounded-2xl max-xl:flex-col">
@@ -191,8 +191,8 @@ export default function SittersList() {
                           <div
                             className={
                               clickPetSitter[sitter.id]
-                                ? "sitter-item w-[600px] h-40 bg-ps-white p-4 flex xl:gap-9 sm:gap-3 gap-2 border-2 border-ps-orange-600 rounded-2xl hover:shadow-lg transition-transform active:scale-95"
-                                : "sitter-item w-[600px] h-40 bg-ps-white p-4 flex xl:gap-9 sm:gap-3 gap-2 rounded-2xl hover:shadow-lg transition-transform active:scale-95"
+                                ? "max-sm:hidden sitter-item w-[600px] h-40 bg-ps-white p-4 flex xl:gap-9 sm:gap-3 gap-2 border-2 border-ps-orange-600 rounded-2xl hover:shadow-lg transition-transform active:scale-95"
+                                : "max-sm:hidden sitter-item w-[600px] h-40 bg-ps-white p-4 flex xl:gap-9 sm:gap-3 gap-2 rounded-2xl hover:shadow-lg transition-transform active:scale-95"
                             }
                           >
                             {" "}
@@ -222,6 +222,44 @@ export default function SittersList() {
                                   return <BadgeComponent key={index} />;
                                 })}
                               </div>
+                            </div>
+                          </div>
+                          <div
+                            className={
+                              clickPetSitter[sitter.id]
+                                ? "sm:hidden sitter-item w-[330px] h-[154px] ml-[12%] bg-ps-white p-3 flex flex-col xl:gap-9 sm:gap-3 gap-3 border-2 border-ps-orange-600 rounded-2xl hover:shadow-lg transition-transform active:scale-95"
+                                : "sm:hidden sitter-item w-[330px] h-[154px] ml-[12%] bg-ps-white p-3 flex flex-col xl:gap-9 sm:gap-3 gap-3 rounded-2xl hover:shadow-lg transition-transform active:scale-95"
+                            }
+                          >
+                            {" "}
+                            <div className="flex h-[82px] gap-4">
+                              <img
+                                src={galleryImage}
+                                alt={`first gallery image for ${sitter.full_name}`}
+                                className="w-[97px] h-[73px] rounded-lg object-cover object-center self-center"
+                              ></img>
+                              <div className="setter-info flex-col w-full">
+                                <div className="profile flex gap-5 my-2 justify-between">
+                                  <div className="sitter-title w-full">
+                                    <h3 className="sm:text-h4 text-h4 font-bold leading-6 flex">
+                                      {sitter.trade_name}
+                                    </h3>
+                                    <p className="sm:text-b1 sm:leading-8 text-b3 flex">
+                                      By {sitter.full_name}
+                                    </p>
+                                  </div>
+                                </div>
+                                <ReviewRating
+                                  sitter={sitter}
+                                  ratingStars={ratingStars}
+                                />
+                              </div>
+                            </div>
+                            <div className="pet-type flex gap-2">
+                              {sitter.pet_types.map((pet, index) => {
+                                const BadgeComponent = petTypeComponents[pet];
+                                return <BadgeComponent key={index} />;
+                              })}
                             </div>
                           </div>
                         </button>
