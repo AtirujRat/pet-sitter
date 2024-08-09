@@ -2,7 +2,6 @@ import { Formik, Form, Field } from "formik";
 import axios from "axios";
 import { supabase } from "@/utils/supabase";
 import { useState } from "react";
-import SideBarOwners from "@/components/owners/SideBarOwners";
 import { useUser } from "@/context/User";
 
 function validatePassword(value) {

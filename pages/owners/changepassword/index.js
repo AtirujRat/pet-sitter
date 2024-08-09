@@ -15,7 +15,7 @@ export default function ChangePassword() {
       )}
       <div className="max-w-[1440px] min-w-0 lg:flex lg:justify-between mx-auto max-lg:flex-col lg:items-start lg:px-20  gap-9">
         <SideBarOwners />
-        <div className="w-full h-screen bg-ps-white">
+        <div className="w-full h-screen bg-ps-white shadow-md lg:rounded-2xl">
           <UpdatePasswordForm api={"/api/authentication/recovery/owner"} />
         </div>
       </div>
