@@ -133,7 +133,7 @@ export default function ChatWindow({
   };
 
   return (
-    <section className="w-full h-full max-sm:absolute max-sm:top-0 z-20 flex flex-col justify-between">
+    <section className="w-full h-full max-sm:absolute max-sm:top-0 max-sm:z-[100] flex flex-col justify-between">
       <div className="w-full flex justify-between bg-ps-gray-100 px-10 py-6">
         <div className="flex gap-4 items-center">
           <img

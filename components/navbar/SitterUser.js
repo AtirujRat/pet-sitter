@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import bell from "@/public/assets/navbar/bell.svg";
 import message from "@/public/assets/navbar/message.svg";
-import usermock from "@/public/assets/navbar/usermock.svg";
+import usermock from "@/public/assets/booking/owner-profile.svg";
 import profilemock from "@/public/assets/navbar/profile.svg";
 import history from "@/public/assets/navbar/history.svg";
 import logout from "@/public/assets/navbar/logout.svg";
@@ -61,7 +61,7 @@ export default function SitterUser({ userId, setUserData }) {
           <Image
             src={profile ? profile : usermock}
             alt="bell"
-            className="rounded-full cursor-pointer object-cover"
+            className="rounded-full cursor-pointer object-cover min-w-[48px] min-h-[48px]"
             tabIndex="0"
             role="button"
             width={48}

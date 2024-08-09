@@ -54,10 +54,10 @@ export default function Reviews({ sitter, averageRating }) {
               key={index}
               className="review w-full h-fit flex max-xl:flex-col gap-4 sm:px-6 sm:pt-6 sm:pb-10 pb-6 border-b border-b-ps-gray-200"
             >
-              <div className="reviewer-profile flex max-xl:justify-between xl:w-[220px] w-full">
+              <div className="reviewer-profile flex max-xl:justify-between xl:w-[280px] w-full">
                 <div className="flex gap-4">
                   <img
-                    className="sm:w-14 sm:h-14 w-9 h-9 rounded-full object-cover bg-ps-gray-200"
+                    className="sm:w-14 sm:h-14 sm:min-w-14 sm:min-h-14 w-9 h-9 rounded-full object-cover bg-ps-gray-200"
                     src={
                       review.owners.profile_image_url ??
                       "/assets/booking/owner-profile.svg"

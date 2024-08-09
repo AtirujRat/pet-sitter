@@ -18,15 +18,24 @@ export default function RecoveryForm() {
   const [emailSent, setEmailSent] = useState(false);
 
   async function sendRecoveryEmail(formData) {
-    let { data, error } = await supabase.auth.resetPasswordForEmail(
-      formData.email
-    );
-    if (error) {
-      console.error("Error sending recovery email:");
+    try {
+      let { data, error } = await supabase.auth.resetPasswordForEmail(
+        formData.email,
+        {
+          redirectTo: "http://localhost:3000/login/updatepassword",
+        }
+      );
+
+      if (error) {
+        console.log(error);
+        return;
+      }
+      setEmailSent(true);
+      console.log("Recovery email sent:");
+    } catch (e) {
+      console.log(e);
       return;
     }
-    setEmailSent(true);
-    console.log("Recovery email sent:", data);
   }
 
   return (
