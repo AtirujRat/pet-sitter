@@ -2,9 +2,9 @@ import Image from "next/image";
 import cross_icon from "@/public/assets/booking/cross.svg";
 import gray_star from "@/public/assets/review/gray-star.svg";
 import green_star from "@/public/assets/review/green-star.svg";
-
 import { ButtonOrangeLight } from "@/components/buttons/OrangeButtons";
 import GetOnlyDate from "@/hook/useGetOnlyDate";
+import Link from "next/link";
 
 export default function YourReview(props) {
   const reviews = props.reviews.filter(
@@ -70,7 +70,12 @@ export default function YourReview(props) {
             </h1>
           </div>
         </div>
-        <ButtonOrangeLight width="w-[157px] h-[48px]" text="View pet sister" />
+        <Link href={`/sitters/${props.sitterId}`}>
+          <ButtonOrangeLight
+            width="w-[157px] h-[48px]"
+            text="View pet sister"
+          />
+        </Link>
       </div>
     </div>
   );

@@ -127,7 +127,7 @@ export default function ReviewModal(props) {
               <div>
                 <ButtonOrange
                   width={"max-[768px]:w-[207px]"}
-                  text={"Send Review&Rating"}
+                  text={"Send Review & Rating"}
                 />
               </div>
             </div>
