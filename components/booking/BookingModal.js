@@ -221,33 +221,6 @@ export default function BookingModal(props) {
             />
           </div>
         </div>
-        {/* <div className="relative flex w-[24px] h-[24px]  justify-center">
-            <Image
-              className="absolute w-[24px] h-[24px] "
-              src={date_icon}
-              alt="date icon"
-            />
-            <input
-              className="relative text-[30px] "
-              type="date"
-              name="booking_date"
-              onChange={onChangeDateHandle}
-              value={dateInput}
-            />
-          </div> */}
-
-        {/* <div className="w-full relative">
-            <div
-              className="w-full flex p-[10px] items-center h-[48px] rounded-lg border-[1px] border-ps-gray-200"
-              disabled={true}
-            >
-              {dateInput}
-            </div>
-            <div className="absolute top-[100%]  text-ps-red text-b3">
-              {dateError}
-            </div>
-          </div> */}
-
         <div className="flex items-center gap-[16px]">
           <Image
             className="w-[24px] h-[24px]"

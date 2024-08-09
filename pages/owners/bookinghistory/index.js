@@ -301,7 +301,7 @@ export default function BookingHistory() {
                               {item.status === "Waiting for confirm" && (
                                 <button
                                   onClick={() => toggleChangeDateModal(index)}
-                                  className="text-b3 2xl:text-b2 font-[700] text-ps-orange-500 flex gap-1"
+                                  className="text-b3 2xl:text-b2 font-[700] text-ps-orange-500 flex gap-1 min-w-fit"
                                 >
                                   <Image
                                     className="w-[22px] h-[22px]"
