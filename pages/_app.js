@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import Script from "next/script";
 
-const GA_TRACKING_ID = "G-NEV08CKQK8"; // Your Google Analytics ID
+const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GA_TRACKING_ID;
 
 export default function App({ Component, pageProps }) {
   const router = useRouter();
@@ -25,7 +25,6 @@ export default function App({ Component, pageProps }) {
 
   return (
     <>
-      {/* Google Analytics script */}
       <Script
         src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
         strategy="afterInteractive"
@@ -45,7 +44,6 @@ export default function App({ Component, pageProps }) {
         }}
       />
 
-      {/* Render the layout */}
       {getLayout ? (
         getLayout(<Component {...pageProps} />)
       ) : (
