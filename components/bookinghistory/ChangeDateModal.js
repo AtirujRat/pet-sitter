@@ -3,14 +3,15 @@ import date_icon from "@/public/assets/booking/date-icon.svg";
 import time_icon from "@/public/assets/booking/time.svg";
 import cross_icon from "@/public/assets/booking/cross.svg";
 import Image from "next/image";
-
+import { getLocalTimeZone, today, parseDate } from "@internationalized/date";
 import axios from "axios";
+import { DatePicker } from "@nextui-org/date-picker";
 
 const timeSchedule = [
-  "8:00 AM",
-  "8:30 AM",
-  "9:00 AM",
-  "9:30 AM",
+  "08:00 AM",
+  "08:30 AM",
+  "09:00 AM",
+  "09:30 AM",
   "10:00 AM",
   "10:30 AM",
   "11:00 AM",
@@ -33,19 +34,30 @@ const timeSchedule = [
 function convertToDate(time) {
   const [timeStr, modifier] = time.split(" ");
   let [hours, minutes] = timeStr.split(":").map(Number);
-
   if (modifier === "PM" && hours !== 12) {
     hours += 12;
   } else if (modifier === "AM" && hours === 12) {
     hours = 0;
   }
-
   const now = new Date();
   const year = now.getFullYear();
   const month = now.getMonth();
   const date = now.getDate();
 
   return new Date(year, month, date, hours, minutes);
+}
+
+function GetOnlyTime(time) {
+  let date = new Date(time);
+  let hours = String(date.getHours()).padStart(2, "0");
+  let minutes = String(date.getMinutes()).padStart(2, "0");
+  let ampm = hours >= 12 ? "PM" : "AM";
+
+  hours = hours % 12;
+  hours = hours ? hours : 12; // The hour '0' should be '12'
+  hours = String(hours).padStart(2, "0");
+
+  return `${hours}:${minutes} ${ampm}`;
 }
 
 export default function ChangeDateModal(props) {
@@ -57,18 +69,29 @@ export default function ChangeDateModal(props) {
   const [dateError, setDateError] = useState(false);
   const [timeError, setTimeError] = useState(false);
 
-  const validateBookingDate = (inputDate) => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+  const timestamp = props.bookingList[props.index].start_time;
 
-    const selectedDate = new Date(inputDate);
+  const initialDate = parseDate(timestamp.split("T")[0]);
 
-    if (selectedDate < today) {
-      setDateError("Selected date cannot be in the past.");
-    } else {
+  // const validateBookingDate = (inputDate) => {
+  //   const today = new Date();
+  //   today.setHours(0, 0, 0, 0);
+
+  //   const selectedDate = new Date(inputDate);
+
+  //   if (selectedDate < today) {
+  //     setDateError("Selected date cannot be in the past.");
+  //   } else {
+  //     setDateError(null);
+  //   }
+  // };
+
+  function handleDateChange(date) {
+    if (date) {
+      setDateInput(date.toString());
       setDateError(null);
     }
-  };
+  }
 
   function validateTimeSchedule(value1, value2, date) {
     const now = new Date();
@@ -104,13 +127,19 @@ export default function ChangeDateModal(props) {
     validateTimeSchedule(startTime, endTime, dateInput);
   }, [startTime, endTime, dateInput]);
 
-  function onChangeDateHandle(e) {
-    setDateInput(e.target.value);
-    if (e.target.value !== "") {
-      setDateError(null);
-    }
-    validateBookingDate(e.target.value);
-  }
+  useEffect(() => {
+    setStartTime(GetOnlyTime(props.bookingList[props.index].start_time));
+    setEndTime(GetOnlyTime(props.bookingList[props.index].end_time));
+    setDateInput(initialDate);
+  }, []);
+
+  // function onChangeDateHandle(e) {
+  //   setDateInput(e.target.value);
+  //   if (e.target.value !== "") {
+  //     setDateError(null);
+  //   }
+  //   validateBookingDate(e.target.value);
+  // }
 
   async function changeDateHandle(e) {
     e.preventDefault();
@@ -146,6 +175,16 @@ export default function ChangeDateModal(props) {
     }
   }
 
+  function DateLabel() {
+    return <div className="w-[24px] h-[24px]" alt="select date"></div>;
+  }
+
+  function CalendarIcon() {
+    return (
+      <Image className="w-[24px] h-[24px]" src={date_icon} alt="select date" />
+    );
+  }
+
   return (
     <form
       onSubmit={changeDateHandle}
@@ -163,30 +202,34 @@ export default function ChangeDateModal(props) {
 
       <div className="flex flex-col gap-[24px] text-b1 p-[40px]">
         <h1 className="text-ps-gray-600 text-b3 sm:text-b1">
-          Select date and time you want to schedule the service.
+          Select date and time you want to change.
         </h1>
-        <div className="flex items-center gap-[16px]">
-          <div className="relative flex w-[24px] h-[24px]  justify-center">
-            <Image
-              className="absolute w-[24px] h-[24px] "
-              src={date_icon}
-              alt="date icon"
-            />
-            <input
-              className="relative text-[30px] rotate-[180deg] left-[100px] opacity-0"
-              type="date"
-              name="booking_date"
-              onChange={onChangeDateHandle}
-              value={dateInput}
+        <div className="flex flex-col relative">
+          <div className="date-input w-full flex gap-4">
+            <DatePicker
+              variant="bordered"
+              onChange={handleDateChange}
+              labelPlacement="outside-left"
+              label={<DateLabel />}
+              selectorIcon={<CalendarIcon />}
+              color="primary"
+              size="lg"
+              radius="sm"
+              minValue={today(getLocalTimeZone())}
+              defaultValue={initialDate}
+              classNames={{
+                selectorButton: "absolute -left-[46px]",
+              }}
+              dateInputClassNames={{
+                label: "mr-2",
+                inputWrapper:
+                  "shadow-none border border-[#DCDFED] hover:border-[#AEB1C3] focus:border-[#AEB1C3]",
+                errorMessage: "text-[#EA1010] text-[14px]",
+                input: "text-[16px] font-medium",
+              }}
             />
           </div>
           <div className="w-full relative">
-            <div
-              className="w-full flex p-[10px] items-center h-[48px] rounded-lg border-[1px] border-ps-gray-200"
-              disabled={true}
-            >
-              {dateInput}
-            </div>
             <div className="absolute top-[100%]  text-ps-red text-b3">
               {dateError}
             </div>
@@ -203,7 +246,7 @@ export default function ChangeDateModal(props) {
             onClick={() => setToggleStartTime((prev) => !prev)}
             className="relative w-[208px] flex justify-start items-center h-[48px] rounded-lg border-[1px] border-ps-gray-200 cursor-pointer"
           >
-            <h1 className="p-[12px] text-b3 sm:text-b2"> {startTime}</h1>
+            <h1 className="p-[12px] text-b3 sm:text-b2">{startTime}</h1>
             {toggleStartTime && (
               <div className="absolute top-[100%] w-full h-[220px] bg-ps-white overflow-x-auto rounded-xl list-none shadow-[4px_2px_12px_2px_#00000029] mt-[5px] py-[12px]">
                 {timeSchedule.map((time, index) => {
@@ -228,7 +271,7 @@ export default function ChangeDateModal(props) {
             onClick={() => setToggleEndTime((prev) => !prev)}
             className="relative w-[208px] flex justify-start items-center h-[48px] rounded-lg border-[1px] border-ps-gray-200 cursor-pointer"
           >
-            <h1 className="p-[12px] text-b3 sm:text-b2"> {endTime}</h1>
+            <h1 className="p-[12px] text-b3 sm:text-b2">{endTime}</h1>
             {toggleEndTime && (
               <div className="absolute top-[100%] w-full h-[220px] bg-ps-white overflow-x-auto rounded-xl list-none shadow-[4px_2px_12px_2px_#00000029] mt-[5px] py-[12px]">
                 {timeSchedule.map((time, index) => {
