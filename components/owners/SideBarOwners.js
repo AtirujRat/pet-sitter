@@ -83,7 +83,7 @@ function SideBarOwners() {
               changeAccountStateHandle("changepassword");
               router.push(`/owners/changepassword/`);
             }}
-            className={`flex gap-5 ${
+            className={`flex gap-5 mb-5 ${
               accountState === "changepassword"
                 ? "bg-ps-orange-100 text-ps-orange-500"
                 : "text-ps-gray-500"
