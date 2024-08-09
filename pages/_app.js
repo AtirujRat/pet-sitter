@@ -3,7 +3,7 @@ import Layout from "@/components/layout";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import Script from "next/script";
-
+import Head from "next/head";
 const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GA_TRACKING_ID;
 
 export default function App({ Component, pageProps }) {
@@ -47,9 +47,15 @@ export default function App({ Component, pageProps }) {
       {getLayout ? (
         getLayout(<Component {...pageProps} />)
       ) : (
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <>
+          <Head>
+            <title>Pet Sitter - Thailand's No.1 Pet Sitting Platform</title>
+            <link rel="icon" href="/assets/icons/website-icon-orange.svg" />
+          </Head>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </>
       )}
     </>
   );
