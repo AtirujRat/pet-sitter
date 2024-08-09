@@ -52,6 +52,7 @@ export default function LoginForm(props) {
         password: checkUser.data.data[0].password,
       });
       if (error) {
+        console.log(error);
         setConnection(!connection);
         return;
       }
@@ -128,6 +129,25 @@ export default function LoginForm(props) {
                 {errors.password}
               </div>
             )}
+          </div>
+          <div className="flex justify-between gap-2 items-center">
+            <div className="flex items-center space-x-2">
+              <Field
+                id="remember"
+                type="checkbox"
+                name="remember"
+                className="checkbox checkbox-primary [--chkfg:white] border border-ps-gray-300 "
+              />
+              <label
+                htmlFor="remember"
+                className="label-text text-b2 font-medium cursor-pointer"
+              >
+                Remember?
+              </label>
+            </div>
+            <Link href="/login/recovery">
+              <p className="text-b2 text-ps-orange-500">Forget Password?</p>
+            </Link>
           </div>
           <button
             type="submit"
