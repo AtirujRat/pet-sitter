@@ -26,7 +26,7 @@ export default function Pagination({
   }
 
   return (
-    <div className="flex items-center justify-center mt-[20px] gap-[15px]">
+    <div className="flex items-center justify-center mt-[20px] gap-6">
       <Image
         onClick={previousPageHandle}
         className="cursor-pointer rotate-180"

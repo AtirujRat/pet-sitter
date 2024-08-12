@@ -14,19 +14,22 @@ Pet Sitter is a sophisticated platform designed to streamline the process of fin
 
 ## Authors
 
- - [PNKim](https://github.com/PNKim)
-  - [jaaaxd](https://github.com/jaaaxd)
-   - [kanokwan1401](https://github.com/kanokwan1401)
- - [AtirujRat](https://github.com/AtirujRat)
- - [bosch](https://github.com/boschaiyadej)
+- [PNKim](https://github.com/PNKim)
+- [jaaaxd](https://github.com/jaaaxd)
+- [kanokwan1401](https://github.com/kanokwan1401)
+- [AtirujRat](https://github.com/AtirujRat)
+- [bosch](https://github.com/boschaiyadej)
 
 ## Tech Stack
 
-- **Frontend:** HTML, CSS, JavaScript, Next, Tailwind CSS, Daisy UI
-
-- **Backend:** Node.js, Express
-- **Database:** PostgreSQL, Supabase
-- **Building Tool:** Vite
+- **Frontend:** HTML, CSS, JavaScript, Next.js, TailwindCSS, DaisyUI, Formik, Embla Carousel, NextUI
+- **Backend:** Node.js, Next.js, Supabase, Resend
+- **Database:** Supabase
+- **Building Tool:** Next.js
 - **Version Control:** Git, GitHub
 - **Design:** Figma
 
+## Doc
+
+- [API Doc](https://docs.google.com/spreadsheets/d/1XRwyo_vGd6wHmlBZkpB04WApBTKIEIMkOjDoNWIq6lU)
+- [ERD](https://drive.google.com/file/d/1tYFsX1wTV8JebhVrXvPBPy6PkgJhdwHy/view?usp=sharing)

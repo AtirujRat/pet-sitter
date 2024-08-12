@@ -30,7 +30,7 @@ export default function PetSiiterDetail({ sitter, closeDetail }) {
 
   async function changeSitterStatus(updatedStatus) {
     await axios
-      .patch(`/api/sitters/getsitters`, {
+      .patch(`/api/admin/sitters`, {
         id: sitter.id,
         sitter_status: updatedStatus,
         reject_reason: rejectReason,
@@ -97,8 +97,7 @@ export default function PetSiiterDetail({ sitter, closeDetail }) {
             height={20}
             alt="icon Exclamation"
           />
-          Your request has not been approved: {"‘"}Admin{"’"}s suggestion here
-          {"’"}
+          Your request has not been approved: {sitter.reject_reason}
         </div>
       ) : null}
 

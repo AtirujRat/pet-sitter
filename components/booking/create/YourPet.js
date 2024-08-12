@@ -32,7 +32,7 @@ export default function YourPet() {
     onselectPet,
     setOnselectPet,
   } = useBooking();
-  const { setConnection, connection } = useUser();
+  const { setConnection, connection, userInfo } = useUser();
 
   const id = router.query.id;
 
@@ -47,12 +47,10 @@ export default function YourPet() {
   async function getData() {
     try {
       if (id) {
-        const getDataOwners = await axios.post("/api/owner/getdata", {
-          id: booking.owner_id,
-        });
+        const getDataOwners = await axios.get(`/api/owner/${userInfo.id}/pet`);
         const getDataSittets = await axios.get(`/api/sitters/${id}`);
         setSitter(getDataSittets.data.data[0]);
-        setPetData(getDataOwners.data.data);
+        setPetData(getDataOwners.data);
         addBookingHandle({ ...booking, sitter_id: id });
         setLoading(false);
       }
