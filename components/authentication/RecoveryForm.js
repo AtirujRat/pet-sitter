@@ -22,7 +22,7 @@ export default function RecoveryForm() {
       let { data, error } = await supabase.auth.resetPasswordForEmail(
         formData.email,
         {
-          redirectTo: "http://localhost:3000/login/updatepassword",
+          redirectTo: "https://pet-sitter-th.vercel.app/login/updatepassword",
         }
       );
 
