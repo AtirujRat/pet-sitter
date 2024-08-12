@@ -101,7 +101,10 @@ export default function Account() {
       error = "Required";
     } else if (value.length !== 13) {
       error = "Id number must have 13 digits";
-    } else if (isNumberIdExist?.includes(value)) {
+    } else if (
+      isNumberIdExist.includes(value) &&
+      userData?.id_number !== value
+    ) {
       error = "Id number already exists";
     }
 
@@ -117,7 +120,10 @@ export default function Account() {
       error = "The first digit must be 0.";
     } else if (value.length != 12) {
       error = "Phone number must contain 10 digits.";
-    } else if (isPhoneNumberExist.includes(value)) {
+    } else if (
+      isPhoneNumberExist.includes(value) &&
+      userData?.phone_number !== value
+    ) {
       error = "Phone number already exists";
     }
     return error;
