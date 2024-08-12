@@ -61,7 +61,7 @@ export default function BookingModal(props) {
   const [toggleEndTime, setToggleEndTime] = useState(false);
   const [dateError, setDateError] = useState(false);
   const [timeError, setTimeError] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false);
   let formatter = useDateFormatter({ dateStyle: "full" });
   const router = useRouter();
   const id = router.query.id;
@@ -127,30 +127,33 @@ export default function BookingModal(props) {
     }
 
     if (timeError === null && dateError === null) {
-      const ownerEmail = await getUserAuth();
-      //use try catch
-      const ownerData = await axios.get(
-        `/api/owner/${ownerEmail.email}/queryowner`
-      );
+      try {
+        const ownerEmail = await getUserAuth();
 
-      if (ownerEmail) {
-        setUser(ownerData.data[0]);
-        addBookingHandle({
-          owner_id: ownerData.data[0].id,
-          sitter_id: id,
-          start_time: dateInput + " " + startTime,
-          end_time: dateInput + " " + endTime,
-          status: "Waiting for confirm",
-          creted_at: new Date(),
-          last_updated: new Date(),
-          price: "",
-        });
+        const ownerData = await axios.get(
+          `/api/owner/${ownerEmail.email}/queryowner`
+        );
+        if (ownerEmail) {
+          setUser(ownerData.data[0]);
+          addBookingHandle({
+            owner_id: ownerData.data[0].id,
+            sitter_id: id,
+            start_time: dateInput + " " + startTime,
+            end_time: dateInput + " " + endTime,
+            status: "Waiting for confirm",
+            creted_at: new Date(),
+            last_updated: new Date(),
+            price: "",
+          });
+        }
+
+        setTimeout(() => {
+          setStepBooking("your_pet");
+          router.push(`/sitters/${id}/booking/create`);
+        }, 1000);
+      } catch (error) {
+        console.log(error);
       }
-
-      setTimeout(() => {
-        setStepBooking("your_pet");
-        router.push(`/sitters/${id}/booking/create`);
-      }, 1000);
     }
   }
 
@@ -218,33 +221,6 @@ export default function BookingModal(props) {
             />
           </div>
         </div>
-        {/* <div className="relative flex w-[24px] h-[24px]  justify-center">
-            <Image
-              className="absolute w-[24px] h-[24px] "
-              src={date_icon}
-              alt="date icon"
-            />
-            <input
-              className="relative text-[30px] "
-              type="date"
-              name="booking_date"
-              onChange={onChangeDateHandle}
-              value={dateInput}
-            />
-          </div> */}
-
-        {/* <div className="w-full relative">
-            <div
-              className="w-full flex p-[10px] items-center h-[48px] rounded-lg border-[1px] border-ps-gray-200"
-              disabled={true}
-            >
-              {dateInput}
-            </div>
-            <div className="absolute top-[100%]  text-ps-red text-b3">
-              {dateError}
-            </div>
-          </div> */}
-
         <div className="flex items-center gap-[16px]">
           <Image
             className="w-[24px] h-[24px]"
@@ -263,7 +239,7 @@ export default function BookingModal(props) {
               {startTime || "Start time"}
             </h1>
             {toggleStartTime && (
-              <div className="absolute top-[100%] w-full h-[220px] bg-ps-white overflow-x-auto rounded-xl list-none shadow-[4px_2px_12px_2px_#00000029] mt-[5px] py-[12px]">
+              <div className="absolute top-[100%] w-full h-[220px] bg-ps-white overflow-x-auto rounded-xl list-none shadow-[4px_2px_12px_2px_#00000029] mt-[5px] py-[12px] z-10">
                 {timeSchedule.map((time, index) => {
                   return (
                     <li

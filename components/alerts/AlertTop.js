@@ -22,7 +22,7 @@ export default function AlertTop({ text, type }) {
       {type === "error" && (
         <div
           role="alert"
-          className="alert alert-error text-b2 flex items-center"
+          className="alert alert-error text-b2 flex items-center z-100"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -45,7 +45,7 @@ export default function AlertTop({ text, type }) {
       {type === "success" && (
         <div
           role="alert"
-          className="alert alert-success text-b2 flex items-center"
+          className="alert alert-success text-b2 flex items-center z-100"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -68,7 +68,7 @@ export default function AlertTop({ text, type }) {
       {type === "warning" && (
         <div
           role="alert"
-          className="alert alert-warning text-b2 flex items-center"
+          className="alert alert-warning text-b2 flex items-center z-100"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

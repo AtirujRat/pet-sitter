@@ -6,13 +6,7 @@ export default function ReviewRating(props) {
   const { selectMap } = useSitters();
 
   return (
-    <div
-      className={
-        selectMap === "list"
-          ? "rating flex min-w-fit h-fit mt-1 mr-2 gap-1"
-          : "rating flex min-w-fit h-fit mt-1 mr-2 gap-1 scale-75"
-      }
-    >
+    <div className="rating flex min-w-fit h-fit mt-1 mr-2 gap-1">
       {Array.from({ length: props.ratingStars }).map((_, index) => (
         <Image
           src={star}

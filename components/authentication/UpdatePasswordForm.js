@@ -1,5 +1,8 @@
 import { Formik, Form, Field } from "formik";
 import axios from "axios";
+import { supabase } from "@/utils/supabase";
+import { useState } from "react";
+import { useUser } from "@/context/User";
 
 function validatePassword(value) {
   let error;
@@ -22,12 +25,36 @@ function validateConfirmPassword(value, values) {
 }
 
 export default function UpdatePasswordForm(props) {
-  const getData = async (data) => {
+  const [token, setToken] = useState(() => {
+    if (typeof window !== "undefined") {
+      const savedState = localStorage.getItem(
+        "sb-etraoduqrzijngbazoib-auth-token"
+      );
+      return savedState ? JSON.parse(savedState) : {};
+    }
+  });
+  const { setConnection, connection, setResult } = useUser();
+  const getData = async (datas) => {
     try {
-      await axios.post(props.api, data);
-      alert("Password updated successfully");
+      const password = await axios.post(props.api, datas);
+      const { data, error } = await supabase.auth.updateUser({
+        password: password.data.data,
+      });
+
+      if (error) {
+        setResult("fail");
+        setConnection(!connection);
+        return;
+      }
+      await axios.put(props.api, {
+        email: token.user.email,
+        password: password.data.data,
+      });
+      setResult("success");
+      setConnection(!connection);
     } catch (e) {
-      alert("Connection error");
+      setResult("fail");
+      setConnection(!connection);
     }
   };
 
@@ -44,9 +71,9 @@ export default function UpdatePasswordForm(props) {
       }}
     >
       {({ errors, touched, isSubmitting, values }) => (
-        <Form className="w-[440px] flex flex-col gap-8 max-sm:gap-6">
-          <div className="flex flex-col gap-2 relative">
-            <label htmlFor="newPassword" className="text-b2">
+        <Form className="w-full h-full p-10 flex flex-col gap-8 max-sm:gap-6">
+          <div className="w-full lg:w-[400px] flex flex-col gap-2 relative">
+            <label htmlFor="newPassword" className="text-b1">
               New Password
             </label>
             <Field
@@ -63,8 +90,8 @@ export default function UpdatePasswordForm(props) {
             )}
           </div>
 
-          <div className="flex flex-col gap-2 relative">
-            <label htmlFor="confirmPassword" className="text-b2">
+          <div className="w-full lg:w-[400px] flex flex-col gap-2 relative">
+            <label htmlFor="confirmPassword" className="text-b1">
               Confirm New Password
             </label>
             <Field
@@ -84,7 +111,7 @@ export default function UpdatePasswordForm(props) {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="btn text-b2 text-ps-white bg-ps-orange-500 border-none rounded-full hover:bg-ps-orange-400"
+            className="btn text-b1 w-full lg:w-[400px] text-ps-white bg-ps-orange-500 border-none rounded-full hover:bg-ps-orange-400"
           >
             Change Password
           </button>

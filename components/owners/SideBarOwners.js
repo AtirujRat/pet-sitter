@@ -78,6 +78,26 @@ function SideBarOwners() {
             />
             Booking History
           </button>
+          <button
+            onClick={() => {
+              changeAccountStateHandle("changepassword");
+              router.push(`/owners/changepassword/`);
+            }}
+            className={`flex gap-5 mb-5 ${
+              accountState === "changepassword"
+                ? "bg-ps-orange-100 text-ps-orange-500"
+                : "text-ps-gray-500"
+            }  py-[20px] px-[20px] hover:text-ps-orange-500 `}
+          >
+            <Image
+              className="w-[25px] h-[24px] hover:text-ps-orange-500"
+              src={
+                accountState === "changepassword" ? list_icon_active : list_icon
+              }
+              alt="change password icon"
+            />
+            Change Password
+          </button>
         </div>
       </div>
     </section>

@@ -123,7 +123,7 @@ export default function BookingSuccess() {
               </div>
             </div>
           </div>
-          <div className="w-96 max-lg:pt-40 flex justify-between">
+          <div className="w-96 flex justify-between">
             <button
               type="button"
               onClick={() => {

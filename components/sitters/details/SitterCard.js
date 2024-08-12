@@ -43,9 +43,7 @@ export default function SitterCard({
         router.push(`/owners/messages`);
       }, 1000);
     } catch {
-      setError(
-        "Sitter can't create a conversation. Please login pet owner account."
-      );
+      setError("Please login pet owner account to create a conversation.");
       setAlertKey((prevKey) => prevKey + 1);
     }
   }
@@ -53,9 +51,7 @@ export default function SitterCard({
   async function handleBookingClick() {
     const ownerData = await getUserAuth();
     if (userInfo.role !== "owner") {
-      setError(
-        "Sitter can't create a booking. Please login pet owner account."
-      );
+      setError("Please login pet owner account to create a booking.");
       setAlertKey((prevKey) => prevKey + 1);
       return;
     }
@@ -108,8 +104,8 @@ export default function SitterCard({
           </div>
         </div>
       </div>
-      <div className="buttons flex p-6 border-t-[1px] border-ps-gray-200 gap-4">
-        <div className="max-md:hidden w-full">
+      <div className="buttons flex p-6 border-t-[1px] max-sm:flex-col border-ps-gray-200 gap-4">
+        <div className="w-full">
           <ButtonOrangeLight
             id="chat"
             text="Send Message"

@@ -50,7 +50,7 @@ export default function Review({ sitter }) {
 
   async function updateReviewStatus(reviewId, newStatus) {
     try {
-      await axios.patch("/api/reviews/changestatusreview", {
+      await axios.patch("/api/admin/review", {
         reviewId,
         newStatus,
       });

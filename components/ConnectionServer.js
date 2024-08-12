@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { useUser } from "@/context/User";
 import { useEffect } from "react";
 

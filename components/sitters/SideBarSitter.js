@@ -35,6 +35,12 @@ export default function SideBarSitter() {
       label: "Payout Option",
       pathUrl: "/payout",
     },
+    {
+      icon: booking,
+      iconActive: bookingActive,
+      label: "Change Password",
+      pathUrl: "/changepassword",
+    },
   ];
 
   const handleLogout = async () => {
