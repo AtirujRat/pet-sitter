@@ -9,6 +9,9 @@ export default function Reviews({ sitter, averageRating }) {
 
   const selectedReviews = reviews
     .filter((review) => {
+      return review.reviews.status === "approved";
+    })
+    .filter((review) => {
       return (
         selectedRating === null || review.reviews.rating === selectedRating
       );

@@ -239,7 +239,7 @@ export default function BookingModal(props) {
               {startTime || "Start time"}
             </h1>
             {toggleStartTime && (
-              <div className="absolute top-[100%] w-full h-[220px] bg-ps-white overflow-x-auto rounded-xl list-none shadow-[4px_2px_12px_2px_#00000029] mt-[5px] py-[12px]">
+              <div className="absolute top-[100%] w-full h-[220px] bg-ps-white overflow-x-auto rounded-xl list-none shadow-[4px_2px_12px_2px_#00000029] mt-[5px] py-[12px] z-10">
                 {timeSchedule.map((time, index) => {
                   return (
                     <li
