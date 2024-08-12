@@ -30,7 +30,7 @@ export function AdminPetSitterProvider(props) {
   async function GetSitterProfile() {
     try {
       const response = await axios.get(
-        `/api/sitters/getsitters?name=${search}&tradeName=${search}&email=${search}&status=${selectedStatus}`
+        `/api/admin/sitters?name=${search}&tradeName=${search}&email=${search}&status=${selectedStatus}`
       );
       setSitters(response.data.data);
       if (selectedSitter) {
