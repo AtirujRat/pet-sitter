@@ -38,51 +38,6 @@ function validateCalendar(value) {
   return error;
 }
 
-async function validateNumber(value, userData) {
-  let error;
-
-  const owners = await axios.get(`/api/owner/getowners`);
-
-  const id_number = owners.data.map((item) => item.id_number);
-
-  const isNumberExist = id_number.filter(
-    (item) => item !== userData?.id_number
-  );
-
-  if (!value) {
-    error = "Required";
-  } else if (value.length !== 13) {
-    error = "Id number must have 13 digits";
-  } else if (isNumberExist.includes(value)) {
-    error = "Id number already exists";
-  }
-
-  return error;
-}
-
-async function validatePhone(value, userData) {
-  let error;
-
-  const owners = await axios.get(`/api/owner/getowners`);
-
-  const phone_number = owners.data.map((item) => item.phone_number);
-
-  const isPhoneNumber = phone_number.filter(
-    (item) => item !== userData?.phone_number
-  );
-
-  if (!value) {
-    error = "Required";
-  } else if (value[0] != 0) {
-    error = "The first digit must be 0.";
-  } else if (value.length != 12) {
-    error = "Phone number must contain 10 digits.";
-  } else if (isPhoneNumber.includes(value)) {
-    error = "Phone number already exists";
-  }
-  return error;
-}
-
 const ImageChange = ({ setPreview }) => {
   const { setFieldValue } = useFormikContext();
   const handleImageChange = async (event) => {
@@ -111,6 +66,7 @@ const ImageChange = ({ setPreview }) => {
 
 export default function Account() {
   const [userData, setUser] = useState(null);
+  const [allUsers, setAllUsers] = useState([]);
   const [preview, setPreview] = useState();
   const { getUserAuth } = useOwners();
   const [error, setError] = useState(null);
@@ -118,8 +74,10 @@ export default function Account() {
   const [alertText, setAlertText] = useState("");
   const { connection, setConnection } = useUser();
   const [loading, setLoading] = useState(true);
+  const [isPhoneNumberExist, setPhoneNumberExist] = useState("");
+  const [isNumberIdExist, setIsNumberIdExist] = useState("");
 
-  const { accountState, changeAccountStateHandle } = useOwnersAccountState();
+  const { changeAccountStateHandle } = useOwnersAccountState();
 
   async function getUser() {
     try {
@@ -136,9 +94,53 @@ export default function Account() {
     }
   }
 
+  async function validateNumber(value) {
+    let error;
+
+    if (!value) {
+      error = "Required";
+    } else if (value.length !== 13) {
+      error = "Id number must have 13 digits";
+    } else if (isNumberIdExist?.includes(value)) {
+      error = "Id number already exists";
+    }
+
+    return error;
+  }
+
+  async function validatePhone(value) {
+    let error;
+
+    if (!value) {
+      error = "Required";
+    } else if (value[0] != 0) {
+      error = "The first digit must be 0.";
+    } else if (value.length != 12) {
+      error = "Phone number must contain 10 digits.";
+    } else if (isPhoneNumberExist.includes(value)) {
+      error = "Phone number already exists";
+    }
+    return error;
+  }
+
+  async function getAllUsers() {
+    try {
+      const response = await axios.get(`/api/owner/getowners`);
+      setAllUsers(response.data);
+    } catch {}
+  }
+
   useEffect(() => {
     getUser();
+    getAllUsers();
   }, []);
+
+  useEffect(() => {
+    const getPhoneNumber = allUsers.map((item) => item.phone_number);
+    setPhoneNumberExist(getPhoneNumber);
+    const getNumberId = allUsers.map((item) => item.id_number);
+    setIsNumberIdExist(getNumberId);
+  }, [allUsers]);
 
   useEffect(() => {
     changeAccountStateHandle("profile");

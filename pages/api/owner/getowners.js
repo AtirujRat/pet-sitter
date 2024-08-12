@@ -1,7 +1,7 @@
 import { supabase } from "@/utils/supabase";
 
 export default async function handler(req, res) {
-  const { name, phone_number, email } = req.query;
+  const { name, phone_number, email, id_number } = req.query;
 
   if (req.method === "GET") {
     try {
@@ -10,11 +10,12 @@ export default async function handler(req, res) {
         .select("*, pets(*), bookings(id ,reviews(*))")
         .order("full_name", { ascending: true });
 
-      if (name || phone_number || email) {
+      if (name || phone_number || email || id_number) {
         const filters = [];
         if (name) filters.push(`full_name.ilike.%${name}%`);
         if (phone_number) filters.push(`phone_number.ilike.%${phone_number}%`);
         if (email) filters.push(`email.ilike.%${email}%`);
+        if (id_number) filters.push(`id_number.ilike.%${id_number}%`);
 
         supabaseQuery = supabaseQuery.or(filters.join(","));
       }
