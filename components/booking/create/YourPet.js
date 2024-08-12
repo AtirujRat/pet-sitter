@@ -55,7 +55,7 @@ export default function YourPet() {
         setLoading(false);
       }
     } catch (e) {
-      setConnection(!connection);
+      setLoading(false);
     }
   }
 
