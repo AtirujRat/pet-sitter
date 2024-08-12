@@ -111,30 +111,7 @@ module.exports = {
       },
     },
   },
-  plugins: [
-    require("daisyui"),
-    require("@tailwindcss/forms"),
-    nextui({
-      themes: {
-        light: {
-          colors: {
-            background: "#FFFFFF", // or DEFAULT
-            foreground: "#000000", // or 50 to 900 DEFAULT
-            primary: {
-              //... 50 to 900
-              foreground: "#FA8AC0",
-              DEFAULT: "#FA8AC0",
-            },secondary: {
-              //... 50 to 900
-              foreground: "#FA8AC0",
-              DEFAULT: "#FF7037",
-            },
-            // ... rest of the colors
-          },
-        },
-      },
-    }),
-  ],
+  plugins: [require("daisyui"), require("@tailwindcss/forms"), nextui()],
   daisyui: {
     themes: [
       {

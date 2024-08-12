@@ -8,8 +8,7 @@ import { useOwners } from "@/context/Owners";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { DatePicker } from "@nextui-org/date-picker";
-import handle from "@/pages/api/owner/[id]/message";
-import { parseDate, getLocalTimeZone, today } from "@internationalized/date";
+import { getLocalTimeZone, today } from "@internationalized/date";
 import { useDateFormatter } from "@react-aria/i18n";
 
 const timeSchedule = [
@@ -62,6 +61,7 @@ export default function BookingModal(props) {
   const [toggleEndTime, setToggleEndTime] = useState(false);
   const [dateError, setDateError] = useState(false);
   const [timeError, setTimeError] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false)
   let formatter = useDateFormatter({ dateStyle: "full" });
   const router = useRouter();
   const id = router.query.id;
@@ -116,14 +116,6 @@ export default function BookingModal(props) {
     validateTimeSchedule(startTime, endTime, dateInput);
   }, [startTime, endTime, dateInput]);
 
-  // function onChangeDateHandle(e) {
-  //   setDateInput(e.target.value);
-  //   if (e.target.value !== "") {
-  //     setDateError(null);
-  //   }
-  //   validateBookingDate(e.target.value);
-  // }
-
   async function createBooking(e) {
     e.preventDefault();
 
@@ -131,7 +123,7 @@ export default function BookingModal(props) {
       setTimeError("Require");
     }
     if (dateInput === "") {
-      setDateError("Require");
+      setTimeError("Require");
     }
 
     if (timeError === null && dateError === null) {
@@ -165,8 +157,10 @@ export default function BookingModal(props) {
   //---Date input functions---
 
   function handleDateChange(date) {
-    const dateString = `${date.year}-${date.month}-${date.day}`;
-    setDateInput(dateString);
+    if (date) {
+      setDateInput(date.toString());
+      setDateError(null);
+    }
   }
 
   function CalendarIcon() {
@@ -217,7 +211,9 @@ export default function BookingModal(props) {
               dateInputClassNames={{
                 label: "mr-2",
                 inputWrapper:
-                  "border border-[#DCDFED] hover:border-[#AEB1C3] focus:border-[#AEB1C3]",
+                  "shadow-none border border-[#DCDFED] hover:border-[#AEB1C3] focus:border-[#AEB1C3]",
+                errorMessage: "text-[#EA1010] text-[14px]",
+                input: "text-[16px] font-medium",
               }}
             />
           </div>
@@ -281,7 +277,7 @@ export default function BookingModal(props) {
                 })}
               </div>
             )}
-            <div className="absolute top-[100%]  text-ps-red text-b3">
+            <div className="absolute top-[113%] left-1 text-ps-red text-b3">
               {timeError}
             </div>
           </div>
@@ -316,7 +312,8 @@ export default function BookingModal(props) {
         </div>
         <button
           type="submit"
-          className="bg-ps-orange-500 text-ps-white text-b2 w-full rounded-full py-[12px] px-[24px] mt-6"
+          disabled={isSubmitting}
+          className="bg-ps-orange-500 text-ps-white text-b2 w-full rounded-full py-[12px] px-[24px] mt-6 disabled:bg-ps-gray-300"
         >
           Continue
         </button>
