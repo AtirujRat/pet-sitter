@@ -7,10 +7,11 @@ export default function Reviews({ sitter, averageRating }) {
   const [selectedRating, setSelectedRating] = useState(null);
   const reviews = sitter.bookings;
 
-  const selectedReviews = reviews
-    .filter((review) => {
-      return review.reviews.status === "approved";
-    })
+  const approvedReview = reviews.filter((review) => {
+    return review.reviews.status === "approved";
+  });
+
+  const selectedReviews = approvedReview
     .filter((review) => {
       return (
         selectedRating === null || review.reviews.rating === selectedRating
@@ -28,7 +29,8 @@ export default function Reviews({ sitter, averageRating }) {
         <div className="bg-ps-black w-[146px] h-[146px] min-w-[146px] max-h-[146px] rounded-full rounded-br-none flex flex-col justify-center items-center">
           <h2 className="text-h2 text-ps-white">{averageRating}</h2>
           <p className="text-b3 text-ps-white">
-            {reviews.length === 0 ? "No" : reviews.length} Reviews
+            {approvedReview.length === 0 ? "No" : approvedReview.length}{" "}
+            Reviews
           </p>
         </div>
         <div className="rating-filter flex flex-col gap-4">
