@@ -159,18 +159,21 @@ export default function SitterProfileForm({ profile = {} }) {
       setShowTypeAlert("warning");
       setShowTextAlert("You can upload a maximum of 10 gallery images.");
       setConnection(!connection);
+      return;
     }
 
     if (storageImages.length < 4) {
       setShowTypeAlert("warning");
       setShowTextAlert("Please upload a minimum of 4 gallery images.");
       setConnection(!connection);
+      return;
     }
 
     if (values.profile_image_url.size > 2 * 1024 * 1024) {
       setShowTypeAlert("warning");
       setShowTextAlert("Profile image should not exceed 2 MB.");
       setConnection(!connection);
+      return;
     }
 
     try {
