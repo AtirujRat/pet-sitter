@@ -49,7 +49,9 @@ export default function App({ Component, pageProps }) {
       ) : (
         <>
           <Head>
-            <title>Pet Sitter - Thailand's No.1 Pet Sitting Platform</title>
+            <title>
+              Pet Sitter - Thailand&apos;s No.1 Pet Sitting Platform
+            </title>
             <link rel="icon" href="/assets/icons/website-icon-orange.svg" />
           </Head>
           <Layout>
