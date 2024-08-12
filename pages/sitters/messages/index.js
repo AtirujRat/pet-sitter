@@ -53,7 +53,7 @@ export default function ConversationSitterPage() {
         setSelectedConversationId(sortedConversations[0].id);
       }
     } catch {
-      setError("Error loading conversations");
+      setError("No conversations found");
       setAlertKey((prevKey) => prevKey + 1);
     }
   };
